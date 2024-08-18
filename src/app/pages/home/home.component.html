@@ -1,0 +1,58 @@
+<section id="home-main">
+    <section id="home-container">
+        <h1>Selecione a modalidade na qual deseja buscar seus heróis</h1>
+        <section class="home-container__menu">
+            <nav class="menu-main">
+                <ul>
+                    <li>
+                        <div class="menu-list" (click)="openEditoras()">Editora</div>
+                        <ul class="submenuEditora">
+                            <li routerLink="/cards" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 1</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 2</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 3</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 4</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
+                        <ul class="submenuEquipe">
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Equipe 1</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Equipe 2</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openOrigem()">Origem</div>
+                        <ul class="submenuOrigem">
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Origem 1</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Origem 2</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openAno()">Ano de lançamento</div>
+                        <div class="submenuAno input-Camp">
+                            <label for="dataLancamento">Digite o ano de lançamento</label>
+                            <input type="text" name="dataLancamento" id="dataLancamento" placeholder="ex: 1990"/>
+                            <button class="btnAno" (click)="buscaPorAno()">buscar</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openMoralidade()">Moralidade</div>
+                        <ul class="submenuMoralidade">
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 1</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 2</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openSexo()">Sexo</div>
+                        <ul class="submenuSexo">
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 1</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 2</li>
+                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 3</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </section>
+</section>
