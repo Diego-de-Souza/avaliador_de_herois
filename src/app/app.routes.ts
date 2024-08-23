@@ -14,15 +14,12 @@ export const routes: Routes = [
         path: 'cards',
         title: 'Cards_about',
         component: CardsComponent,
-        children:[
-            {
-                path: 'descriptionHeroes',
-                title: 'Descripstion_heroes',
-                component: DescriptionHeroesComponent
-            },
-        ]
     },
-    
+    {
+        path: 'descriptionHeroes',
+        title: 'Description_heroes',
+        component: DescriptionHeroesComponent
+    },
     {
         path: 'em-construcao',
         title: 'Em_contrucao',

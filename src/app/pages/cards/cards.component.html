@@ -4,7 +4,10 @@
     </nav>
     <div class="cards-main__container">
         @for (card of cardsHeroes; track card.id){
-            <a href="" class="cards-container" (click)="navigateToDescription(card)">
+            <a class="cards-container" 
+                routerLink="/descriptionHeroes" 
+                routerLinkActive="active"
+                ariaCurrentWhenActive="page">
                 <div class="card-wrapper">
                     <img [src]="card.image" alt="" class="card-wrapper__img">
                 </div>

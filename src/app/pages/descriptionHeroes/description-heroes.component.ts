@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-description-heroes',
+  standalone: true,
+  imports:[RouterLink, RouterLinkActive],
   templateUrl: './description-heroes.component.html',
-  styleUrls: ['./description-heroes.component.css']
+  styleUrls: ['./description-heroes.component.css'],
+  
 })
 export class DescriptionHeroesComponent implements OnInit {
   selectedCard: any;

@@ -1,24 +1,44 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 import { Router , RouterLink} from '@angular/router';
 import { HeroisService } from '../../service/herois.service';
+import { HeroisModel } from '../../Model/herois.model';
+import { HeroisMenuModel } from '../../Model/heroisMenu.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   statusEditora:Number = 0;
   statusEquipe:Number = 0;
   statusOrigem:Number = 0;
   statusAno:Number = 0;
   statusMoralidade:Number =0;
   statusSexo:Number = 0;
-  anoLancamento: Number = 0;
+  anoLancamento: string = '';
+
+  herois: HeroisModel[] = [];
+  heroisMenu: HeroisMenuModel[]=[];
 
   constructor(private router:Router, private el: ElementRef, private renderer: Renderer2, private searchHerois: HeroisService){ }
+  ngOnInit(): void {
+    this.loadHeroes();
+  }
+
+  loadHeroes(): void {
+    this.searchHerois.getAllHeroes().subscribe({
+      next: (data) => {
+        this.heroisMenu = data;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar heróis', error);
+      }
+    });
+  }
 
   openEditoras(){
     const modalidadeEditora = this.el.nativeElement.querySelector('.submenuEditora');
@@ -86,10 +106,29 @@ export class HomeComponent {
     }
   }
 
-  buscaPorAno(){
-    this.searchHerois.searchHeroes(this.anoLancamento).subscribe(results => {
-      this.router.navigate(['/cards'], { state: { searchResults: results } });
-    });
+  openForPublisher(editora: string): void {
+    this.router.navigate(['/cards'], { queryParams: { editora } });
+  }
+
+  openForTeam(team: string):void{
+    this.router.navigate(['/cards'], {queryParams: {team}});
+  }
+
+  openForOrigin(origin:string): void{
+    this.router.navigate(['/cards'], { queryParams: {origin}});
+  }
+
+  buscaPorAno() {
+    // Navega para a rota '/cards' passando o ano de lançamento como queryParams
+    this.router.navigate(['/cards'], { queryParams: { anoLancamento: this.anoLancamento } });
+  }
+
+  openForMorality(morality:string):void{
+    this.router.navigate(['/cards'], {queryParams:{morality}});
+  }
+
+  openForSexy(sexy: string): void{
+    this.router.navigate(['/cards'], {queryParams:{sexy}});
   }
 }
  
