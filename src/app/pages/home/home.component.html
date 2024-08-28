@@ -7,33 +7,25 @@
                     <li>
                         <div class="menu-list" (click)="openEditoras()">Editora</div>
                         <ul class="submenuEditora">
-                            @for(itemEditora of heroisMenu; track  itemEditora.editora){
-                                <li (click)="openForPublisher(itemEditora.editora)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEditora.editora}}</li> 
+                            @for(itemEditora of heroisMenuEditora; track  itemEditora){
+                                <li (click)="openForPublisher(itemEditora.id)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEditora.nome}}</li> 
                             }
-                            <li routerLink="/cards" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 1</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 2</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 3</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Editora 4</li>
                         </ul>
                     </li>
                     <li>
                         <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
                         <ul class="submenuEquipe">
-                            @for(itemEquipe of heroisMenu; track  itemEquipe.equipe){
-                                <li (click)="openForTeam(itemEquipe.equipe)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEquipe.equipe}}</li> 
+                            @for(itemEquipe of heroisMenuEquipe; track  itemEquipe){
+                                <li (click)="openForTeam(itemEquipe.equipe)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEquipe.nome}}</li> 
                             }
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Equipe 1</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Equipe 2</li>
                         </ul>
                     </li>
                     <li>
                         <div class="menu-list" (click)="openOrigem()">Origem</div>
                         <ul class="submenuOrigem">
-                            @for(itemOrigem of heroisMenu; track  itemOrigem.origem){
-                                <li (click)="openForOrigin(itemOrigem.origem)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemOrigem.origem}}</li> 
+                            @for(itemOrigem of heroisMenuOrigem; track  itemOrigem){
+                                <li (click)="openForOrigin(itemOrigem.origem)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemOrigem.nome}}</li> 
                             }
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Origem 1</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Origem 2</li>
                         </ul>
                     </li>
                     <li>
@@ -47,23 +39,17 @@
                     <li>
                         <div class="menu-list" (click)="openMoralidade()">Moralidade</div>
                         <ul class="submenuMoralidade">
-                            @for(itemMoralidade of heroisMenu; track  itemMoralidade.moralidade){
-                                <li (click)="openForMorality(itemMoralidade.moralidade)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemMoralidade.moralidade}}</li> 
+                            @for(itemMoralidade of heroisMenuMoralidade; track  itemMoralidade){
+                                <li (click)="openForMorality(itemMoralidade.moralidade)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemMoralidade.nome}}</li> 
                             }
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 1</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 2</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Moralidade 3</li>
                         </ul>
                     </li>
                     <li>
                         <div class="menu-list" (click)="openSexo()">Sexo</div>
                         <ul class="submenuSexo">
-                            @for(itemSexo of heroisMenu; track  itemSexo.sexo){
-                                <li (click)="openForSexy(itemSexo.sexo)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemSexo.sexo}}</li> 
+                            @for(itemSexo of heroisMenuSexo; track  itemSexo){
+                                <li (click)="openForSexy(itemSexo.sexo)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemSexo.nome}}</li> 
                             }
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 1</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 2</li>
-                            <li routerLink="/em-construcao" routerLinkActive="active" ariaCurrentWhenActive="page">Sexo 3</li>
                         </ul>
                     </li>
                 </ul>

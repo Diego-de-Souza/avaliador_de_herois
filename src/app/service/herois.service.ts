@@ -9,17 +9,21 @@ import { HeroisMenuModel } from '../Model/heroisMenu.model';
 })
 export class HeroisService {
 
-  private apiUrl = 'https://api.exemplo.com/heroes'; // URL da sua API
+  private apiUrl = 'http://localhost:3000'; // URL da sua API
 
   constructor(private http: HttpClient) { }
+
+  getDadosMenu(): Observable<any[]>{
+    return this.http.get<any[]>(`${this.apiUrl}/menu_principal/getAll`)
+  }
 
   getAllHeroes(): Observable<HeroisMenuModel[]> {
     return this.http.get<HeroisMenuModel[]>(this.apiUrl);
   }
 
-  searchHeroesPublisher(publisher: string): Observable<HeroisModel[]> {
+  searchHeroesPublisher(publisher: number): Observable<HeroisModel[]> {
     const params = new HttpParams().set('publisher', publisher);
-    return this.http.get<HeroisModel[]>(this.apiUrl, { params });
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/editora/`, { params });
   }
 
   searchHeroesTeam(team: string): Observable<HeroisModel[]> {

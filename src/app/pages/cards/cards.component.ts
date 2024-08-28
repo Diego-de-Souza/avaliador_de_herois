@@ -44,7 +44,7 @@ export class CardsComponent implements OnInit {
     });
   }
 
-  filterByEditora(editora: string) {
+  filterByEditora(editora: number) {
     this.searchHeroes.searchHeroesPublisher(editora).subscribe({
       next: (data) => {
         this.cardsHeroes = data;

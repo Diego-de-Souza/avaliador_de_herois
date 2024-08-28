@@ -22,17 +22,27 @@ export class HomeComponent implements OnInit{
   anoLancamento: string = '';
 
   herois: HeroisModel[] = [];
-  heroisMenu: HeroisMenuModel[]=[];
+  heroisMenuEditora: any[]=[];
+  heroisMenuEquipe: any[]=[];
+  heroisMenuMoralidade: any[]=[];
+  heroisMenuOrigem: any[]=[];
+  heroisMenuSexo: any[]=[];
 
   constructor(private router:Router, private el: ElementRef, private renderer: Renderer2, private searchHerois: HeroisService){ }
   ngOnInit(): void {
-    this.loadHeroes();
+    this.getDadosMenu();
   }
 
-  loadHeroes(): void {
-    this.searchHerois.getAllHeroes().subscribe({
+  getDadosMenu(): void {
+
+    this.searchHerois.getDadosMenu().subscribe({
       next: (data) => {
-        this.heroisMenu = data;
+        this.heroisMenuEditora = data[0];
+        this.heroisMenuEquipe = data[1];
+        this.heroisMenuMoralidade = data[2];
+        this.heroisMenuOrigem = data[3];
+        this.heroisMenuSexo = data[4];
+        console.log(data);
       },
       error: (error) => {
         console.error('Erro ao carregar heróis', error);
@@ -106,7 +116,7 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  openForPublisher(editora: string): void {
+  openForPublisher(editora: number): void {
     this.router.navigate(['/cards'], { queryParams: { editora } });
   }
 
