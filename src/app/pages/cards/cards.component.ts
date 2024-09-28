@@ -16,9 +16,12 @@ export class CardsComponent implements OnInit {
   cardsHeroes: HeroisModel[] = [];
   @Input() searchResults: any[] = [];
 
+  cardsJson!:any;
+
   constructor(private route: ActivatedRoute, private searchHeroes: HeroisService) {}
 
   ngOnInit() {
+    this.cardsJson = dadosHeroes;
     // Acessar os parâmetros de consulta (queryParams) da rota
     this.route.queryParams.subscribe(params => {
       const editora = params['editora'];

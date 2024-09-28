@@ -1,9 +1,34 @@
-<section id="cards-main">
+<!-- <section id="cards-main">
     <nav class="nav-card">
         <button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Voltar</button>
     </nav>
     <div class="cards-main__container">
         @for (card of cardsHeroes; track card.id){
+            <a class="cards-container" 
+                routerLink="/descriptionHeroes" 
+                routerLinkActive="active"
+                ariaCurrentWhenActive="page">
+                <div class="card-wrapper">
+                    <img [src]="card.image" alt="" class="card-wrapper__img">
+                </div>
+                <div class="card-title">
+                    <p>{{card.moralidade}}</p>
+                    <p>{{card.name}}</p>
+                </div>
+
+                <img [src]="card.image_cover" alt="" class="card-cover">
+
+            </a>
+        }
+    </div>
+</section> -->
+
+<section id="cards-main">
+    <nav class="nav-card">
+        <button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Voltar</button>
+    </nav>
+    <div class="cards-main__container">
+        @for (card of cardsJson; track card.id){
             <a class="cards-container" 
                 routerLink="/descriptionHeroes" 
                 routerLinkActive="active"

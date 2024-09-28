@@ -3,12 +3,18 @@ import { HomeComponent } from './pages/home/home.component';
 import { CardsComponent } from './pages/cards/cards.component';
 import { DescriptionHeroesComponent } from './pages/descriptionHeroes/description-heroes.component';
 import { EmConstrucaoComponent } from './pages/em-construcao/em-construcao.component';
+import { LoginComponent } from './pages/login/login.component';
 
 export const routes: Routes = [
+    // {
+    //     path: '',
+    //     title: 'Home_heroes',
+    //     component: HomeComponent,
+    // },
     {
         path: '',
-        title: 'Home_heroes',
-        component: HomeComponent,
+        title: 'login',
+        component: LoginComponent
     },
     {
         path: 'cards',
