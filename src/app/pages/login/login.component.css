@@ -2,6 +2,13 @@
     display: flex;
     width: 100vw;
     height: 100vh;
+    background-color: rgb(38, 39, 39);
+}
+
+h2{
+    color: #1de702;
+    width: 100%;
+    text-align: center;
 }
 
 #container_login {
@@ -10,6 +17,60 @@
     width: 70vw;
     height: 70vh;
     margin: auto;
+    border-radius: 1em;
+    border: 2px solid #1de702;
+    box-shadow: 0px 0px 10px #1de702;
+}
 
-    background-color: aqua;
+.capsula-login{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.icon-login{
+    display: flex;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0.5em 0 0 0.5em;
+    height: 2em;
+    align-items: center;
+    background-color: #1de702;
+    
+}
+
+input{
+    border: 1px solid #1de702;
+    background-color: #3b3b3be9;
+}
+
+input::placeholder{
+    color: #1de702;
+}
+
+.btn-acessar{
+    color: #1de702;
+    border: 2px solid #1de702;
+    width: 100%;
+    margin-top: 2em;
+}
+
+.btn-acessar:hover{
+    background-color: #1de702;
+    color: black;
+    font-weight: bolder;
+}
+
+.error-message{
+    .icon-login{
+        background-color: rgb(246, 91, 122);
+        box-shadow: rgb(246, 91, 122);
+    }
+
+    input{
+        background-color: rgb(246, 91, 122);
+        border: 1px solid #ff0000;
+        box-shadow: 1px 1px 5px rgb(246, 91, 122);
+        color: #f2ff00;
+    }   
 }
