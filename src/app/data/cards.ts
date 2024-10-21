@@ -335,17 +335,5 @@ export const dadosHeroes = [
         origem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere, orci a commodo bibendum, neque felis pharetra augue, a dapibus lectus neque eu mauris. Proin accumsan turpis id libero volutpat, vitae finibus augue ornare. Aliquam erat volutpat. In a mattis dui. Donec ut lacus rhoncus, gravida ante sed, scelerisque lectus. Nulla non gravida augue. Aenean ac mollis enim, vehicula varius urna. Morbi nec magna dolor. Donec augue mauris, pulvinar eu enim non, feugiat pretium quam. Sed sit amet purus auctor, hendrerit tellus vitae, molestie lacus. Donec ac elementum mauris. Praesent nunc diam, consequat et ultricies eu, viverra sit amet risus. Quisque gravida .',
         sexo: 'masculino'
     },
-    {
-        id:29,
-        name: 'Cyclope',
-        moralidade: 'Heróis',
-        studio: 'Marvel',
-        anoLancamento: 1992,
-        image: 'assets/img/Cyclope.jpg',
-        image_cover: 'assets/img/Cyclope_cover.png',
-        equipe: 'nenhuma',
-        origem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere, orci a commodo bibendum, neque felis pharetra augue, a dapibus lectus neque eu mauris. Proin accumsan turpis id libero volutpat, vitae finibus augue ornare. Aliquam erat volutpat. In a mattis dui. Donec ut lacus rhoncus, gravida ante sed, scelerisque lectus. Nulla non gravida augue. Aenean ac mollis enim, vehicula varius urna. Morbi nec magna dolor. Donec augue mauris, pulvinar eu enim non, feugiat pretium quam. Sed sit amet purus auctor, hendrerit tellus vitae, molestie lacus. Donec ac elementum mauris. Praesent nunc diam, consequat et ultricies eu, viverra sit amet risus. Quisque gravida .',
-        sexo: 'masculino'
-    },
-
+    
 ]
