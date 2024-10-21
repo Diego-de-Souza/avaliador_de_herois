@@ -12,5 +12,4 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
     ),
   ],
-    
 };

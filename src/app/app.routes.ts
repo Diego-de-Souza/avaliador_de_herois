@@ -4,6 +4,7 @@ import { CardsComponent } from './pages/cards/cards.component';
 import { DescriptionHeroesComponent } from './pages/descriptionHeroes/description-heroes.component';
 import { EmConstrucaoComponent } from './pages/em-construcao/em-construcao.component';
 import { LoginComponent } from './pages/login/login.component';
+import { CadastroComponent } from './pages/cadastro/cadastro.component';
 
 export const routes: Routes = [
     // {
@@ -11,13 +12,18 @@ export const routes: Routes = [
     //     title: 'Home_heroes',
     //     component: HomeComponent,
     // },
+    // {
+    //     path: '',
+    //     title: 'Cadastro',
+    //     component: CadastroComponent
+    // },
+    // {
+    //     path: 'login',
+    //     title: 'login',
+    //     component: LoginComponent
+    // },
     {
         path: '',
-        title: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'cards',
         title: 'Cards_about',
         component: CardsComponent,
     },
