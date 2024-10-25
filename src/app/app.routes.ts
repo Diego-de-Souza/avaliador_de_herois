@@ -8,28 +8,28 @@ import { CadastroComponent } from './pages/cadastro/cadastro.component';
 import { CadastroDadosComponent } from './pages/cadastro-dados/cadastro-dados.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        title: 'Home_heroes',
-        component: HomeComponent,
-    },
-    {
-        path: 'Cadastro',
-        title: 'Cadastro',
-        component: CadastroComponent
-    },
+    // {
+    //     path: '',
+    //     title: 'Home_heroes',
+    //     component: HomeComponent,
+    // },
+    // {
+    //     path: 'Cadastro',
+    //     title: 'Cadastro',
+    //     component: CadastroComponent
+    // },
     {
         path: 'CadastroDadosRoot',
         title: 'cadastro Dados',
         component: CadastroDadosComponent
     },
+    // {
+    //     path: 'login',
+    //     title: 'login',
+    //     component: LoginComponent
+    // },
     {
-        path: 'login',
-        title: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'Cards',
+        path: '',
         title: 'Cards_about',
         component: CardsComponent,
     },
