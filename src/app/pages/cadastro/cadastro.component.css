@@ -11,9 +11,10 @@
 .secao-cadastro__container{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
     margin: auto;
     align-items: center;
+    padding-bottom: 2em;
 }
 
 .secao-cadastro__container > h2 {
@@ -85,4 +86,28 @@ form{
 #nickname, #birthdate, #complement, #cep, #state, #city{
     display: flex;
     width: 60%;
+}
+
+.fieldInvalid{
+    color: #f0486a;
+}
+
+.btn_submit{
+    display: flex;
+    border: none;
+    border-radius: 1em;
+    align-items: center;
+    justify-content: center;
+    height: 3em;
+    background-color: #1de702;
+    width: 50%;
+    margin: auto;
+    font-weight: bold;
+    color: gray;
+}
+
+.btn_submit:hover {
+    background-color: #23a711;
+    box-shadow: 0px 0px 8px #1de702;
+    color: #fff;
 }

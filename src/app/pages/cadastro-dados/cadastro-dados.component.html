@@ -1,0 +1,80 @@
+<section id="container-cadastroDados">
+    <div class="main_cadastroDados">
+        <h1>Cadastro de dados</h1>
+        <form [formGroup]="cadastroDados" (ngSubmit)="onSubmit()">
+            <div class="cadastroDados__form-row">
+                <div class="cadastroDados__form-column">
+                    <div class="cadastroDados__form-column__row">
+                        <label for="nomeHeroi">Nome do Herói</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="nomeHeroi" id="nomeHeroi" formControlName="nomeHeroi" placeholder="Digite o nome do Herói">
+                        </div>
+                        <div *ngIf="isFieldInvalid('nomeHeroi')" class="fieldInvalid">É obrigatório a inserção de um herói e deve conter pelo menos 3 caracteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="moralidade">Moralidade</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="moralidade" id="moralidade" formControlName="moralidade" placeholder="Digite a moralidade do heroi">
+                        </div>
+                        <div *ngIf="isFieldInvalid('moralidade')" class="fieldInvalid">É obrigatório inserir a moralidade e deve conter mais de 3 caracteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="studio">Studio</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="studio" id="studio" formControlName="studio" placeholder="Digite o nome do Studio do heroi">
+                        </div>
+                        <div *ngIf="isFieldInvalid('studio')" class="fieldInvalid">É obrigatório inserir o nome do studio e deve conter no mínimo 3 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="anoDeLancamento">Ano de Lançamento</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="number" name="anoDeLancamento" id="anoDeLancamento" formControlName="anoDeLancamento" placeholder="Digite o ano de Lançamento do Herói">
+                        </div>
+                        <div *ngIf="isFieldInvalid('anoDeLancamento')" class="fieldInvalid">É obrigatório inserir o ano de lançamento e deve conter 4 digitos</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="equipe">Nome da Equipe</label>
+                        <div>
+                            <input type="text" name="equipe" id="equipe" formControlName="equipe" placeholder="Digite o nome da Equipe">
+                        </div>
+                        <div *ngIf="isFieldInvalid('equipe')" class="fieldInvalid">É obrigatória inserir o nome da equipe do herói</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="origem">Origem</label>
+                        <div>
+                            <textarea name="origem" id="origem" formControlName="origem" placeholder="Digite a origem do herói"></textarea>
+                        </div>
+                        <span *ngIf="isFieldInvalid('origem')" class="fieldInvalid">É obrigatório inserir a origem e deve ter no minimo 10 caracteres</span>
+                    </div>
+                </div>
+                <div class="cadastroDados__form-column">
+                    <div class="cadastroDados__form-column__container">
+                        <button type="button" class="btn_upload" (click)="uploadCard.click()">Upload imagem card</button>
+                        <input #uploadCard type="file" (change)="onFileSelected($event, 'imagem')" accept="image/*" style="display: none;">
+                        <div class="cadastroDados__form-column__imgUpload">
+                            <img *ngIf="imagemCardUrl" [src]="imagemCardUrl" alt="Imagem Card" />
+                        </div>
+                    </div>
+                    <div class="cadastroDados__form-column__container">
+                        <button type="button" class="btn_upload" (click)="uploadCover.click()">Upload imagem cover</button>
+                        <input #uploadCover type="file" (change)="onFileSelected($event, 'imagem_cover')" accept="image/*" style="display: none;">
+                        <div class="cadastroDados__form-column__imgUpload">
+                            <img *ngIf="imagemCoverUrl" [src]="imagemCoverUrl" alt="Imagem Cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container__btnSubmit">
+                <button type="submit" [disabled]="cadastroDados.invalid" class="btn_submit">Cadastrar</button>
+            </div>
+
+            <!-- Popup de sucesso -->
+            <div *ngIf="showPopup" class="popup-overlay">
+                <div class="popup-content">
+                <p>Dados enviados com sucesso!</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
