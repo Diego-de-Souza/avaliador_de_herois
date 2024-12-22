@@ -13,23 +13,23 @@ export const routes: Routes = [
     //     title: 'Home_heroes',
     //     component: HomeComponent,
     // },
-    // {
-    //     path: 'Cadastro',
-    //     title: 'Cadastro',
-    //     component: CadastroComponent
-    // },
     {
-        path: 'CadastroDadosRoot',
+        path: 'cadastroUser',
+        title: 'Cadastro',
+        component: CadastroComponent
+    },
+    {
+        path: '',
         title: 'cadastro Dados',
         component: CadastroDadosComponent
     },
-    // {
-    //     path: 'login',
-    //     title: 'login',
-    //     component: LoginComponent
-    // },
     {
-        path: '',
+        path: 'login',
+        title: 'login',
+        component: LoginComponent
+    },
+    {
+        path: 'cards',
         title: 'Cards_about',
         component: CardsComponent,
     },

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {HeroisModel} from '../Model/herois.model';
 import { HeroisMenuModel } from '../Model/heroisMenu.model';
@@ -12,6 +12,14 @@ export class HeroisService {
   private apiUrl = 'http://localhost:3000'; // URL da sua API
 
   constructor(private http: HttpClient) { }
+
+  heroRecord(data: FormData): Observable<ArrayBuffer> {
+    return this.http.post<ArrayBuffer>(`${this.apiUrl}/dados-herois/hero-record`, data, {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      })
+    });
+  }
 
   getDadosMenu(): Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/menu_principal/getAll`)
@@ -50,4 +58,5 @@ export class HeroisService {
     const params = new HttpParams().set('sexy', sexy);
     return this.http.get<HeroisModel[]>(this.apiUrl,{params});
   }
+
 }

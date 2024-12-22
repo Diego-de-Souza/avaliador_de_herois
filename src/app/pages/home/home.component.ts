@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit{
   }
 
   openEditoras(){
+
     const modalidadeEditora = this.el.nativeElement.querySelector('.submenuEditora');
     if(this.statusEditora === 0){
       this.renderer.setStyle(modalidadeEditora, 'display','flex');
