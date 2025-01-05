@@ -1,7 +1,6 @@
 #container-cadastroDados{
     display: flex;
     width: 100%;
-    background-color: #2c2c2c;
     height: 100%;
 }
 
@@ -10,7 +9,7 @@
     flex-direction: column;
     width: 70%;
     margin: auto;
-    background-color: #fff;
+    background-color: #f4f4f9;
     height: 100%;
 }
 
@@ -95,7 +94,14 @@ label {
     object-fit: cover; 
 }
 
-input, textarea{
+input, select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input, textarea, select {
     display: flex;
     width: 100%;
     border-radius: 0.5em;

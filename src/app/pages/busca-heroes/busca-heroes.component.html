@@ -1,0 +1,59 @@
+<section id="home-main">
+    <section id="home-container">
+        <h1>Selecione a modalidade na qual deseja buscar seus heróis</h1>
+        <section class="home-container__menu">
+            <nav class="menu-main">
+                <ul>
+                    <li>
+                        <div class="menu-list" (click)="openEditoras()">Editora</div>
+                        <ul class="submenuEditora">
+                            @for(itemEditora of heroisMenuEditora; track  itemEditora){
+                                <li (click)="openForPublisher(itemEditora.id)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEditora.nome}}</li> 
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
+                        <ul class="submenuEquipe">
+                            @for(itemEquipe of heroisMenuEquipe; track  itemEquipe){
+                                <li (click)="openForTeam(itemEquipe.equipe)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEquipe.nome}}</li> 
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openOrigem()">Origem</div>
+                        <ul class="submenuOrigem">
+                            @for(itemOrigem of heroisMenuOrigem; track  itemOrigem){
+                                <li (click)="openForOrigin(itemOrigem.origem)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemOrigem.nome}}</li> 
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openAno()">Ano de lançamento</div>
+                        <div class="submenuAno input-Camp">
+                            <label for="dataLancamento">Digite o ano de lançamento</label>
+                            <input type="text" name="dataLancamento" id="dataLancamento" placeholder="ex: 1990" [(ngModel)]="anoLancamento"/>
+                            <button class="btnAno" (click)="buscaPorAno()">buscar</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openMoralidade()">Moralidade</div>
+                        <ul class="submenuMoralidade">
+                            @for(itemMoralidade of heroisMenuMoralidade; track  itemMoralidade){
+                                <li (click)="openForMorality(itemMoralidade.moralidade)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemMoralidade.nome}}</li> 
+                            }
+                        </ul>
+                    </li>
+                    <li>
+                        <div class="menu-list" (click)="openSexo()">Sexo</div>
+                        <ul class="submenuSexo">
+                            @for(itemSexo of heroisMenuSexo; track  itemSexo){
+                                <li (click)="openForSexy(itemSexo.sexo)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemSexo.nome}}</li> 
+                            }
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </section>
+</section>

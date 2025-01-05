@@ -1,0 +1,100 @@
+#home-main{
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url(../../../../public/img/fundo_avaliador_herois.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+#home-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    align-items: center;
+    background-color: rgb(39, 39, 39);
+    background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(39, 39, 39) 30%, rgba(39, 39, 39) 70%, rgba(255, 0, 0, 0) 100%);
+    color: #fff;
+}
+
+h1 {
+    font-size: 2em;
+    padding: 1em 0 2em 0;
+}
+
+.home-container__menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.menu-main {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.menu-main > ul > li {
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+    border-radius: 1em;
+    position: relative;
+    cursor: pointer;
+    align-items: center;
+}
+.menu-list{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 1em 0;
+    font-size: 2em;
+}
+.menu-list:hover {
+    background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 0) 100%);
+}
+
+/*submenus escondidos*/
+.submenuEditora, .submenuEquipe, .submenuOrigem, .submenuAno, .submenuMoralidade, .submenuSexo{
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+.submenuEditora > li, .submenuEquipe > li, .submenuOrigem > li, .submenuAno > li, .submenuMoralidade > li, .submenuSexo > li{
+    display: flex;
+    padding: 1em 0;
+    width: 100%;
+    justify-content: center;
+}
+.submenuEditora > li:hover, .submenuEquipe >li:hover, .submenuOrigem >li:hover, .submenuAno >li:hover, .submenuMoralidade >li:hover, .submenuSexo >li:hover{
+    background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 0) 100%);
+}
+
+.input-Camp{
+    align-items: center;
+    padding: 1em 0;
+}
+.input-Camp > input{
+    text-align: center;
+    height: 1.5em;
+    border-radius: 1em;
+    margin-top: 1em;
+    background-color: #6ebc9f;
+    color: black;
+}
+.input-Camp > input::placeholder{
+    color: #282727fa;
+}
+.btnAno{
+    display: flex;
+    width: 15em;
+    margin: 0.5em 0;
+    justify-content: center;
+    border-radius: 1em;
+    padding: 0.5em;
+    text-transform: uppercase;
+    cursor: pointer;
+}

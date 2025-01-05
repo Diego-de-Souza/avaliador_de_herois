@@ -1,113 +1,83 @@
-.secao-cadastro{
+Geral
+.cadastro-container {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(38, 39, 39);
-
-    color: #1de702;
-}
-
-.secao-cadastro__container{
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    margin: auto;
     align-items: center;
-    padding-bottom: 2em;
-}
-
-.secao-cadastro__container > h2 {
-    display: flex;
-    width: 100%;
-    padding: 1.2em 0;
     justify-content: center;
+    text-align: center;
+    width: 100%;
+    font-family: Arial, sans-serif;
 }
 
-.secao-cadastro__container-form__row{
-    display: flex;
-    flex-direction: row;
+/* Estilo do vídeo de fundo */
+.video-background {
+  position: fixed; /* Posiciona o vídeo de forma fixa na tela */
+  top: 0;
+  left: 0;
+  width: 100%; /* Faz o vídeo ocupar toda a largura da tela */
+  height: 100%; /* Faz o vídeo ocupar toda a altura da tela */
+  object-fit: cover; /* Garante que o vídeo se ajuste para cobrir toda a tela */
+  z-index: -1; /* Garante que o vídeo fique atrás do conteúdo */
 }
 
-.secao-cadastro__container-form__row-line{
-    display: flex;
-    flex-direction: row;
+  /* Menu inicial */
+.menu-inicial{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
-fa-icon{
-    display: flex;
-    padding: 0.5em 0.5em;
-    border: 2px solid #1de702;
-    border-radius: 0.5em 0 0 0.5em ;
-}
-
-input, select {
-    display: flex;
-    background-color: transparent;
-    border: 2px solid #1de702;
-    border-radius: 0 0.5em 0.5em 0;
-    text-indent: 1em;
-    color: gray;
+.menu-inicial h1 {
+  margin-top: 2em;
+  font-size: 4rem;
+  font-weight: bolder;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 6px #BAB8B5;
 }
   
-select:focus,
-select option:checked {
-    color: #1de702; 
-    background-color: rgb(120, 120, 121);
+.botoes-navegacao {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  margin-top: 1em;
+}
+  
+.botao-opcao {
+  padding: 35px 25px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+  
+.botao-opcao:hover {
+  background-color: #0056b3;
+}
+  
+/* Menu superior para rotas filhas */
+.menu-topo {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
 }
 
-input::placeholder, select::placeholder, .custom-option{
-    color: rgb(158, 159, 159);
+.botao-menu {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #6c757d;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-form{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
 
-.secao-cadastro__container-form__row__space{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    padding: 1em 0;
-}
-
-#fullname{
-    display: flex;
-    width: 70%;
-}
-
-#firstemail, #secondemail, #logradouro, #address {
-    display: flex;
-    width: 80%;
-}
-
-#nickname, #birthdate, #complement, #cep, #state, #city{
-    display: flex;
-    width: 60%;
-}
-
-.fieldInvalid{
-    color: #f0486a;
-}
-
-.btn_submit{
-    display: flex;
-    border: none;
-    border-radius: 1em;
-    align-items: center;
-    justify-content: center;
-    height: 3em;
-    background-color: #1de702;
-    width: 50%;
-    margin: auto;
-    font-weight: bold;
-    color: gray;
-}
-
-.btn_submit:hover {
-    background-color: #23a711;
-    box-shadow: 0px 0px 8px #1de702;
-    color: #fff;
-}

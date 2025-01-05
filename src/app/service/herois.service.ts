@@ -14,12 +14,9 @@ export class HeroisService {
   constructor(private http: HttpClient) { }
 
   heroRecord(data: FormData): Observable<ArrayBuffer> {
-    return this.http.post<ArrayBuffer>(`${this.apiUrl}/dados-herois/hero-record`, data, {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-      })
-    });
+    return this.http.post<ArrayBuffer>(`${this.apiUrl}/herois`, data);
   }
+  
 
   getDadosMenu(): Observable<any[]>{
     return this.http.get<any[]>(`${this.apiUrl}/menu_principal/getAll`)

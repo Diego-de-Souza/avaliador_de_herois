@@ -5,39 +5,46 @@
             <div class="cadastroDados__form-row">
                 <div class="cadastroDados__form-column">
                     <div class="cadastroDados__form-column__row">
-                        <label for="nomeHeroi">Nome do Personagem</label>
+                        <label for="name">Nome do Personagem</label>
                         <div class="secao_cadastroDados__container-form__row-line">
-                            <input type="text" name="nomeHeroi" id="nomeHeroi" formControlName="nomeHeroi" placeholder="Digite o nome do personagem">
+                            <input type="text" name="name" id="nomeHeroi" formControlName="name" placeholder="Digite o nome do personagem">
                         </div>
-                        <div *ngIf="isFieldInvalid('nomeHeroi')" class="fieldInvalid">É obrigatório a inserção de um personagem e deve conter pelo menos 3 caracteres</div>
+                        <div *ngIf="isFieldInvalid('name')" class="fieldInvalid">É obrigatório a inserção de um personagem e deve conter pelo menos 3 caracteres</div>
                     </div>
                     <div class="cadastroDados__form-column__row">
-                        <label for="moralidade">Moralidade</label>
+                        <label for="morality">Moralidade</label>
                         <div class="secao_cadastroDados__container-form__row-line">
-                            <input type="text" name="moralidade" id="moralidade" formControlName="moralidade" placeholder="Digite a moralidade do personagem">
+                            <input type="text" name="morality" id="morality" formControlName="morality" placeholder="Digite a moralidade do personagem">
                         </div>
-                        <div *ngIf="isFieldInvalid('moralidade')" class="fieldInvalid">É obrigatório inserir a moralidade e deve conter mais de 3 caracteres</div>
+                        <div *ngIf="isFieldInvalid('morality')" class="fieldInvalid">É obrigatório inserir a moralidade e deve conter mais de 3 caracteres</div>
                     </div>
                     <div class="cadastroDados__form-column__row">
                         <label for="power_type">Tipo de poder</label>
                         <div class="secao_cadastroDados__container-form__row-line">
                             <input type="text" name="power_type" id="power_type" formControlName="power_type" placeholder="Digite o Tipo de poder do personagem">
                         </div>
-                        <div *ngIf="isFieldInvalid('power_type')" class="fieldInvalid">É obrigatório inserir o tipo de poder e deve conter no mínimo 5 carasteres</div>
+                        <div *ngIf="isFieldInvalid('powerType')" class="fieldInvalid">É obrigatório inserir o tipo de poder e deve conter no mínimo 5 carasteres</div>
                     </div>
                     <div class="cadastroDados__form-column__row">
-                        <label for="studio">Studio</label>
-                        <div class="secao_cadastroDados__container-form__row-line">
-                            <input type="text" name="studio" id="studio" formControlName="studio" placeholder="Digite o nome do Studio do personagem">
+                        <label for="studio_id">Studio</label>
+                        <div>
+                          <select name="studio_id" id="studio_id" formControlName="studio_id">
+                            <option value="" disabled selected>Escolha o Studio</option>
+                            <!-- Itera sobre o array de afiliations -->
+                            <option *ngFor="let studio of studio_id" [value]="studio.id">{{ studio.studio_name }}</option>
+                          </select>
                         </div>
-                        <div *ngIf="isFieldInvalid('studio')" class="fieldInvalid">É obrigatório inserir o nome do studio e deve conter no mínimo 3 carasteres</div>
-                    </div>
+                    
+                        <div *ngIf="isFieldInvalid('studio_id')" class="fieldInvalid">
+                          É obrigatória a seleção do studio e deve conter no mínimo 3 caracteres.
+                        </div>
+                      </div>
                     <div class="cadastroDados__form-column__row">
-                        <label for="anoDeLancamento">Ano de Lançamento</label>
+                        <label for="release_date">Ano de Lançamento</label>
                         <div class="secao_cadastroDados__container-form__row-line">
-                            <input type="Date" name="anoDeLancamento" id="anoDeLancamento" formControlName="anoDeLancamento" placeholder="Digite o ano de Lançamento do personagem">
+                            <input type="Date" name="release_date" id="release_date" formControlName="release_date" placeholder="Digite o ano de Lançamento do personagem">
                         </div>
-                        <div *ngIf="isFieldInvalid('anoDeLancamento')" class="fieldInvalid">É obrigatório inserir o ano de lançamento e deve conter 4 digitos</div>
+                        <div *ngIf="isFieldInvalid('release_date')" class="fieldInvalid">É obrigatório inserir o ano de lançamento e deve conter 4 digitos</div>
                     </div>
                     <div class="cadastroDados__form-column__row">
                         <label for="first_appearance">Primeira aparição</label>
@@ -61,12 +68,19 @@
                         <div *ngIf="isFieldInvalid('weak_point')" class="fieldInvalid">É obrigatório inserir a primeira aparição e deve conter no mínimo 3 carasteres</div>
                     </div>
                     <div class="cadastroDados__form-column__row">
-                        <label for="equipe">Nome da Equipe</label>
+                        <label for="team">Nome da Equipe</label>
                         <div>
-                            <input type="text" name="equipe" id="equipe" formControlName="equipe" placeholder="Digite o nome da Equipe">
+                          <select name="team" id="team" formControlName="team">
+                            <option value="" disabled selected>Escolha a Equipe</option>
+                            <!-- Itera sobre o array de afiliations -->
+                            <option *ngFor="let n_team of team" [value]="n_team.id">{{ n_team.name_team }}</option>
+                          </select>
                         </div>
-                        <div *ngIf="isFieldInvalid('equipe')" class="fieldInvalid">É obrigatória inserir o nome da equipe do personagem</div>
-                    </div>
+                    
+                        <div *ngIf="isFieldInvalid('team')" class="fieldInvalid">
+                          É obrigatória a seleção do genero e deve conter no mínimo 3 caracteres.
+                        </div>
+                      </div>
                     <div class="cadastroDados__form-column__row">
                         <label for="affiliation">Nome da Afiliação</label>
                         <div>
@@ -87,13 +101,13 @@
                         <div *ngIf="isFieldInvalid('genre')" class="fieldInvalid">
                           É obrigatória a seleção do genero e deve conter no mínimo 3 caracteres.
                         </div>
-                      </div>
+                    </div>
                     <div class="cadastroDados__form-column__row">
-                        <label for="origem">Origem</label>
+                        <label for="story">Origem</label>
                         <div>
-                            <textarea name="origem" id="origem" formControlName="origem" placeholder="Digite a origem do herói"></textarea>
+                            <textarea name="story" id="story" formControlName="story" placeholder="Digite a origem do herói"></textarea>
                         </div>
-                        <span *ngIf="isFieldInvalid('origem')" class="fieldInvalid">É obrigatório inserir a origem e deve ter no minimo 10 caracteres</span>
+                        <span *ngIf="isFieldInvalid('story')" class="fieldInvalid">É obrigatório inserir a origem e deve ter no minimo 10 caracteres</span>
                     </div>
                 </div>
                 <div class="cadastroDados__form-column">
@@ -115,7 +129,7 @@
             </div>
             <br />
             <div class="container__btnSubmit">
-                <button type="submit" [disabled]="cadastroDados.invalid" class="btn_submit" (click)="sendData()">Cadastrar</button>
+                <button type="submit" [disabled]="cadastroDados.invalid" class="btn_submit">Cadastrar</button>
             </div>
 
             <!-- Popup de sucesso -->

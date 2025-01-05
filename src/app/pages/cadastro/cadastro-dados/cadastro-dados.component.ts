@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {faUser} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ReactiveFormsModule, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import { HeroisService } from '../../service/herois.service';
+import { HeroisService } from '../../../service/herois.service';
 
 @Component({
   selector: 'app-cadastro-dados',
@@ -12,7 +12,7 @@ import { HeroisService } from '../../service/herois.service';
   templateUrl: './cadastro-dados.component.html',
   styleUrl: './cadastro-dados.component.css'
 })
-export class CadastroDadosComponent{
+export class CadastroDadosComponent implements OnInit{
 
   public cadastroDados: FormGroup;
 
@@ -30,23 +30,49 @@ export class CadastroDadosComponent{
     'Alienigena'
   ];
 
+  public studio_id = [
+    {
+      id: 1,
+      studio_name: "Marvel"
+    },
+    {
+      id: 2,
+      studio_name: "DC Comic"
+    }
+  ]
+
+  public team = [
+    { 
+      id:1,
+      name_team: "Liga da Justiça"
+    },
+    {
+      id: 2,
+      name_team: "Avengers"
+    }
+  ]
+
   constructor(private fb: FormBuilder, private searchHerois: HeroisService){
     this.cadastroDados = this.fb.group({
-      nomeHeroi: ['',[Validators.required, Validators.minLength(3)]],
-      moralidade: ['',[Validators.required, Validators.minLength(3)]],
-      studio: ['', [Validators.required, Validators.minLength(3)]],
+      name: ['',[Validators.required, Validators.minLength(3)]],
+      morality: ['',[Validators.required, Validators.minLength(3)]],
+      studio_id: [null, [Validators.required]],
       power_type: ['',[Validators.required, Validators.minLength(5)]],
-      anoDeLancamento: ['', [Validators.required, this.validarDataCompleta()]],
+      release_date: ['', [Validators.required, this.validarDataCompleta()]],
       first_appearance: ['',[Validators.required, Validators.minLength(10)]],
       creator: ['', [Validators.required, Validators.minLength(3)]],
       weak_point: ['', [Validators.required, Validators.minLength(3)]],
       imagem: ['', [Validators.required]],
       imagem_cover: ['',Validators.required],
-      equipe: ['',[Validators.required, Validators.minLength(3)]],
+      team: [null,[Validators.required]],
       affiliation: ['', [Validators.required, Validators.minLength(3)]],
-      origem: ['',[Validators.required, Validators.minLength(10)]],
+      story: ['',[Validators.required, Validators.minLength(10)]],
       genre: ['', [Validators.required, Validators.minLength(3)]]
     })
+  }
+
+  ngOnInit(): void {
+      console.log("On init funcionando")
   }
 
   // Validador personalizado para validar uma data no formato completo (ano, mês e dia)
@@ -79,23 +105,6 @@ export class CadastroDadosComponent{
     return control? !control.valid && control.touched: false;
   }
 
-  onSubmit() {
-    if (this.cadastroDados.valid) {
-      console.log('Formulário válido: ', this.cadastroDados.value);
-      
-      this.showPopup = true; // Ativa o popup
-      setTimeout(() => {
-        this.showPopup = false; // Fecha o popup automaticamente após 3 segundos
-      }, 3000);
-
-      this.cadastroDados.reset();
-      this.imagemCardUrl = null;
-      this.imagemCoverUrl = null;
-    } else {
-      console.log('Formulário Inválido');
-    }
-  }
-
   onFileSelected(event: Event, tipo: string): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -115,42 +124,41 @@ export class CadastroDadosComponent{
   }
 
   // Método para enviar os dados para o backend
-  sendData(): void {
+  onSubmit(): void {
     if (this.cadastroDados.valid) {
       const formData = new FormData();
 
-      // Adicionando os campos de texto ao FormData
-      Object.keys(this.cadastroDados.value).forEach(key => {
-        // Ignorar campos que não são de imagem
+      Object.keys(this.cadastroDados.value).forEach((key) => {
         if (key !== 'imagem' && key !== 'imagem_cover') {
           formData.append(key, this.cadastroDados.get(key)?.value);
         }
       });
 
-      // Adicionando as imagens ao FormData
       if (this.cadastroDados.get('imagem')?.value) {
-        formData.append('imagem', this.cadastroDados.get('imagem')?.value);
-      }
-      if (this.cadastroDados.get('imagem_cover')?.value) {
-        formData.append('imagem_cover', this.cadastroDados.get('imagem_cover')?.value);
+        formData.append('imagens', this.cadastroDados.get('imagem')?.value);
       }
 
-      // Enviar os dados para a API via POST
+      if (this.cadastroDados.get('imagem_cover')?.value) {
+        formData.append('imagens', this.cadastroDados.get('imagem_cover')?.value);
+      }
+
+      console.log('Enviando dados: ', this.cadastroDados.value);
+
       this.searchHerois.heroRecord(formData).subscribe(
-        response=>{
+        (response) => {
           console.log('Resposta da API: ', response);
-          this.showPopup = true; // Ativa o popup de sucesso
+          this.showPopup = true;
           setTimeout(() => {
-            this.showPopup = false; // Fecha o popup após 3 segundos
+            this.showPopup = false;
           }, 3000);
           this.cadastroDados.reset();
           this.imagemCardUrl = null;
           this.imagemCoverUrl = null;
         },
-        error=>{
+        (error) => {
           console.error('Erro na requisição: ', error);
         }
-      )
+      );
     } else {
       console.log('Formulário Inválido');
     }
