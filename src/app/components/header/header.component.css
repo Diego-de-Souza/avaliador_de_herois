@@ -76,6 +76,7 @@
     align-items:center ;
     justify-content: center;
     margin-bottom: 0;
+    padding-left: 0;
 
     & li{
         display: flex;
@@ -83,6 +84,7 @@
         justify-content: center;
         margin: 0 1em;
         color: #00d2ff;
+        cursor: pointer;
     }
 
     & li:hover{
