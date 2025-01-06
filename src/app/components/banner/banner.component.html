@@ -1,25 +1,29 @@
 <div class="banner">
   <ngb-carousel
     #carousel
-    [interval]="2500"
+    [interval]="5000"
+    [pauseOnHover]="pauseOnHover"
+	[pauseOnFocus]="pauseOnFocus"
     (slide)="onSlide($event)"
   >
     @for (img of images; track img; let i = $index) {
       <ng-template ngbSlide>
         <a href="https://www.google.fr/?q=Number+{{ i + 1 }}" target="_blank" rel="nofollow noopener noreferrer" >
           <div class="picsum-img-wrapper">
-            <img [src]="img" alt="My image {{ i + 1 }} description"/>
+            <img [src]="img.url" alt="My image {{ i + 1 }} description"/>
           </div>
         </a>
+        <!-- Contêiner para o conteúdo (sobreposição da imagem) -->
+        <div class="banner-content">
+          <h3>{{img.Title}}</h3>
+          <p>{{img.Description}}</p>
+        </div>
       </ng-template>
+      
     }
   </ngb-carousel>
   
   <hr />
   
-  <!-- Contêiner para o conteúdo (sobreposição da imagem) -->
-  <div class="banner-content">
-    <h1>Bem-vindo ao Universo dos Heróis</h1>
-    <p>Descubra histórias, curiosidades e aventuras épicas.</p>
-  </div>
+  
 </div>

@@ -10,14 +10,35 @@ import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } fr
   styleUrl: './banner.component.css'
 })
 export class BannerComponent {
-  public images = ['assets/img/home/a1.jpg','assets/img/home/a2.jpg','assets/img/home/a3.jpg','assets/img/home/a4.jpg'];
+  public images = [
+	{
+		url: 'assets/img/home/a1.jpg',
+		Title: 'Busque seus heróis favoritos',
+		Description: 'Conheca mais sobre os herois.'
+	},
+	{
+		url: 'assets/img/home/a2.jpg',
+		Title: 'Artigos inteiros sobre herois',
+		Description: 'Detalhes impressionantes e marcantes.'
+	},
+	{
+		url: 'assets/img/home/a3.jpg',
+		Title: 'Curiosidades do mundo Geek',
+		Description: 'se quer saber mais e so vim ver!'
+	},
+	{
+		url: 'assets/img/home/a4.jpg',
+		Title: 'Games',
+		Description: 'mostre sua forca em nossos jogos.'
+	}
+	];
 
 
 	paused = false;
 	unpauseOnArrow = false;
 	pauseOnIndicator = false;
-	pauseOnHover = true;
-	pauseOnFocus = true;
+	pauseOnHover = false;
+	pauseOnFocus = false;
 
 	@ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
