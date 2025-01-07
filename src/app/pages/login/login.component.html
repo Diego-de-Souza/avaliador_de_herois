@@ -20,7 +20,7 @@
             <button type="submit" class="btn btn-acessar">Acessar</button>
           </form>
           <div class="login-for-register">
-            <p>Cadastre-se</p>
+            <p [routerLink]="['/cadastro/user']" [queryParams]="{ inicio: true }" routerLinkActive="active">Cadastre-se</p>
           </div>
     </div>
 </section>

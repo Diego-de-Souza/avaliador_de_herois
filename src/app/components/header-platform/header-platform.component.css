@@ -1,0 +1,19 @@
+.header-platform{
+    display: flex;
+    width: 100%;
+}
+
+.header-platform-menu{
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #00d2ff;
+}
+
+.header-platform-list{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0.8em;
+    margin-bottom: 0;
+}

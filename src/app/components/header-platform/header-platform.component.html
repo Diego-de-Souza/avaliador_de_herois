@@ -1,0 +1,71 @@
+<section class="header-platform">
+    <nav class="header-platform-menu">
+        <ul class="header-platform-list">
+            <li 
+                class="header-platform-item" class="btn btn-outline-primary" 
+                routerLink="/cadastro" 
+                routerLinkActive="active"
+                type="button"
+            >Cadastro Home</li>
+            <li class="header-platform-item">
+                <div class="col">
+                    <div ngbDropdown class="d-inline-block">
+                        <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                            Usuários
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button ngbDropdownItem routerLink="/em-construcao" routerLinkActive="active">Lista de usuários</button>
+                            <button ngbDropdownItem routerLink="/cadastro/user" routerLinkActive="active">Cadastro de Usuários</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-platform-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                Heróis
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/em-construcao" routerLinkActive="active">Lista de Heróis</button>
+                                <button ngbDropdownItem routerLink="/cadastro/heroi" routerLinkActive="active">Cadastro de Heróis</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-platform-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                Studios
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/em-construcao" routerLinkActive="active">Lista de Studios</button>
+                                <button ngbDropdownItem routerLink="/cadastro/studio" routerLinkActive="active">Cadastro de Studios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-platform-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                Equipes
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/em-construcao" routerLinkActive="active">Lista de Equipes</button>
+                                <button ngbDropdownItem routerLink="/cadastro/team" routerLinkActive="active">Cadastro de equipes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</section>
+

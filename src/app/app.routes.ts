@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
 
-import { HomeComponent } from './pages/home/home.component';
-import { CardsComponent } from './pages/cards/cards.component';
-import { DescriptionHeroesComponent } from './pages/descriptionHeroes/description-heroes.component';
+import { HomeComponent } from './pages/web-main/home/home.component';
+import { CardsComponent } from './pages/web-main/cards/cards.component';
+import { DescriptionHeroesComponent } from './pages/web-main/descriptionHeroes/description-heroes.component';
 import { EmConstrucaoComponent } from './pages/em-construcao/em-construcao.component';
 import { LoginComponent } from './pages/login/login.component';
-import { CadastroComponent } from './pages/cadastro/cadastro.component';
-import { CadastroDadosComponent } from './pages/cadastro/cadastro-dados/cadastro-dados.component';
-import { CadastroUsuarioComponent } from './pages/cadastro/cadastro-usuario/cadastro-usuario.component';
-import { CadastroStudioComponent } from './pages/cadastro/cadastro-studio/cadastro-studio.component';
-import { CadastroTeamComponent } from './pages/cadastro/cadastro-team/cadastro-team.component';
-import { BuscaHeroesComponent } from './pages/busca-heroes/busca-heroes.component';
+import { CadastroDadosComponent } from './pages/plataforma/cadastro-dados/cadastro-dados.component';
+import { CadastroUsuarioComponent } from './pages/plataforma/cadastro-usuario/cadastro-usuario.component';
+import { CadastroStudioComponent } from './pages/plataforma/cadastro-studio/cadastro-studio.component';
+import { CadastroTeamComponent } from './pages/plataforma/cadastro-team/cadastro-team.component';
+import { BuscaHeroesComponent } from './pages/web-main/busca-heroes/busca-heroes.component';
+import { UsuarioComponent } from './pages/plataforma/usuario/usuario.component';
 
 export const routes: Routes = [
   {
@@ -18,37 +18,40 @@ export const routes: Routes = [
     title: 'Home_heroes',
     component: HomeComponent,
   },
-  {
+  { //rota da entrada da plataforma de acesso do usuario manager
     path: 'cadastro',
     title: 'Cadastro',
-    component: CadastroComponent, // Renderiza o HTML principal
-    children: [
-      {
-        path: 'user',
-        title: 'Cadastro de Usuário',
-        component: CadastroUsuarioComponent, // Renderiza o cadastro do usuário
-      },
-      {
-        path: 'heroi',
-        title: 'Cadastro de Herói',
-        component: CadastroDadosComponent, // Renderiza o cadastro do herói
-      },
-      {
-        path: 'studio',
-        title: 'Cadastro de Studio',
-        component: CadastroStudioComponent, // Renderiza o cadastro do Studio
-      },
-      {
-        path: 'team',
-        title: 'Cadastro de Equipe',
-        component: CadastroTeamComponent, // Renderiza o cadastro da equipe
-      },
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'user', // Redireciona para uma página padrão (ex.: Cadastro de Usuário)
-      },
-    ],
+    component: UsuarioComponent, 
+  },
+  { //rota de cadastro de novo usuário
+    path: 'cadastro/user',
+    title: 'Cadastro de Usuário',
+    component: CadastroUsuarioComponent,
+  },
+  { //rota de upadate de usuario já existente no banco
+    path: 'update/user:id',
+    title: 'Atualização de Usuário',
+    component: CadastroUsuarioComponent
+  },
+  {
+    path: 'cadastro/heroi',
+    title: 'Cadastro de Herói',
+    component: CadastroDadosComponent, // Renderiza o cadastro do herói
+  },
+  {
+    path: 'cadastro/studio',
+    title: 'Cadastro de Studio',
+    component: CadastroStudioComponent, // Renderiza o cadastro do Studio
+  },
+  {
+    path: 'cadastro/team',
+    title: 'Cadastro de Equipe',
+    component: CadastroTeamComponent, // Renderiza o cadastro da equipe
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'user', // Redireciona para uma página padrão (ex.: Cadastro de Usuário)
   },
   {
     path: 'login',

@@ -1,0 +1,144 @@
+<section id="container-cadastroDados">
+    <app-header-platform></app-header-platform>
+    <div class="main_cadastroDados">
+        <h1>Cadastro de dados</h1>
+        <form [formGroup]="cadastroDados" (ngSubmit)="onSubmit()">
+            <div class="cadastroDados__form-row">
+                <div class="cadastroDados__form-column">
+                    <div class="cadastroDados__form-column__row">
+                        <label for="name">Nome do Personagem</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="name" id="nomeHeroi" formControlName="name" placeholder="Digite o nome do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('name')" class="fieldInvalid">É obrigatório a inserção de um personagem e deve conter pelo menos 3 caracteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="morality">Moralidade</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="morality" id="morality" formControlName="morality" placeholder="Digite a moralidade do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('morality')" class="fieldInvalid">É obrigatório inserir a moralidade e deve conter mais de 3 caracteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="power_type">Tipo de poder</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="power_type" id="power_type" formControlName="power_type" placeholder="Digite o Tipo de poder do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('powerType')" class="fieldInvalid">É obrigatório inserir o tipo de poder e deve conter no mínimo 5 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="studio_id">Studio</label>
+                        <div>
+                          <select name="studio_id" id="studio_id" formControlName="studio_id">
+                            <option value="" disabled selected>Escolha o Studio</option>
+                            <!-- Itera sobre o array de afiliations -->
+                            <option *ngFor="let studio of studio_id" [value]="studio.id">{{ studio.studio_name }}</option>
+                          </select>
+                        </div>
+                    
+                        <div *ngIf="isFieldInvalid('studio_id')" class="fieldInvalid">
+                          É obrigatória a seleção do studio e deve conter no mínimo 3 caracteres.
+                        </div>
+                      </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="release_date">Ano de Lançamento</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="Date" name="release_date" id="release_date" formControlName="release_date" placeholder="Digite o ano de Lançamento do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('release_date')" class="fieldInvalid">É obrigatório inserir o ano de lançamento e deve conter 4 digitos</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="first_appearance">Primeira aparição</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="first_appearance" id="first_appearance" formControlName="first_appearance" placeholder="Diga qual a primeira aparição do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('first_appearance')" class="fieldInvalid">É obrigatório inserir a primeira aparição e deve conter no mínimo 10 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="creator">Criador</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="creator" id="creator" formControlName="creator" placeholder="Diga qual a o nome do criador do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('creator')" class="fieldInvalid">É obrigatório inserir a primeira aparição e deve conter no mínimo 3 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="weak_point">Ponto fraco</label>
+                        <div class="secao_cadastroDados__container-form__row-line">
+                            <input type="text" name="weak_point" id="weak_point" formControlName="weak_point" placeholder="Diga qual o ponto fraco do personagem">
+                        </div>
+                        <div *ngIf="isFieldInvalid('weak_point')" class="fieldInvalid">É obrigatório inserir a primeira aparição e deve conter no mínimo 3 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="team">Nome da Equipe</label>
+                        <div>
+                          <select name="team" id="team" formControlName="team">
+                            <option value="" disabled selected>Escolha a Equipe</option>
+                            <!-- Itera sobre o array de afiliations -->
+                            <option *ngFor="let n_team of team" [value]="n_team.id">{{ n_team.name_team }}</option>
+                          </select>
+                        </div>
+                    
+                        <div *ngIf="isFieldInvalid('team')" class="fieldInvalid">
+                          É obrigatória a seleção do genero e deve conter no mínimo 3 caracteres.
+                        </div>
+                      </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="affiliation">Nome da Afiliação</label>
+                        <div>
+                            <input type="text" name="affiliation" id="affiliation" formControlName="affiliation" placeholder="Digite o nome da affiliation">
+                        </div>
+                        <div *ngIf="isFieldInvalid('affiliation')" class="fieldInvalid">É obrigatória inserir o nome da afiliação do personagem e deve conter no mínimo 3 carasteres</div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="genre">Genero</label>
+                        <div>
+                          <select name="genre" id="genre" formControlName="genre">
+                            <option value="" disabled selected>Escolha o Genero</option>
+                            <!-- Itera sobre o array de afiliations -->
+                            <option *ngFor="let sex of genre" [value]="sex">{{ sex }}</option>
+                          </select>
+                        </div>
+                    
+                        <div *ngIf="isFieldInvalid('genre')" class="fieldInvalid">
+                          É obrigatória a seleção do genero e deve conter no mínimo 3 caracteres.
+                        </div>
+                    </div>
+                    <div class="cadastroDados__form-column__row">
+                        <label for="story">Origem</label>
+                        <div>
+                            <textarea name="story" id="story" formControlName="story" placeholder="Digite a origem do herói"></textarea>
+                        </div>
+                        <span *ngIf="isFieldInvalid('story')" class="fieldInvalid">É obrigatório inserir a origem e deve ter no minimo 10 caracteres</span>
+                    </div>
+                </div>
+                <div class="cadastroDados__form-column">
+                    <div class="cadastroDados__form-column__container">
+                        <button type="button" class="btn_upload" (click)="uploadCard.click()">Upload imagem card</button>
+                        <input #uploadCard type="file" (change)="onFileSelected($event, 'imagem')" accept="image/*" style="display: none;">
+                        <div class="cadastroDados__form-column__imgUpload">
+                            <img *ngIf="imagemCardUrl" [src]="imagemCardUrl" alt="Imagem Card" />
+                        </div>
+                    </div>
+                    <div class="cadastroDados__form-column__container">
+                        <button type="button" class="btn_upload" (click)="uploadCover.click()">Upload imagem cover</button>
+                        <input #uploadCover type="file" (change)="onFileSelected($event, 'imagem_cover')" accept="image/*" style="display: none;">
+                        <div class="cadastroDados__form-column__imgUpload">
+                            <img *ngIf="imagemCoverUrl" [src]="imagemCoverUrl" alt="Imagem Cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="container__btnSubmit">
+                <button type="submit" [disabled]="cadastroDados.invalid" class="btn_submit">Cadastrar</button>
+            </div>
+
+            <!-- Popup de sucesso -->
+            <div *ngIf="showPopup" class="popup-overlay">
+                <div class="popup-content">
+                <p>Dados enviados com sucesso!</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
