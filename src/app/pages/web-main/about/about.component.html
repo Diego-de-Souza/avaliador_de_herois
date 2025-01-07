@@ -1,0 +1,39 @@
+<section class="about_container">
+    <app-header></app-header>
+    <div class="about_central">
+        <h2>Sobre o Projeto</h2>
+        <p>A plataforma de heróis é um projeto colaborativo desenvolvido por alunos do curso de Engenharia da Computação da Faculdade Engenheiro Salvador Arena. Essa iniciativa surgiu como um desafio empolgante, com o objetivo de proporcionar aos estudantes uma imersão prática no mundo do desenvolvimento web, desde os fundamentos até a implementação de componentes avançados.</p>
+        <p>Guiados pelo expertise do desenvolvedor full-stack Diego de Souza, que traz anos de experiência no mercado e está finalizando sua formação em Engenharia da Computação, cada integrante teve a oportunidade de explorar e se aprofundar em diferentes aspectos do ciclo de desenvolvimento.</p>
+        <p>O projeto é estruturado em três pilares principais:</p>
+        <p class="about_identado">1° - Front-End: A interface com o usuário, desenvolvida em Angular, garante uma experiência intuitiva e moderna, permitindo aos usuários explorar a plataforma com fluidez e dinamismo.</p>
+        <p class="about_identado">2° - Back-End: Responsável pela API e pelo banco de dados, esta camada foi criada com o robusto framework NestJS, focando na segurança, eficiência e integração perfeita com o front.</p>
+        <p class="about_identado">3° - Pesquisa: A equipe de pesquisa investiga a fundo conteúdos relacionados aos heróis, além de explorar metodologias e estratégias estruturais que garantem uma aplicação inovadora.</p>
+        <p>A plataforma vai além do básico. Ela incorpora tecnologias avançadas, como encriptação de senhas e dados, hash, fluxos de rotas e estratégias sofisticadas de orquestração da aplicação. É um projeto completo, que conecta o aprendizado acadêmico ao cenário real de desenvolvimento, desafiando todos os participantes a aplicarem seus conhecimentos na prática e a trabalhar em equipe para alcançar um resultado de alta qualidade.</p>
+        <p>Este projeto é mais do que uma aplicação de heróis; é um exemplo do poder da colaboração, da educação de ponta e do espírito inovador que move futuros engenheiros de computação!</p>
+    </div>
+    <div class="about_users">
+        <h2>Conheça a Equipe</h2>
+        <div class="users_grid">
+            @for(user of integrantes; track user){
+                <div class="user_card">
+                    <div class="photo_frame">
+                        <img [src]="user.foto" [alt]="user.nome" />
+                        <div class="photo_background"></div>
+                    </div>
+                    <h3>
+                        <i class="bi bi-person-circle"></i> {{ user.nome }}
+                    </h3>
+                    <p class="funcao">
+                        <i class="bi bi-briefcase"></i> {{ user.funcao }}
+                    </p>
+                    <p class="descricao">
+                        <i class="bi bi-chat-left-dots"></i> {{ user.descricao }}
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <app-footer></app-footer>
+</section>
+

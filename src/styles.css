@@ -47,3 +47,12 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+@font-face {
+	font-family: 'AttackOfMonster';
+	src: url('assets/fonts/attack_of_monster/Attack Of Monster.otf') format('opentype'),
+		 url('assets/fonts/attack_of_monster/Attack Of Monster.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+  

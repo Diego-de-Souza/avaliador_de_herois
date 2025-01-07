@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,23 +26,32 @@ export class LoginComponent {
 
   onSubmit(){
     if(this.loginForm.valid){
-      //Criar FormData para envio
-      const formData = new FormData();
+      const { email, password } = this.loginForm.value;
 
-      // Percorrer os valores do formulários e adiciona-los ao formData
-      Object.keys(this.loginForm.value).forEach((key)=>{
-        formData.append(key, this.loginForm.value[key]);
-      });
+      // Verificação das credenciais para acesso
+      if (email === 'admin@admin.com.br' && password === 'admin123') {
+        console.log('Credenciais de admin detectadas. Redirecionando...');
+        this.router.navigate(['/cadastro']); // Redireciona para uma página específica, se necessário.
+        return; // Impede que prossiga para o envio ao backend.
+      }
 
-      this.userService.postLogin(formData).subscribe((response)=>{
-        console.log('Login realizado com sucesso:', response);
+      // //Criar FormData para envio
+      // const formData = new FormData();
 
-        // Redirecionar para a tela de usuários
-        this.router.navigate(['/cadastro']); 
-      },
-      (error)=>{
-        console.log('Erro no login');
-      });
+      // // Percorrer os valores do formulários e adiciona-los ao formData
+      // Object.keys(this.loginForm.value).forEach((key)=>{
+      //   formData.append(key, this.loginForm.value[key]);
+      // });
+
+      // this.userService.postLogin(formData).subscribe((response)=>{
+      //   console.log('Login realizado com sucesso:', response);
+
+      //   // Redirecionar para a tela de usuários
+      //   this.router.navigate(['/cadastro']); 
+      // },
+      // (error)=>{
+      //   console.log('Erro no login');
+      // });
     }else{
       console.log("Formulário Inválido");
     }

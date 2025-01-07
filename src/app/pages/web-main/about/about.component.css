@@ -1,0 +1,161 @@
+:host{
+    .about_container{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background: linear-gradient(to bottom, #101522, #1e2a38);
+        color: #B0BEC5;
+    }
+    
+    .about_central{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: auto;
+        margin-top: 2em;
+    }
+    
+    h2 {
+        font-size: 2.5rem;
+        width: 100%;
+        text-align: center;
+        color: #00d2ff;
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+        font-family: AttackOfMonster, sans-serif;
+    }
+      
+    h2::after {
+        content: '';
+        display: block;
+        width: 200px;
+        height: 4px;
+        background: #00d2ff;
+        margin: 10px auto;
+        border-radius: 4px;        
+    }
+    
+    p{
+        text-align: justify;
+        text-indent: 2em;
+    }
+
+    .about_users {
+        margin-top: 2em;
+        padding: 30px;
+        background: linear-gradient(to bottom, #1e2a38, #243744);
+        color: #B0BEC5;
+        text-align: center;
+    }
+
+    .about_users h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+        color: #00d2ff;
+        font-family: AttackOfMonster, sans-serif;
+    }
+
+    .users_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        width: 90%;
+        margin: auto;
+    }
+
+    .user_card {
+        position: relative;
+        padding: 20px;
+        border-radius: 15px;
+        background: #2e3b50;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        text-align: center;
+        transition: all 0.3s ease;
+        
+        & p{
+            text-indent: 0;
+            margin-left: 0.5em;
+            margin-right: 0.5em;
+        }
+    }
+
+    .user_card:hover {
+        transform: translateY(-10px);
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Quadro atrás da foto */
+    .photo_frame {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .photo_background {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 120px;
+        height: 120px;
+        background: #00d2ff;
+        transform: rotate(-15deg);
+        z-index: -1;
+        border-radius: 10%;
+    }
+
+    .photo_frame img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ff4f58;
+        transition: transform 0.3s ease;
+    }
+
+    .photo_frame img:hover {
+        transform: scale(1.1) rotate(10deg);
+    }
+
+    .user_card h3 {
+        font-size: 1.4rem;
+        margin: 10px 0;
+        color: #00d2ff;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .funcao, .descricao {
+        font-size: 1rem;
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .funcao {
+        color: #FF9F00;
+    }
+
+    .descricao {
+        font-style: italic;
+        color: #B0BEC5;
+    }
+
+    /* Adicionando efeitos de hover nos ícones */
+    i {
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+
+    .user_card:hover i {
+        color: #00d2ff;
+    }
+    
+}

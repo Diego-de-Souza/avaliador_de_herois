@@ -1,12 +1,49 @@
+:host {
+  font-family: 'AttackOfMonster', sans-serif;
+}
+
 .curiosidades {
-    padding: 40px;
-  
-    .curiosidade-item {
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 5px;
-      background: rgba(0, 0, 0, 0.3);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  color: white;
+  background: linear-gradient(135deg, #121929 70%, #1C2738);
+  box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.curiosidades h2 {
+  font-size: 2.5rem;
+  color: #00d2ff;
+  margin-bottom: 20px;
+  position: relative;
+  font-family: AttackOfMonster, sans-serif;
+}
+
+.curiosidades h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #00d2ff;
+  margin: 10px auto;
+  border-radius: 4px;
+}
+
+.curiosidade-item {
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: rotateY(90deg);
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+/* Classe que ativa a animação */
+.curiosidade-item.animate {
+  opacity: 1;
+  transform: rotateY(0deg);
+}

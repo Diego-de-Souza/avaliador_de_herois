@@ -4,11 +4,13 @@ import { HeroisService } from '../../../service/herois.service';
 import { HeroisModel } from '../../../Model/herois.model';
 import { HeroisMenuModel } from '../../../Model/heroisMenu.model';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../../components/header/header.component';
+import { FooterComponent } from '../../../components/footer/footer.component';
 
 @Component({
   selector: 'app-busca-heroes',
   standalone: true,
-  imports: [RouterLinkActive, FormsModule],
+  imports: [RouterLinkActive, FormsModule, HeaderComponent, FooterComponent],
   templateUrl: './busca-heroes.component.html',
   styleUrl: './busca-heroes.component.css'
 })

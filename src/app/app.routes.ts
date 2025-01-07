@@ -11,6 +11,7 @@ import { CadastroStudioComponent } from './pages/plataforma/cadastro-studio/cada
 import { CadastroTeamComponent } from './pages/plataforma/cadastro-team/cadastro-team.component';
 import { BuscaHeroesComponent } from './pages/web-main/busca-heroes/busca-heroes.component';
 import { UsuarioComponent } from './pages/plataforma/usuario/usuario.component';
+import { AboutComponent } from './pages/web-main/about/about.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +78,11 @@ export const routes: Routes = [
     path: 'em-construcao',
     title: 'Em_construção',
     component: EmConstrucaoComponent,
+  },
+  {
+    path: 'about',
+    title: 'Sobre nós',
+    component: AboutComponent
   },
   { path: '**', redirectTo: '' },
 ];

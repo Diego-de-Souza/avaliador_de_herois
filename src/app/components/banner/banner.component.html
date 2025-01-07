@@ -8,7 +8,7 @@
   >
     @for (img of images; track img; let i = $index) {
       <ng-template ngbSlide>
-        <a href="https://www.google.fr/?q=Number+{{ i + 1 }}" target="_blank" rel="nofollow noopener noreferrer" >
+        <a routerLink="{{img.rota}}" routerLinkActive="active" rel="nofollow noopener noreferrer" >
           <div class="picsum-img-wrapper">
             <img [src]="img.url" alt="My image {{ i + 1 }} description"/>
           </div>

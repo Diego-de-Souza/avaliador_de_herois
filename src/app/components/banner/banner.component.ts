@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-banner',
   standalone: true,
-  imports: [NgbCarouselModule, FormsModule],
+  imports: [NgbCarouselModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './banner.component.html',
   styleUrl: './banner.component.css'
 })
@@ -14,22 +15,26 @@ export class BannerComponent {
 	{
 		url: 'assets/img/home/a1.jpg',
 		Title: 'Busque seus heróis favoritos',
-		Description: 'Conheca mais sobre os herois.'
+		Description: 'Conheca mais sobre os herois.',
+		rota:'/busca_heroes'
 	},
 	{
 		url: 'assets/img/home/a2.jpg',
 		Title: 'Artigos inteiros sobre herois',
-		Description: 'Detalhes impressionantes e marcantes.'
+		Description: 'Detalhes impressionantes e marcantes.',
+		rota: '/busca_heroes'
 	},
 	{
 		url: 'assets/img/home/a3.jpg',
 		Title: 'Curiosidades do mundo Geek',
-		Description: 'se quer saber mais e so vim ver!'
+		Description: 'se quer saber mais e so vim ver!',
+		rota: '/busca_heroes'
 	},
 	{
 		url: 'assets/img/home/a4.jpg',
 		Title: 'Games',
-		Description: 'mostre sua forca em nossos jogos.'
+		Description: 'mostre sua forca em nossos jogos.',
+		rota: '/busca_heroes'
 	}
 	];
 

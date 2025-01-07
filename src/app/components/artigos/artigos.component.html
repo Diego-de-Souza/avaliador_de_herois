@@ -2,7 +2,7 @@
     <h2>Artigos Recentes</h2>
     <div class="artigo-cards">
       <div class="card" *ngFor="let artigo of artigos">
-        <img [src]="artigo.img" alt="Imagem do Artigo" />
+        <div [innerHTML]="artigo.img"></div>
         <h3>{{ artigo.titulo }}</h3>
         <p>{{ artigo.descricao }}</p>
         <button >Ler mais</button>

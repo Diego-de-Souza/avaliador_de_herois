@@ -1,26 +1,51 @@
 <section id="login-plataforma">
     <div id="container_login" class="w-50">
-        <form class="w-75 m-auto">
-            <h2>sign in</h2>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <div class="capsula-login">
-                    <i class="bi bi-person-check-fill icon-login"></i>
-                    <input type="email" class="form-control input-login" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Digite seu email">
-                </div>
-              <div id="emailHelp" class="form-text">Nunca compartilharemos seu e-mail com mais ninguém.</div>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <div class="capsula-login">
-                    <i class="bi bi-lock-fill icon-login"></i>
-                    <input type="password" class="form-control input-login" id="exampleInputPassword1" placeholder="Digite sua senha">
-                </div> 
-            </div>
-            <button type="submit" class="btn btn-acessar">Acessar</button>
-          </form>
-          <div class="login-for-register">
-            <p [routerLink]="['/cadastro/user']" [queryParams]="{ inicio: true }" routerLinkActive="active">Cadastre-se</p>
+      <!-- Vincular o formulário ao loginForm -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-75 m-auto">
+        <h2>sign in</h2>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <div class="capsula-login">
+            <i class="bi bi-person-check-fill icon-login"></i>
+            <!-- Usar formControlName para vincular ao form control "email" -->
+            <input
+              type="email"
+              formControlName="email"
+              class="form-control input-login"
+              id="email"
+              placeholder="Digite seu email"
+            />
           </div>
+          <div id="emailHelp" class="form-text">
+            Nunca compartilharemos seu e-mail com mais ninguém.
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="capsula-login">
+            <i class="bi bi-lock-fill icon-login"></i>
+            <!-- Usar formControlName para vincular ao form control "password" -->
+            <input
+              type="password"
+              formControlName="password"
+              class="form-control input-login"
+              id="password"
+              placeholder="Digite sua senha"
+            />
+          </div>
+        </div>
+        <!-- Usar evento de envio para ativar o método onSubmit -->
+        <button type="submit" class="btn btn-acessar">Acessar</button>
+      </form>
+      <div class="login-for-register">
+        <p
+          [routerLink]="['/cadastro/user']"
+          [queryParams]="{ inicio: true }"
+          routerLinkActive="active"
+        >
+          Cadastre-se
+        </p>
+      </div>
     </div>
-</section>
+  </section>
+  
