@@ -15,15 +15,18 @@ export class UserService {
     return this.http.get<any>(`${this.apiUrl}/user/find-one-user/${id}`);
   }
 
-  postRegisterUser(data: FormData): Observable<ArrayBuffer>{
+  postRegisterUser(userData: any): Observable<ArrayBuffer>{
+    const data = {data: userData};
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/user/register-user`, data);
   }
 
-  putUpdateUser(userId: number | null, data: FormData): Observable<any> {
+  putUpdateUser(userId: number | null, userData: FormData): Observable<any> {
+    const data = {data: userData};
     return this.http.put(`${this.apiUrl}/user/update/${userId}`, data);
   }
   
-  postLogin(data: FormData): Observable<ArrayBuffer>{
+  postLogin(userData: any): Observable<ArrayBuffer>{
+    const data = {data: userData}
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/user/signin`, data);
   }
   

@@ -3,19 +3,16 @@
   <section class="cadastro-team-container">
       <h1>Cadastro de Equipe</h1>
   
-      <!-- Aqui passamos o formulário para o método resetForm -->
-      <form (ngSubmit)="onSubmit()" #cadastroEquipeForm="ngForm">
+      <form (ngSubmit)="onSubmit()" [formGroup]="dadosTeam">
         <div class="form-group">
           <label for="nomeEquipe">Nome da Equipe:</label>
           <input
             type="text"
-            id="nomeEquipe"
-            name="nomeEquipe"
-            [(ngModel)]="equipe.nome"
+            id="name"
+            formControlName="name"
             required
-            #nomeEquipe="ngModel"
           />
-          <div *ngIf="nomeEquipe.invalid && nomeEquipe.touched" class="erro">
+          <div *ngIf="isFieldInvalid('name')" class="erro">
             <small>O nome da equipe é obrigatório.</small>
           </div>
         </div>
@@ -25,23 +22,20 @@
           <input
             type="text"
             id="criadorEquipe"
-            name="criadorEquipe"
-            [(ngModel)]="equipe.criador"
+            formControlName="creator"
             required
-            #criadorEquipe="ngModel"
           />
-          <div *ngIf="criadorEquipe.invalid && criadorEquipe.touched" class="erro">
+          <div *ngIf="isFieldInvalid('creator')" class="erro">
             <small>O criador da equipe é obrigatório.</small>
           </div>
         </div>
   
         <div class="form-actions">
-          <button type="submit" [disabled]="cadastroEquipeForm.invalid">
+          <button type="submit" [disabled]="dadosTeam.invalid">
             Cadastrar Equipe
           </button>
-          <button type="button" (click)="resetForm(cadastroEquipeForm)">Cancelar</button>
+          <button type="button" (click)="dadosTeam.reset()">Cancelar</button>
         </div>
       </form>
   </section>
 </section>
-  

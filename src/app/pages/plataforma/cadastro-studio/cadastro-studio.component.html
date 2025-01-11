@@ -2,7 +2,7 @@
   <app-header-platform></app-header-platform>
   <section class="cadastro-studio-container">
       <h1>Cadastro de Studio</h1>
-      <form (ngSubmit)="onSubmit()" #studioForm="ngForm">
+      <form (ngSubmit)="onSubmit()" [formGroup]="studioForm">
         <!-- Nome do Studio -->
         <div class="form-group">
           <label for="name">Nome do Studio</label>
@@ -10,7 +10,7 @@
             type="text"
             id="name"
             name="name"
-            [(ngModel)]="studio.name"
+            formControlName="name"
             required
             placeholder="Digite o nome do estúdio"
           />
@@ -23,7 +23,7 @@
             type="text"
             id="nationality"
             name="nationality"
-            [(ngModel)]="studio.nationality"
+            formControlName="nationality"
             required
             placeholder="Digite a nacionalidade"
           />
@@ -35,7 +35,7 @@
           <textarea
             id="history"
             name="history"
-            [(ngModel)]="studio.history"
+            formControlName="history"
             rows="5"
             required
             placeholder="Conte a história do estúdio"

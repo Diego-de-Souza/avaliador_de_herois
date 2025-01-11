@@ -110,19 +110,13 @@ export class CadastroUsuarioComponent implements OnInit{
   
     onSubmit() {
       if (this.cadastroForm.valid) {
-        // Criar FormData para envio
-        const formData = new FormData();
-
-        // Percorrer os valores do formulário e adicioná-los ao FormData
-        Object.keys(this.cadastroForm.value).forEach((key) => {
-          formData.append(key, this.cadastroForm.value[key]);
-        });
+        const userData = this.cadastroForm.value;
 
         if (this.isEditMode) {
           console.log('Atualizar usuário:', this.userId, this.cadastroForm.value);
 
           // Enviar o FormData na requisição de registro
-          this.userService.putUpdateUser(this.userId , formData).subscribe(
+          this.userService.putUpdateUser(this.userId , userData).subscribe(
             (response) => {
               console.log('Usuário cadastrado com sucesso:', response);
             },
@@ -134,7 +128,7 @@ export class CadastroUsuarioComponent implements OnInit{
           console.log('Cadastrar novo usuário:', this.cadastroForm.value);
 
           // Enviar o FormData na requisição de registro
-          this.userService.postRegisterUser(formData).subscribe(
+          this.userService.postRegisterUser(userData).subscribe(
             (response) => {
               console.log('Usuário cadastrado com sucesso:', response);
             },
