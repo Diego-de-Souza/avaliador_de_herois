@@ -43,7 +43,8 @@ export class HeroisService {
     });
   }
 
-  postRegisterTeam(data: any): Observable<any>{
+  postRegisterTeam(teamData: any): Observable<any>{
+    const data = {data: teamData};
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
       headers: {
         'Content-Type': 'application/json'
@@ -51,8 +52,9 @@ export class HeroisService {
     });
   }
 
-  putUpdateTeam(userId: number | null, data: any): Observable<any>{
-    return this.http.put<any>(`${this.apiUrl}/team/update/${userId}`, data, {
+  putUpdateTeam(teamId: number | null, teamData: any): Observable<any>{
+    const data = {data: teamData};
+    return this.http.put<any>(`${this.apiUrl}/team/update/${teamId}`, data, {
       headers: {
         'Content-Type': 'application/json'
       }

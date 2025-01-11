@@ -43,6 +43,6 @@ export class ViewTeamComponent implements OnInit{
   }
 
   editTeam(id: number): void {
-    this.router.navigate([`/cadastro/team/:${id}`]);
+    this.router.navigate([`/cadastro/team/${id}`]);
   }
 }
