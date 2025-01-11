@@ -20,7 +20,7 @@ export class HeroisService {
 
   //rotas do team
   getAllTeam(): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/team`, {
+    return this.http.get<any>(`${this.apiUrl}/team/find-all-team`, {
       headers: {
         'Content-Type': 'application/json'
       }

@@ -11,6 +11,21 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  getAllUsers(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/user/find-all-user`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  deleteoneUser(id: number): Observable<any>{
+    return this.http.delete<any>(`${this.apiUrl}/user/delete-one-user/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
   getFindOneUser(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/user/find-one-user/${id}`);
   }
