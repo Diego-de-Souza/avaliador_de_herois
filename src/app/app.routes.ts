@@ -14,6 +14,7 @@ import { UsuarioComponent } from './pages/plataforma/usuario/usuario.component';
 import { AboutComponent } from './pages/web-main/about/about.component';
 import { ViewStudioComponent } from './pages/plataforma/view-studio/view-studio.component';
 import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.component';
+import { ViewUserComponent } from './pages/plataforma/view-user/view-user.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,11 @@ export const routes: Routes = [
     path: 'cadastro',
     title: 'Cadastro',
     component: UsuarioComponent, 
+  },
+  {
+    path: 'view-user',
+    title: 'Lista Usuarios',
+    component: ViewUserComponent, 
   },
   { //rota de cadastro de novo usuário
     path: 'cadastro/user',

@@ -1,0 +1,29 @@
+<section class="userview-container">
+    <app-header-platform></app-header-platform>
+    <section class="table-container">
+        <h2>Lista de Equipes</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Criador</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(user of users; track user){
+              <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.nationality }}</td>
+                <td class="td-acoes-team">
+                  <button class="btn btn-primary" (click)="editUser(user.id)">Editar</button>
+                  <button class="btn btn-danger" (click)="deleteUser(user.id)">Deletar</button>
+                </td>   
+              </tr> 
+            }
+          </tbody>
+        </table>
+      </section>
+</section>
+
+
