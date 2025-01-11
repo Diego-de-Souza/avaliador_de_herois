@@ -11,16 +11,16 @@
           </tr>
         </thead>
         <tbody>
-            <tr>
-                @for(studio of studios; track studio){
-                    <td>{{ studio.name }}</td>
-                    <td>{{ studio.nationality }}</td>
-                    <td>
-                        <button class="btn btn-primary" (click)="editStudio(studio.id)">Editar</button>
-                        <button class="btn btn-danger" (click)="deleteStudio(studio.id)">Deletar</button>
-                    </td>    
-                }
-        </tr>
+          @for(studio of studios; track studio){
+            <tr class="tr-viewStudio">
+              <td>{{ studio.name }}</td>
+              <td>{{ studio.nationality }}</td>
+              <td class="td-acoes-studio">
+                <button class="btn btn-primary" (click)="editStudio(studio.id)">Editar</button>
+                <button class="btn btn-danger" (click)="deleteStudio(studio.id)">Deletar</button>
+              </td> 
+            </tr>   
+          }
         </tbody>
       </table>
     </section>

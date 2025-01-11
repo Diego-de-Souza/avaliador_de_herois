@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HeroisService } from '../../../service/herois.service';
 import { HeaderPlatformComponent } from '../../../components/header-platform/header-platform.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-studio',
@@ -10,9 +11,9 @@ import { HeaderPlatformComponent } from '../../../components/header-platform/hea
   styleUrl: './view-studio.component.css'
 })
 export class ViewStudioComponent implements OnInit{
-  studios: any[] = [];
+  public studios: any[] = [];
 
-  constructor(private studiosService: HeroisService) {}
+  constructor(private studiosService: HeroisService, private router : Router) {}
 
   ngOnInit(): void {
     this.loadStudios();
@@ -22,7 +23,7 @@ export class ViewStudioComponent implements OnInit{
     this.studiosService.getAllStudio().subscribe({
       next: (data) => {
         console.log(data)
-        this.studios = data.dadosStudios;
+        this.studios = data.data;
         
       },
       error: (error) => {
@@ -45,7 +46,8 @@ export class ViewStudioComponent implements OnInit{
   }
 
   editStudio(id: number): void {
-    console.log('Editar estúdio com id', id);
-    // Redirecionar para o formulário de edição (se você já tiver esse componente/rota configurado)
+    console.log("entrou correto");
+    console.log("id da rota: "+id);
+    this.router.navigate([`/cadastro/studio/${id}`]);
   }
 }

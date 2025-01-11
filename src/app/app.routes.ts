@@ -13,6 +13,7 @@ import { BuscaHeroesComponent } from './pages/web-main/busca-heroes/busca-heroes
 import { UsuarioComponent } from './pages/plataforma/usuario/usuario.component';
 import { AboutComponent } from './pages/web-main/about/about.component';
 import { ViewStudioComponent } from './pages/plataforma/view-studio/view-studio.component';
+import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,21 @@ export const routes: Routes = [
     path: 'cadastro/studio',
     title: 'Cadastro de Studio',
     component: CadastroStudioComponent, // Renderiza o cadastro do Studio
+  },
+  {
+    path: 'cadastro/studio/:id',
+    title: 'Cadastro de Studio',
+    component: CadastroStudioComponent
+  },
+  {
+    path: 'view-team',
+    title: 'Lista de Equipes',
+    component: ViewTeamComponent,
+  },
+  {
+    path: 'cadastro/team/:id',
+    title: 'Cadastro de Studio',
+    component: CadastroTeamComponent, // Renderiza o cadastro do Team
   },
   {
     path: 'cadastro/team',

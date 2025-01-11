@@ -82,5 +82,8 @@
         background: #ccc;
         cursor: not-allowed;
       }
-      
+     
+      .td-acoes-studio{
+        width: 30%;
+      }
 }

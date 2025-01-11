@@ -39,19 +39,19 @@ export class CadastroStudioComponent implements OnInit{
   ngOnInit(): void {
       this.route.paramMap.subscribe(params =>{
         const idParam = params.get('id');
-
         if(idParam){
           this.studioId = Number(idParam);
           this.isEditMode = true;
 
           this.heroisService.getOneStudio(this.studioId).subscribe((Response)=>{
-            const studioFromDB = {
-              name: Response.data.name,
-              nationality: Response.data.nationality,
-              history: Response.data.history
+            if (Response?.dataUnit) {
+              this.studioForm.patchValue({
+                name: Response.dataUnit.name || '',
+                nationality: Response.dataUnit.nationality || '',
+                history: Response.dataUnit.history || ''
+              });
             }
-
-            this.studioForm.patchValue(studioFromDB);
+            
           })
         }
       })
@@ -67,7 +67,6 @@ export class CadastroStudioComponent implements OnInit{
     if (this.studioForm.valid) {
       // Obtém os valores do formulário como objeto simples
       const studioData = this.studioForm.value;
-  
       if (this.isEditMode) {
         this.heroisService.putUpdateStudio(this.studioId, studioData).subscribe(
           (response) => {
@@ -90,7 +89,8 @@ export class CadastroStudioComponent implements OnInit{
         );
       }
     } else {
-      console.log('Formulário Inválido!');
+      console.log('Formulário inválido:', this.studioForm.errors);
+      return;
     }
   }
 
@@ -104,10 +104,9 @@ export class CadastroStudioComponent implements OnInit{
 
   // Limpa os dados do formulário
   clearForm() {
-    this.studio = {
-      name: '',
-      nationality: '',
-      history: '',
-    };
+    this.studioForm.reset();
+    this.isEditMode = false;
+    this.studioId = null;
   }
+  
 }

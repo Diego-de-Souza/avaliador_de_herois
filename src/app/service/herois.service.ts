@@ -19,16 +19,44 @@ export class HeroisService {
   }
 
   //rotas do team
+  getAllTeam(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/team`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  deleteOneTeam(id: number | null): Observable<any>{
+    return this.http.delete(`${this.apiUrl}/team/delete-one-team/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
   getOneTeam(id: number | null): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/herois/team/find-one-team/:${id}`);
+    return this.http.get<any>(`${this.apiUrl}/herois/team/find-one-team/${id}`,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
-  postRegisterTeam(data: FormData): Observable<ArrayBuffer>{
-    return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data);
+  postRegisterTeam(data: any): Observable<any>{
+    return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
-  putUpdateTeam(userId: number | null, data: FormData): Observable<ArrayBuffer>{
-    return this.http.put<ArrayBuffer>(`${this.apiUrl}/herois/team/update/:${userId}`, data);
+  putUpdateTeam(userId: number | null, data: any): Observable<any>{
+    return this.http.put<any>(`${this.apiUrl}/team/update/${userId}`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   //rotas do studio
@@ -41,7 +69,7 @@ export class HeroisService {
   }
 
   deleteOneStudio(id: number | null): Observable<any>{
-    return this.http.delete<any>(`${this.apiUrl}/studio/delete-one-studio/:${id}`,{
+    return this.http.delete<any>(`${this.apiUrl}/studio/delete-one-studio/${id}`,{
       headers: {
         'Content-Type': 'application/json',
       }
@@ -49,10 +77,10 @@ export class HeroisService {
   }
 
   getOneStudio(id:number | null): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/studio/find-one-studio/:${id}`,{
+    return this.http.get<any>(`${this.apiUrl}/studio/find-one-studio/${id}`,{
       headers:{
         'Content-Type': 'application/json',
-      }
+      } 
     });
   }
 
@@ -64,8 +92,9 @@ export class HeroisService {
     });
   }
 
-  putUpdateStudio(id:Number|null, data: any): Observable<any>{
-    return this.http.put<ArrayBuffer>(`${this.apiUrl}/studio/update/:${id}`, data, {
+  putUpdateStudio(id:Number|null, studioData: any): Observable<any>{
+    const data = { data:studioData};
+    return this.http.put<ArrayBuffer>(`${this.apiUrl}/studio/update/${id}`, data, {
       headers: {
         'Content-Type': 'application/json'
       }
