@@ -42,8 +42,7 @@ export class BuscaHeroesComponent implements OnInit{
         this.heroisMenuEditora = data[0];
         this.heroisMenuEquipe = data[1];
         this.heroisMenuMoralidade = data[2];
-        this.heroisMenuOrigem = data[3];
-        this.heroisMenuSexo = data[4];
+        this.heroisMenuSexo = data[3];
         console.log(data);
       },
       error: (error) => {
@@ -119,16 +118,12 @@ export class BuscaHeroesComponent implements OnInit{
     }
   }
 
-  openForPublisher(editora: number): void {
-    this.router.navigate(['/cards'], { queryParams: { editora } });
+  openForPublisher(studio: string): void {
+    this.router.navigate(['/cards'], { queryParams: { studio } });
   }
 
   openForTeam(team: string):void{
     this.router.navigate(['/cards'], {queryParams: {team}});
-  }
-
-  openForOrigin(origin:string): void{
-    this.router.navigate(['/cards'], { queryParams: {origin}});
   }
 
   buscaPorAno() {
@@ -140,7 +135,7 @@ export class BuscaHeroesComponent implements OnInit{
     this.router.navigate(['/cards'], {queryParams:{morality}});
   }
 
-  openForSexy(sexy: string): void{
-    this.router.navigate(['/cards'], {queryParams:{sexy}});
+  openForSexy(genre: string): void{
+    this.router.navigate(['/cards'], {queryParams:{genre}});
   }
 }

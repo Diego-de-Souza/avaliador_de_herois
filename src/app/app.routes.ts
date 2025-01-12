@@ -15,18 +15,22 @@ import { AboutComponent } from './pages/web-main/about/about.component';
 import { ViewStudioComponent } from './pages/plataforma/view-studio/view-studio.component';
 import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.component';
 import { ViewUserComponent } from './pages/plataforma/view-user/view-user.component';
+import { ViewHeroesComponent } from './pages/plataforma/view-heroes/view-heroes.component';
 
 export const routes: Routes = [
+  //rota principal
   {
     path: '',
     title: 'Home_heroes',
     component: HomeComponent,
   },
-  { //rota da entrada da plataforma de acesso do usuario manager
+  //rota da entrada da plataforma de acesso do usuario manager
+  {
     path: 'cadastro',
     title: 'Cadastro',
     component: UsuarioComponent, 
   },
+  //rotas do usuario da plataforma
   {
     path: 'view-user',
     title: 'Lista Usuarios',
@@ -42,11 +46,23 @@ export const routes: Routes = [
     title: 'Atualização de Usuário',
     component: CadastroUsuarioComponent
   },
+  //rotas dos herois
+  {
+    path: 'view-heroes',
+    title: 'Lista de herois',
+    component: ViewHeroesComponent
+  },
   {
     path: 'cadastro/heroi',
     title: 'Cadastro de Herói',
     component: CadastroDadosComponent, // Renderiza o cadastro do herói
   },
+  {
+    path: 'cadastro/heroi/:id',
+    title: 'Atualizacao de Herói',
+    component: CadastroDadosComponent
+  },
+  //rotas do studio
   {
     path: 'view-Studio',
     title: 'Lista de Studios',
@@ -62,6 +78,7 @@ export const routes: Routes = [
     title: 'Cadastro de Studio',
     component: CadastroStudioComponent
   },
+  // rotas das equipes
   {
     path: 'view-team',
     title: 'Lista de Equipes',
@@ -77,23 +94,20 @@ export const routes: Routes = [
     title: 'Cadastro de Equipe',
     component: CadastroTeamComponent, // Renderiza o cadastro da equipe
   },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'user', // Redireciona para uma página padrão (ex.: Cadastro de Usuário)
-  },
+  //rota de login, parte mescla da aplicação acesso a algumas partes do site ou da plataforma
   {
     path: 'login',
     title: 'Login',
     component: LoginComponent,
   },
+  //rotas de amostragem dos herois
   {
     path: 'cards',
     title: 'Cards_about',
     component: CardsComponent,
   },
   {
-    path: 'descriptionHeroes',
+    path: 'descriptionHeroes/:id',
     title: 'Description_heroes',
     component: DescriptionHeroesComponent,
   },
@@ -103,14 +117,15 @@ export const routes: Routes = [
     component: BuscaHeroesComponent
   },
   {
-    path: 'em-construcao',
-    title: 'Em_construção',
-    component: EmConstrucaoComponent,
-  },
-  {
     path: 'about',
     title: 'Sobre nós',
     component: AboutComponent
+  },
+  // rota de construcao
+  {
+    path: 'em-construcao',
+    title: 'Em_construção',
+    component: EmConstrucaoComponent,
   },
   { path: '**', redirectTo: '' },
 ];

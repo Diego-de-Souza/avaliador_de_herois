@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {HeroisModel} from '../Model/herois.model';
 import { HeroisMenuModel } from '../Model/heroisMenu.model';
+import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 
 @Injectable({
   providedIn: 'root'
@@ -103,30 +104,56 @@ export class HeroisService {
     });
   }
 
+  //rotas dos herois
+  getAllHeroes() : Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/herois`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
 
-  
+  deleteOneHero(id: number): Observable<any>{
+    return this.http.delete<any>(`${this.apiUrl}/herois/delete-one-hero/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  getOneHero(id: number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/heores/find-one-hero/${id}`,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  putUpdateHero(id:number, heroData: any): Observable<any>{
+    const data = {data: heroData};
+    return this.http.put<any>(`${this.apiUrl}/heroes/update/${id}`, data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
 
   getDadosMenu(): Observable<any[]>{
-    return this.http.get<any[]>(`${this.apiUrl}/menu_principal/getAll`)
+    return this.http.get<any[]>(`${this.apiUrl}/menu_principal/getAll`, {
+      headers:{
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
-  getAllHeroes(): Observable<HeroisMenuModel[]> {
-    return this.http.get<HeroisMenuModel[]>(this.apiUrl);
-  }
-
-  searchHeroesPublisher(publisher: number): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('publisher', publisher);
+  searchHeroesStudio(studio: string): Observable<HeroisModel[]> {
+    const params = new HttpParams().set('studio', studio);
     return this.http.get<HeroisModel[]>(`${this.apiUrl}/editora/`, { params });
   }
 
   searchHeroesTeam(team: string): Observable<HeroisModel[]> {
     const params = new HttpParams().set('team',team);
     return this.http.get<HeroisModel[]>(this.apiUrl, {params})
-  }
-
-  searchHeroesOrigin(origin: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('origin', origin);
-    return this.http.get<HeroisModel[]>(this.apiUrl, {params});
   }
 
   searchHeroesReleaseDate(anoLancamento: Number): Observable<HeroisModel[]> {
@@ -139,9 +166,17 @@ export class HeroisService {
     return this.http.get<HeroisModel[]>(this.apiUrl, {params});
   }
 
-  searchHeroesSexy(sexy: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('sexy', sexy);
+  searchHeroesGenre(genre: string): Observable<HeroisModel[]> {
+    const params = new HttpParams().set('genre', genre);
     return this.http.get<HeroisModel[]>(this.apiUrl,{params});
+  }
+
+  getDataHero(id: number): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/herois/find-data-hero/${id}`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
 }

@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { dadosHeroes } from '../../../data/cards';
-import { NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { HeroisService } from '../../../service/herois.service';
 import { HeroisModel } from '../../../Model/herois.model';
+import { HeaderComponent } from '../../../components/header/header.component';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [NgOptimizedImage, RouterLink, RouterLinkActive],
+  imports: [ RouterLink, RouterLinkActive, HeaderComponent],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css'
 })
@@ -24,79 +24,61 @@ export class CardsComponent implements OnInit {
     this.cardsJson = dadosHeroes;
     // Acessar os parâmetros de consulta (queryParams) da rota
     this.route.queryParams.subscribe(params => {
-      const editora = params['editora'];
-      const equipe = params['team'];
-      const origem = params['origin'];
-      const moralidade = params['morality'];
-      const sexo = params['sexy'];
+      const studio = params['studio'];
+      const team = params['team'];
+      const morality = params['morality'];
+      const genre = params['genre'];
       const anoLancamento = params['anoLancamento'];
 
-      if (editora) {
-        this.filterByEditora(editora);
-      } else if (equipe) {
-        this.filterByEquipe(equipe);
-      } else if (origem) {
-        this.filterByOrigem(origem);
-      } else if (moralidade) {
-        this.filterByMoralidade(moralidade);
-      } else if (sexo) {
-        this.filterBySexo(sexo);
+      if (studio) {
+        this.filterByStudio(studio);
+      } else if (team) {
+        this.filterByTeam(team);
+      } else if (morality) {
+        this.filterByMorality(morality);
+      } else if (genre) {
+        this.filterByGenre(genre);
       } else if(anoLancamento){
-        this.filterByAnoLancamento(sexo);
+        this.filterByAnoLancamento(anoLancamento);
       }
     });
   }
 
-  filterByEditora(editora: number) {
-    this.searchHeroes.searchHeroesPublisher(editora).subscribe({
+  filterByStudio(studio: string) {
+    this.searchHeroes.searchHeroesStudio(studio).subscribe({
       next: (data) => {
         this.cardsHeroes = data;
-      },
-      error: (error) => {
+      },error: (error) => {
         console.error('Erro ao carregar heróis', error);
       }
     });
   }
 
-  filterByEquipe(equipe: string) {
-    this.searchHeroes.searchHeroesTeam(equipe).subscribe({
+  filterByTeam(team: string) {
+    this.searchHeroes.searchHeroesTeam(team).subscribe({
       next: (data) => {
         this.cardsHeroes = data;
-      },
-      error: (error) => {
+      },error: (error) => {
         console.error('Erro ao carregar heróis', error);
       }
     });
   }
 
-  filterByOrigem(origem: string) {
-    this.searchHeroes.searchHeroesOrigin(origem).subscribe({
+  filterByMorality(morality: string) {
+    this.searchHeroes.searchHeroesMorality(morality).subscribe({
       next: (data) => {
         this.cardsHeroes = data;
-      },
-      error: (error) => {
+      },error: (error) => {
         console.error('Erro ao carregar heróis', error);
       }
     });
   }
 
-  filterByMoralidade(moralidade: string) {
-    this.searchHeroes.searchHeroesMorality(moralidade).subscribe({
+  filterByGenre(genre: string) {
+    this.searchHeroes.searchHeroesGenre(genre).subscribe({
       next: (data) => {
         this.cardsHeroes = data;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar heróis', error);
-      }
-    });
-  }
-
-  filterBySexo(sexo: string) {
-    this.searchHeroes.searchHeroesSexy(sexo).subscribe({
-      next: (data) => {
-        this.cardsHeroes = data;
-      },
-      error: (error) => {
+      },error: (error) => {
         console.error('Erro ao carregar heróis', error);
       }
     });
@@ -106,8 +88,7 @@ export class CardsComponent implements OnInit {
     this.searchHeroes.searchHeroesReleaseDate(anoLancamento).subscribe({
       next: (data) => {
         this.cardsHeroes = data;
-      },
-      error: (error) => {
+      },error: (error) => {
         console.error('Erro ao carregar heróis', error);
       }
     });

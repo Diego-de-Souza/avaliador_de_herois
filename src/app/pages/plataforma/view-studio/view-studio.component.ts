@@ -46,8 +46,6 @@ export class ViewStudioComponent implements OnInit{
   }
 
   editStudio(id: number): void {
-    console.log("entrou correto");
-    console.log("id da rota: "+id);
     this.router.navigate([`/cadastro/studio/${id}`]);
   }
 }
