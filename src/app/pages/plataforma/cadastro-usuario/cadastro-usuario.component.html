@@ -117,6 +117,43 @@
                     <div *ngIf="isFieldInvalid('city')" class="fieldInvalid">A cidade é obrigatória</div>
                 </div>
             </div>
+            <div class="secao-cadastro__container-form__row">
+                <!-- Campo de Senha -->
+                <div class="secao-cadastro__container-form__row__space">
+                  <label for="password">Senha</label>
+                  <div class="secao-cadastro__container-form__row-line">
+                    <fa-icon [icon]="faLock"></fa-icon>
+                    <input 
+                      type="password" 
+                      name="password" 
+                      formControlName="password" 
+                      id="password" 
+                      placeholder="**********">
+                  </div>
+                  <div *ngIf="isFieldInvalid('password')" class="fieldInvalid">A senha é obrigatória</div>
+                </div>
+              
+                <!-- Campo de Confirmação de Senha -->
+                <div class="secao-cadastro__container-form__row__space">
+                  <label for="confirmPassword">Confirme a senha</label>
+                  <div class="secao-cadastro__container-form__row-line">
+                    <fa-icon [icon]="faLock"></fa-icon>
+                    <input 
+                      type="password" 
+                      name="confirmPassword" 
+                      formControlName="confirmPassword" 
+                      id="confirmPassword" 
+                      placeholder="***********">
+                  </div>
+                  <div *ngIf="isFieldInvalid('confirmPassword')" class="fieldInvalid">
+                    A confirmação da senha é obrigatória
+                  </div>
+                  <div *ngIf="getPasswordError()" class="fieldInvalid">
+                    As senhas não coincidem
+                  </div>
+                </div>
+              </div>
+              
             <br />
             <button type="submit" [disabled]="cadastroForm.invalid" class="btn_submit">Cadastrar</button>
         </form>
