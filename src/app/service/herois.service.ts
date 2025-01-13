@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import {HeroisModel} from '../Model/herois.model';
 import { HeroisMenuModel } from '../Model/heroisMenu.model';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import {environment} from '../../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroisService {
 
-  private apiUrl = 'http://localhost:3000'; // URL da sua API
+  private apiUrl = environment.apiURL;
 
   constructor(private http: HttpClient) { }
 
