@@ -47,6 +47,7 @@ export class HeroisService {
 
   postRegisterTeam(teamData: any): Observable<any>{
     const data = {data: teamData};
+    console.log(data);
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
       headers: {
         'Content-Type': 'application/json'
@@ -107,7 +108,7 @@ export class HeroisService {
 
   //rotas dos herois
   getAllHeroes() : Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/herois`, {
+    return this.http.get<any>(`${this.apiUrl}/herois/find-all-heroes`, {
       headers: {
         'Content-Type': 'application/json'
       }

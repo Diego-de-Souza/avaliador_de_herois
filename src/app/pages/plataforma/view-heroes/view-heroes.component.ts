@@ -23,7 +23,7 @@ export class ViewHeroesComponent implements OnInit{
     this.heroesService.getAllHeroes().subscribe({
       next: (data)=>{
         console.log(data);
-        this.heroes = data.dataHeroes;
+        this.heroes = data.data;
       },error:(error)=>{
         console.error("Erro ao carregar os heróis", error);
       }

@@ -41,11 +41,6 @@ export const routes: Routes = [
     title: 'Cadastro de Usuário',
     component: CadastroUsuarioComponent,
   },
-  { //rota de upadate de usuario já existente no banco
-    path: 'update/user:id',
-    title: 'Atualização de Usuário',
-    component: CadastroUsuarioComponent
-  },
   //rotas dos herois
   {
     path: 'view-heroes',

@@ -22,8 +22,7 @@ export class ViewTeamComponent implements OnInit{
   loadTeams(): void {
     this.teamsService.getAllTeam().subscribe({
       next: (data)=>{
-        console.log(data);
-        this.teams = data.dadosTeams;
+        this.teams = data.data;
       },error: (error)=>{
         console.error("Error ao carregar as Equipes", error);
       }
