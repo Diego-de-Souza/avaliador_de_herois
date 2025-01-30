@@ -1,0 +1,51 @@
+:host{
+
+  #menu-user{
+    display: flex;
+    flex-direction: column;
+    /* position: fixed; /* Fixa o botão no canto da tela */
+    /* top: 10px; Distância do topo */
+    /* right: 10px; Distância do lado direito */ 
+  }
+
+  .icon-principal:hover{
+    color: #00d2ff;
+  }
+
+  .icon-principal:active{
+    color: #00d2ff;
+  }
+
+  /* Centralizar o ícone de usuário e estilizar o botão */
+  .dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    color: #6c757d;
+  }
+
+  .dropdown-toggle:focus {
+    box-shadow: none;
+  }
+
+  /* Personalização do dropdown */
+  .dropdown-menu {
+    min-width: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    --bs-dropdown-link-hover-bg: #00d0ff5a !important;
+    box-shadow: 0px 0px 3px #00d0ff5a;
+  }
+
+  .content-menu{
+    background-color: #1e2a38;
+    color: #00d2ff !important;
+  }
+
+  .itens-menu-user{
+    text-align: center !important;
+  }
+
+  .dropdown-item{
+    color: #00d2ff;
+  }
+}

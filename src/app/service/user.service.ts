@@ -38,12 +38,22 @@ export class UserService {
 
   putUpdateUser(userId: number | null, userData: FormData): Observable<any> {
     const data = {data: userData};
-    return this.http.put(`${this.apiUrl}/user/update/${userId}`, data);
+    return this.http.put(`${this.apiUrl}/user/update/${userId}`, data,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
   
   postLogin(userData: any): Observable<ArrayBuffer>{
     const data = {data: userData}
-    return this.http.post<ArrayBuffer>(`${this.apiUrl}/user/signin`, data);
+    console.log(userData)
+    return this.http.post<ArrayBuffer>(`${this.apiUrl}/user/signin`, data,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
+
   
 }

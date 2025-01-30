@@ -1,31 +1,31 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { dadosLogradouros } from '../../../data/logradouro';
-import { LogradouroModel } from '../../../Model/logradouro.model';
-import { dadosEstado } from '../../../data/estado';
-import { EstadoModel } from '../../../Model/estado.model';
+import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HeaderPlatformComponent } from '../../../components/header-platform/header-platform.component';
-import { ActivatedRoute } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../../service/user.service';
 import { faCalendarDays, faCircleCheck, faCity, faEnvelope, faMap, faMapLocationDot, faSignsPost, faUserTag, faVihara, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { EncryptionUtil } from '../../../utils/encryption.utils';
+import { CepService } from '../../../service/cep.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalSucessoCadastroComponent } from '../../../components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-cadastro-usuario',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, ReactiveFormsModule, HeaderPlatformComponent],
+  imports: [FontAwesomeModule, CommonModule, ReactiveFormsModule, HeaderPlatformComponent, RouterLink, RouterLinkActive,],
   templateUrl: './cadastro-usuario.component.html',
-  styleUrl: './cadastro-usuario.component.css'
+  styleUrls: ['./cadastro-usuario.component.css']
 })
-export class CadastroUsuarioComponent implements OnInit{
-  logradouro: LogradouroModel[] = [];
-    estados: EstadoModel[] = [];
-    cadastroForm: FormGroup; // Declarar a variável sem inicializá-la
+export class CadastroUsuarioComponent{
+    cadastroForm: FormGroup;
+    title: string = '';
+    message:string = '';
+    isRegister: Boolean = false;
 
-    public isEditMode: boolean = false; // Verifica se é edição
-    public userId: number | null = null; // ID do usuário para edição
+    public isEditMode: boolean = false; 
+    public userId: number | null = null; 
     public isMenuNav: boolean = false;
 
     faUser = faUser;
@@ -41,22 +41,23 @@ export class CadastroUsuarioComponent implements OnInit{
     faLock = faLock;
   
     constructor(
-      private fb: FormBuilder, 
-      private route: ActivatedRoute,
-      private userService: UserService) 
-      {
+      private userService: UserService, 
+      private fb : FormBuilder,
+      private cepService: CepService,
+      private modalService: NgbModal
+    ){
       // Inicializar o FormGroup no construtor
       this.cadastroForm = this.fb.group(
         {
           fullname: ['', [Validators.required, Validators.minLength(3)]],
-          nickname: ['', [Validators.required, Validators.minLength(3)]],
+          nickname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
           birthdate: ['', Validators.required],
           firstemail: ['', [Validators.required, Validators.email]],
           secondemail: ['', [Validators.email]],
-          logradouro: ['', Validators.required],
+          uf: ['', [Validators.required, Validators.maxLength(3)]],
           address: ['', Validators.required],
           complement: [''],
-          cep: ['', [Validators.required, Validators.pattern('[0-9]{5}-[0-9]{3}')]],
+          cep: ['', Validators.required],
           state: ['', Validators.required],
           city: ['', Validators.required],
           password: ['', [Validators.required, Validators.minLength(6)]],
@@ -65,61 +66,12 @@ export class CadastroUsuarioComponent implements OnInit{
         { validator: this.passwordsMatchValidator } // Adiciona o validador aqui
       );
     }
-  
-    ngOnInit() {
-      this.logradouro = dadosLogradouros;
-      this.estados = dadosEstado;
-
-      this.route.paramMap.subscribe(params =>{
-        const idParam = params.get('id');
-        
-        if(idParam){
-          this.userId = Number(idParam);
-          this.isEditMode = true;
-          this.userService.getFindOneUser(this.userId).subscribe((response) =>{
-            const userFromDB = {
-              fullname: response.data.fullname,
-              nickname: response.data.nickname,
-              birthdate: response.data.birthdate,
-              first_email: response.data.first_email,
-              second_email: response.data.second_email,
-              logradouro: response.data.logradouro,
-              address: response.data.address,
-              complement: response.data.complement,
-              cep: response.data.cep,
-              state: response.data.state,
-              city: response.data.city
-            };
-
-            // Preenche o formulário com os dados do usuário
-            this.cadastroForm.patchValue(userFromDB);
-          },
-          (error) =>{
-            console.log('Erro ao buscar dados do Usuário');
-          });
-        }
-      })
-
-      // Verificar query params (inicio)
-      this.route.queryParams.subscribe((queryParams) => {
-        this.isMenuNav = queryParams['inicio'] === 'true';
-
-        console.log(this.isMenuNav);
-      });
-
-    }
 
     private passwordsMatchValidator(formGroup: FormGroup): null | object {
       const password = formGroup.get('password')?.value;
       const confirmPassword = formGroup.get('confirmPassword')?.value;
     
-      if (password !== confirmPassword) {
-        formGroup.get('confirmPassword')?.setErrors({ passwordsMismatch: true });
-        return { passwordsMismatch: true };
-      }
-    
-      formGroup.get('confirmPassword')?.setErrors(null);
-      return null;
+      return password === confirmPassword ? null : { passwordsMismatch: true };
     }
     
   
@@ -141,36 +93,70 @@ export class CadastroUsuarioComponent implements OnInit{
         const userData = this.cadastroForm.value;
 
         userData.password = EncryptionUtil.encrypt(userData.password);
-
         userData.confirmPassword = undefined; 
 
-        if (this.isEditMode) {
-          console.log('Atualizar usuário:', this.userId, this.cadastroForm.value);
+        // Enviar o FormData na requisição de registro
+        this.userService.postRegisterUser(userData).subscribe(
+          (response) => {
+            console.log('Usuário cadastrado com sucesso:', response);
+            this.title = 'Cadastro de Usuario';
+            this.message = 'Cadastro realizado com sucesso!';
+            this.openModal(this.title, this.message);
 
-          // Enviar o FormData na requisição de registro
-          this.userService.putUpdateUser(this.userId , userData).subscribe(
-            (response) => {
-              console.log('Usuário cadastrado com sucesso:', response);
-            },
-            (error) => {
-              console.error('Erro ao cadastrar usuário:', error);
-            }
-          );
-        } else {
-          console.log('Cadastrar novo usuário:', this.cadastroForm.value);
-
-          // Enviar o FormData na requisição de registro
-          this.userService.postRegisterUser(userData).subscribe(
-            (response) => {
-              console.log('Usuário cadastrado com sucesso:', response);
-            },
-            (error) => {
-              console.error('Erro ao cadastrar usuário:', error);
-            }
-          );
-        }
+           this.clearForm();
+          },(error) => {
+            this.title = 'Cadastro de Usuario';
+            this.message = 'Hove uma falha no cadastro dos dados do Usuario.';
+            this.openModal(this.title, this.message);
+          }
+        );
+  
       } else {
+        this.title = 'Formulário Inválido';
+        this.message = 'Algum dos dados do formulário é inválido ou está ausente.';
+        this.openModal(this.title, this.message);
         console.log('Formulário Inválido');
       }
+    }
+  
+    buscarEndereco() {
+      const cep = this.cadastroForm.get('cep')?.value;
+      
+      console.log("CEP digitado:", cep);
+      // Verificar se o CEP tem o formato correto e enviar para o serviço
+      if (cep && /^\d{8}$/.test(cep)) {
+        this.cepService.buscarCep(cep).subscribe(
+          (dados) => {
+            if (dados && !dados.erro) {
+              this.cadastroForm.patchValue({
+                address: dados.logradouro,
+                complement: dados.complemento,
+                city: dados.localidade,
+                state: dados.estado,
+                uf: dados.uf
+              });
+              console.log(this.cadastroForm)
+            } else {
+              alert('CEP não encontrado.');
+            }
+          },
+          (error) => {
+            console.error('Erro ao buscar o endereço:', error);
+            alert('Erro ao buscar o endereço. Tente novamente.');
+          }
+        );
+      } else {
+        alert('Por favor, insira um CEP válido');
+      }
+    }
+  
+    openModal(title: string, message: string) {
+      const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
+      modalRef.componentInstance.modalTitle = title; 
+      modalRef.componentInstance.modalMessage = message; 
+    }
+
+    clearForm() {
+      this.cadastroForm.reset(); 
     }
 }

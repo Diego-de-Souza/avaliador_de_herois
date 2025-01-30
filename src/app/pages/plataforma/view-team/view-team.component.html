@@ -14,7 +14,7 @@
             @for(team of teams; track team){
               <tr>
                 <td>{{ team.name }}</td>
-                <td>{{ team.nationality }}</td>
+                <td>{{ team.creator }}</td>
                 <td class="td-acoes-team">
                   <button class="btn btn-primary" (click)="editTeam(team.id)">Editar</button>
                   <button class="btn btn-danger" (click)="deleteTeam(team.id)">Deletar</button>
