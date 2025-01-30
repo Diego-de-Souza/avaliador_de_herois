@@ -1,36 +1,10 @@
 #cards-main{
-    padding: 6em 0;
+    padding: 0 0 6em 0;
     display: flex;
     justify-content: center;
-    align-items: center;
     background: #18191e;
     flex-direction: column;
-}
-
-.nav-card{
-    display: flex;
     width: 100%;
-    height: 4em;
-    background-color: #f8d3d3;
-    position: fixed;
-    z-index: 999999999;
-    top: 0;
-    justify-content: center;
-    align-items: center;
-}
-.nav-card > button{
-    width: 8em;
-    height: 2em;
-    border: none;
-    box-shadow: 1px 1px 4px #304ebc;
-    border-radius: 0.5em;
-    text-transform: uppercase;
-}
-.nav-card > button:hover {
-    background-color: #6379cb;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
 }
 
 .cards-main__container{
@@ -41,6 +15,8 @@
     width: 90vw;
     justify-items: center;
     margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .cards-container{

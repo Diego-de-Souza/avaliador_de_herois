@@ -51,18 +51,23 @@
             </div>
             <div class="secao-cadastro__container-form__row">
                 <div class="secao-cadastro__container-form__row__space">
-                    <label for="logradouro">Logradouro:</label>
+                    <label for="cep">CEP</label>
                     <div class="secao-cadastro__container-form__row-line">
-                        <fa-icon [icon]="faCircleCheck"></fa-icon>
-                        <select id="logradouro" name="logradouro" formControlName="logradouro">
-                            <option value="" disabled selected class="custom-option">Selecione o logradouro</option>
-                            @for (log of logradouro; track log.id){
-                                <option value="{{log.id}}">{{log.logradouro}}</option>
-                            }
-                        </select>
+                        <fa-icon [icon]="faSignsPost"></fa-icon>
+                        <input type="text" name="cep" formControlName="cep" id="cep" placeholder="xxxxx-xxx" (blur)="buscarEndereco()">
                     </div>
-                    <div *ngIf="isFieldInvalid('logradouro')" class="fieldInvalid">O logradouro é obrigatório</div>
+                    <div *ngIf="isFieldInvalid('cep')" class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
                 </div>
+                <div class="secao-cadastro__container-form__row__space">
+                    <label for="uf">UF</label>
+                    <div class="secao-cadastro__container-form__row-line">
+                        <fa-icon [icon]="faSignsPost"></fa-icon>
+                        <input type="text" name="uf" formControlName="uf" id="uf" placeholder="UF"/>
+                    </div>
+                    <div *ngIf="isFieldInvalid('uf')" class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+                </div>
+            </div>
+            <div class="secao-cadastro__container-form__row">
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="address">Endereço</label>
                     <div class="secao-cadastro__container-form__row-line">
@@ -71,8 +76,6 @@
                     </div>
                     <div *ngIf="isFieldInvalid('address')" class="fieldInvalid">O endereço é obrigatório</div>
                 </div>
-            </div>
-            <div class="secao-cadastro__container-form__row">
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="complement">Complemento</label>
                     <div class="secao-cadastro__container-form__row-line">
@@ -80,47 +83,77 @@
                         <input type="text" name="complement" id="complement" placeholder="Digite o complemento">
                     </div>
                 </div>
-                <div class="secao-cadastro__container-form__row__space">
-                    <label for="cep">CEP</label>
-                    <div class="secao-cadastro__container-form__row-line">
-                        <fa-icon [icon]="faSignsPost"></fa-icon>
-                        <input type="text" name="cep" formControlName="cep" id="cep" placeholder="xxxxx-xxx">
-                    </div>
-                    <div *ngIf="isFieldInvalid('cep')" class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
-                </div>
+                
             </div>
             <div class="secao-cadastro__container-form__row">
+                <!-- Campo Estado -->
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="state">Estado</label>
                     <div class="secao-cadastro__container-form__row-line">
-                        <fa-icon [icon]="faVihara"></fa-icon>
-                        <select id="state" name="state" formControlName="state">
-                            <option value="" disabled selected class="custom-option">Selecione o Estado</option>
-                            @for (estado of estados; track estado.id){
-                                <option value="{{estado.id}}">{{estado.descricao}}</option>
-                            }
-                        </select>
+                    <fa-icon [icon]="faVihara"></fa-icon>
+                    <input type="text" id="state" name="state" formControlName="state" placeholder="Digite o estado" />
                     </div>
                     <div *ngIf="isFieldInvalid('state')" class="fieldInvalid">O estado é obrigatório</div>
                 </div>
+                
+                <!-- Campo Cidade -->
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="city">Cidade</label>
                     <div class="secao-cadastro__container-form__row-line">
-                        <fa-icon [icon]="faCity"></fa-icon>
-                        <select id="city" name="city" formControlName="city">
-                            <option value="" disabled selected class="custom-option">Selecione a cidade</option>
-                            @for (estado of estados; track estado.id){
-                                <option value="{{estado.id}}">{{estado.descricao}}</option>
-                            }
-                        </select>
+                    <fa-icon [icon]="faCity"></fa-icon>
+                    <input type="text" id="city" name="city" formControlName="city" placeholder="Digite a cidade" />
                     </div>
                     <div *ngIf="isFieldInvalid('city')" class="fieldInvalid">A cidade é obrigatória</div>
                 </div>
             </div>
-            <br />
+            @if(!isEditMode){
+                <div class="secao-cadastro__container-form__row">
+                    <!-- Campo de Senha -->
+                    <div class="secao-cadastro__container-form__row__space">
+                      <label for="password">Senha</label>
+                      <div class="secao-cadastro__container-form__row-line">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                        <input 
+                          type="password" 
+                          name="password" 
+                          formControlName="password" 
+                          id="password" 
+                          placeholder="**********">
+                      </div>
+                      <div *ngIf="isFieldInvalid('password')" class="fieldInvalid">A senha é obrigatória</div>
+                    </div>
+                  
+                    <!-- Campo de Confirmação de Senha -->
+                    <div class="secao-cadastro__container-form__row__space">
+                      <label for="confirmPassword">Confirme a senha</label>
+                      <div class="secao-cadastro__container-form__row-line">
+                        <fa-icon [icon]="faLock"></fa-icon>
+                        <input 
+                          type="password" 
+                          name="confirmPassword" 
+                          formControlName="confirmPassword" 
+                          id="confirmPassword" 
+                          placeholder="***********">
+                      </div>
+                      <div *ngIf="isFieldInvalid('confirmPassword')" class="fieldInvalid">
+                        A confirmação da senha é obrigatória
+                      </div>
+                      <div *ngIf="getPasswordError()" class="fieldInvalid">
+                        As senhas não coincidem
+                      </div>
+                    </div>
+                  </div>
+                  
+                <br />
+            }
+            
             <button type="submit" [disabled]="cadastroForm.invalid" class="btn_submit">Cadastrar</button>
         </form>
-
+        @if(isRegister){
+            <div class="btn-home">
+                <a routerLink="/login" routerLinkActive="active" class="btn-return">Return</a>
+            </div>
+        }
+        
     </div>
 </section>
-

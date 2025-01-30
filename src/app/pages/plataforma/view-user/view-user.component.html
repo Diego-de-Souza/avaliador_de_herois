@@ -1,29 +1,212 @@
-<section class="userview-container">
-    <app-header-platform></app-header-platform>
-    <section class="table-container">
-        <h2>Lista de Equipes</h2>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Criador</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(user of users; track user){
-              <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.nationality }}</td>
-                <td class="td-acoes-team">
-                  <button class="btn btn-primary" (click)="editUser(user.id)">Editar</button>
-                  <button class="btn btn-danger" (click)="deleteUser(user.id)">Deletar</button>
-                </td>   
-              </tr> 
-            }
-          </tbody>
-        </table>
-      </section>
+<section id="container-user-config">
+  <div class="container py-5">
+    <h2 class="mb-4 text-center">Configurações do Usuário</h2>
+    <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <!-- Full Name -->
+        <div class="col-md-6">
+          <label for="fullname" class="form-label">Nome Completo</label>
+          <input
+            type="text"
+            class="form-control"
+            name="fullname" 
+            formControlName="fullname"
+            id="fullname"
+            placeholder="Digite seu nome completo"
+            required
+          />
+          <div *ngIf="isFieldInvalid('fullname')" class="fieldInvalid">Nome é obrigatório e deve ter no mínimo 3 caracteres</div>
+        </div>
+  
+        <!-- Nickname -->
+        <div class="col-md-6">
+          <label for="nickname" class="form-label">nickname</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nickname"
+            name="nickname" 
+            formControlName="nickname"
+            placeholder="Digite seu apelido"
+            required
+          />
+          <div *ngIf="isFieldInvalid('nickname')" class="fieldInvalid">O nickName é obrigatório e deve conter no mínimo 3 caracteres</div>
+        </div>
+  
+        <!-- Birthdate -->
+        <div class="col-md-6">
+          <label for="birthdate" class="form-label">Data de Nascimento</label>
+          <input
+            type="date"
+            class="form-control"
+            id="birthdate"
+            required
+            name="birthdate" 
+            formControlName="birthdate"
+          />
+          <div *ngIf="isFieldInvalid('birthdate')" class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
+        </div>
+  
+        <!-- Email -->
+        <div class="col-md-6">
+          <label for="firstemail" class="form-label">E-mail Principal</label>
+          <input
+            type="email"
+            class="form-control"
+            id="firstemail"
+            placeholder="Digite seu e-mail principal"
+            required
+            name="firstemail" 
+            formControlName="firstemail"
+          />
+          <div *ngIf="isFieldInvalid('firstemail')" class="fieldInvalid">O email é obrigatório de ver conter um formato válido de email</div>
+        </div>
+  
+        <!-- Second Email -->
+        <div class="col-md-6">
+          <label for="secondemail" class="form-label">E-mail Secundário</label>
+          <input
+            type="email"
+            class="form-control"
+            id="secondemail"
+            placeholder="Digite seu e-mail secundário"
+            name="secondemail" 
+            formControlName="secondemail"
+          />
+          <div *ngIf="isFieldInvalid('secondemail')" class="fieldInvalid">O email deve conter um formato válido de email</div>
+        </div>
+  
+        <!-- CEP -->
+        <div class="col-md-6">
+          <label for="cep" class="form-label">CEP</label>
+          <input
+            type="text"
+            class="form-control"
+            id="cep"
+            placeholder="Digite o CEP"
+            required
+            name="cep" 
+            formControlName="cep"
+          />
+          <div *ngIf="isFieldInvalid('cep')" class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
+        </div>
+
+        <!-- City -->
+        <div class="col-md-6">
+          <label for="city" class="form-label">Cidade</label>
+          <input
+            type="text"
+            class="form-control"
+            id="city"
+            placeholder="Digite sua cidade"
+            required
+            name="city" 
+            formControlName="city"
+          />
+          <div *ngIf="isFieldInvalid('city')" class="fieldInvalid">A cidade é obrigatória</div>
+        </div>
+
+        <div class="col-md-3">
+          <label for="state" class="form-label">Estado</label>
+          <input
+            type="text"
+            class="form-control"
+            id="state"
+            placeholder="Digite o estado"
+            required
+            name="state" 
+            formControlName="state"
+          />
+          <div *ngIf="isFieldInvalid('state')" class="fieldInvalid">O Estado é obrigatório e deve conter o formato válido</div>
+        </div>
+          
+        <!-- State (UF) -->
+        <div class="col-md-3">
+          <label for="uf" class="form-label">UF</label>
+          <input
+            type="text"
+            class="form-control"
+            id="uf"
+            maxlength="3"
+            placeholder="UF"
+            required
+            name="uf" 
+            formControlName="uf"
+          />
+          <div *ngIf="isFieldInvalid('uf')" class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+        </div>
+  
+        <!-- Address -->
+        <div class="col-md-6">
+          <label for="address" class="form-label">Endereço</label>
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            placeholder="Digite seu endereço"
+            required
+            name="address" 
+            formControlName="address"
+          />
+          <div *ngIf="isFieldInvalid('address')" class="fieldInvalid">O endereço é obrigatório</div>
+        </div>
+  
+        <!-- Complement -->
+        <div class="col-md-6">
+          <label for="complement" class="form-label">Complemento</label>
+          <input
+            type="text"
+            class="form-control"
+            id="complement"
+            placeholder="Digite o complemento (opcional)"
+            name="complement" 
+            formControlName="complement"
+          />
+        </div>
+  
+        <!-- Password -->
+        <div class="col-md-6">
+          <label for="password" class="form-label">Senha</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Digite sua senha"
+            required
+            name="password" 
+            formControlName="password"
+          />
+          <div *ngIf="isFieldInvalid('password')" class="fieldInvalid">A senha é obrigatória</div>
+        </div>
+  
+        <!-- Confirm Password -->
+        <div class="col-md-6">
+          <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+          <input
+            type="password"
+            class="form-control"
+            id="confirmPassword"
+            placeholder="Confirme sua senha"
+            required
+            name="confirmPassword" 
+            formControlName="confirmPassword"
+          />
+          <div *ngIf="isFieldInvalid('confirmPassword')" class="fieldInvalid">
+            A confirmação da senha é obrigatória
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="settingsForm.hasError('passwordsMismatch') && settingsForm.get('confirmPassword')?.touched">
+        <small class="text-danger">As senhas não coincidem.</small>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary px-4" [disabled]="settingsForm.invalid">
+          Salvar Alterações
+        </button>
+      </div>
+    </form>
+  </div>
 </section>
-
-

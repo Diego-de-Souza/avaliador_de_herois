@@ -10,6 +10,14 @@
     background: linear-gradient(to bottom, #101522, #1e2a38);
 }
 
+.menu-user-platform{
+  display: flex;
+  width: 100%;
+  align-items: end;
+  justify-content:end ;
+  padding-right: 1em;
+}
+
 h1 {
   margin-top: 2em;
   font-size: 4rem;
@@ -62,25 +70,3 @@ h1 {
   transition: background-color 0.3s;
 }
 
-/* Remover qualquer fundo branco */
-.logout-btn {
-  position: fixed; /* Fixa o botão no canto da tela */
-  top: 10px; /* Distância do topo */
-  right: 10px; /* Distância do lado direito */
-  background: none; /* Retira o fundo do botão */
-  border: none; /* Remove a borda */
-  color: white; /* Cor do ícone */
-  font-size: 2rem; /* Tamanho do ícone */
-  cursor: pointer; /* Cursor de apontar para o botão */
-  transition: opacity 0.3s ease; /* Transição de opacidade para hover */
-}
-
-.logout-btn:hover {
-  opacity: 0.7; /* Leve efeito de transparência no hover */
-  color:#2b81f1;
-}
-
-/* Se o ícone estiver usando o Bootstrap Icons, configure a cor */
-.logout-btn i {
-  font-size: 2rem; /* Ajusta o tamanho do ícone */
-}

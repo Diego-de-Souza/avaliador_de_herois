@@ -1,13 +1,10 @@
 <section class="cadastro-container">
+  <div class="menu-user-platform">
+    <app-menu-user></app-menu-user>
+  </div>
   <h1>Bem-vindo à área de Usuários</h1>
   
-  <!-- Ícone de Logout no canto superior direito -->
-  <button class="logout-btn" (click)="logout()">
-    <i class="bi bi-door-open"></i>
-  </button>
-  
   <div class="botoes-navegacao">
-    <button class="botao-opcao" routerLink="/cadastro/user" routerLinkActive="active">Cadastro de Usuário</button>
     <button class="botao-opcao" routerLink="/cadastro/heroi" routerLinkActive="active">Cadastro de Herói</button>
     <button class="botao-opcao" routerLink="/cadastro/studio" routerLinkActive="active">Cadastro de Studio</button>
     <button class="botao-opcao" routerLink="/cadastro/team" routerLinkActive="active">Cadastro de Equipe</button>
