@@ -102,3 +102,11 @@
     background-color: antiquewhite;
 }
 
+
+.icones-manu-user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+}

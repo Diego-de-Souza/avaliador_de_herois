@@ -13,7 +13,7 @@ import { HeaderPlatformComponent } from '../../../components/header-platform/hea
   templateUrl: './cadastro-dados.component.html',
   styleUrl: './cadastro-dados.component.css'
 })
-export class CadastroDadosComponent implements OnInit{
+export class CadastroDadosComponent{
 
   public cadastroDados: FormGroup;
 
@@ -70,10 +70,6 @@ export class CadastroDadosComponent implements OnInit{
       story: ['',[Validators.required, Validators.minLength(10)]],
       genre: ['', [Validators.required, Validators.minLength(3)]]
     })
-  }
-
-  ngOnInit(): void {
-      console.log("On init funcionando")
   }
 
   // Validador personalizado para validar uma data no formato completo (ano, mês e dia)
@@ -143,11 +139,8 @@ export class CadastroDadosComponent implements OnInit{
         formData.append('imagens', this.cadastroDados.get('imagem_cover')?.value);
       }
 
-      console.log('Enviando dados: ', this.cadastroDados.value);
-
       this.searchHerois.heroRecord(formData).subscribe(
         (response) => {
-          console.log('Resposta da API: ', response);
           this.showPopup = true;
           setTimeout(() => {
             this.showPopup = false;

@@ -10,24 +10,16 @@
                     <li>
                         <div class="menu-list" (click)="openEditoras()">Editora</div>
                         <ul class="submenuEditora">
-                            @for(itemEditora of heroisMenuEditora; track  itemEditora){
-                                <li (click)="openForPublisher(itemEditora.id)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEditora.nome}}</li> 
+                            @for(studio of heroisMenuEditora; track  studio){
+                                <li (click)="openForPublisher(studio.studioName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{studio.studioName}}</li> 
                             }
                         </ul>
                     </li>
                     <li>
                         <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
                         <ul class="submenuEquipe">
-                            @for(itemEquipe of heroisMenuEquipe; track  itemEquipe){
-                                <li (click)="openForTeam(itemEquipe.equipe)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemEquipe.nome}}</li> 
-                            }
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="menu-list" (click)="openOrigem()">Origem</div>
-                        <ul class="submenuOrigem">
-                            @for(itemOrigem of heroisMenuOrigem; track  itemOrigem){
-                                <li (click)="openForOrigin(itemOrigem.origem)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemOrigem.nome}}</li> 
+                            @for(team of heroisMenuEquipe; track  team){
+                                <li (click)="openForTeam(team.teamName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{team.teamName}}</li> 
                             }
                         </ul>
                     </li>
@@ -42,16 +34,16 @@
                     <li>
                         <div class="menu-list" (click)="openMoralidade()">Moralidade</div>
                         <ul class="submenuMoralidade">
-                            @for(itemMoralidade of heroisMenuMoralidade; track  itemMoralidade){
-                                <li (click)="openForMorality(itemMoralidade.moralidade)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemMoralidade.nome}}</li> 
+                            @for(morality of heroisMenuMoralidade; track  morality){
+                                <li (click)="openForMorality(morality.moralityName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{morality.moralityName}}</li> 
                             }
                         </ul>
                     </li>
                     <li>
                         <div class="menu-list" (click)="openSexo()">Sexo</div>
                         <ul class="submenuSexo">
-                            @for(itemSexo of heroisMenuSexo; track  itemSexo){
-                                <li (click)="openForSexy(itemSexo.sexo)" routerLinkActive="active" ariaCurrentWhenActive="page">{{itemSexo.nome}}</li> 
+                            @for(genre of heroisMenuSexo; track  genre){
+                                <li (click)="openForSexy(genre.genreName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{genre.genreName}}</li> 
                             }
                         </ul>
                     </li>

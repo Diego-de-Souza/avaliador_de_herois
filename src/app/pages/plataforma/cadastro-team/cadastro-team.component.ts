@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Valid
 import { HeaderPlatformComponent } from '../../../components/header-platform/header-platform.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroisService } from '../../../service/herois.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalSucessoCadastroComponent } from '../../../components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-cadastro-team',
@@ -13,7 +15,9 @@ import { HeroisService } from '../../../service/herois.service';
   styleUrl: './cadastro-team.component.css'
 })
 export class CadastroTeamComponent implements OnInit{
-  equipe = { name: '', creator: '' };  // Dados do formulário
+  equipe = { name: '', creator: '' };
+  public title: string = '';
+  public message: string = '';
 
   public dadosTeam: FormGroup;
   public isEditMode: boolean = false;
@@ -22,7 +26,8 @@ export class CadastroTeamComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService
+    private heroisService: HeroisService,
+    private modalService: NgbModal
   ){
     this.dadosTeam = this.fb.group({
       name: ['', Validators.required],
@@ -56,22 +61,29 @@ export class CadastroTeamComponent implements OnInit{
   // Método de submit para cadastro de equipe
   onSubmit() {
     if(this.dadosTeam.valid){
-      const formData = new FormData();
-
-      Object.keys(this.dadosTeam.value).forEach((key)=>{
-        formData.append(key, this.dadosTeam.value[key]);
-      });
+      const teamData = this.dadosTeam.value;
 
       if(this.isEditMode){
-        this.heroisService.putUpdateTeam(this.teamId,formData).subscribe((response)=>{
+        this.heroisService.putUpdateTeam(this.teamId,teamData).subscribe((response)=>{
           console.log('TEam cadastrado:', response);
         },
         (error)=>{
           console.log('Erro na atualização dos dados', error);
         })
       }else{
-        this.heroisService.postRegisterTeam(formData).subscribe((response)=>{
+        this.heroisService.postRegisterTeam(teamData).subscribe((response)=>{
           console.log('Team cadastrado :',response);
+          if(response.status === 409){
+            this.title = 'Cadastro de Equipe';
+            this.message = response.message;
+            this.openModal(this.title, this.message);
+          }
+
+          if(response.status === 201){
+            this.title = 'Cadastro de Equipe';
+            this.message = 'Studio cadastrado com sucesso!';
+            this.openModal(this.title, this.message);
+          }
         },(error)=>{
           console.log("erro ao cadastrar:",error);
         })
@@ -84,5 +96,17 @@ export class CadastroTeamComponent implements OnInit{
   // Método para resetar o formulário
   resetForm(form: NgForm) {
     form.reset();
+  }
+
+  clearForm() {
+    this.dadosTeam.reset();
+    this.isEditMode = false;
+    this.teamId = null;
+  }
+  
+  openModal(title: string, message: string) {
+      const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
+      modalRef.componentInstance.modalTitle = title; 
+      modalRef.componentInstance.modalMessage = message; 
   }
 }

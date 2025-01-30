@@ -78,12 +78,12 @@ form{
     width: 70%;
 }
 
-#firstemail, #secondemail, #logradouro, #address {
+#firstemail, #secondemail, #uf,#complement, #address {
     display: flex;
     width: 80%;
 }
 
-#nickname, #birthdate, #complement, #cep, #state, #city{
+#nickname, #birthdate, #cep, #state, #city{
     display: flex;
     width: 60%;
 }
@@ -110,4 +110,33 @@ form{
     background-color: #00d2ff;
     box-shadow: 0px 0px 8px #00d0ffb7;
     color: #fff;
+}
+
+.btn-home{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 2em;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-return {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    text-decoration: none;
+    text-shadow: none;
+    border: 2px solid #00d2ff;
+    color: gray;
+    font-weight: bolder;
+
+    &:hover {
+        color: #1e2a38;
+        background-color: #00d2ff;
+    }
 }

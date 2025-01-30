@@ -24,13 +24,11 @@
 </section> -->
 
 <section id="cards-main">
-    <nav class="nav-card">
-        <button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Voltar</button>
-    </nav>
+    <app-header/>
     <div class="cards-main__container">
         @for (card of cardsJson; track card.id){
             <a class="cards-container" 
-                routerLink="/descriptionHeroes" 
+                routerLink="/descriptionHeroes/{{card.id}}" 
                 routerLinkActive="active"
                 ariaCurrentWhenActive="page">
                 <div class="card-wrapper">

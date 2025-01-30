@@ -8,19 +8,6 @@
                 type="button"
             >Cadastro Home</li>
             <li class="header-platform-item">
-                <div class="col">
-                    <div ngbDropdown class="d-inline-block">
-                        <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                            Usuários
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <button ngbDropdownItem routerLink="/view-user" routerLinkActive="active">Lista de usuários</button>
-                            <button ngbDropdownItem routerLink="/cadastro/user" routerLinkActive="active">Cadastro de Usuários</button>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
                 <div class="row">
                     <div class="col">
                         <div ngbDropdown class="d-inline-block">
@@ -28,7 +15,7 @@
                                 Heróis
                             </button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/em-construcao" routerLinkActive="active">Lista de Heróis</button>
+                                <button ngbDropdownItem routerLink="/view-heroes" routerLinkActive="active">Lista de Heróis</button>
                                 <button ngbDropdownItem routerLink="/cadastro/heroi" routerLinkActive="active">Cadastro de Heróis</button>
                             </div>
                         </div>
@@ -65,7 +52,9 @@
                     </div>
                 </div>
             </li>
+            <app-menu-user></app-menu-user>
         </ul>
     </nav>
+    
 </section>
 

@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { HeaderPlatformComponent } from '../../../components/header-platform/header-platform.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroisService } from '../../../service/herois.service';
+import { ModalSucessoCadastroComponent } from '../../../components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cadastro-studio',
@@ -13,12 +15,8 @@ import { HeroisService } from '../../../service/herois.service';
   styleUrl: './cadastro-studio.component.css'
 })
 export class CadastroStudioComponent implements OnInit{
-  // Modelo de dados do studio
-  studio = {
-    name: '',
-    nationality: '',
-    history: '',
-  };
+  public title: string = '';
+  public message: string = '';
 
   public studioForm: FormGroup;
   public isEditMode: Boolean = false;
@@ -27,7 +25,8 @@ export class CadastroStudioComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService
+    private heroisService: HeroisService,
+    private modalService: NgbModal
   ){
     this.studioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
@@ -65,12 +64,21 @@ export class CadastroStudioComponent implements OnInit{
   // Método para salvar o estúdio
   onSubmit() {
     if (this.studioForm.valid) {
-      // Obtém os valores do formulário como objeto simples
       const studioData = this.studioForm.value;
       if (this.isEditMode) {
         this.heroisService.putUpdateStudio(this.studioId, studioData).subscribe(
           (response) => {
-            console.log('Studio atualizado:', response);
+            if(response.status === 404){
+              this.title = 'Atualização de Studio';
+              this.message = response.message;
+              this.openModal(this.title, this.message);
+            }
+
+            if(response.status === 200){
+              this.title = 'Atualização de Studio';
+              this.message = 'Studio atualizado com sucesso!';
+              this.openModal(this.title, this.message);
+            }
           },
           (error) => {
             console.log('Erro ao atualizar o studio:', error);
@@ -81,7 +89,17 @@ export class CadastroStudioComponent implements OnInit{
   
         this.heroisService.postRegisterStudio(studioData).subscribe(
           (response) => {
-            console.log('Studio registrado:', response);
+            if(response.status === 409){
+              this.title = 'Cadastro de Studio';
+              this.message = response.message;
+              this.openModal(this.title, this.message);
+            }
+
+            if(response.status === 201){
+              this.title = 'Cadastro de Studio';
+              this.message = 'Studio cadastrado com sucesso!';
+              this.openModal(this.title, this.message);
+            }
           },
           (error) => {
             console.log('Erro ao cadastrar studio:', error);
@@ -107,6 +125,12 @@ export class CadastroStudioComponent implements OnInit{
     this.studioForm.reset();
     this.isEditMode = false;
     this.studioId = null;
+  }
+
+  openModal(title: string, message: string) {
+    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
+    modalRef.componentInstance.modalTitle = title; 
+    modalRef.componentInstance.modalMessage = message; 
   }
   
 }

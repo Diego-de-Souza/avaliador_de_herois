@@ -1,0 +1,34 @@
+<section class="heroesview-container">
+    <app-header-platform></app-header-platform>
+    <section class="table-container">
+        <h2>Lista de Heróis</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Studio</th>
+              <th>Moralidade</th>
+              <th>Equipe</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(hero of heroes; track hero){
+              <tr>
+                <td>{{ hero.name }}</td>
+                <td>{{ hero.studio }}</td>
+                <td>{{ hero.morality }}</td>
+                <td>{{ hero.team }}</td>
+                <td class="td-acoes-team">
+                  <button class="btn btn-primary" (click)="editHeroes(hero.id)">Editar</button>
+                  <button class="btn btn-danger" (click)="deleteHeroes(hero.id)">Deletar</button>
+                </td>   
+              </tr> 
+            }
+          </tbody>
+        </table>
+      </section>
+</section>
+
+
+
