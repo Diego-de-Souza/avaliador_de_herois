@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -9,8 +9,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './artigos.component.html',
   styleUrl: './artigos.component.css'
 })
-export class ArtigosComponent {
+export class ArtigosComponent implements OnInit {
   public artigos: { img: SafeHtml; titulo: string; descricao: string }[] = [];
+  public themeArtigos: string | null = 'dark';
 
   constructor(private sanitizer: DomSanitizer) {
     this.artigos = [
@@ -57,6 +58,23 @@ export class ArtigosComponent {
         descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       },
     ]
+  }
+
+  ngOnInit() {
+    this.updateTheme();
+    window.addEventListener('storage', () => this.updateTheme());
+  }
+
+  updateTheme(){
+    this.themeArtigos = localStorage.getItem('theme');
+    let classTheme = document.getElementById('theme_artigos')
+    if(this.themeArtigos === 'light'){
+      classTheme?.classList.add('light');
+      classTheme?.classList.remove('dark');
+    }else{
+      classTheme?.classList.add('dark');
+      classTheme?.classList.remove('light');
+    }
   }
   
 }

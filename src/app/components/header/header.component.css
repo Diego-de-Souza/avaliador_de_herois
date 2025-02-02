@@ -1,112 +1,148 @@
-.header-container{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    border-bottom: 1px solid #747474;
-
-}
-
-.header-nav-top{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-
-    & .header-space{
-        display: flex;
-        width: 10%;
+:host{
+    .dark{
+        background-color: #101522;
+        border-bottom: 1px solid #747474;
     }
 
-    & .header-logo-container {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .header-slogan {
-        font-size: 1rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        text-align: center;
-        letter-spacing: 2px;
+    .dark .header-slogan{
         color: #FFD43B;
         background: rgba(0, 0, 0, 0.5);
-        padding: 0.5rem 1rem;
-        border-radius: 10px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
     }
-    
-    .header-slogan span {
+
+    .dark .header-slogan span{
         color: white;
-        display: block;
-        font-weight: normal;
-        font-size: 1.2rem;
+    }
+
+    .dark .header-nav-bottom > nav > ul{
+        & li{
+            color: #00d2ff;
+        }
+    }
+
+    .light {
+        background: radial-gradient(circle at bottom left, #ff4f58, #ff9f00 70%);
+        border-bottom: 1px solid #F252AA; /* Rosa forte */
+    }
+
+    .light .header-slogan {
+        color: #F2A413; /* Laranja brilhante */
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .light .header-slogan span {
+        color: #04BFAD; /* Verde água */
+    }
+
+    .light .header-nav-bottom > nav > ul > li {
+        color: #121929; /* Laranja escuro */
+    }
+
+    .light .header-nav-bottom > nav > ul > li:hover {
+        border-bottom: 2px solid #F252AA; /* Rosa forte */
+    }
+
+    .header-container{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
     }
     
-    .header-slogan strong {
-        display: block;
-        color: #FFD43B;
-    }   
-
-    & .header-actions{
+    .header-nav-top{
         display: flex;
-        width: 10%;
-        justify-content: space-evenly;
-        height: 100%;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    
+        & .header-space{
+            display: flex;
+            width: 10%;
+        }
+    
+        & .header-logo-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .header-slogan {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+        
+        .header-slogan span {
+            display: block;
+            font-weight: normal;
+            font-size: 1.2rem;
+        }
+        
+        .header-slogan strong {
+            display: block;
+            color: #FFD43B;
+        }   
+    
+        & .header-actions{
+            display: flex;
+            width: 10%;
+            justify-content: space-evenly;
+            height: 100%;
+        }
     }
-}
-
-.header-nav-bottom{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-}
-
-.header-nav-bottom > nav {
-    display: flex;
-    justify-content: center;
-    height: 30px;
-}
-
-.header-nav-bottom > nav > ul{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items:center ;
-    justify-content: center;
-    margin-bottom: 0;
-    padding-left: 0;
-
-    & li{
+    
+    .header-nav-bottom{
         display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .header-nav-bottom > nav {
+        display: flex;
+        justify-content: center;
+        height: 30px;
+    }
+    
+    .header-nav-bottom > nav > ul{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items:center ;
+        justify-content: center;
+        margin-bottom: 0;
+        padding-left: 0;
+    
+        & li{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 1em;
+            cursor: pointer;
+        }
+    
+        & li:hover{
+            border-bottom: 2px solid #747474;
+        }
+    }
+    
+    .header-button{
+        display: flex;
+        border-radius: 6px;
+    
+    
+        background-color: antiquewhite;
+    }
+    
+    .icones-manu-user{
+        display: flex;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-        margin: 0 1em;
-        color: #00d2ff;
-        cursor: pointer;
+        
     }
-
-    & li:hover{
-        border-bottom: 2px solid #747474;
-    }
-}
-
-
-
-.header-button{
-    display: flex;
-    border-radius: 6px;
-
-
-    background-color: antiquewhite;
-}
-
-
-.icones-manu-user{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    
 }

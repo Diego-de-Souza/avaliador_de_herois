@@ -11,6 +11,7 @@ import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } fr
   styleUrl: './banner.component.css'
 })
 export class BannerComponent {
+	public themeBanner: string | null = 'dark';
   public images = [
 	{
 		url: 'assets/img/home/a1.jpg',
@@ -47,6 +48,11 @@ export class BannerComponent {
 
 	@ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
 
+	ngOnInit() {
+		this.updateTheme();
+		window.addEventListener('storage', () => this.updateTheme());
+	}
+
 	togglePaused() {
 		if (this.paused) {
 			this.carousel.cycle();
@@ -66,6 +72,18 @@ export class BannerComponent {
 		}
 		if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
 			this.togglePaused();
+		}
+	}
+
+	updateTheme(){
+		this.themeBanner = localStorage.getItem('theme');
+		let classTheme = document.getElementById('theme_banner')
+		if(this.themeBanner === 'light'){
+		  classTheme?.classList.add('light');
+		  classTheme?.classList.remove('dark');
+		}else{
+		  classTheme?.classList.add('dark');
+		  classTheme?.classList.remove('light');
 		}
 	}
 }

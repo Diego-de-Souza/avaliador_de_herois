@@ -1,49 +1,95 @@
 :host {
   font-family: 'AttackOfMonster', sans-serif;
+
+  .curiosidades {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .curiosidades h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    position: relative;
+    font-family: AttackOfMonster, sans-serif;
+  }
+
+  .curiosidades h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    margin: 10px auto;
+    border-radius: 4px;
+  }
+
+  .curiosidade-item {
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    opacity: 0;
+    transform: rotateY(90deg);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+
+  .curiosidade-item.animate {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+
+  .dark{
+    color: white;
+    background: linear-gradient(135deg, #121929 70%, #1C2738);
+  }
+
+  .dark h2 {
+    color: #00d2ff;
+  }
+    
+  .dark h2::after {
+    background: #00d2ff;
+  }
+
+  .dark .curiosidade-item {
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .curiosidade-item:hover {
+    background: linear-gradient(135deg, #F2A413, #F252AA);
+    color: #101522;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .light{
+    color: #333;
+    background: linear-gradient(135deg, #F2A413, #F252AA);
+  }
+
+  .light h2 {
+    color: #F20F38;
+  }
+
+  .light h2::after {
+    background: #F252AA;
+  }
+
+  .light .curiosidade-item {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #04BFAD;
+  }
+
+  .light .curiosidade-item:hover {
+    color: #101522;
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+  }
 }
 
-.curiosidades {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 20px;
-  color: white;
-  background: linear-gradient(135deg, #121929 70%, #1C2738);
-  box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.3);
-}
 
-.curiosidades h2 {
-  font-size: 2.5rem;
-  color: #00d2ff;
-  margin-bottom: 20px;
-  position: relative;
-  font-family: AttackOfMonster, sans-serif;
-}
-
-.curiosidades h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #00d2ff;
-  margin: 10px auto;
-  border-radius: 4px;
-}
-
-.curiosidade-item {
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 5px;
-  background: rgba(0, 0, 0, 0.3);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  transform: rotateY(90deg);
-  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
-}
-
-/* Classe que ativa a animação */
-.curiosidade-item.animate {
-  opacity: 1;
-  transform: rotateY(0deg);
-}

@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './menu-user.component.css'
 })
 export class MenuUserComponent {
-
   @Output() isNotLogged = new EventEmitter<boolean>();
 
   constructor(private router: Router){}
@@ -30,6 +29,8 @@ export class MenuUserComponent {
     // Redirecionar para a página inicial
     this.router.navigate(['/']);
   }
+
+  
 }
 
 function deleteCookie(cookieName: string) {
