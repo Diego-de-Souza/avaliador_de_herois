@@ -1,9 +1,4 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { Router , RouterLink} from '@angular/router';
-import { HeroisService } from '../../../service/herois.service';
-import { HeroisModel } from '../../../Model/herois.model';
-import { HeroisMenuModel } from '../../../Model/heroisMenu.model';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit} from '@angular/core';
 import { BannerComponent } from '../../../components/banner/banner.component';
 import { ArtigosComponent } from '../../../components/artigos/artigos.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
@@ -17,8 +12,25 @@ import { HeaderComponent } from '../../../components/header/header.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent{
-  
+export class HomeComponent implements OnInit{
+  public themeHome: string | null = 'dark';
+
+  ngOnInit() {
+    this.updateTheme();
+    window.addEventListener('storage', () => this.updateTheme());
+  }
+
+  updateTheme(){
+    this.themeHome = localStorage.getItem('theme');
+    let classTheme = document.getElementById('container-home')
+    if(this.themeHome === 'light'){
+      classTheme?.classList.add('light');
+      classTheme?.classList.remove('dark');
+    }else{
+      classTheme?.classList.add('dark');
+      classTheme?.classList.remove('light');
+    }
+  }
 }
  
 

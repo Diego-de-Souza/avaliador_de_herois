@@ -4,13 +4,188 @@
 
 .artigos {
   padding: 40px;
-  background: radial-gradient(circle at top right, #121929, #1e2a38 70%);
-  background-size: 200% 200%;
-  color: #ffffff;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+h2 {
+  font-size: 2.5rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  margin: 10px auto;
+  border-radius: 4px;
+}
+
+.artigo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 210, 255, 0.1);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover::before {
+  opacity: 1;
+  animation: hover-glow 1.2s infinite;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  z-index: 1;
+  position: relative;
+}
+
+h3 {
+  z-index: 1;
+  position: relative;
+}
+
+p {
+  z-index: 1;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #00d2ff;
+  color: #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* 🔹 Tema Dark */
+.dark {
+  padding-top: 2em;
+}
+
+.dark {
+  background: radial-gradient(circle at top right, #121929, #1e2a38 70%);
+  background-size: 200% 200%;
+  color: #ffffff;
   animation: gradientMove 12s infinite linear;
+}
+
+.dark h2 {
+  color: #00d2ff;
+  font-family: AttackOfMonster, sans-serif;
+}
+
+.dark h2::after {
+  background: #00d2ff;
+}
+
+.dark .card {
+  background: linear-gradient(135deg, #1e2a38, #2e3b50);
+}
+
+.dark .card:hover {
+  background: linear-gradient(135deg, #233447, #2e3b50);
+}
+
+.dark h3 {
+  color: #00d2ff;
+}
+
+.dark p {
+  color: #B0BEC5;
+}
+
+.dark button:hover {
+  background: #007bb5;
+  transform: scale(1.05);
+}
+
+.dark button:active {
+  transform: scale(0.95);
+}
+
+/* 🔹 Tema Light */
+.light {
+  font-family: 'AttackOfMonster', sans-serif;
+  background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
+  background-size: 200% 200%;
+  color: #333;
+  animation: gradientMoveLight 12s infinite linear;
+}
+
+.light h2 {
+  color: #F20F38;
+  font-family: AttackOfMonster, sans-serif;
+  text-shadow: 1px 1px 4px #101522;
+}
+
+.light h2::after {
+  background: #F252AA;
+}
+
+.light .card {
+  background: linear-gradient(135deg, #F28E13, #F2A413);
+}
+
+.light .card:hover {
+  background: linear-gradient(135deg, #F252AA, #F20F38);
+}
+
+.light h3 {
+  color: #F20F38;
+}
+
+.light p {
+  color: #333;
+}
+
+.light button:hover {
+  background: #F252AA;
+  transform: scale(1.05);
+}
+
+.light button:active {
+  transform: scale(0.95);
 }
 
 @keyframes gradientMove {
@@ -36,113 +211,31 @@
   }
 }
 
-
-h2 {
-  font-size: 2.5rem;
-  color: #00d2ff;
-  margin-bottom: 20px;
-  position: relative;
-  display: inline-block;
-  font-family: AttackOfMonster, sans-serif;
-}
-
-h2::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: #00d2ff;
-  margin: 10px auto;
-  border-radius: 4px;
-  
-}
-
-.artigo-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.card {
-  background: linear-gradient(135deg, #1e2a38, #2e3b50);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(135deg, #233447, #2e3b50);
-}
-
-.card:hover::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 210, 255, 0.1);
-  animation: hover-glow 1.2s infinite;
-  z-index: 0;
+@keyframes gradientMoveLight {
+  0% {
+    background-position: 0% 50%;
+    background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
+  }
+  25% {
+    background-position: 50% 50%;
+    background: radial-gradient(circle at top, #F20F38, #F28E13 70%);
+  }
+  50% {
+    background-position: 100% 50%;
+    background: radial-gradient(circle at bottom left, #04BFAD, #F20F38 70%);
+  }
+  75% {
+    background-position: 50% 0%;
+    background: radial-gradient(circle at top left, #F252AA, #F2A413 70%);
+  }
+  100% {
+    background-position: 0% 50%;
+    background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
+  }
 }
 
 @keyframes hover-glow {
-  0% {
-    box-shadow: 0 0 10px 5px rgba(0, 210, 255, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 20px 10px rgba(0, 210, 255, 0.2);
-  }
-  100% {
-    box-shadow: 0 0 10px 5px rgba(0, 210, 255, 0.4);
-  }
-}
-
-img {
-  width: 100%;
-  height: auto;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  z-index: 1;
-  position: relative;
-}
-
-h3 {
-  color: #00d2ff;
-  z-index: 1;
-  position: relative;
-}
-
-p {
-  color: #B0BEC5;
-  z-index: 1;
-  position: relative;
-  font-size: 0.9rem;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: none;
-  background-color: #00d2ff;
-  color: #fff;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  background: #007bb5;
-  transform: scale(1.05);
-}
-
-button:active {
-  transform: scale(0.95);
+  0% { box-shadow: 0 0 10px 5px rgba(0, 210, 255, 0.4); }
+  50% { box-shadow: 0 0 20px 10px rgba(0, 210, 255, 0.2); }
+  100% { box-shadow: 0 0 10px 5px rgba(0, 210, 255, 0.4); }
 }

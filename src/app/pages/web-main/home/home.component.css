@@ -1,9 +1,11 @@
-.home-container {
+
+:host{
+  .dark{
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(to bottom, #101522, #1e2a38);
     color: #fff;
     min-height: 100vh;
-  
+    
     h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
@@ -11,4 +13,20 @@
       text-align: center;
     }
   }
+  
+  .light{
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(to bottom, #f0f0f0, #00d2ff);
+    color: #000;
+    min-height: 100vh;
+    
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #101522;
+      text-align: center;
+    }
+  }
+}
+
   

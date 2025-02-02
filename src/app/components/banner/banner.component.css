@@ -1,57 +1,97 @@
-.banner {
-  position: relative;
-  width: 100%;
-  height: 100vh; /* Faz o banner ocupar toda a altura da tela */
-}
+:host{
+  .banner {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Faz o banner ocupar toda a altura da tela */
+  }
+  
+  ngb-carousel {
+    width: 100%;
+    height: 100%; /* O carrossel ocupará 100% da altura do contêiner pai */
+  }
+  
+  .picsum-img-wrapper {
+    position: relative; /* Garantir que a imagem preencha corretamente o espaço */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;  /* A imagem agora preencherá toda a altura do carrossel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;  /* Impede que a imagem ou outros conteúdos ultrapassem os limites */
+  }
+  
+  .picsum-img-wrapper img {
+    width: 100vw;
+    height: 100vh;
+    max-height: 70%;
+    object-fit: contain; /* Garante que a imagem se ajuste de forma proporcional */
+    object-position: center; /* Centraliza a imagem */
+  }
+  
+  .banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+  }
+  
+  .banner-content h3 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-family: 'Games', sans-serif;
+  }
+  
+  .banner-content p {
+    font-size: 1.5rem;
+    font-family: 'Games', sans-serif;
+    font-weight: 300;
+  }
 
-ngb-carousel {
-  width: 100%;
-  height: 100%; /* O carrossel ocupará 100% da altura do contêiner pai */
-}
+  .dark{
+    background-color: transparent;
+  }
 
-.picsum-img-wrapper {
-  position: relative; /* Garantir que a imagem preencha corretamente o espaço */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;  /* A imagem agora preencherá toda a altura do carrossel */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;  /* Impede que a imagem ou outros conteúdos ultrapassem os limites */
-}
+  .dark .banner-content h3{
+    color: white;
+  }
 
-.picsum-img-wrapper img {
-  width: 100vw;
-  height: 100vh;
-  max-height: 70%;
-  object-fit: contain; /* Garante que a imagem se ajuste de forma proporcional */
-  object-position: center; /* Centraliza a imagem */
-  /* Adicionando a máscara de gradiente nas laterais da imagem */
-  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0) 100%);
-  /* Masking vertical (top/bottom) */
-  mask-size: 100% 100%;
-}
+  .dark .picsum-img-wrapper img{
+    /* Adicionando a máscara de gradiente nas laterais da imagem */
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0) 100%);
+    /* Masking vertical (top/bottom) */
+    mask-size: 80% 80%;
+  }
 
-.banner-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  text-align: center;
-  z-index: 10;
-}
+  .light{
+    background-color: #f8f9fa; /* Fundo claro para modo light */
+  }
 
-.banner-content h3 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-family: 'Games', sans-serif;
-}
+  .light .banner-content h3{
+    color: #101522;
+  }
 
-.banner-content p {
-  font-size: 1.5rem;
-  font-family: 'Games', sans-serif;
-  font-weight: 300;
+  .light .picsum-img-wrapper img{
+    /* Adicionando a máscara de gradiente nas laterais da imagem */
+    mask-image: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 30%, rgba(255, 255, 255, 1) 70%, rgba(255, 255, 255, 0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 0.5) 70%, rgba(255, 255, 255, 0) 100%);
+
+    mask-size: 100% 100%;
+  }
+  
+  .banner .carousel-control-prev,
+  .banner .carousel-control-next {
+    background-color: rgba(0, 210, 255, 0.7);
+  }
+
+  .banner .carousel-control-prev-icon,
+  .banner .carousel-control-next-icon {
+    filter: invert(1); /* Deixa as setas brancas */
+    width: 25px;
+    height: 25px;
+  }
 }

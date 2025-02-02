@@ -3,8 +3,16 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+    }
+
+    .dark{
         background: linear-gradient(to bottom, #101522, #1e2a38);
         color: #B0BEC5;
+    }
+
+    .light{
+        background-color: #00d2ff;
+        color: #101522;
     }
     
     .about_central{
@@ -19,11 +27,18 @@
         font-size: 2.5rem;
         width: 100%;
         text-align: center;
-        color: #00d2ff;
         margin-bottom: 20px;
         position: relative;
         display: inline-block;
         font-family: AttackOfMonster, sans-serif;
+    }
+
+    .dark h2{
+        color: #00d2ff;
+    }
+
+    .light{
+        color: #101522;
     }
       
     h2::after {
@@ -44,16 +59,31 @@
     .about_users {
         margin-top: 2em;
         padding: 30px;
+        text-align: center;
+    }
+
+    .dark .about_users{
         background: linear-gradient(to bottom, #1e2a38, #243744);
         color: #B0BEC5;
-        text-align: center;
+    }
+
+    .light .about_users{
+        background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
+        color: #101522;
     }
 
     .about_users h2 {
         font-size: 2rem;
         margin-bottom: 30px;
-        color: #00d2ff;
         font-family: AttackOfMonster, sans-serif;
+    }
+
+    .dark .about_users h2{
+        color: #00d2ff;
+    }
+
+    .light .about_users h2{
+        color: #101522;
     }
 
     .users_grid {
@@ -68,7 +98,6 @@
         position: relative;
         padding: 20px;
         border-radius: 15px;
-        background: #2e3b50;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         text-align: center;
@@ -79,6 +108,14 @@
             margin-left: 0.5em;
             margin-right: 0.5em;
         }
+    }
+
+    .dark .user_card{
+        background: #2e3b50;
+    }
+
+    .light .user_card{
+        background: #f2f2f2;
     }
 
     .user_card:hover {
@@ -106,14 +143,29 @@
         border-radius: 10%;
     }
 
+    .dark .photo_background{
+        background: #00d2ff;
+    }
+
+    .light .photo_background{
+        background: #F2A413;
+    }
+
     .photo_frame img {
         width: 120px;
         height: 120px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid #ff4f58;
         transition: transform 0.3s ease;
     }
+
+    .dark .photo_frame img{
+        border: 3px solid #ff4f58;
+    }
+
+    .light .photo_frame img{
+        border: 3px solid #101522;
+    } 
 
     .photo_frame img:hover {
         transform: scale(1.1) rotate(10deg);
@@ -128,6 +180,14 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+    }
+
+    .dark .user_card h3{
+        color: #00d2ff;
+    }
+
+    .light .user_card h3{
+        color: #101522;
     }
 
     .funcao, .descricao {
