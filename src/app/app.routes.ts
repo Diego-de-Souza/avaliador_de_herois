@@ -16,6 +16,10 @@ import { ViewStudioComponent } from './pages/plataforma/view-studio/view-studio.
 import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.component';
 import { ViewUserComponent } from './pages/plataforma/view-user/view-user.component';
 import { ViewHeroesComponent } from './pages/plataforma/view-heroes/view-heroes.component';
+import { CadastroArtigosComponent } from './pages/plataforma/cadastro-artigos/cadastro-artigos.component';
+import { CadastroCuriosidadesComponent } from './pages/plataforma/cadastro-curiosidades/cadastro-curiosidades.component';
+import { ViewArtigosComponent } from './pages/plataforma/view-artigos/view-artigos.component';
+import { ViewCuriosidadesComponent } from './pages/plataforma/view-curiosidades/view-curiosidades.component';
 
 export const routes: Routes = [
   //rota principal
@@ -88,6 +92,26 @@ export const routes: Routes = [
     path: 'cadastro/team',
     title: 'Cadastro de Equipe',
     component: CadastroTeamComponent, // Renderiza o cadastro da equipe
+  },
+  {
+    path: 'cadastro/artigos',
+    title: 'Cadastro de Artigos',
+    component: CadastroArtigosComponent
+  },
+  {
+    path: 'view-artigos',
+    title: 'Lista de Artigos',
+    component: ViewArtigosComponent
+  },
+  {
+    path: 'cadastro/curiosidades',
+    title: 'Cadastro de Curiosidades',
+    component: CadastroCuriosidadesComponent
+  },
+  {
+    path: 'view-curiosidades',
+    title: 'Lista de Curiosidades',
+    component: ViewCuriosidadesComponent
   },
   //rota de login, parte mescla da aplicação acesso a algumas partes do site ou da plataforma
   {
