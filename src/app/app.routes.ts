@@ -16,6 +16,8 @@ import { ViewStudioComponent } from './pages/plataforma/view-studio/view-studio.
 import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.component';
 import { ViewUserComponent } from './pages/plataforma/view-user/view-user.component';
 import { ViewHeroesComponent } from './pages/plataforma/view-heroes/view-heroes.component';
+import { ArtigosComponent } from './components/artigos/artigos.component';
+import { FormArticleComponent } from './pages/form-article/form-article.component';
 
 export const routes: Routes = [
   //rota principal
@@ -28,13 +30,13 @@ export const routes: Routes = [
   {
     path: 'cadastro',
     title: 'Cadastro',
-    component: UsuarioComponent, 
+    component: UsuarioComponent,
   },
   //rotas do usuario da plataforma
   {
     path: 'view-user',
     title: 'Lista Usuarios',
-    component: ViewUserComponent, 
+    component: ViewUserComponent,
   },
   { //rota de cadastro de novo usuário
     path: 'cadastro/user',
@@ -122,5 +124,17 @@ export const routes: Routes = [
     title: 'Em_construção',
     component: EmConstrucaoComponent,
   },
+  // Rota para o formulário de cadastro de artigos
+  {
+    path: 'cadastro_artigos',
+    title: 'Cadastro de Artigo',
+    component: FormArticleComponent,  // Renderiza o cadastro do artigo
+  },
+  {
+    path: 'cadastro_artigos/:id',
+    title: 'Atualizacao de Artigo',
+    component: FormArticleComponent,
+  },
+
   { path: '**', redirectTo: '' },
 ];

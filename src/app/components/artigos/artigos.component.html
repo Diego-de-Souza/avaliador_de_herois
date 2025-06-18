@@ -1,12 +1,94 @@
-<section class="artigos" id="theme_artigos">
-    <h2>Artigos Recentes</h2>
-    <div class="artigo-cards">
-      <div class="card" *ngFor="let artigo of artigos">
-        <div [innerHTML]="artigo.img"></div>
-        <h3>{{ artigo.titulo }}</h3>
-        <p>{{ artigo.descricao }}</p>
-        <button >Ler mais</button>
+<section class="articles" id="theme_artigos"> <!-- container -->
+  <h2 class="title">Artigos Recentes</h2>
+  <span class="subtitle">Explore o universo Geek</span>
+
+  <div class="articles-container">
+
+    <div class="category-section">
+      <div *ngFor="let category of getCategories()" class="category">
+        <!-- <span>Página {{ categoryPageMap[category] + 1 }}</span> -->
+        <div class="category-header">
+          <button
+          class="seta"
+          (click)="changePage(category, 'prev')"
+          [disabled]="categoryPageMap[category] === 0">
+            ◀
+          </button>
+
+          <h2 class="category-title">{{ category.toUpperCase() | titlecase }}</h2>
+
+          <button
+          class="seta"
+          (click)="changePage(category, 'next')"
+          [disabled]="categoryPageMap[category] >= getTotalPages(category) - 1">
+            ▶
+          </button>
+        </div>
+
+        <div class="articles-grid">
+          <div class="article-card" *ngFor="let article of filteredArticles(category)">
+            <div class="img-container">
+              <img [ngSrc]="article.img" [alt]="article.imgAlt" width="400" height="300" loading="lazy" />
+            </div>
+            <span>{{ article.category }}</span>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.description }}</p>
+            <div class="botoes">
+              <button
+              class="botao-excluir">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                  <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                </svg>
+              </button>
+              <button
+              class="botao-editar"
+              [routerLink]="['/cadastro_artigos', article.id]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </section>
-  
+
+
+    <aside class="sidebar">
+      <div class="btn-cadastro-artigo">
+        <a routerLink="/cadastro_artigos">
+          <button>Adicionar novo artigo</button>
+        </a>
+      </div>
+      <div class="sidebar-header">
+        <h2 class="novidades-title">Novidades</h2>
+      </div>
+
+      <div class="novidade" *ngFor="let article of getRecentArticles(5)">
+        <div class="img-container">
+          <img [ngSrc]="article.img" [alt]="article.imgAlt" width="400" height="300" loading="lazy" />
+        </div>
+        <h3>{{ article.title }}</h3>
+        <span>{{ article.category }}</span>
+        <p>{{ article.description }}</p>
+        <small>{{ article.created_at | date:'dd/MM/yyyy' }}</small>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Mais Vistos -->
+  <div class="mais-vistos">
+    <h2>Mais vistos</h2>
+    <div class="visto-grid">
+      <div class="visto-card" *ngFor="let i of [1, 2, 3]">
+        <div class="visto-img"></div>
+        <h3 class="titulo-artigo">Título do Artigo</h3>
+        <p class="descricao">Descrição do artigo de exemplo</p>
+      </div>
+    </div>
+    <button class="ver-mais">VER MAIS</button>
+  </div>
+</section>

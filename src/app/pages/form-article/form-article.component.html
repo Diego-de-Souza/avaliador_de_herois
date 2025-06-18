@@ -1,0 +1,33 @@
+<div class="form-container">
+  <div>
+    <a routerLink="/artigos">
+      <button>Voltar</button>
+    </a>
+  </div>
+  <h2>Cadastrar/Editar Artigo</h2>
+
+  <form (ngSubmit)="saveArticle()" #articleForm="ngForm">
+    <label>Categoria:</label>
+    <input type="text" [(ngModel)]="article.category" name="category" required />
+
+    <label>Título:</label>
+    <input type="text" [(ngModel)]="article.title" name="title" required />
+
+    <label>Descrição:</label>
+    <textarea [(ngModel)]="article.description" name="description" rows="2"></textarea>
+
+    <label>Texto completo:</label>
+    <textarea [(ngModel)]="article.text" name="text" rows="6" required></textarea>
+
+    <label>URL da imagem:</label>
+    <input type="text" [(ngModel)]="article.img" name="img" />
+
+    <label>Texto alternativo da imagem:</label>
+    <input type="text" [(ngModel)]="article.imgAlt" name="imgAlt" />
+
+    <label>Palavras-chave (separadas por vírgula):</label>
+    <input type="text" [(ngModel)]="keywordsInput" name="keywords" />
+
+    <button type="submit">Salvar Artigo</button>
+  </form>
+</div>
