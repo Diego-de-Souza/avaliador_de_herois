@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './review.component.css'
 })
 export class ReviewComponent implements OnInit{
+  public themeAll: string = 'dark';
   reviews = [
     {
       imagem: '/assets/img/spider.jpg',
@@ -42,7 +43,7 @@ export class ReviewComponent implements OnInit{
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { this.upTheme();}
 
   estrelasArray(nota: number): number[] {
     const fullStars = Math.floor(nota);
@@ -53,5 +54,20 @@ export class ReviewComponent implements OnInit{
       ...(halfStar ? [0.5] : []),
       ...Array(emptyStars).fill(0)
     ];
+  }
+
+  upTheme(){
+    let themeHeader = document.getElementById('theme_header');
+    let getTheme = localStorage.getItem('theme');
+    if(getTheme){
+      this.themeAll = getTheme;
+    }
+    if(this.themeAll == "dark"){
+      themeHeader?.classList.remove('light');
+      themeHeader?.classList.add('dark');
+    }else{
+      themeHeader?.classList.remove('dark');
+      themeHeader?.classList.add('light');
+    }
   }
 }
