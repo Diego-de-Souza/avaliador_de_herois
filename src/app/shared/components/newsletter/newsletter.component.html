@@ -1,0 +1,19 @@
+<section class="newsletter" id="theme_newsletter">
+  <h2>Fique por Dentro!</h2>
+  <p>Assine nossa newsletter e receba novidades, lançamentos e muito mais do universo geek.</p>
+
+  <form (ngSubmit)="inscrever()" #form="ngForm">
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="email"
+      required
+      placeholder="Digite seu e-mail"
+    />
+    <button type="submit" [disabled]="!form.valid">
+      Inscrever-se
+    </button>
+  </form>
+
+  <div *ngIf="mensagem" class="mensagem">{{ mensagem }}</div>
+</section>

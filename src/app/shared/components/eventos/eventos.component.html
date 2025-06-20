@@ -1,0 +1,21 @@
+<section class="eventos" id="theme_eventos">
+  <h2>Próximos Eventos Geek</h2>
+
+  <div class="eventos-lista">
+    @for (evento of eventos; track evento){
+        <div class="evento-item">
+            <img [src]="evento.imagem" [alt]="evento.titulo" />
+            <h3>{{ evento.titulo }}</h3>
+            <p class="data">
+                📅 {{ evento.data }} | 📍 {{ evento.local }}
+            </p>
+            <p class="descricao">
+                {{ evento.descricao }}
+            </p>
+            <a [href]="evento.link" target="_blank" rel="noopener noreferrer">
+                Saiba Mais
+            </a>
+        </div>
+    }
+  </div>
+</section>

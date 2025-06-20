@@ -1,4 +1,7 @@
 :host{
+    
+    font-family: 'AttackOfMonster', sans-serif;
+
     .dark{
         background-color: #101522;
         border-bottom: 1px solid #747474;

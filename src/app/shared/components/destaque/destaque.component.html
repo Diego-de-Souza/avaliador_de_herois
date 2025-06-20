@@ -1,0 +1,16 @@
+<section class="destaques" id="theme_destaques">
+  <h2>Destaques do Universo Geek</h2>
+
+  <div class="destaques-lista">
+    @for (item of destaques; track item){
+        <div class="destaque-item">
+            <img [src]="item.imagem" [alt]="item.titulo" />
+            <h3>{{ item.titulo }}</h3>
+            <p>{{ item.descricao }}</p>
+            <a [href]="item.link" target="_blank" rel="noopener noreferrer">
+                Ver Mais
+            </a>
+        </div>
+    }
+  </div>
+</section>

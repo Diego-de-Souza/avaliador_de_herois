@@ -1,0 +1,91 @@
+:host {
+  .newsletter {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(to bottom, #00d2ff, #3a7bd5);
+    color: white;
+  }
+
+  h2 {
+    font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+
+  p {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    font-size: 1rem;
+  }
+
+  form {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  input[type="email"] {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    min-width: 250px;
+    max-width: 350px;
+    outline: none;
+    font-size: 1rem;
+  }
+
+  button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background-color: #f28e13;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #d0760e;
+  }
+
+  .mensagem {
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: inline-block;
+    backdrop-filter: blur(5px);
+  }
+
+  /* Dark Mode */
+  .dark {
+    background: linear-gradient(to bottom, #101522, #1e2a38);
+    color: white;
+  }
+
+  .dark input[type="email"] {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #101522;
+  }
+
+  .dark .mensagem {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Light Mode */
+  .light {
+    background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
+    color: #101522;
+  }
+
+  .light input[type="email"] {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #101522;
+  }
+
+  .light .mensagem {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}

@@ -1,0 +1,24 @@
+<section class="reviews" id="theme_reviews">
+  <h2>Reviews da Galera Geek</h2>
+
+  <div class="reviews-lista">
+    @for (review of reviews; track review){
+        <div class="review-item">
+            <img [src]="review.imagem" [alt]="review.titulo" />
+            <h3>{{ review.titulo }}</h3>
+            <p>{{ review.descricao }}</p>
+
+            <div class="estrelas">
+                <ng-container *ngFor="let star of estrelasArray(review.nota); let i = index">
+                <i class="bi" [ngClass]="star >= 1 ? 'bi-star-fill' : star >= 0.5 ? 'bi-star-half' : 'bi-star'"></i>
+                </ng-container>
+            </div>
+
+            <a [href]="review.link" target="_blank" rel="noopener noreferrer">
+                Ver Mais
+            </a>
+        </div>
+    }
+    
+  </div>
+</section>
