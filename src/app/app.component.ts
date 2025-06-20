@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MessageService } from './service/message.service';
+import { MessageService } from './core/service/message/message.service';
 
 @Component({
   selector: 'app-root',
