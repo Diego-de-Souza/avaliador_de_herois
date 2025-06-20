@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalSucessoCadastroComponent } from '../../../components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { HeaderPlatformComponent } from '../../../components/header-platform/header-platform.component';
 
 // Declaração para evitar erro do TinyMCE
@@ -16,12 +15,11 @@ declare var tinymce: any;
   templateUrl: './cadastro-artigos.component.html',
   styleUrls: ['./cadastro-artigos.component.css']
 })
-export class CadastroArtigosComponent implements OnInit{
+export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editorElement!: ElementRef;
   public artigosForm: FormGroup;
   public isEditMode: boolean = false;
   public studioId: number | null = null;
-
   public editorConfig: any;
 
   constructor(
@@ -44,20 +42,20 @@ export class CadastroArtigosComponent implements OnInit{
         this.isEditMode = true;
       }
     });
+  }
 
+  ngAfterViewInit(): void {
     this.loadTinyMCE(() => {
       this.editorConfig = {
-        selector: '#editor', // O ID do seu editor
+        selector: '#editor',
         plugins: [
-          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
+          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons',
+          'image', 'link', 'lists', 'media', 'searchreplace', 'table',
+          'visualblocks', 'wordcount'
         ],
         toolbar: 'undo redo | bold italic underline | link image | alignleft aligncenter alignright',
         menubar: true,
         statusbar: true,
-        wordcount: {
-          showWordCount: true,  
-          showCharCount: false  
-        }
       };
       tinymce.init(this.editorConfig);
     });

@@ -11,5 +11,27 @@
 </head>
 <body>
   <app-root></app-root>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
+
+  <script>
+    // Seu snippet de configuração do Firebase aqui
+    const firebaseConfig = {
+      apiKey: "AIzaSyDR4VLfAOSGhLAtf0zR3wHIx2kKLleJXeM",
+      authDomain: "messages-api-7db27.firebaseapp.com",
+      projectId: "messages-api-7db27",
+      storageBucket: "messages-api-7db27.firebasestorage.app",
+      messagingSenderId: "66044860601",
+      appId: "1:66044860601:web:7e0609e5afd70022ec2368",
+      measurementId: "G-F3G66L4SMJ"
+    };
+
+    // Inicialize o Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+    const analytics = getAnalytics(app);
+  </script>
 </body>
 </html>
