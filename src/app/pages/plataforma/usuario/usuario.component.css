@@ -26,7 +26,7 @@ h1 {
   text-shadow: 1px 1px 6px #BAB8B5;
 }
   
-.botoes-navegacao {
+.botoes-navegacao, .botoes-navegacao-secundario {
   display: flex;
   flex-wrap: wrap;
   gap: 2em;
@@ -69,4 +69,3 @@ h1 {
   cursor: pointer;
   transition: background-color 0.3s;
 }
-

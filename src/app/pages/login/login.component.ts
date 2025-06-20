@@ -56,6 +56,8 @@ export class LoginComponent {
           const accessUser = JSON.parse(access || '');
           if(accessUser.access === "root"){
             this.router.navigate(['/cadastro']);
+          }else{
+            this.router.navigate(['/'])
           }
         }else{
           this.router.navigate(['/'])
