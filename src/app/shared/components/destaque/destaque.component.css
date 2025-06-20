@@ -101,13 +101,13 @@
   }
 
   /* Tema Light */
-  .light {
+  /* .light {
     background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
     color: #101522;
-  }
+  } */
 
   .light .destaque-item {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9) ;
     border: 1px solid #ddd;
   }
 

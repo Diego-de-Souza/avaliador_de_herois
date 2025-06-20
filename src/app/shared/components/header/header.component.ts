@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit{
   }
 
   upTheme(){
-    let themeHeader = document.getElementById('theme_header');
+    let themeHeader = document.getElementById('theme_destaques');
     let getTheme = localStorage.getItem('theme');
     if(getTheme){
       this.themeAll = getTheme;

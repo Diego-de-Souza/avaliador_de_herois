@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-eventos',
@@ -8,7 +8,8 @@ import { Component } from '@angular/core';
   templateUrl: './eventos.component.html',
   styleUrl: './eventos.component.css'
 })
-export class EventosComponent {
+export class EventosComponent implements OnInit{
+  public themeAll: string = 'dark';
   eventos = [
     {
       imagem: '/assets/img/evento-comiccon.jpg',
@@ -43,4 +44,23 @@ export class EventosComponent {
       link: '#',
     },
   ];
+
+  ngOnInit(): void {
+   this.upTheme(); 
+  }
+
+  upTheme(){
+    let themeHeader = document.getElementById('theme_eventos');
+    let getTheme = localStorage.getItem('theme');
+    if(getTheme){
+      this.themeAll = getTheme;
+    }
+    if(this.themeAll == "dark"){
+      themeHeader?.classList.remove('light');
+      themeHeader?.classList.add('dark');
+    }else{
+      themeHeader?.classList.remove('dark');
+      themeHeader?.classList.add('light');
+    }
+  }
 }

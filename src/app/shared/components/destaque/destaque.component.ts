@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './destaque.component.css'
 })
 export class DestaqueComponent implements OnInit{
+  public themeAll: string = 'dark';
   destaques = [
     {
       imagem: '/assets/img/spider.jpg',
@@ -37,5 +38,20 @@ export class DestaqueComponent implements OnInit{
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void { this.upTheme();}
+
+  upTheme(){
+    let themeHeader = document.getElementById('theme_header');
+    let getTheme = localStorage.getItem('theme');
+    if(getTheme){
+      this.themeAll = getTheme;
+    }
+    if(this.themeAll == "dark"){
+      themeHeader?.classList.remove('light');
+      themeHeader?.classList.add('dark');
+    }else{
+      themeHeader?.classList.remove('dark');
+      themeHeader?.classList.add('light');
+    }
+  }
 }
