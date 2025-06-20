@@ -4,11 +4,25 @@ import { ArtigosComponent } from '../../../shared/components/artigos/artigos.com
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { CuriosidadesComponent } from '../../../shared/components/curiosidades/curiosidades.component';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { DestaqueComponent } from '../../../shared/components/destaque/destaque.component';
+import { ReviewComponent } from '../../../shared/components/review/review.component';
+import { NewsletterComponent } from "../../../shared/components/newsletter/newsletter.component";
+import { EventosComponent } from '../../../shared/components/eventos/eventos.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [BannerComponent, ArtigosComponent, FooterComponent, CuriosidadesComponent, HeaderComponent],
+  imports: [
+    BannerComponent,
+    DestaqueComponent,
+    ReviewComponent,
+    ArtigosComponent,
+    FooterComponent,
+    CuriosidadesComponent,
+    EventosComponent,
+    HeaderComponent,
+    NewsletterComponent
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

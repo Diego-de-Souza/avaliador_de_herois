@@ -1,0 +1,106 @@
+:host {
+  .eventos {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: #1e2a38;
+    color: white;
+  }
+
+  h2 {
+    font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+
+  .eventos-lista {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 10px;
+  }
+
+  .eventos-lista::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .eventos-lista::-webkit-scrollbar-thumb {
+    background: #00d2ff;
+    border-radius: 4px;
+  }
+
+  .evento-item {
+    flex: 0 0 auto;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    scroll-snap-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .evento-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 210, 255, 0.4);
+  }
+
+  .evento-item img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 15px;
+  }
+
+  .evento-item h3 {
+    margin: 10px 0;
+    font-size: 1.4rem;
+  }
+
+  .evento-item .data {
+    font-size: 0.9rem;
+    color: #f2a413;
+    margin-bottom: 10px;
+  }
+
+  .evento-item .descricao {
+    font-size: 0.9rem;
+    color: inherit;
+  }
+
+  .evento-item a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #00d2ff;
+    color: #fff;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .evento-item a:hover {
+    background-color: #0077a6;
+  }
+
+  /* Dark */
+  .dark {
+    background: linear-gradient(to bottom, #101522, #1e2a38);
+    color: white;
+  }
+
+  .dark .evento-item {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  /* Light */
+  .light {
+    background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
+    color: #101522;
+  }
+
+  .light .evento-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+  }
+}

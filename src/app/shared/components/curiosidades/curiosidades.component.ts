@@ -13,6 +13,9 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
     { texto: 'Sabia que o Hulk era cinza na sua primeira aparição nos quadrinhos?' },
     { texto: 'O Homem de Ferro foi criado em apenas 6 meses por Stan Lee.' },
     { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
+    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
+    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
+    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
   ];
   public themeCuriosidades: string | null = 'dark';
 

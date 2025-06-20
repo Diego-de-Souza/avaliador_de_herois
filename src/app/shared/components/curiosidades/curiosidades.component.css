@@ -1,95 +1,165 @@
 :host {
-  font-family: 'AttackOfMonster', sans-serif;
+  font-family: 'Orbitron', sans-serif;
+}
 
-  .curiosidades {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
-    box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.3);
-  }
+.curiosidades {
+  padding: 60px 20px;
+  position: relative;
+}
 
-  .curiosidades h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    position: relative;
-    font-family: AttackOfMonster, sans-serif;
-  }
+.curiosidades h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 40px;
+}
 
-  .curiosidades h2::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    margin: 10px auto;
-    border-radius: 4px;
-  }
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: auto;
+}
 
-  .curiosidade-item {
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #00d2ff;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.timeline-item {
+  padding: 20px 30px;
+  position: relative;
+  width: 50%;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.timeline-item:nth-child(odd) {
+  left: 0;
+}
+
+.timeline-item:nth-child(even) {
+  left: 50%;
+}
+
+.timeline-item:nth-child(even) {
+  animation-delay: 0.2s;
+}
+.timeline-item:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.timeline-item:nth-child(4) {
+  animation-delay: 0.6s;
+}
+/* Se quiser mais, continue incrementando... */
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  background-color: #00d2ff;
+  border: 4px solid white;
+  top: 20px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item:nth-child(even)::before {
+  left: -10px;
+}
+
+.timeline-content {
+  background-color: rgba(30, 30, 30, 0.85);
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.timeline-item:hover .timeline-content {
+  transform: scale(1.03);
+}
+
+/* 🔥 Animação */
+@keyframes fadeInUp {
+  0% {
     opacity: 0;
-    transform: rotateY(90deg);
-    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    transform: translateY(30px);
   }
-
-  .curiosidade-item.animate {
+  100% {
     opacity: 1;
-    transform: rotateY(0deg);
-  }
-
-  .dark{
-    color: white;
-    background: linear-gradient(135deg, #121929 70%, #1C2738);
-  }
-
-  .dark h2 {
-    color: #00d2ff;
-  }
-    
-  .dark h2::after {
-    background: #00d2ff;
-  }
-
-  .dark .curiosidade-item {
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .dark .curiosidade-item:hover {
-    background: linear-gradient(135deg, #F2A413, #F252AA);
-    color: #101522;
-    transform: scale(1.03);
-    transition: all 0.3s ease-in-out;
-  }
-
-  .light{
-    color: #333;
-    background: linear-gradient(135deg, #F2A413, #F252AA);
-  }
-
-  .light h2 {
-    color: #F20F38;
-  }
-
-  .light h2::after {
-    background: #F252AA;
-  }
-
-  .light .curiosidade-item {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #04BFAD;
-  }
-
-  .light .curiosidade-item:hover {
-    color: #101522;
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.03);
-    transition: all 0.3s ease-in-out;
+    transform: translateY(0);
   }
 }
 
+/* 🔥 Tema Dark */
+.dark .curiosidades {
+  background-color: #101522;
+  color: white;
+}
 
+.dark .timeline-content {
+  background-color: rgba(30, 30, 30, 0.85);
+}
+
+.dark h2 {
+  color: #00d2ff;
+}
+
+.dark h2::after {
+  background: #00d2ff;
+}
+
+/* 🔥 Tema Light */
+.light .curiosidades {
+  background-color: #f4f7fa;
+  color: #101522;
+}
+
+.light .timeline-content {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.light h2 {
+  color: #101522;
+}
+
+.light h2::after {
+  background-color: #00d2ff;
+}
+
+.timeline-content p {
+  margin: 0;
+}
+
+/* 📱 Responsivo */
+@media screen and (max-width: 768px) {
+  .timeline::after {
+    left: 8px;
+  }
+
+  .timeline-item {
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 25px;
+    left: 0 !important;
+  }
+
+  .timeline-item::before {
+    left: 0;
+    right: auto;
+  }
+
+  .timeline-item .timeline-content {
+    margin-left: 20px;
+    text-align: left;
+  }
+}

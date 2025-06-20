@@ -14,7 +14,7 @@ export class BannerComponent {
 	public themeBanner: string | null = 'dark';
   public images = [
 	{
-		url: '/img/home/a1.jpg',
+		url: '/img/home/a7.jpg',
 		Title: 'Busque seus heróis favoritos',
 		Description: 'Conheca mais sobre os herois.',
 		rota:'/busca_heroes'
@@ -32,7 +32,7 @@ export class BannerComponent {
 		rota: '/busca_heroes'
 	},
 	{
-		url: '/img/home/a4.jpg',
+		url: '/img/home/a5.jpg',
 		Title: 'Games',
 		Description: 'mostre sua forca em nossos jogos.',
 		rota: '/busca_heroes'
