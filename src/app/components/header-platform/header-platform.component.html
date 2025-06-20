@@ -52,6 +52,36 @@
                     </div>
                 </div>
             </li>
+            <li class="header-platform-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                Artigos
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/view-artigos" routerLinkActive="active">Lista de Artigos</button>
+                                <button ngbDropdownItem routerLink="/cadastro/artigos" routerLinkActive="active">Cadastro de Artigos</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="header-platform-item">
+                <div class="row">
+                    <div class="col">
+                        <div ngbDropdown class="d-inline-block">
+                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                Curiosidades
+                            </button>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem routerLink="/view-curiosidades" routerLinkActive="active">Lista de Curiosidades</button>
+                                <button ngbDropdownItem routerLink="/cadastro/curiosidades" routerLinkActive="active">Cadastro de curiosidades</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <app-menu-user></app-menu-user>
         </ul>
     </nav>

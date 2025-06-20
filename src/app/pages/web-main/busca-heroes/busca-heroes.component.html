@@ -11,7 +11,7 @@
                         <div class="menu-list" (click)="openEditoras()">Editora</div>
                         <ul class="submenuEditora">
                             @for(studio of heroisMenuEditora; track  studio){
-                                <li (click)="openForPublisher(studio.studioName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{studio.studioName}}</li> 
+                                <li (click)="openForPublisher(studio.studioName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{studio.name}}</li> 
                             }
                         </ul>
                     </li>
@@ -19,7 +19,7 @@
                         <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
                         <ul class="submenuEquipe">
                             @for(team of heroisMenuEquipe; track  team){
-                                <li (click)="openForTeam(team.teamName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{team.teamName}}</li> 
+                                <li (click)="openForTeam(team.teamName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{team.name}}</li> 
                             }
                         </ul>
                     </li>
