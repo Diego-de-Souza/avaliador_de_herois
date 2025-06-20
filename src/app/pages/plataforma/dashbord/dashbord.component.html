@@ -1,0 +1,55 @@
+<section class="dashboard-container ">
+    <app-header-platform></app-header-platform>
+  <section class="container py-4">
+      div<div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-white">Dashboard</h1>
+        <button class="btn btn-outline-light" (click)="toggleTheme()">Alternar Tema</button>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="card text-center text-bg-primary shadow">
+            <div class="card-body">
+              <h5 class="card-title">Usuários</h5>
+              <p class="display-6">{{ totalUsuarios }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center text-bg-success shadow">
+            <div class="card-body">
+              <h5 class="card-title">Acessos</h5>
+              <p class="display-6">{{ totalAcessos }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center text-bg-warning shadow">
+            <div class="card-body">
+              <h5 class="card-title">Artigos</h5>
+              <p class="display-6">{{ totalArtigos }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3 mt-4">
+        <div class="col-lg-6">
+          <div class="card p-3 bg-body-tertiary shadow">
+            <h5 class="mb-3">Usuários</h5>
+            <div id="chart-users"></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card p-3 bg-body-tertiary shadow">
+            <h5 class="mb-3">Acessos</h5>
+            <div id="chart-access"></div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="card p-3 bg-body-tertiary shadow">
+            <h5 class="mb-3">Atividade por mês (Heatmap)</h5>
+            <div id="chart-posts"></div>
+          </div>
+        </div>
+      </div>
+  </section>
+</section>
