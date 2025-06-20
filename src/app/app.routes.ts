@@ -20,6 +20,8 @@ import { CadastroArtigosComponent } from './pages/plataforma/cadastro-artigos/ca
 import { CadastroCuriosidadesComponent } from './pages/plataforma/cadastro-curiosidades/cadastro-curiosidades.component';
 import { ViewArtigosComponent } from './pages/plataforma/view-artigos/view-artigos.component';
 import { ViewCuriosidadesComponent } from './pages/plataforma/view-curiosidades/view-curiosidades.component';
+import { DashbordComponent } from './pages/plataforma/dashbord/dashbord.component';
+import { UserConfigComponent } from './pages/plataforma/user-config/user-config.component';
 
 export const routes: Routes = [
   //rota principal
@@ -112,6 +114,16 @@ export const routes: Routes = [
     path: 'view-curiosidades',
     title: 'Lista de Curiosidades',
     component: ViewCuriosidadesComponent
+  },
+  {
+    path: 'user-config',
+    title: 'Pagina de configurações',
+    component: UserConfigComponent
+  },
+  {
+    path: 'plataforma/dashboard',
+    title: 'Dashboard',
+    component: DashbordComponent
   },
   //rota de login, parte mescla da aplicação acesso a algumas partes do site ou da plataforma
   {
