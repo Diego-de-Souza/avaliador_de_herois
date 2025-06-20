@@ -46,6 +46,10 @@ export class AuthService implements OnInit{
         if (userAccess.role) {
           localStorage.setItem('role', JSON.stringify(userAccess.role));
         }
+
+        if(userAccess.user_id){
+          localStorage.setItem('user_id', userAccess.user_id)
+        }
       }
       
       return true

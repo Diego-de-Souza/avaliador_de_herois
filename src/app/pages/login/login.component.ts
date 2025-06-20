@@ -6,6 +6,7 @@ import { ModalSucessoCadastroComponent } from '../../components/modal-sucesso-ca
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EncryptionUtil } from '../../utils/encryption.utils';
 import { AuthService } from '../../service/auth.service';
+import { MessageService } from '../../service/message.service';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +19,15 @@ export class LoginComponent {
   public loginForm: FormGroup;
   public title:string = '';
   public message: string = '';
+  messagefcm: any = null;
 
   constructor(
     private fb: FormBuilder, 
     private userService: UserService,
     private router: Router,
     private modalService : NgbModal,
-    private authService: AuthService
+    private authService: AuthService,
+    private messagingService: MessageService
   ){
     this.loginForm = this.fb.group({
       email:['', [Validators.required, Validators.email]],
@@ -51,6 +54,12 @@ export class LoginComponent {
         this.message = 'Login efetuado com sucesso!'
         this.openModal(this.title, this.message);
 
+        this.messagingService.currentMessage.subscribe(messagefcm => {
+          this.messagefcm = messagefcm;
+        });
+
+        this.getToken()
+
         const access = localStorage.getItem('role');
         if(access){
           const accessUser = JSON.parse(access || '');
@@ -76,8 +85,26 @@ export class LoginComponent {
   }
 
   openModal(title: string, message: string) {
-        const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-        modalRef.componentInstance.modalTitle = title; 
-        modalRef.componentInstance.modalMessage = message; 
-      }
+    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
+    modalRef.componentInstance.modalTitle = title; 
+    modalRef.componentInstance.modalMessage = message; 
+  }
+
+  requestPermission(): void {
+    this.messagingService.requestPermission();
+  }
+
+  async getToken(): Promise<void> {
+    const token = await this.messagingService.getToken();
+    const storedUserId = localStorage.getItem('user_id');
+    const user_id = storedUserId ? parseInt(storedUserId) : null;
+
+    if(token !== null  && user_id !== null){
+      const sendToken = this.messagingService.sendTokenToServer(token,user_id);
+    }else{
+      console.warn('Token ou user_id não disponível');
+    }
+  
+    console.log('Token obtido manualmente:', token);
+  }
 }
