@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './eventos.component.html',
-  styleUrl: './eventos.component.css'
+  styleUrl: './eventos.component.css',
 })
-export class EventosComponent implements OnInit{
-  public themeAll: string = 'dark';
+export class EventosComponent implements OnInit {
+  public themeEventos: string = 'dark';
   eventos = [
     {
       imagem: '/assets/img/evento-comiccon.jpg',
@@ -43,24 +44,33 @@ export class EventosComponent implements OnInit{
       descricao: 'Encontro épico para os fãs de Star Wars, com cosplays, workshops e mais.',
       link: '#',
     },
+    {
+      imagem: '/assets/img/evento-harrypotter.jpg',
+      titulo: 'Harry Potter Expo',
+      data: '10 de Setembro',
+      local: 'Curitiba - PR',
+      descricao: 'Explore o mundo mágico com cenários, figurinos e atividades interativas.',
+      link: '#',
+    },
   ];
 
+  constructor(private themeService: ThemeService) {}
+
   ngOnInit(): void {
-   this.upTheme(); 
+    this.themeService.theme$.subscribe((theme) => {
+      this.themeEventos = theme;
+      this.applyTheme(theme);
+    });
   }
 
-  upTheme(){
-    let themeHeader = document.getElementById('theme_eventos');
-    let getTheme = localStorage.getItem('theme');
-    if(getTheme){
-      this.themeAll = getTheme;
-    }
-    if(this.themeAll == "dark"){
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-    }else{
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_eventos');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }

@@ -8,6 +8,7 @@ import { DestaqueComponent } from '../../../shared/components/destaque/destaque.
 import { ReviewComponent } from '../../../shared/components/review/review.component';
 import { NewsletterComponent } from "../../../shared/components/newsletter/newsletter.component";
 import { EventosComponent } from '../../../shared/components/eventos/eventos.component';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -29,20 +30,24 @@ import { EventosComponent } from '../../../shared/components/eventos/eventos.com
 export class HomeComponent implements OnInit{
   public themeHome: string | null = 'dark';
 
+  constructor(private themeService: ThemeService){}
+
   ngOnInit() {
-    this.updateTheme();
-    window.addEventListener('storage', () => this.updateTheme());
+    this.themeService.theme$.subscribe(theme =>{
+      this.themeHome = theme;
+      this.applyTheme(theme);
+    })
   }
 
-  updateTheme(){
-    this.themeHome = localStorage.getItem('theme');
-    let classTheme = document.getElementById('container-home')
-    if(this.themeHome === 'light'){
-      classTheme?.classList.add('light');
-      classTheme?.classList.remove('dark');
-    }else{
-      classTheme?.classList.add('dark');
-      classTheme?.classList.remove('light');
+   
+  applyTheme(theme: string) {
+    const el = document.getElementById('container-home');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }

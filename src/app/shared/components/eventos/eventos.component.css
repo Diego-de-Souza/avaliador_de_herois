@@ -2,14 +2,23 @@
   .eventos {
     padding: 50px 20px;
     text-align: center;
-    background-color: #1e2a38;
-    color: white;
   }
 
   h2 {
     font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
     font-size: 2.5rem;
     margin-bottom: 30px;
+    position: relative;
+  }
+
+  h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: #00d2ff;
+    margin: 10px auto 0;
+    border-radius: 4px;
   }
 
   .eventos-lista {
@@ -31,7 +40,7 @@
 
   .evento-item {
     flex: 0 0 auto;
-    width: 300px;
+    width: 280px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     padding: 20px;
@@ -54,7 +63,7 @@
 
   .evento-item h3 {
     margin: 10px 0;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
   .evento-item .data {
@@ -93,14 +102,26 @@
     background: rgba(255, 255, 255, 0.05);
   }
 
+  .dark h2::after {
+    background-color: #00d2ff;
+  }
+
   /* Light */
   .light {
-    background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
+    background: linear-gradient(
+      to bottom, 
+      #F252AA, 
+      #00d2ff 30%
+      );
     color: #101522;
   }
 
   .light .evento-item {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid #ddd;
+  }
+
+  .light h2::after {
+    background-color: #00d2ff;
   }
 }

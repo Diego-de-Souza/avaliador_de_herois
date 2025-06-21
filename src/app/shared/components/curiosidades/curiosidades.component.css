@@ -119,6 +119,15 @@
 }
 
 /* 🔥 Tema Light */
+.light {
+    background: linear-gradient(
+      to bottom,
+      #F0F0F0 10%,
+      #F252AA 40%,
+      #F252AA 100%
+    );
+}
+
 .light .curiosidades {
   background-color: #f4f7fa;
   color: #101522;

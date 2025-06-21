@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-destaque',
@@ -7,8 +8,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './destaque.component.html',
   styleUrl: './destaque.component.css'
 })
-export class DestaqueComponent implements OnInit{
+export class DestaqueComponent implements OnInit {
   public themeAll: string = 'dark';
+
   destaques = [
     {
       imagem: '/assets/img/spider.jpg',
@@ -36,22 +38,23 @@ export class DestaqueComponent implements OnInit{
     }
   ];
 
-  constructor() {}
+  constructor(private themeService: ThemeService) {}
 
-  ngOnInit(): void { this.upTheme();}
+  ngOnInit() {
+    this.themeService.theme$.subscribe(theme => {
+      this.themeAll = theme;
+      this.applyTheme(theme);
+    });
+  }
 
-  upTheme(){
-    let themeHeader = document.getElementById('theme_header');
-    let getTheme = localStorage.getItem('theme');
-    if(getTheme){
-      this.themeAll = getTheme;
-    }
-    if(this.themeAll == "dark"){
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-    }else{
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_destaques');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }
