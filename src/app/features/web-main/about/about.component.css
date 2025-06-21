@@ -4,16 +4,6 @@
         flex-direction: column;
         width: 100%;
     }
-
-    .dark{
-        background: linear-gradient(to bottom, #101522, #1e2a38);
-        color: #B0BEC5;
-    }
-
-    .light{
-        background-color: #00d2ff;
-        color: #101522;
-    }
     
     .about_central{
         display: flex;
@@ -31,14 +21,6 @@
         position: relative;
         display: inline-block;
         font-family: AttackOfMonster, sans-serif;
-    }
-
-    .dark h2{
-        color: #00d2ff;
-    }
-
-    .light{
-        color: #101522;
     }
       
     h2::after {
@@ -62,28 +44,10 @@
         text-align: center;
     }
 
-    .dark .about_users{
-        background: linear-gradient(to bottom, #1e2a38, #243744);
-        color: #B0BEC5;
-    }
-
-    .light .about_users{
-        background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
-        color: #101522;
-    }
-
     .about_users h2 {
         font-size: 2rem;
         margin-bottom: 30px;
         font-family: AttackOfMonster, sans-serif;
-    }
-
-    .dark .about_users h2{
-        color: #00d2ff;
-    }
-
-    .light .about_users h2{
-        color: #101522;
     }
 
     .users_grid {
@@ -108,14 +72,6 @@
             margin-left: 0.5em;
             margin-right: 0.5em;
         }
-    }
-
-    .dark .user_card{
-        background: #2e3b50;
-    }
-
-    .light .user_card{
-        background: #f2f2f2;
     }
 
     .user_card:hover {
@@ -143,14 +99,6 @@
         border-radius: 10%;
     }
 
-    .dark .photo_background{
-        background: #00d2ff;
-    }
-
-    .light .photo_background{
-        background: #F2A413;
-    }
-
     .photo_frame img {
         width: 120px;
         height: 120px;
@@ -158,14 +106,6 @@
         object-fit: cover;
         transition: transform 0.3s ease;
     }
-
-    .dark .photo_frame img{
-        border: 3px solid #ff4f58;
-    }
-
-    .light .photo_frame img{
-        border: 3px solid #101522;
-    } 
 
     .photo_frame img:hover {
         transform: scale(1.1) rotate(10deg);
@@ -180,14 +120,6 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-    }
-
-    .dark .user_card h3{
-        color: #00d2ff;
-    }
-
-    .light .user_card h3{
-        color: #101522;
     }
 
     .funcao, .descricao {
@@ -215,6 +147,76 @@
     }
 
     .user_card:hover i {
+        color: #00d2ff;
+    }
+
+    .light{
+        background: linear-gradient(
+            to bottom,
+            #F0F0F0 30%,
+            #00d2ff 60%
+        );
+        color: #101522;
+    }
+    
+    .light .about_users{
+        background: radial-gradient(circle at top right, #F2A413, #F252AA 70%);
+        color: #101522;
+    }
+
+    .light .about_users h2{
+        color: #101522;
+    }
+
+    .light .user_card{
+        background: #f2f2f2;
+    }
+
+    .light .photo_background{
+        background: #F2A413;
+    }
+
+    .light .photo_frame img{
+        border: 3px solid #101522;
+    }
+
+    .light .user_card h3{
+        color: #101522;
+    }
+
+    /*Tema dark*/
+    
+    .dark{
+        background: linear-gradient(to bottom, #101522, #1e2a38);
+        color: #B0BEC5;
+    }
+
+    .dark h2{
+        color: #00d2ff;
+    }
+
+    .dark .about_users{
+        background: linear-gradient(to bottom, #1e2a38, #243744);
+        color: #B0BEC5;
+    }
+
+    .dark .about_users h2{
+        color: #00d2ff;
+    }
+
+    .dark .user_card{
+        background: #2e3b50;
+    }
+
+    .dark .photo_background{
+        background: #00d2ff;
+    }
+
+    .dark .photo_frame img{
+        border: 3px solid #ff4f58;
+    } 
+
+    .dark .user_card h3{
         color: #00d2ff;
     }
     

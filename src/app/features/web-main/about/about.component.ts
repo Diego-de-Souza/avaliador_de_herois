@@ -3,6 +3,7 @@ import { HeaderComponent } from '../../../shared/components/header/header.compon
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { Employee } from '../../../core/interface/employes.interface';
 import { Employees } from '../../../core/storage/employees/employeees.data';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-about',
@@ -15,20 +16,23 @@ export class AboutComponent implements OnInit{
   public themeAbout: string | null = 'dark';
   public integrantes: Employee[] = Employees;
   
+  constructor(private themeService: ThemeService){}
+
   ngOnInit() {
-    this.updateTheme();
-    window.addEventListener('storage', () => this.updateTheme());
+    this.themeService.theme$.subscribe(theme =>{
+      this.themeAbout = theme;
+      this.applyTheme(theme);
+    })
   }
 
-  updateTheme(){
-    this.themeAbout = localStorage.getItem('theme');
-    let classTheme = document.getElementById('container-about')
-    if(this.themeAbout === 'light'){
-      classTheme?.classList.add('light');
-      classTheme?.classList.remove('dark');
-    }else{
-      classTheme?.classList.add('dark');
-      classTheme?.classList.remove('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('container-about');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }
