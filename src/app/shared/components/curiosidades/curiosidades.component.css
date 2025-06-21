@@ -101,8 +101,8 @@
 }
 
 /* 🔥 Tema Dark */
-.dark .curiosidades {
-  background-color: #101522;
+.dark {
+  background: linear-gradient(to bottom,  #101522 , #304760 );
   color: white;
 }
 
