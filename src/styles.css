@@ -77,3 +77,17 @@ table {
 	.KOKO-WAR-3-hsla { color: hsla(174, 96, 38, 1); }
 	.KOKO-WAR-4-hsla { color: hsla(39, 89, 51, 1); }
 	.KOKO-WAR-5-hsla { color: hsla(33, 89, 51, 1); }
+
+.dark {
+  /* 🌌 Paleta Dark */
+  --bg-color: #101522;
+  --bg-secondary: #1e2a38;
+  --text-color: #f0f0f0;
+  --primary-color: #00D2FF;
+  --accent-color: #04BFAD;
+  --warning-color: #F28E13;
+  --attention-color: #F2A413;
+  --error-color: #F252AA;
+  --love-color: #F20F38;
+  --border-color: rgba(255, 255, 255, 0.1);
+}

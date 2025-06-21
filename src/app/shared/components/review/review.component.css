@@ -95,7 +95,8 @@
 
   /* Tema Dark */
   .dark {
-    background: linear-gradient(to bottom, #101522, #1e2a38);
+    background: linear-gradient(to bottom, #1e2a38, #101522);
+    /* background: linear-gradient(to bottom, #304760, #1e2a38); */
     color: white;
   }
 
