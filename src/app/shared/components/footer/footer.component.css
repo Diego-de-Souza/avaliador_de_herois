@@ -1,11 +1,135 @@
-.footer {
-    background: #121212;
-    padding: 20px;
-    text-align: center;
+:host {
+  .footer {
+    background: linear-gradient(to right, #101522, #1e2a38);
     color: #aaa;
-  
-    p {
-      font-size: 0.9rem;
-    }
+    padding: 40px 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
-  
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .footer-logo {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .footer-logo h2 {
+    font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
+    color: #FFD43B;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+
+  .footer-logo p {
+    max-width: 300px;
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+
+  .footer-links {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .footer-links h3 {
+    color: #00d2ff;
+    margin-bottom: 10px;
+  }
+
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-links ul li {
+    margin: 8px 0;
+  }
+
+  .footer-links ul li a {
+    color: #aaa;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links ul li a:hover {
+    color: #FFD43B;
+  }
+
+  .footer-social {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .footer-social h3 {
+    color: #00d2ff;
+    margin-bottom: 10px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    font-size: 1.5rem;
+  }
+
+  .social-icons a {
+    color: #aaa;
+    transition: color 0.3s, transform 0.3s;
+  }
+
+  .social-icons a:hover {
+    color: #FFD43B;
+    transform: scale(1.2);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    padding-top: 10px;
+    font-size: 0.8rem;
+    color: #777;
+  }
+
+  /* Light Theme */
+  .light .footer {
+    background: linear-gradient(to right, #f8f9fa, #e0f7ff);
+    color: #121929;
+  }
+
+  .light .footer-bottom {
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #555;
+  }
+
+  .light .footer-logo h2 {
+    color: #F252AA;
+  }
+
+  .light .footer-links h3,
+  .light .footer-social h3 {
+    color: #04BFAD;
+  }
+
+  .light .footer-links ul li a {
+    color: #121929;
+  }
+
+  .light .footer-links ul li a:hover {
+    color: #F252AA;
+  }
+
+  .light .social-icons a {
+    color: #121929;
+  }
+
+  .light .social-icons a:hover {
+    color: #F252AA;
+  }
+}
