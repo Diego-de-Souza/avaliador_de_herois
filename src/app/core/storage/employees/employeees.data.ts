@@ -16,5 +16,11 @@ export const Employees = [
       nome: 'Keven',
       funcao: 'Pesquisador',
       descricao: 'O explorador incansável do time! Keven combina paixão por heróis com habilidade para encontrar as melhores referências e inovações, garantindo que o projeto esteja sempre à frente.'
+    },
+    {
+      foto: '/img/about/tonho.jpg',
+      nome: 'Antonio Rodrigues',
+      funcao: 'Analista e Desenvolvedor de Sistemas',
+      descricao: 'Apaixonado por Desenvolvimento Web e Web Design. Com a missão de tornar problemas complexos em simples, bonitos e com design intuitivo. além do desenvolvimento de interfaces responsivas e foco em performance, acessibilidade e boas práticas de código.'
     }
 ]

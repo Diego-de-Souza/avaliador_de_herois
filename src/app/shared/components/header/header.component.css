@@ -196,4 +196,77 @@
         background-color: #f2f2f2;
     }
 
+    /* Estilo para o menu mobile */
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 80%;
+        max-width: 300px;
+        height: 100vh;
+        background: #333;
+        z-index: 1000;
+        padding: 1rem;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+        overflow-y: auto;
+    }
+
+    .mobile-header-top {
+        
+        .header-slogan {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 2px;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+        
+        .header-slogan span {
+            display: block;
+            font-weight: normal;
+            font-size: 1.2rem;
+        }
+        
+        .header-slogan strong {
+            display: block;
+            color: #FFD43B;
+        }
+    }
+
+    .mobile-menu-item {
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: white;
+        cursor: pointer;
+        border-bottom: 1px solid #444;
+    }
+
+    .mobile-menu-item svg {
+        flex-shrink: 0;
+    }
+
+    .mobile-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .mobile-nav li {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #444;
+        color: white;
+    }
+
+    /* Ícone de seta */
+    .fa-chevron-down {
+        transition: transform 0.3s;
+    }
+
+    .fa-chevron-down.rotate {
+        transform: rotate(180deg);
+    }
 }
