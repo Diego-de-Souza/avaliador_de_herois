@@ -37,9 +37,26 @@
             <ul>
                 <li routerLink="/" routerLinkActive="active">
                     <i class="fa-solid fa-house m-2"></i> Home</li>
-                <li routerLink="/busca_heroes" routerLinkActive="active">
+                <li class="has-submenu">
+                    <i class="fa-solid fa-layer-group m-2"></i> Conteúdos
+                    <ul class="submenu">
+                        <li routerLink="webmain/conteudo/destaques" routerLinkActive="active">
+                        <i class="fa-solid fa-star m-2"></i> Destaques
+                        </li>
+                        <li routerLink="webmain/conteudo/newsletter" routerLinkActive="active">
+                        <i class="fa-solid fa-envelope m-2"></i> Newsletter
+                        </li>
+                        <li routerLink="webmain/conteudo/artigos" routerLinkActive="active">
+                        <i class="fa-solid fa-book m-2"></i> Artigos
+                        </li>
+                        <li routerLink="webmain/conteudo/eventos" routerLinkActive="active">
+                        <i class="fa-solid fa-calendar-days m-2"></i> Eventos
+                        </li>
+                    </ul>
+                </li>
+                <li routerLink="/webmain/busca_heroes" routerLinkActive="active">
                     <i class="fa-brands fa-searchengin m-2"></i> Busca de herois</li>
-                <li routerLink="/about" routerLinkActive="active">
+                <li routerLink="/webmain/about" routerLinkActive="active">
                     <i class="fa-solid fa-eye m-2"></i> About </li>
                 <li routerLink="/em-construcao" routerLinkActive="active">
                     <i class="fa-solid fa-gamepad m-2"></i> Games</li>
