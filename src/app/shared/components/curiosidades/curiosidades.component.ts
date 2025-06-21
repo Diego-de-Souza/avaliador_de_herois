@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, AfterViewInit, Renderer2, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-curiosidades',
@@ -21,7 +22,7 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
 
   @ViewChild('curiosidadeLista') curiosidadeLista!: ElementRef;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private themeService: ThemeService) {}
 
   ngAfterViewInit(): void {
     const items = this.curiosidadeLista.nativeElement.querySelectorAll('.curiosidade-item');
@@ -44,19 +45,21 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.updateTheme();
-    window.addEventListener('storage', () => this.updateTheme());
+    this.themeService.theme$.subscribe(theme => {
+      this.themeCuriosidades = theme;
+      this.applyTheme(theme);
+    });
   }
 
-  updateTheme(){
-    this.themeCuriosidades = localStorage.getItem('theme');
-    let classTheme = document.getElementById('theme_curiosidades')
-    if(this.themeCuriosidades === 'light'){
-      classTheme?.classList.add('light');
-      classTheme?.classList.remove('dark');
-    }else{
-      classTheme?.classList.add('dark');
-      classTheme?.classList.remove('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_curiosidades');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
+  
 }

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,6 +9,26 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
+  public themeFooter:string = 'dark'
 
+  constructor(private themeService: ThemeService){}
+
+  ngOnInit(){
+    this.themeService.theme$.subscribe(theme => {
+      this.themeFooter = theme;
+      this.applyTheme(theme);
+    })
+  }
+
+  applyTheme(theme: string) {
+    const themeHeader = document.getElementById('footer');
+    if (theme === 'dark') {
+      themeHeader?.classList.remove('light');
+      themeHeader?.classList.add('dark');
+    } else {
+      themeHeader?.classList.remove('dark');
+      themeHeader?.classList.add('light');
+    }
+  }
 }

@@ -76,7 +76,7 @@
 
   /* Light Mode */
   .light {
-    background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
+    background: linear-gradient(to bottom, #f8f9fa, #00d2ff 20%);
     color: #101522;
   }
 

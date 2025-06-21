@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-artigos',
@@ -10,10 +11,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrl: './artigos.component.css'
 })
 export class ArtigosComponent implements OnInit {
+  public themeAll: string = 'dark';
   public artigos: { img: SafeHtml; titulo: string; descricao: string }[] = [];
   public themeArtigos: string | null = 'dark';
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, private themeService: ThemeService) {
     this.artigos = [
       {
         img: this.sanitizer.bypassSecurityTrustHtml(
@@ -61,19 +63,20 @@ export class ArtigosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updateTheme();
-    window.addEventListener('storage', () => this.updateTheme());
+    this.themeService.theme$.subscribe(theme => {
+      this.themeAll = theme;
+      this.applyTheme(theme);
+    });
   }
 
-  updateTheme(){
-    this.themeArtigos = localStorage.getItem('theme');
-    let classTheme = document.getElementById('theme_artigos')
-    if(this.themeArtigos === 'light'){
-      classTheme?.classList.add('light');
-      classTheme?.classList.remove('dark');
-    }else{
-      classTheme?.classList.add('dark');
-      classTheme?.classList.remove('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_artigos');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
   

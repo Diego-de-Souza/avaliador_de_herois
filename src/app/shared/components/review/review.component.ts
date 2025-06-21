@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-review',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './review.component.css'
 })
 export class ReviewComponent implements OnInit{
-  public themeAll: string = 'dark';
+  public themeReview: string = 'dark';
   reviews = [
     {
       imagem: '/assets/img/spider.jpg',
@@ -41,9 +42,14 @@ export class ReviewComponent implements OnInit{
     }
   ];
 
-  constructor() {}
+  constructor(private themeService: ThemeService) {}
 
-  ngOnInit(): void { this.upTheme();}
+  ngOnInit(): void { 
+    this.themeService.theme$.subscribe(theme => {
+      this.themeReview = theme;
+      this.applyTheme(theme);
+    })
+  }
 
   estrelasArray(nota: number): number[] {
     const fullStars = Math.floor(nota);
@@ -56,18 +62,14 @@ export class ReviewComponent implements OnInit{
     ];
   }
 
-  upTheme(){
-    let themeHeader = document.getElementById('theme_header');
-    let getTheme = localStorage.getItem('theme');
-    if(getTheme){
-      this.themeAll = getTheme;
-    }
-    if(this.themeAll == "dark"){
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-    }else{
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_reviews');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }

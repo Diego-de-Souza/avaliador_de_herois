@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-newsletter',
@@ -10,14 +11,20 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './newsletter.component.css'
 })
 export class NewsletterComponent implements OnInit{
-  public themeAll: string = 'dark';
+  public themenewsLetter: string = 'dark';
   email = '';
   mensagem = '';
 
-  ngOnInit(): void { this.upTheme();}
+  constructor(private themeService: ThemeService){}
+
+  ngOnInit(): void { 
+    this.themeService.theme$.subscribe(theme => {
+      this.themenewsLetter = theme;
+      this.applyTheme(theme);
+    })
+  }
 
   inscrever() {
-    // Aqui você pode integrar com API ou backend futuramente
     if (this.email) {
       this.mensagem = `Obrigado por se inscrever, ${this.email}! 🎉`;
       this.email = '';
@@ -27,18 +34,14 @@ export class NewsletterComponent implements OnInit{
     }
   }
 
-  upTheme(){
-    let themeHeader = document.getElementById('theme_header');
-    let getTheme = localStorage.getItem('theme');
-    if(getTheme){
-      this.themeAll = getTheme;
-    }
-    if(this.themeAll == "dark"){
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-    }else{
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_newsletter');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 }

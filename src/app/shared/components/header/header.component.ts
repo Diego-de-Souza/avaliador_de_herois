@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuUserComponent } from '../menu-user/menu-user.component';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -10,55 +11,41 @@ import { MenuUserComponent } from '../menu-user/menu-user.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   public themeAll: string = 'dark';
   public isLoggedIn: boolean = false;
   
-  constructor() { }
+  constructor(private themeService: ThemeService) {}
 
   ngOnInit(): void {
     const logged = localStorage.getItem('access_token') || '';
-    
-    if(logged){
+    if (logged) {
       this.isLoggedIn = true;
     }
 
-    this.upTheme()
+    this.themeService.theme$.subscribe(theme => {
+      this.themeAll = theme;
+      this.applyTheme(theme);
+    });
   }
 
   receiveData(data: boolean) {
-    this.isLoggedIn = data; 
+    this.isLoggedIn = data;
   }
 
-  upTheme(){
-    let themeHeader = document.getElementById('theme_destaques');
-    let getTheme = localStorage.getItem('theme');
-    if(getTheme){
-      this.themeAll = getTheme;
-    }
-    if(this.themeAll == "dark"){
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-    }else{
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
-    }
+  changeTheme() {
+    const newTheme = this.themeAll === 'dark' ? 'light' : 'dark';
+    this.themeService.setTheme(newTheme);
   }
 
-  changeTheme(){
-    let themeHeader = document.getElementById('theme_header');
-    if(this.themeAll == "dark"){
-      this.themeAll = "light";
-      localStorage.setItem('theme', this.themeAll);
-      window.dispatchEvent(new Event('storage'));
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
-    }else{
-      this.themeAll = "dark";
-      localStorage.setItem('theme', this.themeAll);
-      window.dispatchEvent(new Event('storage'));
+  applyTheme(theme: string) {
+    const themeHeader = document.getElementById('theme_header');
+    if (theme === 'dark') {
       themeHeader?.classList.remove('light');
       themeHeader?.classList.add('dark');
+    } else {
+      themeHeader?.classList.remove('dark');
+      themeHeader?.classList.add('light');
     }
   }
 }

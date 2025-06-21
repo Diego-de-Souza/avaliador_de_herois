@@ -1,7 +1,8 @@
 :host {
   .destaques {
-    padding: 50px 20px;
     text-align: center;
+    border: none;
+    padding-bottom: 10%;
   }
 
   h2 {
@@ -9,6 +10,7 @@
     font-size: 2.5rem;
     margin-bottom: 30px;
     position: relative;
+    padding: 3rem;
   }
 
   h2::after {
@@ -101,10 +103,13 @@
   }
 
   /* Tema Light */
-  /* .light {
-    background: linear-gradient(to bottom, #f8f9fa, #e0f7ff);
-    color: #101522;
-  } */
+  .light {
+    background: linear-gradient(
+      to bottom,
+      #F2A413 80%,
+      #F0F0F0 100%
+    );
+  }
 
   .light .destaque-item {
     background: rgba(255, 255, 255, 0.9) ;
