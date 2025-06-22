@@ -13,7 +13,7 @@ export class EventosComponent implements OnInit {
   public themeEventos: string = 'dark';
   eventos = [
     {
-      imagem: '/assets/img/evento-comiccon.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Comic Con Experience 2025',
       data: '03 a 06 de Dezembro',
       local: 'São Paulo - SP',
@@ -21,7 +21,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/assets/img/evento-anime.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Anime Friends',
       data: '20 a 23 de Julho',
       local: 'São Paulo - SP',
@@ -29,7 +29,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/assets/img/evento-game.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Brasil Game Show',
       data: '09 a 13 de Outubro',
       local: 'São Paulo - SP',
@@ -37,7 +37,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/assets/img/evento-starwars.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Star Wars Fan Fest',
       data: '15 de Agosto',
       local: 'Rio de Janeiro - RJ',
@@ -45,7 +45,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/assets/img/evento-harrypotter.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Harry Potter Expo',
       data: '10 de Setembro',
       local: 'Curitiba - PR',

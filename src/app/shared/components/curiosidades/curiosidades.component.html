@@ -1,7 +1,7 @@
-<section class="curiosidades" id="theme_curiosidades">
+<section #curiosidadesContainer class="curiosidades" id="theme_curiosidades">
   <h2>Curiosidades do Universo Geek</h2>
   <div class="timeline">
-    <div *ngFor="let curiosidade of curiosidades" class="timeline-item">
+    <div *ngFor="let curiosidade of curiosidades" class="timeline-item curiosidade-item">
       <div class="timeline-content">
         <p>{{ curiosidade.texto }}</p>
       </div>

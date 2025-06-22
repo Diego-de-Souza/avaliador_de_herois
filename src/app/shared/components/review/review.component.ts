@@ -13,28 +13,28 @@ export class ReviewComponent implements OnInit{
   public themeReview: string = 'dark';
   reviews = [
     {
-      imagem: '/assets/img/spider.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Homem-Aranha: Através do Aranhaverso',
       descricao: 'Uma obra-prima da animação com visuais inovadores.',
       nota: 4.8,
       link: '#'
     },
     {
-      imagem: '/assets/img/ironman.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Homem de Ferro',
       descricao: 'O início épico do MCU, tecnológico e carismático.',
       nota: 4.5,
       link: '#'
     },
     {
-      imagem: '/assets/img/starwars.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Star Wars: Mandalorian',
       descricao: 'Série que redefiniu o universo Star Wars.',
       nota: 4.9,
       link: '#'
     },
     {
-      imagem: '/assets/img/batman.jpg',
+      imagem: '/img/events/user-icon.png',
       titulo: 'Batman: Arkham Legacy (Jogo)',
       descricao: 'Um jogo sombrio, intenso e perfeito para fãs do morcego.',
       nota: 4.7,
