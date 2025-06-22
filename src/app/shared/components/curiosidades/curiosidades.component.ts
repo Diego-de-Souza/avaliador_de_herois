@@ -14,29 +14,40 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
     { texto: 'Sabia que o Hulk era cinza na sua primeira aparição nos quadrinhos?' },
     { texto: 'O Homem de Ferro foi criado em apenas 6 meses por Stan Lee.' },
     { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
-    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
-    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
-    { texto: 'A palavra "Geek" originalmente significava "esquisito" no século 19!' },
+    { texto: 'Batman quase usava um traje vermelho e amarelo em sua primeira aparição!' },
+    { texto: 'O sabre de luz de Darth Vader faz um som diferente dos outros Sith' },
+    { texto: 'O nome original do Homem-Aranha seria "Homem-Mosca"' },
   ];
-  public themeCuriosidades: string | null = 'dark';
+  public themeCuriosidades: string = 'dark';
 
-  @ViewChild('curiosidadeLista') curiosidadeLista!: ElementRef;
+  @ViewChild('curiosidadesContainer', { static: true }) curiosidadesContainer!: ElementRef;
 
   constructor(private renderer: Renderer2, private themeService: ThemeService) {}
 
   ngAfterViewInit(): void {
-    const items = this.curiosidadeLista.nativeElement.querySelectorAll('.curiosidade-item');
+    this.setupAnimations();
+  }
 
+  private setupAnimations(): void {
+    const timeline = this.curiosidadesContainer.nativeElement.querySelector('.timeline');
+    
+    if (!timeline) {
+      console.warn('Elemento timeline não encontrado');
+      return;
+    }
+
+    const items = timeline.querySelectorAll('.timeline-item');
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             this.renderer.addClass(entry.target, 'animate');
-            observer.unobserve(entry.target); // Evita re-executar a animação
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 } // Ativa com 10% do elemento visível
+      { threshold: 0.1 }
     );
 
     items.forEach((item: HTMLElement) => {
@@ -51,15 +62,16 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
     });
   }
 
-  applyTheme(theme: string) {
-    const el = document.getElementById('theme_curiosidades');
+  private applyTheme(theme: string): void {
+    const el = this.curiosidadesContainer.nativeElement;
+    if (!el) return;
+
     if (theme === 'dark') {
-      el?.classList.remove('light');
-      el?.classList.add('dark');
+      this.renderer.removeClass(el, 'light');
+      this.renderer.addClass(el, 'dark');
     } else {
-      el?.classList.remove('dark');
-      el?.classList.add('light');
+      this.renderer.removeClass(el, 'dark');
+      this.renderer.addClass(el, 'light');
     }
   }
-  
 }
