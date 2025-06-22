@@ -49,19 +49,20 @@ export class HeaderComponent implements OnInit {
   }
 
   applyTheme(theme: string) {
-    const themeHeader = document.getElementById('theme_header');
-    const themeHeaderMobile = document.getElementById('mobile-header-top')
-    if (theme === 'dark') {
-      themeHeader?.classList.remove('light');
-      themeHeader?.classList.add('dark');
-      themeHeaderMobile?.classList.remove('light');
-      themeHeaderMobile?.classList.add('dark');
-    } else {
-      themeHeader?.classList.remove('dark');
-      themeHeader?.classList.add('light');
-      themeHeaderMobile?.classList.remove('dark');
-      themeHeaderMobile?.classList.add('light');
-    }
+      const themeHeader = document.getElementById('theme_header');
+      const themeHeaderMobile = document.getElementById('theme_header_mobile');
+      
+      if (theme === 'dark') {
+          themeHeader?.classList.remove('light');
+          themeHeader?.classList.add('dark');
+          themeHeaderMobile?.classList.remove('light');
+          themeHeaderMobile?.classList.add('dark');
+      } else {
+          themeHeader?.classList.remove('dark');
+          themeHeader?.classList.add('light');
+          themeHeaderMobile?.classList.remove('dark');
+          themeHeaderMobile?.classList.add('light');
+      }
   }
 
   toggleMenu() {
