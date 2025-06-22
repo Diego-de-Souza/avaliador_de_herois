@@ -196,77 +196,124 @@
         background-color: #f2f2f2;
     }
 
-    /* Estilo para o menu mobile */
-    .mobile-menu {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background: #333;
-        z-index: 1000;
-        padding: 1rem;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.5);
-        overflow-y: auto;
-    }
-
-    .mobile-header-top {
+   /* Estilo para o menu mobile */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    z-index: 1000;
+    padding: 1rem;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    
+    &.dark {
+        background-color: #101522;
         
-        .header-slogan {
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            text-align: center;
-            letter-spacing: 2px;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
+        .mobile-nav li {
+            color: #00d2ff;
+            border-bottom: 1px solid #747474;
+            
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
         }
         
-        .header-slogan span {
+        .header-slogan {
+            color: #FFD43B;
+            
+            span {
+                color: white;
+            }
+        }
+    }
+    
+    &.light {
+        background: radial-gradient(circle at bottom left, #ff4f58, #ff9f00 70%);
+        
+        .mobile-nav li {
+            color: #121929;
+            border-bottom: 1px solid #F252AA;
+            
+            &:hover {
+                background-color: rgba(242, 242, 242, 0.3);
+            }
+        }
+        
+        .header-slogan {
+            color: #F2A413;
+            
+            span {
+                color: #04BFAD;
+            }
+        }
+    }
+}
+
+.mobile-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    
+    .header-slogan {
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 2px;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        
+        span {
             display: block;
             font-weight: normal;
             font-size: 1.2rem;
         }
         
-        .header-slogan strong {
+        strong {
             display: block;
-            color: #FFD43B;
         }
     }
+    
+    .hamburguer-btn {
+        background: none;
+        border: none;
+        color: #FFD43B;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+}
 
-    .mobile-menu-item {
-        padding: 1rem;
+.mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav li {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    
+    svg, i {
+        width: 20px;
+        text-align: center;
+    }
+    
+    a {
         display: flex;
         align-items: center;
         gap: 10px;
-        color: white;
-        cursor: pointer;
-        border-bottom: 1px solid #444;
+        color: inherit;
+        text-decoration: none;
+        width: 100%;
     }
-
-    .mobile-menu-item svg {
-        flex-shrink: 0;
-    }
-
-    .mobile-nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .mobile-nav li {
-        padding: 0.8rem 1rem;
-        border-bottom: 1px solid #444;
-        color: white;
-    }
-
-    /* Ícone de seta */
-    .fa-chevron-down {
-        transition: transform 0.3s;
-    }
-
-    .fa-chevron-down.rotate {
-        transform: rotate(180deg);
-    }
-}
+}}
