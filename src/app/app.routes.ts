@@ -17,7 +17,8 @@ import { ViewTeamComponent } from './pages/plataforma/view-team/view-team.compon
 import { ViewUserComponent } from './pages/plataforma/view-user/view-user.component';
 import { ViewHeroesComponent } from './pages/plataforma/view-heroes/view-heroes.component';
 import { ArtigosComponent } from './components/artigos/artigos.component';
-import { FormArticleComponent } from './pages/form-article/form-article.component';
+import { FormArticleComponent } from './pages/articles/form-article/form-article.component';
+import { ArticlePageComponent } from './pages/articles/article-page-component/article-page.component';
 
 export const routes: Routes = [
   //rota principal
@@ -133,8 +134,14 @@ export const routes: Routes = [
   {
     path: 'cadastro_artigos/:id',
     title: 'Atualizacao de Artigo',
-    component: FormArticleComponent,
+    component: FormArticleComponent,  // Atualizar/editar artigo
   },
+
+  {
+  path: 'artigo/:id',                 // Renderiza página do artigo
+  component: ArticlePageComponent,
+  title: 'Visualizar Artigo',
+},
 
   { path: '**', redirectTo: '' },
 ];

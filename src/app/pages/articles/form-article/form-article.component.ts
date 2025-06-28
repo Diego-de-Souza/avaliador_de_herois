@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { articlesProps } from '../../types/articles';
+import { articlesProps } from '../../../types/articles';
 import { Router } from '@angular/router';
-import { ArticleService } from '../../service/article.service';
+import { ArticleService } from '../../../service/article.service';
 
 @Component({
   selector: 'app-form-article',
@@ -32,13 +32,18 @@ export class FormArticleComponent {
     this.articleService.loadFromLocalStorage();
   }
 
+  generateId(): number {
+    return Number(crypto.randomUUID());
+  }
+
   saveArticle() {
     if (this.article.title && this.article.text && this.article.category) {
       const newArticle: articlesProps = {
-        ...this.article,
+        ...(this.article as articlesProps),
+        id: this.generateId(),
         keyWords: this.keywordsInput.split(',').map(k => k.trim()),
         created_at: new Date().toISOString()
-      } as articlesProps;
+      };
 
       this.articleService.addArticle(newArticle);
       alert('Artigo salvo com sucesso!');
