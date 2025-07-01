@@ -1,83 +1,106 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ThemeService } from '../../../core/service/theme/theme.service';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { articlesProps } from '../../../core/interface/articles.interface';
+import { ArticleService } from '../../../core/service/articles/articles.service';
 
 @Component({
   selector: 'app-artigos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage, RouterModule, FontAwesomeModule],
   templateUrl: './artigos.component.html',
   styleUrl: './artigos.component.css'
 })
 export class ArtigosComponent implements OnInit {
-  public themeAll: string = 'dark';
-  public artigos: { img: SafeHtml; titulo: string; descricao: string }[] = [];
+  public articles: articlesProps[] = [];
   public themeArtigos: string | null = 'dark';
+  public categoryPageMap: { [key: string]: number } = {}; // Página atual de cada categoria
+  public articlesPerPage = 3; // Quantos artigos por categoria
 
-  constructor(private sanitizer: DomSanitizer, private themeService: ThemeService) {
-    this.artigos = [
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste1',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste2',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste3',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste4',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        img: this.sanitizer.bypassSecurityTrustHtml(
-          `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="60" height="60"><path fill="#FFD43B" d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464l349.5 0c-8.9-63.3-63.3-112-129-112l-91.4 0c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3z"/></svg>`
-        ),
-        titulo: 'Teste5',
-        descricao: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-    ]
-  }
+  constructor(
+    private articleService: ArticleService
+  ) {}
 
   ngOnInit() {
-    this.themeService.theme$.subscribe(theme => {
-      this.themeAll = theme;
-      this.applyTheme(theme);
+    this.articleService.loadFromLocalStorage();
+    this.articles = this.articleService.getArticles();
+    this.initCategoryPages(); // Inicializa a paginação
+    this.updateTheme();
+    window.addEventListener('storage', () => this.updateTheme());
+  }
+
+  readonly ARTICLES_PER_PAGE = 3;
+
+  updateTheme(){
+    this.themeArtigos = localStorage.getItem('theme');
+    let classTheme = document.getElementById('theme_artigos')
+    if(this.themeArtigos === 'light'){
+      classTheme?.classList.add('light');
+      classTheme?.classList.remove('dark');
+    }else{
+      classTheme?.classList.add('dark');
+      classTheme?.classList.remove('light');
+    }
+  }
+
+  initCategoryPages() {
+    this.getCategories().forEach(category => {
+      this.categoryPageMap[category] = 0;
     });
   }
 
-  applyTheme(theme: string) {
-    const el = document.getElementById('theme_artigos');
-    if (theme === 'dark') {
-      el?.classList.remove('light');
-      el?.classList.add('dark');
-    } else {
-      el?.classList.remove('dark');
-      el?.classList.add('light');
+  getCategories(): string[] {
+    const categories = new Set(this.articles.map(article => article.category));
+    return Array.from(categories);
+  }
+
+  filteredArticles(category: string): articlesProps[] {
+    const all = this.articles.filter(article => article.category === category);
+    const page = this.categoryPageMap[category] || 0;
+    const start = page * this.ARTICLES_PER_PAGE;
+    return all.slice(start, start + this.ARTICLES_PER_PAGE);
+  }
+
+
+  getTotalPages(category: string): number {
+    const total = this.articles.filter(article => article.category === category).length;
+    return Math.ceil(total / this.ARTICLES_PER_PAGE);
+  }
+
+  changePage(category: string, direction: 'next' | 'prev') {
+    const currentPage = this.categoryPageMap[category] || 0;
+    const totalPages = this.getTotalPages(category);
+
+    if (direction === 'next' && currentPage < totalPages - 1) {
+      this.categoryPageMap[category] = currentPage + 1;
+    }
+
+    if (direction === 'prev' && currentPage > 0) {
+      this.categoryPageMap[category] = currentPage - 1;
     }
   }
-  
+
+  nextPage(category: string) {
+    const totalArticles = this.articles.filter(a => a.category === category).length;
+    const maxPage = Math.floor((totalArticles - 1) / this.articlesPerPage);
+    if (this.categoryPageMap[category] < maxPage) {
+      this.categoryPageMap[category]++;
+    }
+  }
+
+  prevPage(category: string) {
+    if (this.categoryPageMap[category] > 0) {
+      this.categoryPageMap[category]--;
+    }
+  }
+
+  getRecentArticles(limit: number): articlesProps[] {
+    const recentArticles = this.articles
+      .slice()
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, limit);
+    return recentArticles;
+  }
+
 }

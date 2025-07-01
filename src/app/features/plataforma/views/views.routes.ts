@@ -3,9 +3,9 @@ import { Routes } from "@angular/router";
 
 export const routesViews: Routes = [
     {
-        path: 'artigos',
+        path: 'view-artigos',
         title: 'Lista de Artigos',
-        loadComponent: () => import('./view-artigos/view-artigos.component').then(m => m.ViewArtigosComponent)
+        loadChildren: () => import('./view-artigos/view-articles.routes').then(m => m.routesArticles)
     },
     {
         path: 'view-curiosidades',
