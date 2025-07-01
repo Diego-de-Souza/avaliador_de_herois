@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewArtigosComponent } from './view-artigos.component';
+import { ArticlePageComponent } from './article-page.component';
 
-describe('ViewArtigosComponent', () => {
-  let component: ViewArtigosComponent;
-  let fixture: ComponentFixture<ViewArtigosComponent>;
+describe('ArticlePageComponent', () => {
+  let component: ArticlePageComponent;
+  let fixture: ComponentFixture<ArticlePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewArtigosComponent]
+      imports: [ArticlePageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ViewArtigosComponent);
+    fixture = TestBed.createComponent(ArticlePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

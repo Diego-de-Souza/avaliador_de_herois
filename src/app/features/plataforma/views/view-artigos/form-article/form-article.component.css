@@ -1,0 +1,21 @@
+.form-container {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+button {
+  background: #007acc;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
