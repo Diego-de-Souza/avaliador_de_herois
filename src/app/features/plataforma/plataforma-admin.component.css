@@ -1,0 +1,40 @@
+:host{
+    .admin-hero-container {
+        background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+        background-size: cover;
+        background-position: center;
+        color: white;
+    }
+
+    .admin-buttons-container {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .btn {
+        border-radius: 1rem;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .dashboard-button {
+        background-color: #F252AA;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .artigo-button {
+        background-color: #04BFAD;
+    }
+
+
+    .curiosity-button {
+        background-color: #13f23c;
+    }
+}

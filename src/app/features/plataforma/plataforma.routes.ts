@@ -3,6 +3,11 @@ import { Routes } from "@angular/router";
 
 export const routesPlataforma: Routes = [
     {
+        path: '',
+        title: 'Plataforma',
+        loadComponent: () => import('./plataforma-admin.component').then(m => m.PlataformaAdminComponent)
+    },
+    {
         path: 'cadastro',
         loadChildren: () => import('./cadastros/cadastros.routes').then(m => m.routesCadastros)
     },

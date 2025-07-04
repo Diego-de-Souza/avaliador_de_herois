@@ -63,7 +63,7 @@ export class LoginComponent {
         if(access){
           const accessUser = JSON.parse(access || '');
           if(accessUser.access === "root"){
-            this.router.navigate(['/cadastro']);
+            this.router.navigate(['/plataforma']);
           }else{
             this.router.navigate(['/'])
           }

@@ -5,7 +5,7 @@ export const routesViews: Routes = [
     {
         path: 'view-artigos',
         title: 'Lista de Artigos',
-        loadChildren: () => import('./view-artigos/view-articles.routes').then(m => m.routesArticles)
+        loadComponent: () => import('./view-artigos/view-artigos.component').then(m => m.ViewArtigosComponent)
     },
     {
         path: 'view-curiosidades',
