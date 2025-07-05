@@ -1,11 +1,17 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { articlesProps } from '../../interface/articles.interface';
 import { articlesDataBase } from '../../../data/articles';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
+
+  private readonly http = inject(HttpClient);
+  
   private articles: articlesProps[] = [...articlesDataBase];
 
   getArticles(): articlesProps[] {
@@ -35,5 +41,9 @@ export class ArticleService {
   updateArticle(index: number, updatedArticle: articlesProps): void {
     this.articles[index] = updatedArticle;
     this.saveToLocalStorage();
+  }
+
+  getArticlesList(): Observable<any>{
+    return this.http.get(`${environment.apiURL}/articles/find-all-articles`);
   }
 }

@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn: boolean = false;
   public isMobile = false;
   public isMenuOpen = false;
+  public nameUser: string = '';
   submenuOpen = false;
   
   constructor(private themeService: ThemeService) {}
@@ -26,6 +27,8 @@ export class HeaderComponent implements OnInit {
     if (logged) {
       this.isLoggedIn = true;
     }
+
+    this.nameUser = localStorage.getItem('nickname') || '';
 
     this.themeService.theme$.subscribe(theme => {
       this.themeAll = theme;

@@ -7,7 +7,8 @@
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
-    <i class="bi bi-person-circle"></i> <!-- Ícone de usuário -->
+    <i class="bi bi-person-circle"></i> 
+    {{ userName ? userName : 'Usuário' }}
   </button>
 
   <!-- Conteúdo do menu -->

@@ -11,6 +11,7 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class MenuUserComponent {
   @Output() isNotLogged = new EventEmitter<boolean>();
+  @Input() userName: string = '';
 
   constructor(private router: Router){}
   
