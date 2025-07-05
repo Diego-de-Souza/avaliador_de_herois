@@ -124,7 +124,7 @@
                         </li>
                         @if(isLoggedIn) {
                             <li>
-                                <app-menu-user (isNotLogged)="receiveData($event)"></app-menu-user>
+                                <app-menu-user (isNotLogged)="receiveData($event)" [userName]="nameUser"></app-menu-user>
                             </li>
                         } @else {
                             <li routerLink="/login" (click)="closeMenu()">

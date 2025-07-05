@@ -1,103 +1,109 @@
 <section class="header-platform">
     <nav class="header-platform-menu">
-        <ul class="header-platform-list">
-            <li 
-                class="header-platform-item" class="btn btn-outline-primary" 
-                routerLink="/plataforma" 
-                routerLinkActive="active"
-                type="button"
-            >Cadastro Home</li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Heróis
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/view/view-heroes" routerLinkActive="active">Lista de Heróis</button>
-                                <button ngbDropdownItem routerLink="/plataforma/cadastro/heroi" routerLinkActive="active">Cadastro de Heróis</button>
+        <ul [ngClass]="{
+            'header-platform-list': !isPlataformaAdmin,
+            'header-platform-list-admin': isPlataformaAdmin
+            }">
+            @if (!isPlataformaAdmin){
+                <li 
+                    class="header-platform-item" class="btn btn-outline-primary" 
+                    routerLink="/plataforma" 
+                    routerLinkActive="active"
+                    type="button"
+                >Cadastro Home</li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Heróis
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-heroes" routerLinkActive="active">Lista de Heróis</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/heroi" routerLinkActive="active">Cadastro de Heróis</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Studios
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/view/view-Studio" routerLinkActive="active">Lista de Studios</button>
-                                <button ngbDropdownItem routerLink="/plataforma/cadastro/studio" routerLinkActive="active">Cadastro de Studios</button>
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Studios
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-Studio" routerLinkActive="active">Lista de Studios</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/studio" routerLinkActive="active">Cadastro de Studios</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Equipes
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/view/view-team" routerLinkActive="active">Lista de Equipes</button>
-                                <button ngbDropdownItem routerLink="/plataforma/cadastro/team" routerLinkActive="active">Cadastro de equipes</button>
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Equipes
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-team" routerLinkActive="active">Lista de Equipes</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/team" routerLinkActive="active">Cadastro de equipes</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Artigos
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/view/view-artigos" routerLinkActive="active">Lista de Artigos</button>
-                                <button ngbDropdownItem routerLink="/plataforma/cadastro/artigos" routerLinkActive="active">Cadastro de Artigos</button>
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Artigos
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-artigos" routerLinkActive="active">Lista de Artigos</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/artigos" routerLinkActive="active">Cadastro de Artigos</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Curiosidades
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/view/view-curiosidades" routerLinkActive="active">Lista de Curiosidades</button>
-                                <button ngbDropdownItem routerLink="/plataforma/cadastro/curiosidades" routerLinkActive="active">Cadastro de curiosidades</button>
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Curiosidades
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-curiosidades" routerLinkActive="active">Lista de Curiosidades</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/curiosidades" routerLinkActive="active">Cadastro de curiosidades</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <li class="header-platform-item">
-                <div class="row">
-                    <div class="col">
-                        <div ngbDropdown class="d-inline-block">
-                            <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                Admin
-                            </button>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                <button ngbDropdownItem routerLink="/plataforma/dashboard" routerLinkActive="active">Dashboard</button>
-                                
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Admin
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/dashboard" routerLinkActive="active">Dashboard</button>
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-            <app-menu-user></app-menu-user>
+                </li>
+            }
+
+            <app-menu-user [userName]="nameUser"></app-menu-user>
         </ul>
     </nav>
     

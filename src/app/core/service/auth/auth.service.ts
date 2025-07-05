@@ -50,6 +50,10 @@ export class AuthService implements OnInit{
         if(userAccess.user_id){
           localStorage.setItem('user_id', userAccess.user_id)
         }
+
+        if(userAccess.nickname){
+          localStorage.setItem('nickname', userAccess.nickname)
+        }
       }
       
       return true

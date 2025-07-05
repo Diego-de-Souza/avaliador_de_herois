@@ -30,8 +30,10 @@
               O conteúdo do curiosidade é obrigatório.
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Salvar Curiosidade</button>
-          <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="curiosidadeForm.invalid">Salvar Curiosidade</button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+          </div>
         </form>
       </section>
   </section>
