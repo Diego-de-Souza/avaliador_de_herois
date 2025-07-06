@@ -43,9 +43,4 @@ export const routesCadastros: Routes = [
         title: 'Atualizacao de Team',
         loadComponent: () => import('./cadastro-team/cadastro-team.component').then(m => m.CadastroTeamComponent)
     },
-    {
-        path: 'user',
-        title: 'Cadastro de Usuário',
-        loadComponent: () => import('./cadastro-usuario/cadastro-usuario.component').then(m => m.CadastroUsuarioComponent)
-    },
 ]

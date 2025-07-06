@@ -59,10 +59,12 @@ export class LoginComponent {
 
         this.getToken()
 
-        const access = localStorage.getItem('role');
-        if(access){
-          const accessUser = JSON.parse(access || '');
-          if(accessUser.access === "root"){
+        const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
+
+        console.log('Dados do usuário:', data.role  );
+
+        if(data){
+          if(data.role === "admin"){
             this.router.navigate(['/plataforma']);
           }else{
             this.router.navigate(['/'])
@@ -70,8 +72,6 @@ export class LoginComponent {
         }else{
           this.router.navigate(['/'])
         }
-        
-        
         
       }
     }catch(error){

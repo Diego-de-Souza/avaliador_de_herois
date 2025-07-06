@@ -4,6 +4,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuUserComponent } from '../menu-user/menu-user.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -17,18 +18,17 @@ export class HeaderComponent implements OnInit {
   public isLoggedIn: boolean = false;
   public isMobile = false;
   public isMenuOpen = false;
-  public nameUser: string = '';
   submenuOpen = false;
-  
-  constructor(private themeService: ThemeService) {}
+
+  constructor(private themeService: ThemeService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    const logged = localStorage.getItem('access_token') || '';
+    const logged = sessionStorage.getItem('access_token');
+
     if (logged) {
       this.isLoggedIn = true;
     }
 
-    this.nameUser = localStorage.getItem('nickname') || '';
 
     this.themeService.theme$.subscribe(theme => {
       this.themeAll = theme;

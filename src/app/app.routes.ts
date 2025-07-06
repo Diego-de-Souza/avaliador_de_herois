@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { EmConstrucaoComponent } from './features/em-construcao/em-construcao.component';
 import { LoginComponent } from './features/login/login.component';
+import { guardPlataformaGuard } from './guard/guard-plataforma.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/login/login.component').then(m => m.LoginComponent)
   },
   {
+    path: 'cadastro-usuario',
+    title: 'Cadastro Usuario',
+    loadComponent: () => import('./features/login/cadastro-usuario/cadastro-usuario.component').then(m => m.CadastroUsuarioComponent)
+  },
+  {
     path: 'em-construcao',
     title: 'Em_construção',
     loadComponent: () => import('./features/em-construcao/em-construcao.component').then(m => m.EmConstrucaoComponent)
@@ -25,6 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'plataforma',
+    canActivate: [guardPlataformaGuard],
     loadChildren: () => import('./features/plataforma/plataforma.routes').then(m => m.routesPlataforma)
   },
   { path: '**', redirectTo: '' },

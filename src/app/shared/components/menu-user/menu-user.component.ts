@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter,OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-menu-user',
@@ -9,15 +10,21 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './menu-user.component.html',
   styleUrl: './menu-user.component.css'
 })
-export class MenuUserComponent {
+export class MenuUserComponent implements OnInit{
   @Output() isNotLogged = new EventEmitter<boolean>();
-  @Input() userName: string = '';
+  public userName: string = '';
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private authService: AuthService){}
+
+  ngOnInit() {
+  console.log('userName no MenuUserComponent:', this.userName);
+  const logged = sessionStorage.getItem('access_token');
+    this.userName = this.authService.decodeJwt(logged!).username || '';
+}
   
   goConfig(){
     localStorage.setItem('returnUrl', this.router.url);  
-
+    console.log("userName no menu: ", this.userName);
   }
 
   logout() {
