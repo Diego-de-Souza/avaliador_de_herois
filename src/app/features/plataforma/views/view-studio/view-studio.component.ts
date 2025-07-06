@@ -46,6 +46,6 @@ export class ViewStudioComponent implements OnInit{
   }
 
   editStudio(id: number): void {
-    this.router.navigate([`/cadastro/studio/${id}`]);
+    this.router.navigate([`/plataforma/cadastro/studio/${id}`]);
   }
 }

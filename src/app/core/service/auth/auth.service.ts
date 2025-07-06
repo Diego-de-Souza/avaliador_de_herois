@@ -5,6 +5,8 @@ import { lastValueFrom, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { jwtDecode } from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,34 +28,11 @@ export class AuthService implements OnInit{
   
   async login(userData:any): Promise<any>{
     try{
-
-      userData.password = EncryptionUtil.encrypt(userData.password);
       
       const userAccess:any = await lastValueFrom(this.userService.postLogin(userData));
 
       if (userAccess) {
-        if (userAccess.acess_token) {
-          localStorage.setItem('access_token', userAccess.acess_token);
-          // Armazenando o tempo de expiração do token
-          const expirationTime = Date.now() + (60 * 60 * 1000); 
-          localStorage.setItem('token_expiration', expirationTime.toString());
-        }
-  
-        if (userAccess.refresh_token) {
-          document.cookie = `refresh_token=${userAccess.refresh_token}; Secure; HttpOnly;`;
-        }
-  
-        if (userAccess.role) {
-          localStorage.setItem('role', JSON.stringify(userAccess.role));
-        }
-
-        if(userAccess.user_id){
-          localStorage.setItem('user_id', userAccess.user_id)
-        }
-
-        if(userAccess.nickname){
-          localStorage.setItem('nickname', userAccess.nickname)
-        }
+        sessionStorage.setItem('access_token', userAccess.access_token);
       }
       
       return true
@@ -139,6 +118,15 @@ export class AuthService implements OnInit{
         // O token expirou, deve renovar
         this.refreshTokenIfExpired();
       }
+    }
+  }
+
+  decodeJwt(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (error) {
+      console.error('Erro ao decodificar o JWT:', error);
+      return null;
     }
   }
 

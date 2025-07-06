@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ReactiveFormsModule, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UserService } from '../../../../core/service/user/user.service';
+import { HeaderPlatformComponent } from '../../../shared/components/header-platform/header-platform.component';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '../../../core/service/user/user.service';
 import { faCalendarDays, faCircleCheck, faCity, faEnvelope, faMap, faMapLocationDot, faSignsPost, faUserTag, faVihara, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
-import { EncryptionUtil } from '../../../../shared/utils/encryption.utils';
-import { CepService } from '../../../../core/service/cep/cep.service';
+import { EncryptionUtil } from '../../../shared/utils/encryption.utils';
+import { CepService } from '../../../core/service/cep/cep.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
+import { ModalSucessoCadastroComponent } from '../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -44,7 +44,8 @@ export class CadastroUsuarioComponent{
       private userService: UserService, 
       private fb : FormBuilder,
       private cepService: CepService,
-      private modalService: NgbModal
+      private modalService: NgbModal,
+      private router: Router
     ){
       // Inicializar o FormGroup no construtor
       this.cadastroForm = this.fb.group(
@@ -92,8 +93,11 @@ export class CadastroUsuarioComponent{
       if (this.cadastroForm.valid) {
         const userData = this.cadastroForm.value;
 
-        userData.password = EncryptionUtil.encrypt(userData.password);
-        userData.confirmPassword = undefined; 
+        delete userData.confirmPassword; 
+
+        if (userData.secondemail === '') {
+          delete userData.secondemail; 
+        }
 
         // Enviar o FormData na requisição de registro
         this.userService.postRegisterUser(userData).subscribe(
@@ -104,6 +108,7 @@ export class CadastroUsuarioComponent{
             this.openModal(this.title, this.message);
 
            this.clearForm();
+           this.router.navigate(['/login']); 
           },(error) => {
             this.title = 'Cadastro de Usuario';
             this.message = 'Hove uma falha no cadastro dos dados do Usuario.';

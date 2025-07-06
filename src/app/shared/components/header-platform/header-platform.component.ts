@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MenuUserComponent } from '../menu-user/menu-user.component';
 import { CommonModule, NgClass } from '@angular/common';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-header-platform',
@@ -21,12 +22,10 @@ import { CommonModule, NgClass } from '@angular/common';
   templateUrl: './header-platform.component.html',
   styleUrl: './header-platform.component.css'
 })
-export class HeaderPlatformComponent implements OnInit {
+export class HeaderPlatformComponent {
 
   @Input() isPlataformaAdmin: boolean = false;
-  public nameUser: string = '';
 
-  ngOnInit(): void {
-    this.nameUser = localStorage.getItem('nickname') || '';
-  }
+  constructor(private authService: AuthService) { }
+
 }
