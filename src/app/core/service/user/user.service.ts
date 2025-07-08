@@ -47,7 +47,7 @@ export class UserService {
   
   postLogin(userData: any): Observable<ArrayBuffer>{
     const data = {data: userData}
-    return this.http.post<ArrayBuffer>(`${this.apiUrl}/user/signin`, data,{
+    return this.http.post<ArrayBuffer>(`${this.apiUrl}/auth/signin`, data,{
       headers: {
         'Content-Type': 'application/json'
       }
