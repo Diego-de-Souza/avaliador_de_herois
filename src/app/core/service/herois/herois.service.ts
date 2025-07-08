@@ -90,10 +90,12 @@ export class HeroisService {
   }
 
   postRegisterStudio(data: any): Observable<any> {
+    const token = sessionStorage.getItem('access_token');
     return this.http.post<any>(`${this.apiUrl}/studio`, data, {
       headers: {
-        'Content-Type': 'application/json', 
-      },
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
     });
   }
 
@@ -101,7 +103,8 @@ export class HeroisService {
     const data = { data:studioData};
     return this.http.put<ArrayBuffer>(`${this.apiUrl}/studio/update/${id}`, data, {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`
       }
     });
   }
