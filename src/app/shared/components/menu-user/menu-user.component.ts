@@ -17,9 +17,9 @@ export class MenuUserComponent implements OnInit{
   constructor(private router: Router, private authService: AuthService){}
 
   ngOnInit() {
-  console.log('userName no MenuUserComponent:', this.userName);
+  console.log('nickname no MenuUserComponent:', this.userName);
   const logged = sessionStorage.getItem('access_token');
-    this.userName = this.authService.decodeJwt(logged!).username || '';
+    this.userName = this.authService.decodeJwt(logged!).nickname || '';
 }
   
   goConfig(){
