@@ -4,8 +4,7 @@ export interface articlesProps {
     title: string;
     description: string;
     text: string;
-    img: string;
-    imgAlt: string;
+    thumbnail: string;
     keyWords: string[];
     created_at: string;
 }

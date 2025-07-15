@@ -3,10 +3,10 @@ import { Routes } from "@angular/router";
 
 export const routesConteudo: Routes =[
     {
-        path: 'artigos',
-        title: 'Artigos',
-        loadComponent: () => import('./artigos-page/artigos-page.component').then(m => m.ArtigosPageComponent)
-    },
+          path: 'artigos/:id',
+          title: 'Artigos',
+          loadComponent: () => import('./artigos-page/article-page.component').then(m => m.ArticlePageComponent)
+      },
     {
         path: 'destaques',
         title: 'Destaques',

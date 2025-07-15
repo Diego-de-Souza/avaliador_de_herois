@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
+import { articlesProps } from '../../../../core/interface/articles.interface';
+import { ArticleService } from '../../../../core/service/articles/articles.service';
 
 // Declaração para evitar erro do TinyMCE
 declare var tinymce: any;
@@ -22,7 +24,19 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   public studioId: number | null = null;
   public editorConfig: any;
 
+  article: Partial<articlesProps> = {
+    category: '',
+    title: '',
+    description: '',
+    text: '',
+    thumbnail: '',
+    keyWords: []
+  };
+
+  keywordsInput = '';
+
   constructor(
+    private articleService: ArticleService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private modalService: NgbModal
@@ -30,8 +44,16 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     this.artigosForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       category: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.maxLength(60)]],
+      thumbnail: ['', []], // Campo opcional
+      keywords: ['', [Validators.required]],
       content: ['', [Validators.required]]
     });
+    this.articleService.loadFromLocalStorage();
+  }
+
+  generateId(): number {
+    return Number(crypto.randomUUID());
   }
 
   ngOnInit(): void {
@@ -63,7 +85,17 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     if (this.artigosForm.valid) {
-      console.log('Dados enviados para registro:', this.artigosForm.value);
+      const newArticle: articlesProps = {
+        ...(this.article as articlesProps),
+        id: this.generateId(),
+        keyWords: this.keywordsInput.split(',').map(k => k.trim()),
+        created_at: new Date().toISOString()
+      };
+
+      this.articleService.addArticle(newArticle);
+      alert('Artigo salvo com sucesso!');
+
+      this.clearForm();
     } else {
       console.log('Formulário inválido:', this.artigosForm.errors);
     }
@@ -77,6 +109,7 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
 
   clearForm() {
     this.artigosForm.reset();
+    this.keywordsInput = '';
     this.isEditMode = false;
     this.studioId = null;
   }

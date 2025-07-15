@@ -23,15 +23,15 @@
         <div class="articles-grid">
           <!-- *ngFor="let article of filteredArticles(category); let i = index" -->
           <div class="article-card" *ngFor="let article of filteredArticles(category)">
-            <a [routerLink]="['plataforma/view/view-artigos/article-page', article.id]" routerLinkActive="active">
+            <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
               <div class="img-container">
-                <img [ngSrc]="article.img" [alt]="article.imgAlt" width="400" height="300" loading="lazy" />
+                <img [ngSrc]="article.thumbnail" width="400" height="300" loading="lazy" />
               </div>
               <span class="article-card-category">{{ article.category }}</span>
               <h3 class="article-card-title">{{ article.title }}</h3>
               <p class="article-card-description">{{ article.description }}</p>
             </a>
-            <div class="botoes">
+            <!-- <div class="botoes">
               <button class="botao-excluir">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
                   viewBox="0 0 16 16">
@@ -48,7 +48,7 @@
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                 </svg>
               </button>
-            </div>
+            </div> -->
           </div>
 
         </div>
@@ -58,19 +58,14 @@
 
 
     <aside class="sidebar">
-      <div class="btn-cadastro-artigo">
-        <a routerLink="plataforma/view/view-artigos/form-article">
-          <button>Adicionar novo artigo</button>
-        </a>
-      </div>
       <div class="sidebar-header">
         <h2 class="novidades-title">Novidades</h2>
       </div>
 
       <div class="novidade" *ngFor="let article of getRecentArticles(5)">
-        <a [routerLink]="['plataforma/view/view-artigos/article-page', article.id]" routerLinkActive="active">
+        <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
           <div class="img-container">
-            <img [ngSrc]="article.img" [alt]="article.imgAlt" width="400" height="300" loading="lazy" />
+            <img [ngSrc]="article.thumbnail" width="400" height="300" loading="lazy" />
           </div>
           <div class="novidade-content">
             <span class="article-card-category">{{ article.category }}</span>

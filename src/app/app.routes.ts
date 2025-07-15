@@ -31,7 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'plataforma',
-    canActivate: [guardPlataformaGuard],
+    // canActivate: [guardPlataformaGuard],
     loadChildren: () => import('./features/plataforma/plataforma.routes').then(m => m.routesPlataforma)
   },
   { path: '**', redirectTo: '' },

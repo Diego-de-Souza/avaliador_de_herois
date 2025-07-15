@@ -1,0 +1,167 @@
+<section id="container-articles-page">
+  <app-header></app-header>
+  <article class="article-container">
+    <div *ngIf="article" class="article-page">
+      <span class="sitemap">
+        Artigos >
+        {{ article.category | titlecase }}
+      </span>
+      <h1 class="article-title">{{ article.title }}</h1>
+      <img [src]="article.thumbnail" class="img-banner" />
+
+      <!-- @if(copywriter != null; track user) {
+      <div class="article-author">
+        <div>
+          <div class="photo_frame">
+            <img [src]="user.foto" [alt]="user.nome" />
+            <div class="photo_background"></div>
+          </div>
+          <div class="author-info">
+            <p class="author-name">{{ user.nome }}</p>
+            <p class="author-role">{{ user.funcao }}</p>
+            <p class="article-createdAt">{{ article.created_at | date:'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+
+
+        <div class="social-container">
+          <p>Compartilhe:</p>
+          <div class="social-icons">
+            <a href="{{ user.url_facebook }}" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="{{ user.url_twitter }}" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="{{ user.url_linkedin }}" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      } -->
+
+      <!-- DEV MODE -->
+      @if(imgDevMode != null) {
+      <div class="article-author">
+        <div>
+          <div class="photo_frame">
+            <img [src]="imgDevMode" alt="ImgIntegrante" />
+            <div class="photo_background"></div>
+          </div>
+          <div class="author-info">
+            <p class="author-name">John O'Dev</p>
+            <p class="author-role">Desenvolvedor FullStack</p>
+            <p class="article-createdAt">10 de Julho</p>
+          </div>
+        </div>
+
+        <div class="social-container">
+          <p>Compartilhe:</p>
+          <div class="social-icons">
+            <a href="#" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      }
+      <!-- DEV MODE -->
+
+      <!-- markdown -->
+      <div class="content">
+        {{ article.text }}
+      </div>
+      <!-- markdown -->
+
+      <!-- @if(copywriter != null; track user) {
+      <div class="article-author">
+        <div>
+          <div class="photo_frame">
+            <img [src]="user.foto" [alt]="user.nome" />
+            <div class="photo_background"></div>
+          </div>
+          <div class="author-info">
+            <p class="author-name">{{ user.nome }}</p>
+            <p class="author-role">{{ user.funcao }}</p>
+            <p class="author-description">{{ user.artigos_descricao } }</p>
+          </div>
+        </div>
+
+
+        <div class="social-container">
+          <p>Compartilhe:</p>
+          <div class="social-icons">
+            <a href="{{ user.url_facebook }}" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="{{ user.url_twitter }}" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="{{ user.url_linkedin }}" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      } -->
+
+      <!-- DEV MODE -->
+      @if(imgDevMode != null) {
+      <div class="article-author">
+        <div>
+          <div class="photo_frame">
+            <img [src]="imgDevMode" alt="ImgIntegrante" />
+            <div class="photo_background"></div>
+          </div>
+          <div class="author-info">
+            <p class="author-name">John O'Dev</p>
+            <p class="author-role">Desenvolvedor FullStack</p>
+            <p class="author-description">
+              Estudante de Analise e Desenvolvimento de Sistemas, sou um desenvolvedor apaixonado por criar experiências digitais incríveis. Com um olhar atento para detalhes e uma mente criativa, ele transforma ideias em interfaces intuitivas e funcionais. Seu compromisso com a excelência garante que cada projeto não apenas atenda, mas supere as expectativas.
+            </p>
+          </div>
+        </div>
+
+        <div class="social-container">
+          <p>Compartilhe:</p>
+          <div class="social-icons">
+            <a href="#" target="_blank">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      }
+      <!-- DEV MODE -->
+
+      <div class="keywords">
+        <strong>Palavras-chave: </strong>
+        <span *ngFor="let word of article.keyWords">{{ word }}</span>
+      </div>
+
+      <div>
+        <span>Veja outros artigos sobre</span>
+        <span>{{ article.category | titlecase }}</span>
+      </div>
+
+    </div>
+
+    <!-- Comentários -->
+
+  </article>
+  <app-newsletter></app-newsletter>
+  <app-footer></app-footer>
+</section>

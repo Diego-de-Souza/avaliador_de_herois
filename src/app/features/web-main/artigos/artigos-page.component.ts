@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../../shared/components/header/header.component';
-import { NewsletterComponent } from '../../../../shared/components/newsletter/newsletter.component';
-import { FooterComponent } from '../../../../shared/components/footer/footer.component';
-import { ArtigosComponent } from '../../../../shared/components/artigos/artigos.component';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
+import { ArtigosComponent } from '../../../shared/components/artigos/artigos.component';
 
 
 @Component({
