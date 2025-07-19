@@ -1,39 +1,76 @@
 <section class="artigos-container">
   <app-header-platform></app-header-platform>
-    <section class="cadastro-artigos-container">
-      <h1>Cadastro de Artigos</h1>
-      <form [formGroup]="artigosForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="name">Título do Artigo</label>
-          <input type="text" id="name" formControlName="name" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('name')}">
+  <section class="cadastro-artigos-container">
+    <h1>Cadastro de Artigos</h1>
+    <form [formGroup]="artigosForm" (ngSubmit)="onSubmit()">
+
+      <div class="form-header">
+        <div class="form-group title">
+          <label for="title">Título do Artigo</label>
+          <input type="text" id="title" formControlName="title" class="form-control"
+            [ngClass]="{'is-invalid': isFieldInvalid('title')}">
         </div>
-        <div class="form-group">
-          <label for="category">Categoria</label>
-          <input type="text" id="category" formControlName="category" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('category')}">
+        <div class="form-group category">
+          <label for="category">Adicione ou selecione uma categoria</label>
+          <input list="categoryOptions" id="category" formControlName="category" class="form-control"
+            [ngClass]="{'is-invalid': isFieldInvalid('category')}" placeholder="Categorias">
+
+          <datalist id="categoryOptions">
+            <option *ngFor="let category of getCategories()" [value]="category"></option>
+          </datalist>
         </div>
-        <div class="form-group">
-          <label for="description">Descrição</label>
-          <input type="text" id="description" formControlName="description" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('description')}">
-        </div>
-        <div class="form-group">
-          <label for="thumbnail">URL da thumbnail</label>
-          <input type="text" placeholder="Opcional" id="thumbnail" formControlName="thumbnail" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('thumbnail')}">
-        </div>
-        <div class="form-group">
-          <label for="keywords">Keywords</label>
-          <input type="text" placeholder="#keywords" id="keywords" formControlName="keywords" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('keywords')}">
-        </div>
-        <div class="form-group">
-          <label for="content">Conteúdo do Artigo</label>
-          <textarea id="editor" formControlName="content" class="form-control"></textarea>
-          <div *ngIf="isFieldInvalid('content')" class="text-danger">
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <input type="text" id="description" formControlName="description" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('description')}">
+      </div>
+      <div class="form-group">
+        <label for="thumbnail">URL da thumbnail</label>
+        <input type="text" placeholder="Opcional" id="thumbnail" formControlName="thumbnail" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('thumbnail')}">
+      </div>
+      <div class="form-group">
+        <label for="keywords">Keywords</label>
+        <input type="text" placeholder="#keywords" id="keywords" formControlName="keywords" class="form-control"
+          [ngClass]="{'is-invalid': isFieldInvalid('keywords')}">
+      </div>
+      <div class="form-group">
+        <label for="text">Conteúdo do Artigo</label>
+
+        <!-- Abas -->
+        <ul class="nav nav-tabs mb-2">
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab === 'edit'" (click)="activeTab = 'edit'">
+              📝 Editar
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="activeTab === 'preview'" (click)="activeTab = 'preview'">
+              👁️ Preview
+            </button>
+          </li>
+        </ul>
+
+        <!-- Área de edição -->
+        <div *ngIf="activeTab === 'edit'">
+          <textarea id="text" formControlName="text" class="form-control" rows="10" [(ngModel)]="markdown">
+          </textarea>
+          <div *ngIf="isFieldInvalid('text')" class="text-danger mt-1">
             O conteúdo do artigo é obrigatório.
           </div>
         </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary"  [disabled]="artigosForm.invalid">Salvar Artigo</button>
-          <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+
+        <!-- Área de preview -->
+        <div *ngIf="activeTab === 'preview'" class="border rounded p-3 bg-light">
+          <markdown class="variable-binding" [data]="markdown"></markdown>
         </div>
-      </form>
-    </section>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="artigosForm.invalid">Salvar Artigo</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+      </div>
+    </form>
+  </section>
 </section>

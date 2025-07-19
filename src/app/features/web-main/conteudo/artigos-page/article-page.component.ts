@@ -8,6 +8,7 @@ import { NewsletterComponent } from '../../../../shared/components/newsletter/ne
 import { FooterComponent } from '../../../../shared/components/footer/footer.component';
 import { Copywriter } from '../../../../core/interface/copywriter.interface';
 import { CopywriterUser } from '../../../../core/storage/copywriters/copywriters.data';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-article-page',
@@ -16,7 +17,8 @@ import { CopywriterUser } from '../../../../core/storage/copywriters/copywriters
     CommonModule,
     HeaderComponent,
     NewsletterComponent,
-    FooterComponent
+    FooterComponent,
+    MarkdownModule
   ],
   templateUrl: './article-page.component.html',
   styleUrls: ['./article-page.component.css']
@@ -37,9 +39,6 @@ export class ArticlePageComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     const articles = this.articleService.getArticles();
-
-    console.log('Rota ID:', id);
-    console.log('Artigos:', articles);
 
     const index = Number(id);
     if (index) {
