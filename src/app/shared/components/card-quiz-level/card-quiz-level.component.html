@@ -1,0 +1,40 @@
+<section>
+    <div class="hero-card" 
+           [class.unlocked]="level.unlocked"
+           [class.locked]="!level.unlocked"
+           id="hero-{{level.id}}"
+           (click)="level.unlocked ? startLevel(level.id) : unlockLevel(level)">
+        
+        <div class="hero-image-container">
+          <img [src]="level.hero.image" 
+               [alt]="level.hero.name" 
+               class="hero-img"
+               [style.filter]="!level.unlocked ? 'grayscale(100%)' : 'none'">
+          <div class="level-difficulty" [ngClass]="level.difficulty.toLowerCase()">
+            {{level.difficulty}}
+          </div>
+        </div>
+
+        <div class="hero-info">
+          <h3>{{level.name}}</h3>
+          <p class="hero-quote">"{{level.hero.quote}}"</p>
+          
+          <div class="stats">
+            <span><i class="icon-question"></i> {{level.questions}} perguntas</span>
+            <span><i class="icon-xp"></i> {{level.xpReward}} XP</span>
+          </div>
+
+          @if (level.unlocked) {
+            <button class="hero-button">
+              <span class="button-text">Iniciar Missão</span>
+              <span class="button-icon">🦸</span>
+            </button>
+          } @else {
+            <div class="locked-overlay">
+              <div class="lock-icon">🔒</div>
+              <p>Complete o nível anterior para desbloquear</p>
+            </div>
+          }
+        </div>
+      </div>
+</section>
