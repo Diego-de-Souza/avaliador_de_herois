@@ -41,13 +41,23 @@
         <!-- Abas -->
         <ul class="nav nav-tabs mb-2">
           <li class="nav-item">
-            <button class="nav-link" [class.active]="activeTab === 'edit'" (click)="activeTab = 'edit'">
-              📝 Editar
+            <button type="button" class="nav-link" [class.active]="activeTab === 'edit'" (click)="activeTab = 'edit'">
+              📝 Editar Artigo
             </button>
           </li>
           <li class="nav-item">
-            <button class="nav-link" [class.active]="activeTab === 'preview'" (click)="activeTab = 'preview'">
-              👁️ Preview
+            <button type="button" class="nav-link" [class.active]="activeTab === 'summary'" (click)="activeTab = 'summary'">
+              📝 Editar Sumário
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'preview'" (click)="activeTab = 'preview'">
+              👁️ Preview Artigo
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'previewSummary'" (click)="activeTab = 'previewSummary'">
+              👁️ Preview Sumário
             </button>
           </li>
         </ul>
@@ -61,10 +71,22 @@
           </div>
         </div>
 
-        <!-- Área de preview -->
-        <div *ngIf="activeTab === 'preview'" class="border rounded p-3 bg-light">
+        <!-- Área de sumário -->
+        <div *ngIf="activeTab === 'summary'" class="border rounded p-3 bg-dark text-white">
+          <textarea id="summary" formControlName="summary" class="form-control" rows="10" [(ngModel)]="markdownSummary">
+          </textarea>
+        </div>
+
+        <!-- Área de preview artigo -->
+        <div *ngIf="activeTab === 'preview'" class="border rounded p-3 bg-dark text-white">
           <markdown class="variable-binding" [data]="markdown"></markdown>
         </div>
+
+        <!-- Área de preview sumário -->
+        <div *ngIf="activeTab === 'previewSummary'" class="border rounded p-3 bg-dark text-white">
+          <markdown class="variable-binding" [data]="markdownSummary"></markdown>
+        </div>
+
       </div>
 
       <div class="form-actions">

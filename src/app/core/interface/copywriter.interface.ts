@@ -3,7 +3,9 @@ export interface Copywriter {
     nome: string;
     funcao: string;
     artigos_descricao: string;
-    url_facebook: string;
-    url_linkedin: string;
-    url_twitter: string;
+    url_facebook?: string;
+    url_x?: string;
+    url_linkedin?: string;
+    url_instagram?: string;
+    url_github?: string;
 }

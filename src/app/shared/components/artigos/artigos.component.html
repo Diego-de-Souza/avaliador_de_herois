@@ -56,25 +56,8 @@
       </div>
     </div>
 
-    <!-- componentizar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2 class="novidades-title">Novidades</h2>
-      </div>
-
-      <div class="novidade" *ngFor="let article of getRecentArticles(5)">
-        <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
-          <div class="img-container">
-            <img [ngSrc]="article.thumbnail" width="400" height="300" loading="lazy" />
-          </div>
-          <div class="novidade-content">
-            <span class="article-card-category">{{ article.category }}</span>
-            <h3 class="article-card-title">{{ article.title }}</h3>
-            <p class="article-card-description">{{ article.description }}</p>
-            <small class="article-card-date">{{ article.created_at | date:'dd/MM/yyyy' }}</small>
-          </div>
-        </a>
-      </div>
+    <aside class="sidebar-right">
+      <app-novidades></app-novidades>
     </aside>
 
   </div>

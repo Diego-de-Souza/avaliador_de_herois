@@ -13,8 +13,8 @@
                 @if (isList && articles.length > 0) {
                     @for (article of articles; track article) {
                         <tr class="tr-viewStudio">
-                            <td>{{ article.name }}</td>
-                            <td>{{ article.nationality }}</td>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.category }}</td>
                             <td class="td-acoes-studio">
                                 <button class="btn btn-primary" (click)="editArtigos(article.id)">Editar</button>
                                 <button class="btn btn-danger" (click)="deleteArtigos(article.id)">Deletar</button>

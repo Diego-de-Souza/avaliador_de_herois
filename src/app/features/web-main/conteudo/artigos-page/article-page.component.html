@@ -3,198 +3,156 @@
   <article class="article-container">
     <div *ngIf="article" class="article-page">
       <p class="sitemap">
-        <a href="#" class="sitemap-articles">Artigos > </a>
-        <a href="#" class="sitemap-category">{{ article.category | titlecase }}</a>
+        <a href="webmain/artigos" class="sitemap-articles">Artigos > </a>
+        <a href="webmain/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a>
       </p>
       <h1 class="article-title">{{ article.title }}</h1>
-      <img [src]="article.thumbnail" class="img-banner" />
+      <img [src]="article.thumbnail" class="img-banner" alt="{{ article.title }}" />
 
-      <!-- @if(copywriter != null) {
-      <div class="article-author">
-        <div>
-          <div class="photo_frame">
-            <img [src]="user.foto" [alt]="user.nome" />
-            <div class="photo_background"></div>
-          </div>
-          <div class="author-info">
-            <p class="author-name">{{ user.nome }}</p>
-            <p class="author-role">{{ user.funcao }}</p>
-            <p class="article-createdAt">{{ article.created_at | date:'dd/MM/yyyy' }}</p>
-          </div>
-        </div>
-
-
-        <div class="social-container">
-          <p>Compartilhe:</p>
-          <div class="social-icons">
-            <a href="{{ user.url_facebook }}" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="{{ user.url_twitter }}" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="{{ user.url_linkedin }}" target="_blank">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      } -->
-
-      <!-- DEV MODE -->
-      @if(imgDevMode != null) {
+      <!-- copywriter é a variável que contém informações sobre o usuário que escreveu o artigo -->
+      @if(copywriter != null) {
       <div class="article-author-top">
         <div class="author-info-top">
           <div class="photo_frame">
-            <img [src]="imgDevMode" alt="ImgIntegrante" />
+            <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
           </div>
           <div class="author-info-more">
-            <p class="author-name">John O'Dev</p>
-            <p class="article-createdAt">10 de Julho</p>
+            <p class="author-name">{{ copywriter.nome }}</p>
+            <p class="article-createdAt">{{ article.created_at | date:'dd/MM/yyyy' }}</p>
           </div>
         </div>
 
         <div class="social-container">
           <p>Compartilhe:</p>
           <ul class="social-icons">
-            <li class="social-icon">
-              <a href="#" target="_blank">
+            <li *ngIf="copywriter.url_facebook" class="social-icon">
+              <a href="{{ copywriter.url_facebook }}" target="_blank">
                 <i class="fab fa-facebook-f"></i>
               </a>
             </li>
-            <li class="social-icon">
-              <a href="#" target="_blank">
+            <li *ngIf="copywriter.url_x" class="social-icon">
+              <a href="{{ copywriter.url_x }}" target="_blank">
                 <i class="fab fa-twitter"></i>
               </a>
             </li>
-            <li class="social-icon">
-              <a href="#" target="_blank">
+            <li *ngIf="copywriter.url_linkedin" class="social-icon">
+              <a href="{{ copywriter.url_linkedin }}" target="_blank">
                 <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+            <li *ngIf="copywriter.url_instagram" class="social-icon">
+              <a href="{{ copywriter.url_instagram }}" target="_blank">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </li>
+            <li *ngIf="copywriter.url_github" class="social-icon">
+              <a href="{{ copywriter.url_github }}" target="_blank">
+                <i class="fab fa-github"></i>
               </a>
             </li>
           </ul>
         </div>
       </div>
       }
-      <!-- DEV MODE -->
-
-      <!-- <p class="article-description">{{ article.description }}</p> -->
-
-      <!-- DEV MODE -->
-      <p class="article-description">
-        lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-
-      <aside class="sidebar-left">
-        <div class="sidebar-left-content">
-          <span>Confira neste artigo:</span>
-          <nav>
-            <ol>
-              <!-- <li *ngFor="let item of article.items">
-                <a [routerLink]="item.link">{{ item.title }}</a>
-              </li> -->
-              <!-- DEV MODE -->
-              <li><a href="#">Explorando a biblioteca expo-router do Expo</a></li>
-              <li><a href="#">Navegação com Stacks</a></li>
-              <li><a href="#">Navegação com Tabs</a></li>
-              <li><a href="#">Navegação com Drawer</a></li>
-              <li><a href="#">Conclusão</a></li>
-              <!-- DEV MODE -->
-            </ol>
-          </nav>
-        </div>
-      </aside>
 
       <main class="content">
+        <p class="article-description">
+          {{ article.description }}
+        </p>
+
+        <aside class="sidebar-left">
+          <div class="sidebar-left-content">
+            <span>Confira neste artigo:</span>
+
+            <!-- Navegação do sumário -->
+            <nav>
+              <ol>
+                <div *ngFor="let item of article.summary; let i = index">
+                  <li *ngIf="item.level === 1">
+                    {{ item.text }}
+
+                    <!-- verifica se o próximo item é subitem -->
+                    <ul *ngIf="article.summary[i + 1]?.level === 2">
+                      <li *ngFor="let subitem of article.summary.slice(i + 1) | slice:0:subCount(i)">
+                        {{ subitem.text }}
+                      </li>
+                    </ul>
+                  </li>
+                </div>
+              </ol>
+            </nav>
+          </div>
+        </aside>
+
         <markdown class="variable-binding" [data]="article.text">
         </markdown>
+
+        <aside class="sidebar-right">
+          <app-novidades></app-novidades>
+        </aside>
       </main>
 
       <div class="keywords">
         <span *ngFor="let word of article.keyWords">{{ word }} </span>
       </div>
 
-      <aside class="sidebar-right">Novidades
-      </aside>
-
-      <!-- @if(copywriter != null; track user) {
-      <div class="article-author">
-        <div>
-          <div class="photo_frame">
-            <img [src]="user.foto" [alt]="user.nome" />
-            <div class="photo_background"></div>
-          </div>
-          <div class="author-info">
-            <p class="author-name">{{ user.nome }}</p>
-            <p class="author-role">{{ user.funcao }}</p>
-            <p class="author-description">{{ user.artigos_descricao } }</p>
-          </div>
-        </div>
-
-
-        <div class="social-container">
-          <p>Compartilhe:</p>
-          <div class="social-icons">
-            <a href="{{ user.url_facebook }}" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="{{ user.url_twitter }}" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="{{ user.url_linkedin }}" target="_blank">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      } -->
-
-      <!-- DEV MODE -->
-      @if(imgDevMode != null) {
+      <!-- copywriter é a variável que contém informações sobre o usuário que escreveu o artigo -->
+      @if(copywriter != null) {
       <div class="article-author-bottom">
-        <img loading="lazy" [src]="imgDevMode" alt="ImgIntegrante" />
-        <div class="author-info-bottom">
-          <p class="author-name">John O'Dev</p>
-          <p class="author-role">Desenvolvedor FullStack</p>
-          <p class="author-description">
-            Estudante de Analise e Desenvolvimento de Sistemas, sou um desenvolvedor apaixonado por criar experiências digitais incríveis. Com um olhar atento para detalhes e uma mente criativa, ele transforma ideias em interfaces intuitivas e funcionais. Seu compromisso com a excelência garante que cada projeto não apenas atenda, mas supere as expectativas.
-          </p>
-        </div>
-        
-        <div class="social-container">
-          <p>Compartilhe:</p>
-          <ul class="social-icons">
-            <li class="social-icon">
-              <a href="#" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-            </li>
-            <li class="social-icon">
-              <a href="#" target="_blank">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li class="social-icon">
-              <a href="#" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </li>
-          </ul>
+        <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
+        <div>
+          <div class="author-info-bottom">
+            <p class="author-name">{{ copywriter.nome }}</p>
+            <p class="author-role">{{ copywriter.funcao }}</p>
+            <p class="author-description">{{ copywriter.artigos_descricao }}</p>
+          </div>
+
+          <div class="social-container">
+            <p>Compartilhe:</p>
+            <ul class="social-icons">
+              <li *ngIf="copywriter.url_facebook" class="social-icon">
+                <a href="{{ copywriter.url_facebook }}" target="_blank">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li *ngIf="copywriter.url_x" class="social-icon">
+                <a href="{{ copywriter.url_x }}" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li *ngIf="copywriter.url_linkedin" class="social-icon">
+                <a href="{{ copywriter.url_linkedin }}" target="_blank">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+              <li *ngIf="copywriter.url_instagram" class="social-icon">
+                <a href="{{ copywriter.url_instagram }}" target="_blank">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </li>
+              <li *ngIf="copywriter.url_github" class="social-icon">
+                <a href="{{ copywriter.url_github }}" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       }
-      <!-- DEV MODE -->
 
       <div class="related-articles">
         <div class="related-articles-content">
           <div class="related-articles-icon">
-            <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24">
-              <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/>
+            <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24">
+              <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023" />
             </svg>
           </div>
           <p class="related-articles-text">
             Veja outros artigos sobre <br />
-            <a href="#" class="related-articles-category">{{ article.category | titlecase }}</a>
+            <a href="webmain/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a>
           </p>
         </div>
       </div>

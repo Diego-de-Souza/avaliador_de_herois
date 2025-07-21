@@ -11,6 +11,11 @@ import { MarkdownModule } from 'ngx-markdown';
 // Declaração para evitar erro do TinyMCE
 declare var tinymce: any;
 
+type ListItem = {
+  text: string;
+  level: number; // 1 = item principal, 2 = subitem
+};
+
 @Component({
   selector: 'app-cadastro-artigos',
   standalone: true,
@@ -32,7 +37,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   public studioId: number | null = null;
   public editorConfig: any;
   markdown: string = '';
-  activeTab: 'edit' | 'preview' = 'edit';
+  markdownSummary: string = '';
+  activeTab: 'edit' | 'preview' | 'summary' | 'previewSummary' = 'edit';
 
   // Edit Mode
   article: Partial<articlesProps> = {
@@ -40,6 +46,7 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     title: '',
     description: '',
     text: '',
+    summary: [],
     thumbnail: '',
     keyWords: []
   };
@@ -62,7 +69,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
       description: ['', [Validators.required, Validators.maxLength(80)]],
       thumbnail: ['', []], // Campo opcional
       keywords: ['', [Validators.required]],
-      text: ['', [Validators.required]]
+      text: ['', [Validators.required, Validators.minLength(5)]],
+      summary: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]]
     });
     this.articleService.loadFromLocalStorage();
     this.articles = this.articleService.getArticles();
@@ -74,14 +82,15 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.markdown = this.artigosForm.get('text')?.value || 'Nada inserido!';
+    this.markdown = this.artigosForm.get('text')?.value || 'Nenhum texto inserido!';
+    this.markdownSummary = this.artigosForm.get('summary')?.value || 'Nenhum resumo inserido!';
 
   }
 
   ngAfterViewInit(): void {
     this.loadTinyMCE(() => {
       this.editorConfig = {
-        selector: '#editor',
+        selector: '#text',
         plugins: [
           'anchor', 'autolink', 'charmap', 'codesample', 'emoticons',
           'image', 'link', 'lists', 'media', 'searchreplace', 'table',
@@ -100,6 +109,24 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     return Array.from(categories);
   }
 
+  parseStructuredList(markdownText: string): ListItem[] {
+    return markdownText
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line =>
+        /^(\d+\.\s+|[-]{1,2}\s+)/.test(line)
+      )
+      .map(line => {
+        const level = line.startsWith('--') ? 2 : 1;
+        const cleaned = line.replace(/^(\d+\.\s+|[-]{1,2}\s+)/, '');
+        return { text: cleaned, level };
+      });
+  }
+
+  // onSummaryInputChange(text: string): void {
+  //   this.parseStructuredList(text);
+  // }
+
   onSubmit(): void {
     if (this.artigosForm.valid) {
       const formValue = this.artigosForm.value;
@@ -111,6 +138,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
         description: formValue.description,
         category: formValue.category,
         text: formValue.text,
+        summary: this.parseStructuredList(formValue.summary),
+        // summary: formValue.summary,
         thumbnail: formValue.thumbnail,
         keyWords: formValue.keywords.split(',').map((k: string) => k.trim()),
         created_at: new Date().toISOString()

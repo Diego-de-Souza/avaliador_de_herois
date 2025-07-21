@@ -14,8 +14,7 @@
   margin-bottom: 20px;
 }
 
-.title::after,
-.novidades-title::after {
+.title::after {
   content: '';
   display: block;
   width: 60px;
@@ -147,44 +146,6 @@
   gap: 1rem;
 }
 
-.sidebar-header {
-  width: 100%;
-}
-
-.novidades-title {
-  font-size: 1.7rem;
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.novidade {
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.novidade .img-container {
-  max-width: 100%;
-}
-
-.novidade img {
-  overflow: hidden;
-}
-
-.novidade-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 10px;
-}
-
-.novidade-content .article-card-category {
-  align-self: flex-end;
-}
-
-.novidade-content .article-card-date {
-  align-self: center;
-}
-
 .mais-vistos {
   margin-top: 3rem;
   text-align: center;
@@ -238,32 +199,25 @@
   color: #ffffff;
 }
 
-.dark .title,
-.dark .novidades-title {
+.dark .title {
   color: #00d2ff;
 }
 
-.dark .title::after,
-.dark .novidades-title::after {
+.dark .title::after {
   background: #00d2ff;
 }
 
-.dark .article-card,
-.dark .novidade {
+.dark .article-card {
   box-shadow: #00d2ff 0px 0px 10px 2px;
 }
 
 .dark .article-card,
-.dark .category-selector,
-.dark .sidebar-header,
-.dark .novidade {
+.dark .category-selector {
   background: linear-gradient(135deg, #1e2a38, #2e3b50);
 }
 
 .dark .article-card:hover,
-.dark .category-selector:hover,
-.dark .sidebar-header:hover,
-.dark .novidade:hover {
+.dark .category-selector:hover {
   background: linear-gradient(135deg, #4e6683, #4d6894);
 }
 
@@ -278,32 +232,25 @@
   color: #101522;
 }
 
-.light .title,
-.light .novidades-title {
+.light .title {
   color: #101522;
 }
 
-.light .title::after,
-.light .novidades-title::after {
+.light .title::after {
   background: #00d2ff;
 }
 
-.light .article-card,
-.light .novidade {
+.light .article-card {
   box-shadow: #101522 0px 0px 10px 2px;
 }
 
 .light .article-card,
-.light .category-selector,
-.light .sidebar-header,
-.light .novidade {
+.light .category-selector {
   background: linear-gradient(135deg, #F0F0F0, #4e6683);
 }
 
 .light .article-card:hover,
-.light .category-selector:hover,
-.light .sidebar-header:hover,
-.light .novidade:hover {
+.light .category-selector:hover {
   background: linear-gradient(135deg, #ffffff, #8da4c0);
 }
 

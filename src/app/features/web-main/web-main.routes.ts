@@ -8,6 +8,11 @@ export const routesWebMain: Routes = [
     loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
   },
   {
+    path: 'artigos',
+    title: 'Artigos',
+    loadComponent: () => import('./artigos/artigos-page.component').then(m => m.ArtigosPageComponent)
+  },
+  {
     path: 'busca_heroes',
     title: 'Busca de heróis',
     loadComponent: () => import('./busca-heroes/busca-heroes.component').then(m => m.BuscaHeroesComponent)
