@@ -7,6 +7,8 @@ export const guardPlataformaGuard: CanActivateFn = (route, state) => {
   
   const accessToken = sessionStorage.getItem('access_token');
 
+  console.log('Token de acesso guard:', accessToken);
+
   if(!accessToken){
     console.error('Acesso negado: Token de acesso não encontrado.');
     return false;
@@ -14,8 +16,11 @@ export const guardPlataformaGuard: CanActivateFn = (route, state) => {
 
   const dataUser = authService.decodeJwt(accessToken);
 
+  console.log('Dados do usuário:', dataUser);
   if(dataUser.role !== "admin" ){
     return false;
   }
+
+  console.log("passou do guard")
   return true;
 };
