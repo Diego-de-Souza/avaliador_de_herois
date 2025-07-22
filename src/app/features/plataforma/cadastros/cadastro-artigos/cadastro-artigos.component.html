@@ -41,32 +41,48 @@
         <!-- Abas -->
         <ul class="nav nav-tabs mb-2">
           <li class="nav-item">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'edit'" (click)="activeTab = 'edit'">
-              📝 Editar Artigo
+            <button type="button" class="nav-link" [class.active]="activeTab === 'editMarkdown'"
+              (click)="switchTab('editMarkdown')">
+              📝 Editar com Markdown
             </button>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'summary'" (click)="activeTab = 'summary'">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'editTinyMCE'"
+              (click)="switchTab('editTinyMCE')">
+              🧾 Editar com TinyMCE
+            </button>
+          </li>
+          <li class="nav-item">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'summary'"
+              (click)="switchTab('summary')">
               📝 Editar Sumário
             </button>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'preview'" (click)="activeTab = 'preview'">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'preview'"
+              (click)="switchTab('preview')">
               👁️ Preview Artigo
             </button>
           </li>
           <li class="nav-item">
-            <button type="button" class="nav-link" [class.active]="activeTab === 'previewSummary'" (click)="activeTab = 'previewSummary'">
+            <button type="button" class="nav-link" [class.active]="activeTab === 'previewSummary'"
+              (click)="switchTab('previewSummary')">
               👁️ Preview Sumário
             </button>
           </li>
         </ul>
 
         <!-- Área de edição -->
-        <div *ngIf="activeTab === 'edit'">
-          <textarea id="text" formControlName="text" class="form-control" rows="10" [(ngModel)]="markdown">
-          </textarea>
+        <div *ngIf="activeTab === 'editMarkdown'">
+          <textarea id="text" formControlName="text" class="form-control" rows="10" [(ngModel)]="markdown"></textarea>
           <div *ngIf="isFieldInvalid('text')" class="text-danger mt-1">
+            O conteúdo do artigo é obrigatório.
+          </div>
+        </div>
+
+        <div *ngIf="activeTab === 'editTinyMCE'">
+          <textarea id="editor"></textarea>
+          <div *ngIf="isFieldInvalid('editor')" class="text-danger mt-1">
             O conteúdo do artigo é obrigatório.
           </div>
         </div>

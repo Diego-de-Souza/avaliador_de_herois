@@ -4,17 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
-import { articlesProps } from '../../../../core/interface/articles.interface';
+import { articlesProps, ListItem } from '../../../../core/interface/articles.interface';
 import { ArticleService } from '../../../../core/service/articles/articles.service';
 import { MarkdownModule } from 'ngx-markdown';
 
 // Declaração para evitar erro do TinyMCE
 declare var tinymce: any;
-
-type ListItem = {
-  text: string;
-  level: number; // 1 = item principal, 2 = subitem
-};
 
 @Component({
   selector: 'app-cadastro-artigos',
@@ -36,9 +31,9 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   public isEditMode: boolean = false;
   public studioId: number | null = null;
   public editorConfig: any;
+  activeTab: 'editMarkdown' | 'editTinyMCE' | 'preview' | 'summary' | 'previewSummary' = 'editMarkdown';
   markdown: string = '';
   markdownSummary: string = '';
-  activeTab: 'edit' | 'preview' | 'summary' | 'previewSummary' = 'edit';
 
   // Edit Mode
   article: Partial<articlesProps> = {
@@ -72,25 +67,38 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
       text: ['', [Validators.required, Validators.minLength(5)]],
       summary: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]]
     });
+
+    // DEV MODE
     this.articleService.loadFromLocalStorage();
     this.articles = this.articleService.getArticles();
+    // DEV MODE
+
+    console.log('O que tem em this.route.paramMap:', this.route.paramMap);
+    console.log('O que tem em this.route.paramMap.subscribe:', this.route.paramMap.subscribe(params => {return params.get('id')}));
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
+      console.log('ID do artigo:', idParam);
       if (idParam) {
-        this.studioId = Number(idParam);
         this.isEditMode = true;
+        this.studioId = Number(idParam);
+        const artigo = this.articleService.getArticleById(this.studioId);
+        console.log('Artigo encontrado:', artigo);
+        if (artigo) {
+          this.article = artigo;
+          this.artigosForm.patchValue(artigo);
+          this.markdown = artigo.text;
+        }
       }
     });
 
     this.markdown = this.artigosForm.get('text')?.value || 'Nenhum texto inserido!';
     this.markdownSummary = this.artigosForm.get('summary')?.value || 'Nenhum resumo inserido!';
-
   }
 
   ngAfterViewInit(): void {
     this.loadTinyMCE(() => {
       this.editorConfig = {
-        selector: '#text',
+        selector: '#editor',
         plugins: [
           'anchor', 'autolink', 'charmap', 'codesample', 'emoticons',
           'image', 'link', 'lists', 'media', 'searchreplace', 'table',
@@ -102,6 +110,28 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
       };
       tinymce.init(this.editorConfig);
     });
+  }
+
+  switchTab(tab: 'editMarkdown' | 'editTinyMCE' | 'preview' | 'summary' | 'previewSummary') {
+    this.activeTab = tab;
+
+    if (tab === 'editTinyMCE') {
+      setTimeout(() => {
+        if (!tinymce.get('editor')) {
+          tinymce.init(this.editorConfig);
+          tinymce.get('editor')?.setContent(this.markdown); // usa conteúdo atual
+        }
+      });
+    }
+
+    if (tab === 'editMarkdown') {
+      const content = tinymce.get('editor')?.getContent();
+      if (content) {
+        this.markdown = content;
+        this.artigosForm.get('text')?.setValue(content);
+      }
+      tinymce.get('editor')?.remove(); // remove editor TinyMCE da tela
+    }
   }
 
   getCategories(): string[] {
@@ -122,10 +152,6 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
         return { text: cleaned, level };
       });
   }
-
-  // onSummaryInputChange(text: string): void {
-  //   this.parseStructuredList(text);
-  // }
 
   onSubmit(): void {
     if (this.artigosForm.valid) {
@@ -173,7 +199,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
 
   loadTinyMCE(callback: () => void): void {
     const script = document.createElement('script');
-    script.src = 'assets/tinymce/js/tinymce/tinymce.min.js';
+    // script.src = 'assets/tinymce/js/tinymce/tinymce.min.js';
+    script.src = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
     script.onload = () => {
       console.log('TinyMCE carregado com sucesso');
       callback();

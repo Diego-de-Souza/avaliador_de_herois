@@ -39,7 +39,7 @@ export class ViewArtigosComponent implements OnInit {
   }
 
   editArtigos(article_id: number) {
-    this.router.navigate([`/plataforma/artigos/studio/${article_id}`]);
+    this.router.navigate([`/plataforma/cadastro/artigos/studio/${article_id}`]);
   }
 
   deleteArtigos(article_id: number) {

@@ -21,7 +21,6 @@
         </div>
 
         <div class="articles-grid">
-          <!-- *ngFor="let article of filteredArticles(category); let i = index" -->
           <div class="article-card" *ngFor="let article of filteredArticles(category)">
             <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
               <div class="img-container">

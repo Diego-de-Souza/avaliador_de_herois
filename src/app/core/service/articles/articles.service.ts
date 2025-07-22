@@ -34,9 +34,9 @@ export class ArticleService {
     }
   }
 
-  getArticleByIndex(index: number): articlesProps | undefined {
-    return this.articles[index];
-  }
+  // getArticleByIndex(index: number): articlesProps | undefined {
+  //   return this.articles[index];
+  // }
 
   updateArticle(index: number, updatedArticle: articlesProps): void {
     this.articles[index] = updatedArticle;
@@ -45,5 +45,10 @@ export class ArticleService {
 
   getArticlesList(): Observable<any>{
     return this.http.get(`${environment.apiURL}/articles/find-all-articles`);
+  }
+
+  getArticleById(id: number): articlesProps | undefined {
+    const artigos: articlesProps[] = [...articlesDataBase];
+    return artigos.find(a => a.id === id);
   }
 }
