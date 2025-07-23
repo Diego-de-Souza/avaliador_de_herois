@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
+import { articlesProps, ListItem } from '../../../../core/interface/articles.interface';
+import { ArticleService } from '../../../../core/service/articles/articles.service';
+import { MarkdownModule } from 'ngx-markdown';
 
 // Declaração para evitar erro do TinyMCE
 declare var tinymce: any;
@@ -11,37 +14,85 @@ declare var tinymce: any;
 @Component({
   selector: 'app-cadastro-artigos',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeaderPlatformComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HeaderPlatformComponent,
+    MarkdownModule,
+  ],
   templateUrl: './cadastro-artigos.component.html',
   styleUrls: ['./cadastro-artigos.component.css']
 })
 export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editorElement!: ElementRef;
-  public artigosForm: FormGroup;
+  public articles: articlesProps[] = [];
+  public artigosForm!: FormGroup;
   public isEditMode: boolean = false;
   public studioId: number | null = null;
   public editorConfig: any;
+  activeTab: 'editMarkdown' | 'editTinyMCE' | 'preview' | 'summary' | 'previewSummary' = 'editMarkdown';
+  markdown: string = '';
+  markdownSummary: string = '';
+
+  // Edit Mode
+  article: Partial<articlesProps> = {
+    category: '',
+    title: '',
+    description: '',
+    text: '',
+    summary: [],
+    thumbnail: '',
+    keyWords: []
+  };
 
   constructor(
+    private articleService: ArticleService,
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private modalService: NgbModal
-  ) {
-    this.artigosForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(5)]],
-      category: ['', [Validators.required]],
-      content: ['', [Validators.required]]
-    });
+  ) { }
+
+  generateId(): number {
+    return Date.now();
   }
 
   ngOnInit(): void {
+    this.artigosForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(5)]],
+      category: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.maxLength(80)]],
+      thumbnail: ['', []], // Campo opcional
+      keywords: ['', [Validators.required]],
+      text: ['', [Validators.required, Validators.minLength(5)]],
+      summary: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(300)]]
+    });
+
+    // DEV MODE
+    this.articleService.loadFromLocalStorage();
+    this.articles = this.articleService.getArticles();
+    // DEV MODE
+
+    console.log('O que tem em this.route.paramMap:', this.route.paramMap);
+    console.log('O que tem em this.route.paramMap.subscribe:', this.route.paramMap.subscribe(params => {return params.get('id')}));
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
+      console.log('ID do artigo:', idParam);
       if (idParam) {
-        this.studioId = Number(idParam);
         this.isEditMode = true;
+        this.studioId = Number(idParam);
+        const artigo = this.articleService.getArticleById(this.studioId);
+        console.log('Artigo encontrado:', artigo);
+        if (artigo) {
+          this.article = artigo;
+          this.artigosForm.patchValue(artigo);
+          this.markdown = artigo.text;
+        }
       }
     });
+
+    this.markdown = this.artigosForm.get('text')?.value || 'Nenhum texto inserido!';
+    this.markdownSummary = this.artigosForm.get('summary')?.value || 'Nenhum resumo inserido!';
   }
 
   ngAfterViewInit(): void {
@@ -61,11 +112,71 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onSubmit() {
+  switchTab(tab: 'editMarkdown' | 'editTinyMCE' | 'preview' | 'summary' | 'previewSummary') {
+    this.activeTab = tab;
+
+    if (tab === 'editTinyMCE') {
+      setTimeout(() => {
+        if (!tinymce.get('editor')) {
+          tinymce.init(this.editorConfig);
+          tinymce.get('editor')?.setContent(this.markdown); // usa conteúdo atual
+        }
+      });
+    }
+
+    if (tab === 'editMarkdown') {
+      const content = tinymce.get('editor')?.getContent();
+      if (content) {
+        this.markdown = content;
+        this.artigosForm.get('text')?.setValue(content);
+      }
+      tinymce.get('editor')?.remove(); // remove editor TinyMCE da tela
+    }
+  }
+
+  getCategories(): string[] {
+    const categories = new Set(this.articles.map(article => article.category));
+    return Array.from(categories);
+  }
+
+  parseStructuredList(markdownText: string): ListItem[] {
+    return markdownText
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line =>
+        /^(\d+\.\s+|[-]{1,2}\s+)/.test(line)
+      )
+      .map(line => {
+        const level = line.startsWith('--') ? 2 : 1;
+        const cleaned = line.replace(/^(\d+\.\s+|[-]{1,2}\s+)/, '');
+        return { text: cleaned, level };
+      });
+  }
+
+  onSubmit(): void {
     if (this.artigosForm.valid) {
-      console.log('Dados enviados para registro:', this.artigosForm.value);
+      const formValue = this.artigosForm.value;
+
+      const newArticle: articlesProps = {
+        ...(this.isEditMode ? this.article : {}),
+        id: this.generateId(),
+        title: formValue.title,
+        description: formValue.description,
+        category: formValue.category,
+        text: formValue.text,
+        summary: this.parseStructuredList(formValue.summary),
+        // summary: formValue.summary,
+        thumbnail: formValue.thumbnail,
+        keyWords: formValue.keywords.split(',').map((k: string) => k.trim()),
+        created_at: new Date().toISOString()
+      };
+
+      this.articleService.addArticle(newArticle);
+      alert('Artigo salvo com sucesso!');
+      this.clearForm();
     } else {
       console.log('Formulário inválido:', this.artigosForm.errors);
+      alert('Por favor, preencha todos os campos obrigatórios.');
     }
   }
 
@@ -88,7 +199,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
 
   loadTinyMCE(callback: () => void): void {
     const script = document.createElement('script');
-    script.src = 'assets/tinymce/js/tinymce/tinymce.min.js';
+    // script.src = 'assets/tinymce/js/tinymce/tinymce.min.js';
+    script.src = 'https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js';
     script.onload = () => {
       console.log('TinyMCE carregado com sucesso');
       callback();

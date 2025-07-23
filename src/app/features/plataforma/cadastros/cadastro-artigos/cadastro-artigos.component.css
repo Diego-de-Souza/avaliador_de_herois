@@ -22,6 +22,21 @@ h1 {
   color: #333;
 }
 
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+}
+
+.form-header .title {
+  flex: 70%;
+}
+
+.form-header .category {
+  flex: 30%;
+}
+
 .form-group {
   margin-bottom: 20px;
   text-align: left;
@@ -56,6 +71,26 @@ input:focus {
   border-radius: 4px;
   background: #fff;
   overflow-y: auto;
+}
+
+.nav-tabs {
+  display: flex;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: #f8f9fa;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  border: 1px solid #dee2e6;
+  border-bottom-color: transparent;
+  background: white;
 }
 
 .text-danger {

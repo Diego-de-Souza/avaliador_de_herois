@@ -4,11 +4,17 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { articlesProps } from '../../../core/interface/articles.interface';
 import { ArticleService } from '../../../core/service/articles/articles.service';
+import { NovidadesComponent } from '../novidades/novidades.component';
 
 @Component({
   selector: 'app-artigos',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, RouterModule, FontAwesomeModule],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    RouterModule,
+    FontAwesomeModule,
+    NovidadesComponent],
   templateUrl: './artigos.component.html',
   styleUrl: './artigos.component.css'
 })

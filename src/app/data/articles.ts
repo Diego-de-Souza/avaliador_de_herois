@@ -6,10 +6,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "jogos",
     title: "TesteJogos",
     description: "Artigos sobre jogos",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um controle de videogame",
-    keyWords: ["jogos", "games", "entretenimento"],
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    thumbnail: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#jogos", "#games", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -17,10 +22,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "jogos",
     title: "TesteJogos",
     description: "Artigos sobre jogos",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um controle de videogame",
-    keyWords: ["jogos", "games", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#jogos", "#games", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -28,10 +38,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "jogos",
     title: "TesteJogos",
     description: "Artigos sobre jogos",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um controle de videogame",
-    keyWords: ["jogos", "games", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#jogos", "#games", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -39,10 +54,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "jogos",
     title: "TesteJogos",
     description: "Artigos sobre jogos",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um controle de videogame",
-    keyWords: ["jogos", "games", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#jogos", "#games", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -50,10 +70,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "jogos",
     title: "TesteJogos",
     description: "Artigos sobre jogos",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um controle de videogame",
-    keyWords: ["jogos", "games", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-gratis/console-com-letras-de-jogos-sinal-de-neon-no-fundo-do-tijolo_1262-11854.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#jogos", "#games", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -61,10 +86,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "filmes",
     title: "TesteFilmes",
     description: "Artigos sobre filmes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um carretel de filme",
-    keyWords: ["filmes", "cinema", "entretenimento"],
+    thumbnail: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#filmes", "#cinema", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -72,10 +102,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "filmes",
     title: "TesteFilmes",
     description: "Artigos sobre filmes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um carretel de filme",
-    keyWords: ["filmes", "cinema", "entretenimento"],
+    thumbnail: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#filmes", "#cinema", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -83,10 +118,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "filmes",
     title: "TesteFilmes",
     description: "Artigos sobre filmes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um carretel de filme",
-    keyWords: ["filmes", "cinema", "entretenimento"],
+    thumbnail: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#filmes", "#cinema", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -94,10 +134,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "filmes",
     title: "TesteFilmes",
     description: "Artigos sobre filmes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um carretel de filme",
-    keyWords: ["filmes", "cinema", "entretenimento"],
+    thumbnail: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#filmes", "#cinema", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -105,10 +150,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "filmes",
     title: "TesteFilmes",
     description: "Artigos sobre filmes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de um carretel de filme",
-    keyWords: ["filmes", "cinema", "entretenimento"],
+    thumbnail: "https://img.freepik.com/fotos-premium/carretel-de-filme-de-oculos-3d-de-pipoca-voadora-e-ripa-em-fundo-amarelo-conceito-de-filme-de-cinema-3d_989822-1302.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#filmes", "#cinema", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -116,10 +166,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "animes",
     title: "TesteAnimes",
     description: "Artigos sobre animes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
-    imgAlt: "Imagem de vários animes",
-    keyWords: ["animes", "mangás", "entretenimento"],
+    thumbnail: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
+    keyWords: ["#animes", "#mangás", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -127,10 +182,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "animes",
     title: "TesteAnimes",
     description: "Artigos sobre animes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
-    imgAlt: "Imagem de vários animes",
-    keyWords: ["animes", "mangás", "entretenimento"],
+    thumbnail: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
+    keyWords: ["#animes", "#mangás", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -138,10 +198,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "animes",
     title: "TesteAnimes",
     description: "Artigos sobre animes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
-    imgAlt: "Imagem de vários animes",
-    keyWords: ["animes", "mangás", "entretenimento"],
+    thumbnail: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
+    keyWords: ["#animes", "#mangás", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -149,10 +214,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "animes",
     title: "TesteAnimes",
     description: "Artigos sobre animes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
-    imgAlt: "Imagem de vários animes",
-    keyWords: ["animes", "mangás", "entretenimento"],
+    thumbnail: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
+    keyWords: ["#animes", "#mangás", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -160,10 +230,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "animes",
     title: "TesteAnimes",
     description: "Artigos sobre animes",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
-    imgAlt: "Imagem de vários animes",
-    keyWords: ["animes", "mangás", "entretenimento"],
+    thumbnail: "https://t.ctcdn.com.br/l63u29HKnWpAwWvjHx0vSYDHIrA=/340x265:1654x1005/600x600/smart/i521747.jpeg",
+    keyWords: ["#animes", "#mangás", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -171,10 +246,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "tecnologia",
     title: "TesteTecnologia",
     description: "Artigos sobre tecnologia",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
-    imgAlt: "Imagem de vários dispositivos tecnológicos",
-    keyWords: ["tecnologia", "inovação", "entretenimento"],
+    thumbnail: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
+    keyWords: ["#tecnologia", "#inovação", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -182,10 +262,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "tecnologia",
     title: "TesteTecnologia",
     description: "Artigos sobre tecnologia",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
-    imgAlt: "Imagem de vários dispositivos tecnológicos",
-    keyWords: ["tecnologia", "inovação", "entretenimento"],
+    thumbnail: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
+    keyWords: ["#tecnologia", "#inovação", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -193,10 +278,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "tecnologia",
     title: "TesteTecnologia",
     description: "Artigos sobre tecnologia",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
-    imgAlt: "Imagem de vários dispositivos tecnológicos",
-    keyWords: ["tecnologia", "inovação", "entretenimento"],
+    thumbnail: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
+    keyWords: ["#tecnologia", "#inovação", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -204,10 +294,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "tecnologia",
     title: "TesteTecnologia",
     description: "Artigos sobre tecnologia",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
-    imgAlt: "Imagem de vários dispositivos tecnológicos",
-    keyWords: ["tecnologia", "inovação", "entretenimento"],
+    thumbnail: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
+    keyWords: ["#tecnologia", "#inovação", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -215,10 +310,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "tecnologia",
     title: "TesteTecnologia",
     description: "Artigos sobre tecnologia",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
-    imgAlt: "Imagem de vários dispositivos tecnológicos",
-    keyWords: ["tecnologia", "inovação", "entretenimento"],
+    thumbnail: "https://www.findup.com.br/wp-content/uploads/2021/07/tech-devices-and-icons-connected-to-digital-planet-earth-2-scaled.jpg",
+    keyWords: ["#tecnologia", "#inovação", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -226,10 +326,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "musica",
     title: "TesteMusica",
     description: "Artigos sobre música",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de vários instrumentos musicais",
-    keyWords: ["música", "instrumentos", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#música", "#instrumentos", "#entretenimento"],
     created_at: "2024-10-01T12:00:00Z"
   },
   {
@@ -237,10 +342,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "musica",
     title: "TesteMusica",
     description: "Artigos sobre música",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de vários instrumentos musicais",
-    keyWords: ["música", "instrumentos", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#música", "#instrumentos", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -248,10 +358,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "musica",
     title: "TesteMusica",
     description: "Artigos sobre música",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de vários instrumentos musicais",
-    keyWords: ["música", "instrumentos", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#música", "#instrumentos", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -259,10 +374,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "musica",
     title: "TesteMusica",
     description: "Artigos sobre música",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de vários instrumentos musicais",
-    keyWords: ["música", "instrumentos", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#música", "#instrumentos", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
   {
@@ -270,10 +390,15 @@ export const articlesDataBase: articlesProps[] = [
     category: "musica",
     title: "TesteMusica",
     description: "Artigos sobre música",
+    summary: [
+      {
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        level: 1
+      }
+    ],
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    img: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
-    imgAlt: "Imagem de vários instrumentos musicais",
-    keyWords: ["música", "instrumentos", "entretenimento"],
+    thumbnail: "https://img.freepik.com/vetores-premium/uma-ilustracao-colorida-de-um-tema-musical-colorido-colorido-com-um-fundo-colorido_410516-83175.jpg?semt=ais_hybrid&w=740",
+    keyWords: ["#música", "#instrumentos", "#entretenimento"],
     created_at: "2023-10-01T12:00:00Z"
   },
 ];
