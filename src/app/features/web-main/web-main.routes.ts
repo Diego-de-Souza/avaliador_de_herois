@@ -24,8 +24,7 @@ export const routesWebMain: Routes = [
     },
     {
         path: 'quiz',
-        title: 'Quiz',
-        loadComponent: () => import('./quiz/quiz.component').then(m => m.QuizComponent)
+        loadChildren: () => import('./quiz/quiz.routes').then(m => m.routesWebMainQuiz)
     },
     {
     path: 'conteudo',

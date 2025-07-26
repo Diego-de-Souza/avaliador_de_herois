@@ -6,10 +6,10 @@ export const QuizLevel = [
         name: 'Treino de Recruta',
         hero: {
         name: 'Homem-Aranha',
-        image: 'assets/heroes/spiderman.png',
+        image: '../img/cards_quiz/marvel-basic.jpg',
         quote: '"Com grandes poderes vêm grandes responsabilidades!"'
         },
-        difficulty: Difficulty.RECRUIT, // Use o enum aqui
+        difficulty: Difficulty.RECRUIT, 
         unlocked: true,
         questions: 10,
         xpReward: 500
@@ -19,10 +19,10 @@ export const QuizLevel = [
         name: 'Treino de Recruta',
         hero: {
         name: 'Homem-Aranha',
-        image: 'assets/heroes/spiderman.png',
+        image: '../img/cards_quiz/marvel-basic.jpg',
         quote: '"Com grandes poderes vêm grandes responsabilidades!"'
         },
-        difficulty: Difficulty.AVENGER, // Use o enum aqui
+        difficulty: Difficulty.AVENGER,
         unlocked: true,
         questions: 10,
         xpReward: 500
@@ -32,10 +32,10 @@ export const QuizLevel = [
         name: 'Treino de Recruta',
         hero: {
         name: 'Homem-Aranha',
-        image: 'assets/heroes/spiderman.png',
+        image: '../img/cards_quiz/marvel-basic.jpg',
         quote: '"Com grandes poderes vêm grandes responsabilidades!"'
         },
-        difficulty: Difficulty.LEGENDARY, // Use o enum aqui
+        difficulty: Difficulty.LEGENDARY, 
         unlocked: true,
         questions: 10,
         xpReward: 500
@@ -45,10 +45,10 @@ export const QuizLevel = [
         name: 'Treino de Recruta',
         hero: {
         name: 'Homem-Aranha',
-        image: 'assets/heroes/spiderman.png',
+        image: '../img/cards_quiz/marvel-basic.jpg',
         quote: '"Com grandes poderes vêm grandes responsabilidades!"'
         },
-        difficulty: Difficulty.COSMIC, // Use o enum aqui
+        difficulty: Difficulty.COSMIC, 
         unlocked: true,
         questions: 10,
         xpReward: 500
