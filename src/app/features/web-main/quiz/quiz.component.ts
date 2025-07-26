@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Add this import
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { gsap } from 'gsap';
@@ -7,46 +7,27 @@ import { NgClass } from '@angular/common';
 import { CardQuizLevelComponent } from '../../../shared/components/card-quiz-level/card-quiz-level.component';
 import { StudioQuiz } from '../../../data/studios-quiz';
 import { Studio } from '../../../core/interface/studio.interface';
-import { HeroLevel } from '../../../core/interface/hero-level.interface';
+import { ThemeService } from '../../../core/service/theme/theme.service';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-quiz',
   standalone: true,
-  imports: [HeaderComponent, CardQuizLevelComponent],
+  imports: [HeaderComponent, CardQuizLevelComponent, NgClass, FooterComponent],
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css'
 })
-export class QuizComponent {
+export class QuizComponent implements OnInit{
   studios: Studio[] = StudioQuiz;
+  router = inject(Router);
+  themeService = inject(ThemeService);
+  themeAll = "dark";
 
-  constructor(private router: Router) {}
-
-  ngAfterViewInit() {
-    this.initAnimations();
-  }
-
-  initAnimations() {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Hero cards animation
-    gsap.from('.hero-card', {
-      scrollTrigger: {
-        trigger: '.hero-card',
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      },
-      y: 100,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.2
-    });
-
-    // Background elements animation
-    gsap.to('.particle', {
-      duration: 20,
-      rotation: 360,
-      repeat: -1,
-      ease: 'none'
+  ngOnInit(): void {
+    this.themeService.theme$.subscribe(theme => {
+      this.themeAll = theme;
+      this.applyTheme(theme);
+      console.log(theme)
     });
   }
 
@@ -54,15 +35,7 @@ export class QuizComponent {
     this.router.navigate(['/hero-quiz', levelId]);
   }
 
-  unlockLevel(level: HeroLevel) {
-    if (!level.unlocked) {
-      // Lógica para desbloquear (pode verificar XP do usuário)
-      level.unlocked = true;
-      gsap.from(`#hero-${level.id}`, {
-        scale: 0.5,
-        duration: 0.5,
-        ease: 'back.out'
-      });
-    }
+  applyTheme(theme: string) {
+    this.themeAll = theme;
   }
 }

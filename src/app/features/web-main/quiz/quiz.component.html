@@ -1,4 +1,4 @@
-<section>
+<section [ngClass]="themeAll">
   <app-header></app-header>
   <div class="hero-quiz-container">
     
@@ -10,14 +10,18 @@
     </header>
   </div>
 
-  @for (studio of studios; track studio.name){
-    <section class="hero-quiz-container-studios">
-      <h2>{{studio.name}}</h2>
-      <div class="hero-quiz-container-studios-cards">
-        @for (question of studio.levels; track question.questionlevel){
-            <app-card-quiz-level [level]="question.questionlevel"></app-card-quiz-level>
-        }
-      </div>
-    </section>
-  }
+  <div class="quiz-container-cards">
+    @for (studio of studios; track studio.name){
+      <section class="hero-quiz-container-studios">
+        <h2>{{studio.name}}</h2>
+        <div class="hero-quiz-container-studios-cards">
+          @for (question of studio.levels; track question.questionlevel){
+              <app-card-quiz-level [level]="question.questionlevel" class="card-quiz-level"></app-card-quiz-level>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  <app-footer></app-footer>
 </section>

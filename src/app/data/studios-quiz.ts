@@ -4,7 +4,7 @@ export const StudioQuiz = [
     {
         id: 1,
         name: 'Marvel', 
-        logo: 'assets/marvel-logo.png', 
+        logo: 'assets/img/homemAranha_cover.png', 
         color: '#ED1D24', 
         levels: [
             {questionlevel: QuizLevel[0]}, 
