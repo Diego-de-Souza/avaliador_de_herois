@@ -23,6 +23,10 @@ export const routesWebMain: Routes = [
         loadComponent: () => import('./descriptionHeroes/description-heroes.component').then(m => m.DescriptionHeroesComponent)
     },
     {
+        path: 'quiz',
+        loadChildren: () => import('./quiz/quiz.routes').then(m => m.routesWebMainQuiz)
+    },
+    {
     path: 'conteudo',
     loadChildren: () => import('./conteudo/conteudo.routes').then(m => m.routesConteudo)
   },

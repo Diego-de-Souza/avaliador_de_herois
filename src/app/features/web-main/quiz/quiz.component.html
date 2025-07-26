@@ -1,0 +1,27 @@
+<section [ngClass]="themeAll">
+  <app-header></app-header>
+  <div class="hero-quiz-container">
+    
+    <!-- Header Section -->
+    <header class="hero-header">
+      <h1 class="title-glow-quiz">QUIZ DOS HERÓIS</h1>
+      <p class="subtitle">Prove que você é o maior fã do universo de Heróis!</p>
+      <div class="comic-strip"></div>
+    </header>
+  </div>
+
+  <div class="quiz-container-cards">
+    @for (studio of studios; track studio.name){
+      <section class="hero-quiz-container-studios">
+        <h2>{{studio.name}}</h2>
+        <div class="hero-quiz-container-studios-cards">
+          @for (question of studio.levels; track question.questionlevel){
+              <app-card-quiz-level [level]="question.questionlevel" class="card-quiz-level"></app-card-quiz-level>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</section>

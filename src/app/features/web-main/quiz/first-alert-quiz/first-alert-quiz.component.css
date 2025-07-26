@@ -1,0 +1,37 @@
+.quiz-alert-section {
+  min-height: 100vh;
+  padding-top: 5rem;
+}
+
+.badge.bg-primary {
+  background-color: #04BFAD !important;
+}
+
+.btn-success {
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #d24093;
+}
+
+.light {
+    background: linear-gradient(
+      to bottom,
+      var(--warning-color) 80%,
+      #F0F0F0 100%
+    );
+}
+
+.light .btn-success {
+    background: var(--primary-color);
+}
+
+.dark {
+    background: linear-gradient(to bottom, #1e2a38, #101522 );
+    color: white;
+}
+
+.dark .btn-success {
+    background: var(--primary-color);
+}

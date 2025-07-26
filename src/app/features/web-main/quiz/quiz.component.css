@@ -1,0 +1,56 @@
+
+.hero-quiz-container {
+  position: relative;
+  padding: 2rem;
+  overflow: hidden;
+  letter-spacing: 1px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
+}
+
+.title-glow-quiz {
+  font-size: 4rem;
+  animation: pulse 2s infinite alternate;
+  margin-bottom: 1rem;
+}
+
+.hero-quiz-container-studios {
+  display: flex;
+  flex-direction: column
+}
+
+.hero-quiz-container-studios-cards {
+  display: flex;
+  flex-direction: row
+}
+
+.comic-strip{
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #8e2de2, #4a00e0) ;
+}
+
+.card-quiz-level{
+  margin: 10px;
+}
+
+.light {
+  background: linear-gradient(
+      to bottom,
+      #608b9582 80%,
+      #F0F0F0 100%
+    );
+  color: var(--text-color);
+}
+
+.dark {
+  background: linear-gradient(to bottom, #1e2a38, #101522 );
+  color: var(--text-color);
+}
+
+.quiz-container-cards {
+  padding: 0 2em;
+  margin-bottom: 3em;
+}

@@ -1,0 +1,233 @@
+.hero-card{
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.hero-card:hover{
+    transform: translateY(-5px);
+}
+
+.hero-image-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.hero-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1px;
+}
+
+.hero-quote {
+    margin: 0.5em 0;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.level-difficulty {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+
+.level-difficulty.recruit { background-color: #4CAF50; }
+.level-difficulty.avenger { background-color: #2196F3; }
+.level-difficulty.legendary { background-color: #FF9800; }
+.level-difficulty.cosmic { background-color: #9C27B0; }
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+.hero-content {
+    padding: 1em;
+}
+
+.hero-stats {
+    margin-bottom: 0.5em;
+}
+
+.hero-button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(to right, #FF512F, #DD2476);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hero-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(221, 36, 118, 0.3);
+} 
+
+.light {
+    background: linear-gradient(145deg, #ffffff, #f5f5f5) ;
+    color: #1f1f1f;
+}
+
+.light:hover {
+    box-shadow: 0 4px 8px #F2A413;
+    background-color: var(--accent-color);
+}
+
+.dark {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.dark:hover {
+    box-shadow: 0 4px 8px #00d0ffa2;
+}
+
+
+/* Variáveis de tema - agora usando classes no host
+:host {
+  /* Light Theme (padrão) */
+  /* --bg: linear-gradient(145deg, #ffffff, #f5f5f5);
+  --text: #333333;
+  --quote: #666666;
+  --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --hover-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+} */
+
+/* :host.dark { */
+  /* Dark Theme */
+  /* --bg: linear-gradient(145deg, #2c2c2c, #1f1f1f);
+  --text: #ffffff;
+  --quote: #aaaaaa;
+  --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --hover-shadow: 0 12px 20px rgba(0, 0, 0, 0.5); */
+/* }
+
+.hero-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    background: var(--bg);
+    box-shadow: var(--card-shadow);
+    color: var(--text);
+}
+
+.hero-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.hero-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-family: 'Bangers', cursive;
+    letter-spacing: 1px;
+    color: var(--text);
+}
+
+.hero-quote {
+    margin: 0;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--quote);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: var(--quote); */
+/* } */
+
+/* Restante do CSS permanece igual */
+/* .hero-image-container {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+.level-difficulty {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+} */
+
+/* Dificuldades */
+/* .level-difficulty.recruit { background-color: #4CAF50; }
+.level-difficulty.avenger { background-color: #2196F3; }
+.level-difficulty.legendary { background-color: #FF9800; }
+.level-difficulty.cosmic { background-color: #9C27B0; }
+
+.hero-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.hero-button {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: linear-gradient(to right, #FF512F, #DD2476);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hero-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(221, 36, 118, 0.3);
+} */ 
