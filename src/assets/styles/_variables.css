@@ -4,6 +4,7 @@
   --bg-color: #101522;
   --bg-secondary: #1e2a38;
   --text-color: #f0f0f0;
+  --text-color-secondary: #FFD43B;
   --primary-color: #00D2FF;
   --accent-color: #04BFAD;
   --warning-color: #F28E13;
@@ -12,12 +13,16 @@
   --love-color: #F20F38;
   --border-color: rgba(255, 255, 255, 0.1);
   --shadow-color-primary: rgba(255, 255, 255, 0.2);
+  --bg-linear-gradient: linear-gradient(to bottom, #1e2a38, #101522 );
+  --bg-pink-default: #ff4f58;
+  --bg-orange-default: #ff9f00;
 }
 
 .light {
   --bg-color: #f8f9fa;
   --bg-secondary: #e9ecef;
   --text-color: #212529;
+  --text-color-secondary: #121929;
   --primary-color: #007bff;
   --accent-color: #17a2b8;
   --warning-color: #fd7e14;
@@ -26,4 +31,7 @@
   --love-color: #e83e8c;
   --border-color: rgba(0, 0, 0, 0.1);
   --shadow-color-primary: rgba(0, 0, 0, 0.1);
+  --bg-linear-gradient: linear-gradient(to bottom, #00d2ff, #fff)
+  --bg-pink-default: #ff4f58;
+  --bg-orange-default: #ff9f00;
 }

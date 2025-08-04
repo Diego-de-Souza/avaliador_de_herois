@@ -1,0 +1,128 @@
+<app-header></app-header>
+
+<div class="container-fluid" [ngClass]="_themePlans">
+  <div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+      <div class="col-12 text-center">
+        <div class="hero-section">
+          <h1 class="hero-title mb-3">
+            <span class="gradient-text">Escolha Seu Plano</span>
+          </h1>
+          <p class="hero-subtitle">
+            Desperte o herói que existe em você! 
+            <span class="highlight">Avalie, compete e domine</span> 
+            o universo dos super-heróis.
+          </p>
+          <div class="hero-decoration">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring delay-1"></div>
+            <div class="pulse-ring delay-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plans Grid -->
+    <div class="row justify-content-center g-4">
+      @for (plan of plans; track plan.id) {
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="plan-card" [class.featured]="plan.id === 'premium'">
+            <!-- Popular Badge -->
+            @if (plan.id === 'premium') {
+              <div class="popular-badge">
+                <i class="fas fa-star"></i> MAIS POPULAR
+              </div>
+            }
+
+            <!-- Plan Header -->
+            <div class="plan-header">
+              <div class="plan-icon">
+                @switch (plan.id) {
+                  @case ('basico') {
+                    <i class="fas fa-shield-alt"></i>
+                  }
+                  @case ('premium') {
+                    <i class="fas fa-bolt"></i>
+                  }
+                  @case ('gold') {
+                    <i class="fas fa-gem"></i>
+                  }
+                  @case ('legendary') {
+                    <i class="fas fa-crown"></i>
+                  }
+                }
+              </div>
+              <h3 class="plan-name">{{ plan.name }}</h3>
+              <p class="plan-description">{{ plan.description }}</p>
+            </div>
+            
+            <!-- Plan Price -->
+            <div class="plan-price">
+              <div class="price-container">
+                <span class="currency">R$</span>
+                <span class="amount">{{ plan.price.toString().split('.')[0] }}</span>
+                <span class="cents">,{{ plan.price.toString().split('.')[1] || '00' }}</span>
+              </div>
+              <span class="period">/{{ getDurationText(plan.duration) }}</span>
+            </div>
+            
+            <!-- Plan Features -->
+            <div class="plan-features">
+              <ul class="features-list">
+                @for (feature of plan.features; track $index) {
+                  <li class="feature-item">
+                    <span class="feature-text">{{ feature }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+            
+            <!-- CTA Button -->
+            <div class="plan-cta">
+              <button 
+                class="btn-hero"
+                [class]="'btn-' + plan.id"
+                (click)="addToCart(plan)"
+                [disabled]="!plan.active">
+                <span class="btn-text">Adicionar ao Carrinho</span>
+                <div class="btn-glow"></div>
+              </button>
+            </div>
+
+            <!-- Card Glow Effect -->
+            <div class="card-glow"></div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <div class="bottom-cta">
+          <h3 class="cta-title">Pronto para se tornar um herói?</h3>
+          <p class="cta-text">
+            Junte-se a milhares de heróis que já descobriram seus superpoderes!
+          </p>
+          <div class="stats-container">
+            <div class="stat-item">
+              <span class="stat-number">10K+</span>
+              <span class="stat-label">Heróis Ativos</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">50K+</span>
+              <span class="stat-label">Avaliações</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">99%</span>
+              <span class="stat-label">Satisfação</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

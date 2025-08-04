@@ -5,16 +5,17 @@ import { MenuUserComponent } from '../menu-user/menu-user.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/service/auth/auth.service';
+import { CartIconComponent } from '../cart-icon/cart-icon.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, FontAwesomeModule, MenuUserComponent, CommonModule],
+  imports: [RouterLink, RouterLinkActive, FontAwesomeModule, MenuUserComponent, CommonModule, CartIconComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  public themeAll: string = 'dark';
+  public _themeAll: string = 'dark';
   public isLoggedIn: boolean = false;
   public isMobile = false;
   public isMenuOpen = false;
@@ -31,8 +32,7 @@ export class HeaderComponent implements OnInit {
 
 
     this.themeService.theme$.subscribe(theme => {
-      this.themeAll = theme;
-      this.applyTheme(theme);
+      this._themeAll = theme;
     });
 
     this.checkScreenSize();
@@ -47,25 +47,8 @@ export class HeaderComponent implements OnInit {
   }
 
   changeTheme() {
-    const newTheme = this.themeAll === 'dark' ? 'light' : 'dark';
+    const newTheme = this._themeAll === 'dark' ? 'light' : 'dark';
     this.themeService.setTheme(newTheme);
-  }
-
-  applyTheme(theme: string) {
-      const themeHeader = document.getElementById('theme_header');
-      const themeHeaderMobile = document.getElementById('theme_header_mobile');
-      
-      if (theme === 'dark') {
-          themeHeader?.classList.remove('light');
-          themeHeader?.classList.add('dark');
-          themeHeaderMobile?.classList.remove('light');
-          themeHeaderMobile?.classList.add('dark');
-      } else {
-          themeHeader?.classList.remove('dark');
-          themeHeader?.classList.add('light');
-          themeHeaderMobile?.classList.remove('dark');
-          themeHeaderMobile?.classList.add('light');
-      }
   }
 
   toggleMenu() {

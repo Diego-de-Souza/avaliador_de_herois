@@ -5,6 +5,7 @@
     .dark{
         background-color: #101522;
         border-bottom: 1px solid #747474;
+        color: var(--text-color-secondary)
     }
 
     .dark .header-slogan{
@@ -23,9 +24,13 @@
         }
     }
 
+    .dark .icon-svg{
+        color: var(--text-color-secondary);
+    }
+
     .light {
         background: radial-gradient(circle at bottom left, #ff4f58, #ff9f00 70%);
-        border-bottom: 1px solid #F252AA; /* Rosa forte */
+        border-bottom: 1px solid #F252AA; 
     }
 
     .light .header-slogan {
@@ -44,6 +49,10 @@
 
     .light .header-nav-bottom > nav > ul > li:hover {
         border-bottom: 2px solid #F252AA; /* Rosa forte */
+    }
+
+    .light .icon-svg {
+        color: var(--text-color-secondary)
     }
 
     .header-container{
@@ -93,9 +102,18 @@
     
         & .header-actions{
             display: flex;
-            width: 10%;
+            width: 15%;
             justify-content: space-evenly;
             height: 100%;
+            margin-top: 1em;
+        }
+
+        .icones-menu-user {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
     }
     
@@ -316,5 +334,14 @@
             text-decoration: none;
             width: 100%;
         }
+    }
+
+    .header-theme{
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+
+    .header-theme:hover {
+        transform: scale(1.1);
     }
 }

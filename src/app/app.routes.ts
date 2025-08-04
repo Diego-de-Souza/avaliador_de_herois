@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { EmConstrucaoComponent } from './features/em-construcao/em-construcao.component';
-import { LoginComponent } from './features/login/login.component';
 import { guardPlataformaGuard } from './guard/guard-plataforma.guard';
+import { plansGuard } from './guard/plans.guard';
 
 export const routes: Routes = [
   {
@@ -23,6 +22,7 @@ export const routes: Routes = [
   {
     path: 'em-construcao',
     title: 'Em_construção',
+    canActivate: [plansGuard],
     loadComponent: () => import('./features/em-construcao/em-construcao.component').then(m => m.EmConstrucaoComponent)
   },
   {
@@ -33,6 +33,10 @@ export const routes: Routes = [
     path: 'plataforma',
     canActivate: [guardPlataformaGuard],
     loadChildren: () => import('./features/plataforma/plataforma.routes').then(m => m.routesPlataforma)
+  },
+  {
+    path: 'shopping',
+    loadChildren: () => import('./features/shopping/shopping.routes').then(m => m.routesShopping)
   },
   { path: '**', redirectTo: '' },
 ];

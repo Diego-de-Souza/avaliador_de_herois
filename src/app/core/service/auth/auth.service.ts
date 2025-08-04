@@ -130,4 +130,15 @@ export class AuthService implements OnInit{
     }
   }
 
+  isPremium(): boolean {
+    const access_token = this.getAccessToken()!;
+    const dados = this.decodeJwt(access_token);
+    if(dados.access === "premium"){
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
+
 }

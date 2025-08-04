@@ -1,0 +1,125 @@
+<app-header></app-header>
+
+<div class="container-fluid" [ngClass]="_themeCart">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        
+        <!-- Header -->
+        <div class="page-header text-center mb-5">
+          <h1 class="page-title">
+            <i class="fas fa-shopping-cart me-3"></i>
+            <span class="gradient-text">Seu Carrinho</span>
+          </h1>
+        </div>
+
+        <!-- Empty Cart -->
+        @if (cart.items.length === 0) {
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+              <div class="empty-cart text-center">
+                <div class="empty-icon mb-4">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3 class="empty-title">Seu carrinho está vazio</h3>
+                <p class="empty-text mb-4">
+                  Que tal escolher um plano incrível e despertar seus superpoderes?
+                </p>
+                <button class="btn-hero btn-primary" (click)="continueShopping()">
+                  <i class="fas fa-rocket me-2"></i>
+                  Ver Planos
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Cart with Items -->
+        @if (cart.items.length > 0) {
+          <div class="row">
+            
+            <!-- Items List -->
+            <div class="col-12 col-lg-8 mb-4">
+              <div class="cart-section">
+                <h3 class="section-title mb-4">
+                  <i class="fas fa-list me-2"></i>
+                  Itens no Carrinho
+                </h3>
+                
+                @for (item of cart.items; track item.planId) {
+                  <div class="cart-item mb-3">
+                    <div class="item-content">
+                      <div class="item-header">
+                        <div class="item-icon">
+                          <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="item-details">
+                          <h4 class="item-name">{{ item.plan.name }}</h4>
+                          <p class="item-description">{{ item.plan.description }}</p>
+                        </div>
+                        <div class="item-price">
+                          <span class="price">{{ formatPrice(item.plan.price) }}</span>
+                          <span class="period">/{{ getDurationText(item.plan.duration) }}</span>
+                        </div>
+                        <button class="btn-remove" (click)="removeItem(item.planId)">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <!-- Summary -->
+            <div class="col-12 col-lg-4">
+              <div class="cart-summary">
+                <div class="summary-header">
+                  <h3 class="summary-title">
+                    <i class="fas fa-calculator me-2"></i>
+                    Resumo
+                  </h3>
+                </div>
+                
+                <div class="summary-body">
+                  <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span>{{ formatPrice(cart.total) }}</span>
+                  </div>
+                  
+                  <div class="summary-divider"></div>
+                  
+                  <div class="summary-total">
+                    <span>Total:</span>
+                    <span class="total-price">{{ formatPrice(cart.total) }}</span>
+                  </div>
+                  
+                  <div class="security-badge">
+                    <i class="fas fa-shield-alt me-2"></i>
+                    Pagamento 100% seguro
+                  </div>
+                </div>
+                
+                <div class="summary-actions">
+                  <button class="btn-hero btn-secondary mb-3" (click)="clearCart()">
+                    <i class="fas fa-trash me-2"></i>
+                    Limpar Carrinho
+                  </button>
+                  
+                  <button class="btn-hero btn-primary" (click)="proceedToCheckout()">
+                    <i class="fas fa-credit-card me-2"></i>
+                    Finalizar Compra
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        }
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

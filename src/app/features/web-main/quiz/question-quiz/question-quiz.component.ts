@@ -77,7 +77,6 @@ export class QuestionQuizComponent implements OnInit, OnDestroy{
   }
 
   processQuestions(questions: any){
-    const state = 'process'
     const data = this.quizService.processQuestion(questions)
     this._question = data.question;
     this._index = data.index;

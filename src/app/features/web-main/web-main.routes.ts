@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+import { plansGuard } from "../../guard/plans.guard";
 
 
 export const routesWebMain: Routes = [
@@ -24,6 +25,7 @@ export const routesWebMain: Routes = [
     },
     {
         path: 'quiz',
+        canActivate: [plansGuard],
         loadChildren: () => import('./quiz/quiz.routes').then(m => m.routesWebMainQuiz)
     },
     {

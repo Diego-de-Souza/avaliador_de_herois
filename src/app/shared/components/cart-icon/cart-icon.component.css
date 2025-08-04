@@ -1,0 +1,20 @@
+.badge {
+  font-size: 0.6rem;
+}
+
+.btn {
+  border: none;
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark {
+  color: var(--text-color-secondary);
+}
+
+.light{
+  color: var(--text-color-secondary);
+}
+
