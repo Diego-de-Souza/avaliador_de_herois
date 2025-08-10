@@ -51,7 +51,7 @@ button[disabled] {
 .light {
     background: linear-gradient(
       to bottom,
-      var(--warning-color) 80%,
+      var(--bg-dark-orange) 80%,
       #F0F0F0 100%
     );
 }

@@ -1,37 +1,63 @@
 
 
 .dark {
-  --bg-color: #101522;
+  /* Background Colors */
+  --bg-primary: #101522;
   --bg-secondary: #1e2a38;
-  --text-color: #f0f0f0;
-  --text-color-secondary: #FFD43B;
-  --primary-color: #00D2FF;
-  --accent-color: #04BFAD;
-  --warning-color: #F28E13;
-  --attention-color: #F2A413;
-  --error-color: #F252AA;
-  --love-color: #F20F38;
+  --bg-card: #1e1e1e;
+  --bg-blue: #00D2FF;
+  --bg-green: #04BFAD;
+  --bg-red: #dc3545;
+  --bg-dark-orange: #F28E13;
+  --bg-orange: #F2A413;
+  --bg-pink: #ff4f58;
+  --bg-gold: #FFD700; 
+
+  /* Text Colors */
+  --text-primary: #f0f0f0;
+  --text-secondary: #b0b0b0;
+  --text-blue: #00D2FF;
+  --text-red: #F20F38;
+  --text-yellow: #FFD43B;
+
+  /*border colors*/
+  --border-blue: #00D2FF;
   --border-color: rgba(255, 255, 255, 0.1);
+  --border-gray: #747474;
+  --border-pink: #F252AA;
+
+  /*sombra colors*/
   --shadow-color-primary: rgba(255, 255, 255, 0.2);
-  --bg-linear-gradient: linear-gradient(to bottom, #1e2a38, #101522 );
-  --bg-pink-default: #ff4f58;
-  --bg-orange-default: #ff9f00;
+  --shadow-color: rgba(0, 210, 255, 0.2);
 }
 
 .light {
-  --bg-color: #f8f9fa;
+  /* Background Colors */
+  --bg-primary: #f8f9fa;
   --bg-secondary: #e9ecef;
-  --text-color: #212529;
-  --text-color-secondary: #121929;
-  --primary-color: #007bff;
-  --accent-color: #17a2b8;
-  --warning-color: #fd7e14;
-  --attention-color: #ffc107;
-  --error-color: #dc3545;
-  --love-color: #e83e8c;
+  --bg-card: #ffffff;
+  --bg-blue: #007bff;
+  --bg-green: #17a2b8;
+  --bg-red: #dc3545;
+  --bg-dark-orange: #F28E13;
+  --bg-orange: #F2A413;
+  --bg-pink: #ff4f58;
+  --bg-gold: #ff9500;
+
+  /* Text Colors */
+  --text-primary: #212529;
+  --text-secondary: #121929;
+  --text-blue: #007bff;
+  --text-red: #dc3545;
+  --text-yellow: #FFD43B;
+
+  /*border colors*/
+  --border-blue: #007bff;
   --border-color: rgba(0, 0, 0, 0.1);
+  --border-gray: #747474;
+  --border-pink: #F252AA;
+
+  /*sombra colors*/
   --shadow-color-primary: rgba(0, 0, 0, 0.1);
-  --bg-linear-gradient: linear-gradient(to bottom, #00d2ff, #fff)
-  --bg-pink-default: #ff4f58;
-  --bg-orange-default: #ff9f00;
+  --shadow-color: rgba(0, 123, 255, 0.1);
 }

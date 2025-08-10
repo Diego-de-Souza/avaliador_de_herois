@@ -11,10 +11,10 @@
 }
 
 .dark {
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
 }
 
 .light{
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
 }
 

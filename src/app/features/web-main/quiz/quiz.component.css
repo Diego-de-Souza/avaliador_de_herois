@@ -42,12 +42,12 @@
       #608b9582 80%,
       #F0F0F0 100%
     );
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .dark {
   background: linear-gradient(to bottom, #1e2a38, #101522 );
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .quiz-container-cards {

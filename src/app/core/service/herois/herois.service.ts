@@ -151,9 +151,12 @@ export class HeroisService {
     })
   }
 
-  searchHeroesStudio(studio: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('studio', studio);
-    return this.http.get<HeroisModel[]>(`${this.apiUrl}/editora/`, { params });
+  searchHeroesByStudio(studioId: number): Observable<HeroisModel[]> {
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/editora/` + studioId, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   searchHeroesTeam(team: string): Observable<HeroisModel[]> {

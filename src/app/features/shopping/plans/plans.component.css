@@ -3,33 +3,6 @@
   font-family: 'AttackOfMonster', 'Arial', sans-serif;
 }
 
-/* Theme Variables */
-:host .dark {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #1a1a1a;
-  --bg-card: #1e1e1e;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --accent-primary: #00d2ff;
-  --accent-secondary: #ff0080;
-  --accent-gold: #ffd700;
-  --border-color: #333;
-  --shadow-color: rgba(0, 210, 255, 0.2);
-}
-
-:host .light {
-  --bg-primary: #f8f9fa;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --text-primary: #2c3e50;
-  --text-secondary: #6c757d;
-  --accent-primary: #007bff;
-  --accent-secondary: #e91e63;
-  --accent-gold: #ff9500;
-  --border-color: #e9ecef;
-  --shadow-color: rgba(0, 123, 255, 0.1);
-}
-
 /* Base Container */
 .container-fluid {
   background: var(--bg-primary);
@@ -50,7 +23,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(45deg, var(--bg-blue), var(--bg-pink));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -65,7 +38,7 @@
 }
 
 .highlight {
-  color: var(--accent-primary);
+  color: var(--text-blue);
   font-weight: 600;
 }
 
@@ -80,7 +53,7 @@
 
 .pulse-ring {
   position: absolute;
-  border: 2px solid var(--accent-primary);
+  border: 2px solid var(--border-blue);
   border-radius: 50%;
   width: 300px;
   height: 300px;
@@ -115,11 +88,11 @@
 }
 
 .dark .plan-card{
-    background: var(--bg-color);
+    background: var(--bg-primary);
 }
 
 .light .plan-card{
-    background: radial-gradient(circle at bottom left, var(--accent-secondary), var(--accent-gold) 70%);
+    background: radial-gradient(circle at bottom left, var(--bg-pink), var(--bg-gold) 70%);
 }
 
 .plan-card::before {
@@ -129,7 +102,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-pink));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -140,19 +113,19 @@
 
 .plan-card:hover {
   transform: translateY(-10px);
-  border-color: var(--accent-primary);
+  border-color: var(--border-blue);
   box-shadow: 0 20px 40px var(--shadow-color);
 }
 
 /* Featured Plan */
 .plan-card.featured {
-  border-color: var(--accent-gold);
+  border-color: var(--bg-gold);
   box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
   transform: scale(1.02);
 }
 
 .plan-card.featured::before {
-  background: var(--accent-gold);
+  background: var(--bg-gold);
   opacity: 1;
 }
 
@@ -161,7 +134,7 @@
   position: absolute;
   top: -10px;
   right: 20px;
-  background: linear-gradient(45deg, var(--accent-gold), #ff6b35);
+  background: linear-gradient(45deg, var(--bg-gold), var(--bg-dark-orange));
   color: #000;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -180,13 +153,13 @@
   width: 70px;
   height: 70px;
   margin: 0 auto 1rem;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(135deg, var(--bg-blue), var(--bg-pink));
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
-  color: white;
+  color: var(--text-primary);
   animation: iconFloat 3s ease-in-out infinite;
 }
 
@@ -233,12 +206,12 @@
 .amount {
   font-size: 2.5rem;
   font-weight: 900;
-  color: var(--accent-primary);
+  color: var(--text-blue);
 }
 
 .cents {
   font-size: 1.2rem;
-  color: var(--accent-primary);
+  color: var(--text-blue);
 }
 
 .period {
@@ -265,7 +238,7 @@
 }
 
 .feature-item:hover {
-  color: var(--accent-primary);
+  color: var(--text-blue);
   transform: translateX(5px);
 }
 
@@ -296,22 +269,22 @@
 }
 
 .btn-basico {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, var(--bg-blue), #764ba2);
   color: white;
 }
 
 .btn-premium {
-  background: linear-gradient(45deg, var(--accent-primary), var(--accent-secondary));
+  background: linear-gradient(45deg, var(--bg-blue), var(--bg-pink));
   color: white;
 }
 
 .btn-gold {
-  background: linear-gradient(45deg, #ffd700, #ff8c00);
+  background: linear-gradient(45deg, var(--bg-blue), #ff8c00);
   color: #000;
 }
 
 .btn-legendary {
-  background: linear-gradient(45deg, var(--accent-gold), #ff6b35);
+  background: linear-gradient(45deg, var(--bg-gold), #ff6b35);
   color: #000;
 }
 
@@ -368,7 +341,7 @@
   display: block;
   font-size: 2.5rem;
   font-weight: 900;
-  color: var(--accent-primary);
+  color: var(--text-blue);
   margin-bottom: 0.5rem;
 }
 

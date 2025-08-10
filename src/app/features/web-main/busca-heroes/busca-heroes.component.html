@@ -42,10 +42,16 @@
             
             <div class="card-content" [class.show]="statusEditora === 1">
               <div class="options-list">
-                @for(studio of heroisMenuEditora; track studio) {
-                  <div class="option-item" (click)="openForPublisher(studio.studioName)">
-                    <span class="option-text">{{ studio.name }}</span>
-                    <i class="fas fa-arrow-right"></i>
+                @if (heroisMenuEditora && heroisMenuEditora.length > 0) {
+                  @for(studio of heroisMenuEditora; track studio) {
+                    <div class="option-item" (click)="openForPublisher(studio.id)">
+                      <span class="option-text">{{ studio.name }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhum estúdio encontrado</span>
                   </div>
                 }
               </div>
@@ -66,10 +72,16 @@
             
             <div class="card-content" [class.show]="statusEquipe === 1">
               <div class="options-list">
-                @for(team of heroisMenuEquipe; track team) {
-                  <div class="option-item" (click)="openForTeam(team.teamName)">
-                    <span class="option-text">{{ team.name }}</span>
-                    <i class="fas fa-arrow-right"></i>
+                @if (heroisMenuEquipe && heroisMenuEquipe.length > 0) {
+                  @for(team of heroisMenuEquipe; track team) {
+                    <div class="option-item" (click)="openForTeam(team.name)">
+                      <span class="option-text">{{ team.name }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhuma equipe encontrada</span>
                   </div>
                 }
               </div>
@@ -126,17 +138,23 @@
             
             <div class="card-content" [class.show]="statusMoralidade === 1">
               <div class="options-list">
-                @for(morality of heroisMenuMoralidade; track morality) {
-                  <div class="option-item" (click)="openForMorality(morality.moralityName)">
-                    <span class="option-text">{{ morality.moralityName }}</span>
-                    <i class="fas fa-arrow-right"></i>
+                @if (heroisMenuMoralidade && heroisMenuMoralidade.length > 0) {
+                  @for(morality of heroisMenuMoralidade; track morality) {
+                    <div class="option-item" (click)="openForMorality(morality.moralityName)">
+                      <span class="option-text">{{ morality.moralityName }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhuma moralidade encontrada</span>
                   </div>
                 }
               </div>
             </div>
           </div>
 
-          <!-- Sexo -->
+          <!-- Gênero -->
           <div class="search-card">
             <div class="card-header" (click)="openSexo()">
               <div class="card-icon">
@@ -150,10 +168,16 @@
             
             <div class="card-content" [class.show]="statusSexo === 1">
               <div class="options-list">
-                @for(genre of heroisMenuSexo; track genre) {
-                  <div class="option-item" (click)="openForSexy(genre.genreName)">
-                    <span class="option-text">{{ genre.genreName }}</span>
-                    <i class="fas fa-arrow-right"></i>
+                @if (heroisMenuSexo && heroisMenuSexo.length > 0) {
+                  @for(genre of heroisMenuSexo; track genre) {
+                    <div class="option-item" (click)="openForSexy(genre.genreName)">
+                      <span class="option-text">{{ genre.genreName }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhum gênero encontrado</span>
                   </div>
                 }
               </div>

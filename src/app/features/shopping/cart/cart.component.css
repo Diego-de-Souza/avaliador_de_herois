@@ -4,8 +4,8 @@
 }
 
 .container-fluid {
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(45deg, var(--primary-color), var(--error-color));
+  background: linear-gradient(45deg, var(--text-blue), var(--text-red));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -40,13 +40,13 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--error-color));
+  background: linear-gradient(90deg, var(--text-blue), var(--text-red));
 }
 
 .empty-icon {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(135deg, var(--text-blue), var(--text-red));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -65,12 +65,12 @@
 .empty-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .empty-text {
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
   font-size: 1rem;
 }
 
@@ -85,17 +85,17 @@
 .section-title {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .section-title i {
-  color: var(--primary-color);
+  color: var(--text-blue);
 }
 
 /* ===== CART ITEMS ===== */
 .cart-item {
-  background: var(--bg-color);
+  background: var(--bg-primary);
   border: 2px solid var(--border-color);
   border-radius: 15px;
   transition: all 0.3s ease;
@@ -103,7 +103,7 @@
 }
 
 .cart-item:hover {
-  border-color: var(--primary-color);
+  border-color: var(--border-blue);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px var(--shadow-color-primary);
 }
@@ -121,7 +121,7 @@
 .item-icon {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(135deg, var(--bg-blue), var(--bg-green));
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -139,12 +139,12 @@
 .item-name {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .item-description {
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
   font-size: 0.9rem;
   margin: 0;
 }
@@ -159,18 +159,18 @@
   display: block;
   font-size: 1.3rem;
   font-weight: 900;
-  color: var(--primary-color);
+  color: var(#007bff);
 }
 
 .period {
   font-size: 0.8rem;
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
 }
 
 .btn-remove {
   width: 40px;
   height: 40px;
-  background: var(--error-color);
+  background: var(--bg-red);
   border: none;
   border-radius: 50%;
   color: white;
@@ -180,7 +180,7 @@
 }
 
 .btn-remove:hover {
-  background: var(--love-color);
+  background: var(--bg-pink);
   transform: scale(1.1);
 }
 
@@ -195,7 +195,7 @@
 }
 
 .summary-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(135deg, var(--bg-blue), var(--bg-green));
   padding: 1.5rem;
 }
 
@@ -215,12 +215,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 0;
-  color: var(--text-color-secondary);
+  color: var(--text-secondary);
 }
 
 .summary-divider {
   height: 2px;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-green));
   margin: 1rem 0;
   border-radius: 1px;
 }
@@ -232,13 +232,13 @@
   padding: 1rem 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--text-color);
+  color: var(--text-primary);
 }
 
 .total-price {
   font-size: 1.4rem;
   font-weight: 900;
-  color: var(--primary-color);
+  color: var(--text-blue);
 }
 
 .security-badge {
@@ -246,14 +246,14 @@
   padding: 0.75rem;
   background: rgba(0, 210, 255, 0.1);
   border-radius: 10px;
-  color: var(--primary-color);
+  color: var(--text-blue);
   font-size: 0.9rem;
   margin-top: 1rem;
 }
 
 .summary-actions {
   padding: 1.5rem;
-  background: var(--bg-color);
+  background: var(--bg-primary);
 }
 
 /* ===== BUTTONS ===== */
@@ -273,12 +273,12 @@
 }
 
 .btn-primary {
-  background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+  background: linear-gradient(45deg, var(--bg-blue), var(--bg-green));
   color: white;
 }
 
 .btn-secondary {
-  background: linear-gradient(45deg, var(--warning-color), var(--attention-color));
+  background: linear-gradient(45deg, var(--bg-dark-orange), var(--bg-orange));
   color: #000;
 }
 
