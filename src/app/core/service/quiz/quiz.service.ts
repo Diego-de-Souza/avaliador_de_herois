@@ -4,6 +4,9 @@ import { environment } from "../../../../environments/environment";
 import { Observable, of } from "rxjs";
 import { Router } from "@angular/router";
 import { AuthService } from "../auth/auth.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ModalSucessoCadastroComponent } from "../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component";
+import { ThemeService } from "../theme/theme.service";
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +16,15 @@ export class QuizService {
     private apiUrl = environment.apiURL;
     private router = inject(Router);
     private authService = inject(AuthService);
+    private modalService = inject(NgbModal);
+    private themeService = inject(ThemeService);
 
-    _currentQuestionIndex = 0;
-    _questions: any;
-    _nextLevel: boolean = false;
+    public _currentQuestionIndex = 0;
+    private _questions: any;
+    public _nextLevel: boolean = false;
+    private title: string = '';
+    private message: string = '';
+    public _themeAll: string = 'dark';
 
     getProgressQuiz(): Observable<any>  {
         const accessToken = sessionStorage.getItem('access_token')
@@ -69,7 +77,18 @@ export class QuizService {
         if (this._currentQuestionIndex < this._questions.length - 1) {
             this._currentQuestionIndex++;
         } else {
-            alert('Quiz finalizado!');
+            this.themeService.theme$.subscribe(theme => {
+            this._themeAll = theme;
+            });
+            this.title = 'Fim do Quiz';
+            this.message = 'Parabéns! Você completou o quiz.';
+            const modalRef = this.modalService.open(ModalSucessoCadastroComponent, {
+            modalDialogClass: this._themeAll 
+            });
+            modalRef.componentInstance.modalTitle = this.title;
+            modalRef.componentInstance.modalMessage = this.message;
+
+            await modalRef.result;
             this._currentQuestionIndex = 0;
             this._nextLevel = true;
         }

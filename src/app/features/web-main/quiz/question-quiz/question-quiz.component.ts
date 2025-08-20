@@ -16,32 +16,29 @@ export class QuestionQuizComponent implements OnInit, OnDestroy {
   private themeService = inject(ThemeService);
   private router = inject(Router);
   private quizService = inject(QuizService);
+  private readonly fb = inject(FormBuilder);
 
-  _themeAll: string = 'dark';
-  form: FormGroup;
-  isSubmitting = false;
-  _question!: any;
-  _countdown: number = 120;
-  _timer: any;
-  _notResponse: Boolean = false;
-  _index: number = 0;
+  public _themeAll: string = 'dark';
+  public form!: FormGroup;
+  public isSubmitting = false;
+  public _question!: any;
+  public _countdown: number = 120;
+  public _timer: any;
+  public _notResponse: Boolean = false;
+  public _index: number = 0;
 
-  _questions: any = [];
-  userAnswers: any[] = [];
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      selected: [null]
-    });
-  }
+  public _questions: any = [];
+  public userAnswers: any[] = [];
 
   ngOnInit(): void {
     this.themeService.theme$.subscribe(theme => {
       this._themeAll = theme;
-      this.applyTheme(theme);
     });
 
-    // Resetar estado do serviço ao iniciar o quiz
+    this.form = this.fb.group({
+      selected: [null]
+    });
+
     this.quizService._currentQuestionIndex = 0;
     this.quizService._nextLevel = false;
 
@@ -61,10 +58,6 @@ export class QuestionQuizComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.clearTimer();
-  }
-
-  applyTheme(theme: string) {
-    this._themeAll = theme;
   }
 
   processQuestions(questions: any) {
@@ -116,7 +109,7 @@ export class QuestionQuizComponent implements OnInit, OnDestroy {
   }
 
   startTimer(): void {
-    this._countdown = 120;
+    this._countdown = 30;
     this._timer = setInterval(() => {
       this._countdown--;
       if (this._countdown <= 0) {

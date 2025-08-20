@@ -17,13 +17,13 @@ import { FlashLoadingComponent } from '../../../shared/components/flash-loading/
   styleUrl: './quiz.component.css'
 })
 export class QuizComponent implements OnInit{
-  quizData: Quiz[] | undefined;
-  router = inject(Router);
-  themeService = inject(ThemeService);
+  public quizData: Quiz[] | undefined;
+  private readonly router = inject(Router);
+  private readonly themeService = inject(ThemeService);
   private readonly quizService = inject(QuizService);
-  themeAll = "dark";
+  public themeAll: string = "dark";
 
-  _isLoading = false;
+  public _isLoading: boolean = false;
 
   ngOnInit(): void {
     this.handlerQuizProgress();

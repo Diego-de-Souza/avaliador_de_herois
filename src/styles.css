@@ -56,25 +56,13 @@ table {
 	font-weight: normal;
 	font-style: normal;
 }
-  
 
-    /* Color Theme Swatches in Hex */
-	.KOKO-WAR-1-hex { color: #F20F38; }
-	.KOKO-WAR-2-hex { color: #F252AA; }
-	.KOKO-WAR-3-hex { color: #04BFAD; }
-	.KOKO-WAR-4-hex { color: #F2A413; }
-	.KOKO-WAR-5-hex { color: #F28E13; }
-	
-	/* Color Theme Swatches in RGBA */
-	.KOKO-WAR-1-rgba { color: rgba(242, 14, 56, 1); }
-	.KOKO-WAR-2-rgba { color: rgba(242, 82, 170, 1); }
-	.KOKO-WAR-3-rgba { color: rgba(3, 191, 172, 1); }
-	.KOKO-WAR-4-rgba { color: rgba(242, 164, 19, 1); }
-	.KOKO-WAR-5-rgba { color: rgba(242, 141, 19, 1); }
-	
-	/* Color Theme Swatches in HSLA */
-	.KOKO-WAR-1-hsla { color: hsla(348, 89, 50, 1); }
-	.KOKO-WAR-2-hsla { color: hsla(326, 86, 63, 1); }
-	.KOKO-WAR-3-hsla { color: hsla(174, 96, 38, 1); }
-	.KOKO-WAR-4-hsla { color: hsla(39, 89, 51, 1); }
-	.KOKO-WAR-5-hsla { color: hsla(33, 89, 51, 1); }
+
+.modal-dialog.dark .modal-content {
+  background: #222 !important;
+  color: #fff !important;
+}
+.modal-dialog.light .modal-content {
+  background: #fff !important;
+  color: #222 !important;
+}	

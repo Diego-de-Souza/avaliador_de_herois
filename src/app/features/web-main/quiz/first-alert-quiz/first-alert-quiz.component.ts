@@ -21,14 +21,13 @@ export class FirstAlertQuizComponent implements OnInit{
   private quizService = inject(QuizService);
   private modalService = inject(NgbModal)
 
-  _level_quiz!: Quiz_Level;
-  _levelData: any;
-  _themeAll: string = "dark";
-  _title!:string;
-  _message!: string;
+  public _level_quiz!: Quiz_Level;
+  public _levelData: any;
+  public _themeAll: string = "dark";
+  public _title!:string;
+  public _message!: string;
 
-  totalQuestions = 10; 
-  timePerQuestion = 30;
+  timePerQuestion: number = 30;
 
   ngOnInit(): void {
     this.themeService.theme$.subscribe(theme => {
