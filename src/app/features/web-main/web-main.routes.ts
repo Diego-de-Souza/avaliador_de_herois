@@ -29,7 +29,11 @@ export const routesWebMain: Routes = [
         loadChildren: () => import('./quiz/quiz.routes').then(m => m.routesWebMainQuiz)
     },
     {
-    path: 'conteudo',
-    loadChildren: () => import('./conteudo/conteudo.routes').then(m => m.routesConteudo)
-  },
+        path: 'conteudo',
+        loadChildren: () => import('./conteudo/conteudo.routes').then(m => m.routesConteudo)
+    },
+    {
+        path: 'games',
+        loadChildren: () => import('./games/games.routes').then(m => m.routesGames)
+    }
 ]

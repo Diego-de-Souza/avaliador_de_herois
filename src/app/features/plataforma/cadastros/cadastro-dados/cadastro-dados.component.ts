@@ -7,7 +7,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 import { StudioService } from '../../../../core/service/studios/studio.service';
-import { Studio } from '../../../../core/interface/studio.interface';
+import { Quiz } from '../../../../core/interface/studio.interface';
 import { TeamService } from '../../../../core/service/team/team.service';
 import { Team } from '../../../../core/interface/team.interface';
 import { GENRE_OPTIONS } from '../../../../core/enums/genre.enum';
@@ -27,7 +27,7 @@ export class CadastroDadosComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>(); // Adicionado para cleanup
 
   public cadastroDados!: FormGroup;
-  public studio_id: Studio[] = [];
+  public studio_id: Quiz[] = [];
   public team_id: Team[] = [];
   public isSubmitting = false;
 

@@ -21,7 +21,6 @@ export const plansGuard: CanActivateFn = (route, state) => {
     
     try {
         const dataUser = authService.decodeJwt(accessToken);
-        console.log('Usuário autenticado acessando conteúdo:', dataUser);
         return true;
     } catch (error) {
         console.error('Token inválido:', error);

@@ -17,14 +17,12 @@ export class MenuUserComponent implements OnInit{
   constructor(private router: Router, private authService: AuthService){}
 
   ngOnInit() {
-  console.log('nickname no MenuUserComponent:', this.userName);
   const logged = sessionStorage.getItem('access_token');
     this.userName = this.authService.decodeJwt(logged!).nickname || '';
 }
   
   goConfig(){
     localStorage.setItem('returnUrl', this.router.url);  
-    console.log("userName no menu: ", this.userName);
   }
 
   logout() {

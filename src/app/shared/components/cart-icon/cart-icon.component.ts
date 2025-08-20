@@ -47,7 +47,6 @@ export class CartIconComponent implements OnInit, OnDestroy{
       });
       return;
     }
-    console.log('Acessando o carrinho de compras');
     this.router.navigate(['/shopping/cart']);
   }
 }

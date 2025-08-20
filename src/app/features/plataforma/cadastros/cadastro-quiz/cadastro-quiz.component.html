@@ -1,1 +1,76 @@
-<p>cadastrp-quiz works!</p>
+<section class="quiz-container" [ngClass]="_quizTheme">
+  <app-header-platform></app-header-platform>
+  <section class="cadastro-artigos-container">
+    <h1>Cadastro de dados do Quiz</h1>
+    <form [formGroup]="_quizForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nome do Quiz</label>
+        <input type="text" id="name" formControlName="name" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('name')}">
+      </div>
+      <div class="form-group">
+        <label for="theme">Tema do Quiz</label>
+        <input id="theme" formControlName="theme" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('theme')}">
+      </div>
+      <div class="form-group">
+        <label>Níveis do Quiz</label>
+        <div formArrayName="quiz_levels">
+          <div *ngFor="let levelGroup of quizLevels.controls; let i = index" [formGroupName]="i" class="mb-3 p-2 border rounded">
+            <div class="row">
+              <div class="col-md-4 mb-2">
+                <label for="name_quiz_level_{{i}}">Nome do nível</label>
+                <input type="text"
+                       id="name_quiz_level_{{i}}"
+                       formControlName="name_quiz_level"
+                       class="form-control"
+                       placeholder="Nome do nível {{ i + 1 }}"
+                       [ngClass]="{'is-invalid': isLevelFieldInvalid(i, 'name_quiz_level')}">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="difficulty_{{i}}">Dificuldade</label>
+                <input type="text"
+                       id="difficulty_{{i}}"
+                       formControlName="difficulty"
+                       class="form-control"
+                       placeholder="Dificuldade do nível {{ i + 1 }}"
+                       [ngClass]="{'is-invalid': isLevelFieldInvalid(i, 'Difficulty')}">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="questions_count_{{i}}">Qtd. perguntas</label>
+                <input type="number"
+                       id="questions_count_{{i}}"
+                       formControlName="questions_count"
+                       class="form-control"
+                       min="1"
+                       placeholder="Qtd. perguntas"
+                       [ngClass]="{'is-invalid': isLevelFieldInvalid(i, 'questions_count')}">
+              </div>
+              <div class="col-md-4 mb-2">
+                <label for="xp_reward_{{i}}">XP do nível</label>
+                <input type="number"
+                       id="xp_reward_{{i}}"
+                       formControlName="xp_reward"
+                       class="form-control"
+                       min="100"
+                       placeholder="XP do nível"
+                       [ngClass]="{'is-invalid': isLevelFieldInvalid(i, 'xp_reward')}">
+              </div>
+            </div>
+            <button type="button"
+                    class="btn btn-danger mt-2"
+                    (click)="removeQuizLevel(i)"
+                    [disabled]="quizLevels.length === 1">
+              Remover
+            </button>
+          </div>
+          <button [disabled]="editingQuizId && editingQuizLevelId" type="button" class="btn btn-secondary mt-2" (click)="addQuizLevel()">
+            Adicionar nível
+          </button>
+        </div>
+      </div>
+      <div class="form-actions mt-3">
+        <button type="submit" class="btn btn-primary" [disabled]="_quizForm.invalid">Salvar Quiz</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+      </div>
+    </form>
+  </section>
+</section>

@@ -1,39 +1,37 @@
 <section class="quiz-alert-section py-5" [ngClass]="_themeAll">
   <div class="container text-center">
-    <!-- Ícone e título -->
-    <div class="mb-4">
-      <i class="bi bi-exclamation-triangle-fill display-4 text-warning"></i>
-      <h1 class="mt-3 display-5 fw-bold text-uppercase text-danger">Atenção, Recruta!</h1>
+    <!-- Hero Icon + Glow -->
+    <div class="mb-4 hero-alert-icon">
+      <img src="../img/cards_quiz/dead-pool-alert.png" alt="Herói pronto para o desafio" class="hero-alert-img">
+      <span class="hero-glow"></span>
     </div>
 
+    <!-- Título com efeito -->
+    <h1 class="quiz-alert-title">⚡ Atenção, Recruta! ⚡</h1>
+
     <!-- Mensagens -->
-    <div class="alert alert-dark p-4 shadow-sm rounded-4">
-      <p class="fs-5">🚨 Está prestes a encarar um desafio digno dos maiores heróis!</p>
-      <p class="fs-5">
-        🧠 Este quiz contém <strong>{{ totalQuestions }}</strong> questões com o nível
-        <span class="badge bg-primary text-uppercase">{{ _difficulty }}</span>,
-        escolhidas aleatoriamente para testar seu verdadeiro poder mental.
+    <div class="alert alert-dark p-4 shadow-lg rounded-4 quiz-alert-card">
+      <p class="fs-5 mb-3">🚨 Você está prestes a encarar um <span class="text-hero">desafio épico</span>!</p>
+      <p class="fs-5 mb-3">
+        🧠 Este quiz tem <strong>{{ totalQuestions }}</strong> questões no nível
+        <span class="badge bg-primary text-uppercase">{{ _level_quiz.difficulty }}</span>,
+        sorteadas para testar seu poder mental.
       </p>
-      <p class="fs-5">
-        ⏳ Você terá <strong>{{ timePerQuestion }}</strong> segundos por pergunta.
-        Pense rápido — e aja como um verdadeiro defensor da justiça!
+      <p class="fs-5 mb-3">
+        ⏳ Você terá <strong>{{ timePerQuestion }}</strong> segundos por pergunta.<br>
+        <span class="text-hero">Pense rápido e aja como um verdadeiro herói!</span>
       </p>
-      <p class="fs-5 fst-italic text-danger-emphasis mt-4">
+      <p class="fs-5 fst-italic text-danger-emphasis mt-4 quote-hero">
         💬 “Com grandes respostas... vêm grandes responsabilidades.”
       </p>
     </div>
 
-    <!-- Botão iniciar -->
+    <!-- Botão iniciar com efeito -->
     <div class="mt-5">
-      <button class="btn btn-lg btn-success px-5 fw-bold shadow" (click)="startQuiz()">
+      <button class="btn btn-lg btn-success px-5 fw-bold shadow hero-start-btn" (click)="startQuiz()">
         <i class="bi bi-lightning-charge-fill me-2"></i>
         Iniciar Desafio
       </button>
-    </div>
-
-    <!-- Hero illustration (opcional) -->
-    <div class="mt-5">
-      <img src="../img/cards_quiz/dead-pool-alert.png" alt="Herói pronto para o desafio" class="img-fluid" style="max-height: 250px;">
     </div>
   </div>
 </section>

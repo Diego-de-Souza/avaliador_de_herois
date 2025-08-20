@@ -16,7 +16,6 @@ export const cartGuard: CanActivateFn = (route, state) => {
 
   try {
     const dataUser = authService.decodeJwt(accessToken);
-    console.log('Usuário autenticado acessando carrinho:', dataUser);
     return true;
   } catch (error) {
     console.error('Token inválido:', error);

@@ -61,8 +61,6 @@ export class LoginComponent {
 
         const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
 
-        console.log('Dados do usuário:', data.role  );
-
         if(data){
           if(data.role === "admin"){
             this.router.navigate(['/plataforma']);
@@ -103,7 +101,5 @@ export class LoginComponent {
     }else{
       console.warn('Token ou user_id não disponível');
     }
-  
-    console.log('Token obtido manualmente:', token);
   }
 }

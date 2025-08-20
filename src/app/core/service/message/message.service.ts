@@ -24,7 +24,7 @@ export class MessageService {
           vapidKey: 'BHCFudQpErY_P4n6Jn1jrecHCccGKNgXz5bd7Ajy6bkhyY-Gj30t8S5IrhtVEAD5pGM0VLrO_D8fGNvTUJHc6Zg' 
         });
         if (token) {
-          console.log('Token recebido:', token);
+          console.log('Token recebido:');
           // Envie o token para seu backend para usar nas notificações
         } else {
           console.log('Token não disponível mesmo com permissão concedida.');
@@ -39,7 +39,6 @@ export class MessageService {
 
   receiveMessage() {
     onMessage(this.messaging, (payload) => {
-      console.log('Mensagem recebida:', payload);
       this.currentMessage.next(payload);
     });
   }

@@ -32,4 +32,9 @@ export const routesViews: Routes = [
         title: 'Lista Usuarios',
         loadComponent: () => import('./view-user/view-user.component').then(m => m.ViewUserComponent)
     },
+    {
+        path: 'view-quiz',
+        title: 'Lista de Quizzes',
+        loadComponent: () => import('./view-quiz/view-quiz.component').then(m => m.ViewQuizComponent)
+    }
 ]

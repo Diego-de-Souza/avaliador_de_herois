@@ -1,20 +1,23 @@
 <section class="quiz-container text-white py-5 px-3" [ngClass]="_themeAll">
-    <div class="text-center mb-3">
-    <span class="badge bg-dark fs-5 px-4 py-2">
-        ⏱️ Tempo restante: {{ formattedCountdown }}
-  </span>
-</div>
+  <div class="text-center mb-3">
+    <span class="badge bg-dark fs-5 px-4 py-2 quiz-timer-badge animated-pulse">
+      ⏱️ Tempo restante: <span class="timer-text">{{ formattedCountdown }}</span>
+    </span>
+  </div>
+
   <div class="text-center mb-4 animated-fade-in">
-    <h3 class="neon-text display-5">🦸 Questão {{ _index + 1 }}</h3>
+    <h3 class="neon-text display-5 quiz-question-title">
+      <span class="question-icon">🦸</span> Questão {{ _index + 1 }}
+    </h3>
     <hr class="custom-hr">
-    <p class="lead">{{ _question.text }}</p>
+    <p class="lead quiz-question-text">{{ _question.question }}</p>
   </div>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="question-alternatives d-flex flex-column gap-3 animated-slide-up">
       <label
         *ngFor="let option of _question.options"
-        class="custom-option d-flex align-items-center"
+        class="custom-option d-flex align-items-center quiz-option"
       >
         <input
           type="radio"
@@ -22,16 +25,17 @@
           [value]="option"
           class="form-check-input me-2"
         />
-        {{ option }}
+        <span class="option-text">{{ option }}</span>
       </label>
     </div>
 
     <div class="text-center mt-4">
       <button
-        class="btn btn-outline-light px-4 py-2"
+        class="btn btn-quiz-submit px-4 py-2"
         type="submit"
         [disabled]="!form.value.selected || isSubmitting"
       >
+        <span class="button-icon">🚀</span>
         {{ isSubmitting ? 'Enviando...' : 'Submeter Resposta' }}
       </button>
     </div>

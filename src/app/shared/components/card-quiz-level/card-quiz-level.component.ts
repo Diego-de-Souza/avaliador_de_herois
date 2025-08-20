@@ -1,8 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { HeroLevel } from '../../../core/interface/hero-level.interface';
+import { Quiz_Level } from '../../../core/interface/hero-level.interface';
 import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { Difficulty } from '../../../core/enums/difficulty.enum'; // Importe o enum
 import { gsap } from 'gsap';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 
@@ -14,7 +13,8 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
   styleUrl: './card-quiz-level.component.css'
 })
 export class CardQuizLevelComponent implements OnInit {
-  @Input() level!: HeroLevel;
+  @Input() level!: Quiz_Level;
+  @Input() logo: string= '';
   router = inject(Router);
   themeService = inject(ThemeService);
 
@@ -24,14 +24,12 @@ export class CardQuizLevelComponent implements OnInit {
     this.themeService.theme$.subscribe(theme => {
       this._themeAll = theme;
       this.applyTheme(theme);
-      console.log(theme)
     });
   }
 
-  startLevel(level_quiz: HeroLevel) {
-    console.log(level_quiz)
+  startLevel(level_quiz: Quiz_Level) {
     this.router.navigate(
-      [`/webmain/quiz/first-alert`, level_quiz.difficulty],
+      [`/webmain/quiz/first-alert`, level_quiz],
       {
         state: {
           level: level_quiz
@@ -41,7 +39,7 @@ export class CardQuizLevelComponent implements OnInit {
 
   }
 
-  unlockLevel(level: HeroLevel) {
+  unlockLevel(level: Quiz_Level) {
     if (!level.unlocked) {
       // Lógica para desbloquear (pode verificar XP do usuário)
       level.unlocked = true;

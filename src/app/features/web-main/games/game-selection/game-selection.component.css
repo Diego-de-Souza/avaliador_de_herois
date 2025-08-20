@@ -1,0 +1,98 @@
+.games-selection-main {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary) 80%);
+  color: var(--text-primary);
+  font-family: 'Orbitron', 'Roboto Mono', monospace, Arial, sans-serif;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.games-title {
+  font-size: 2.5rem;
+  color: var(--bg-blue);
+  text-shadow: 0 0 12px var(--bg-blue), 0 0 2px var(--bg-gold);
+  margin-bottom: 2.5rem;
+  letter-spacing: 2px;
+}
+
+.games-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+.game-card {
+  background: linear-gradient(120deg, var(--bg-card) 80%, var(--bg-blue) 100%);
+  border-radius: 18px;
+  box-shadow: 0 0 24px var(--shadow-color);
+  padding: 2.2rem 2rem 2rem 2rem;
+  min-width: 220px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2.5px solid var(--bg-blue);
+  transition: box-shadow 0.3s, border 0.3s, transform 0.2s;
+  color: var(--text-primary);
+}
+.game-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 0 32px var(--bg-pink);
+  border-color: var(--bg-pink);
+}
+
+.game-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 0 8px var(--bg-gold);
+}
+
+.game-name {
+  font-size: 1.4rem;
+  color: var(--bg-blue);
+  margin-bottom: 0.7rem;
+  font-family: 'Orbitron', monospace;
+  text-align: center;
+}
+
+.game-desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.play-btn {
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-pink));
+  color: var(--text-primary);
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--bg-blue);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.play-btn:hover {
+  background: linear-gradient(90deg, var(--bg-pink), var(--bg-blue));
+}
+
+@media (max-width: 700px) {
+  .games-grid {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .game-card {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1.2rem 0.7rem;
+  }
+}

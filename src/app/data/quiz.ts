@@ -49,7 +49,7 @@ export const QuizLevel = [
         quote: '"Com grandes poderes vêm grandes responsabilidades!"'
         },
         difficulty: Difficulty.COSMIC, 
-        unlocked: true,
+        unlocked: false,
         questions: 10,
         xpReward: 500
     }

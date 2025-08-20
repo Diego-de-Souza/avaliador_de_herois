@@ -27,9 +27,9 @@
   background: var(--bg-card);
   border-radius: 18px;
   box-shadow: 0 2px 12px 0 var(--shadow-color-primary);
-  overflow: hidden;
   perspective: 1200px;
   transition: box-shadow 0.4s, background 0.3s;
+  cursor: pointer;
 }
 .mythrill-card:hover {
   box-shadow: 0 8px 40px 0 var(--shadow-color-primary), 0 0 0 4px var(--bg-blue) inset;
@@ -58,7 +58,7 @@
   content: "";
   opacity: 0;
   width: 100%;
-  height: 80px;
+  height: 100px;
   transition: all 0.5s;
   position: absolute;
   left: 0;
@@ -89,7 +89,7 @@
   opacity: 1;
 }
 .mythrill-card:hover .mythrill-wrapper::after {
-  height: 120px;
+  height: 220px;
 }
 
 /* Cover image */
@@ -104,8 +104,8 @@
 
 /* Character image */
 .mythrill-character {
-  width: 90%;
-  max-width: 140px;
+  width: 100%;
+  max-width: 190px;
   position: absolute;
   left: 50%;
   bottom: 40px;

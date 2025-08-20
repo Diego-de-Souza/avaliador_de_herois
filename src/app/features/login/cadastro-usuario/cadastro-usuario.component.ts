@@ -102,7 +102,6 @@ export class CadastroUsuarioComponent{
         // Enviar o FormData na requisição de registro
         this.userService.postRegisterUser(userData).subscribe(
           (response) => {
-            console.log('Usuário cadastrado com sucesso:', response);
             this.title = 'Cadastro de Usuario';
             this.message = 'Cadastro realizado com sucesso!';
             this.openModal(this.title, this.message);
@@ -120,14 +119,12 @@ export class CadastroUsuarioComponent{
         this.title = 'Formulário Inválido';
         this.message = 'Algum dos dados do formulário é inválido ou está ausente.';
         this.openModal(this.title, this.message);
-        console.log('Formulário Inválido');
       }
     }
   
     buscarEndereco() {
       const cep = this.cadastroForm.get('cep')?.value;
       
-      console.log("CEP digitado:", cep);
       // Verificar se o CEP tem o formato correto e enviar para o serviço
       if (cep && /^\d{8}$/.test(cep)) {
         this.cepService.buscarCep(cep).subscribe(
@@ -140,7 +137,6 @@ export class CadastroUsuarioComponent{
                 state: dados.estado,
                 uf: dados.uf
               });
-              console.log(this.cadastroForm)
             } else {
               alert('CEP não encontrado.');
             }

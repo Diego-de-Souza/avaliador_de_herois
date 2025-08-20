@@ -23,7 +23,6 @@ export class ViewArtigosComponent implements OnInit {
       next: (response) => {
         if (response && response.length > 0) {
           this.articles = response.articles;
-          console.log('Artigos carregados com sucesso:', response);
         }
       },
       error: (error) => {

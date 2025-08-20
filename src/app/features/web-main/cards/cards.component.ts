@@ -1,26 +1,29 @@
 import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
 import { dadosHeroes } from '../../../data/cards';
-import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeroisService } from '../../../core/service/herois/herois.service';
 import { HeroisModel } from '../../../core/Model/herois.model';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
-import { Subject, takeUntil } from 'rxjs';
+import { delay, Subject, takeUntil } from 'rxjs';
 import { FlashLoadingComponent } from '../../../shared/components/flash-loading/flash-loading.component';
+import { ImageService } from '../../../core/service/image/image.service';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, HeaderComponent, FooterComponent, CommonModule, FlashLoadingComponent],
+  imports: [HeaderComponent, FooterComponent, CommonModule, FlashLoadingComponent],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.css'
 })
 export class CardsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private searchHeroes = inject(HeroisService);
   private themeService = inject(ThemeService);
+  private imageService = inject(ImageService);
 
   private destroy$ = new Subject<void>();
 
@@ -36,6 +39,7 @@ export class CardsComponent implements OnInit, OnDestroy {
   @Input() searchResults: any[] = [];
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.initializeComponent();
   }
 
@@ -108,6 +112,7 @@ export class CardsComponent implements OnInit, OnDestroy {
       this.currentFilter = 'Todos os Heróis';
       this.cardsHeroes = [...this.cardsJson];
       this.totalResults = this.cardsHeroes.length;
+      this.isLoading = false;
     }
   }
 
@@ -123,11 +128,10 @@ export class CardsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('Dados vindo do backend:', data);
     this.cardsHeroes = data.map((hero: any) => ({
       ...hero,
-      image: this.processImageField(hero.image1, 'image/jpeg'),
-      image_cover: this.processImageField(hero.image2, 'image/png')
+      image: this.imageService.processImageField(hero.image1, 'image/jpeg'),
+      image_cover: this.imageService.processImageField(hero.image2, 'image/png')
     }));
 
     this.totalResults = data.length;
@@ -208,21 +212,11 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.totalResults = this.cardsHeroes.length;
   }
 
-  private processImageField(imageField: any, mimeType: string): string {
-    console.log('processImageField:', imageField, typeof imageField);
-    if (typeof imageField === 'string') {
-      return imageField;
+  openCardDetails(card: any): void {
+    if (card && card.id) {
+      this.router.navigate(['/webmain/descriptionHeroes/'+ card.id, card]);
+    } else {
+      console.error('Card inválido:', card);
     }
-    if (imageField && imageField.data) {
-      try {
-        const uint8Array = new Uint8Array(imageField.data);
-        const blob = new Blob([uint8Array], { type: mimeType });
-        return URL.createObjectURL(blob);
-      } catch (error) {
-        console.error('Erro ao converter buffer para imagem:', error);
-        return '';
-      }
-    }
-    return '';
   }
 }

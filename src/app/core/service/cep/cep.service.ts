@@ -12,8 +12,6 @@ export class CepService {
   constructor(private http: HttpClient) {}
 
   buscarCep(cep: string): Observable<any> {
-
-    console.log(cep)
     return this.http.get<any>(`${this.apiURL}/${cep}/json`);
   }
 }

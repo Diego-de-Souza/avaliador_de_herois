@@ -1,103 +1,223 @@
-:host{
-    #descriptionHeroes-main {
-        padding: 0 0 6em 0;
-        display: flex;
-        justify-content: center;
-        background: #18191e;
-        flex-direction: column;
-        color: #fff;
-    }
-    .nav-card{
-        display: flex;
-        width: 100%;
-        height: 4em;
-        background-color: #f8d3d3;
-        position: fixed;
-        z-index: 999999999;
-        top: 0;
-        justify-content: center;
-        align-items: center;
-    }
-    .nav-card > button{
-        width: 8em;
-        height: 2em;
-        border: none;
-        box-shadow: 1px 1px 4px #304ebc;
-        border-radius: 0.5em;
-        text-transform: uppercase;
-    }
-    .nav-card > button:hover {
-        background-color: #6379cb;
-        font-weight: bold;
-        color: #fff;
-        cursor: pointer;
-    }
-    
-    .descriptionHeroes-container, .descriptionHeroes-history{
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-    h1, h2{
-        display: flex;
-        font-size: 5em;
-        color:#fff;
-        margin: auto;
-    }
-    .descriptionHeroes-dados{
-        display: flex;
-        flex-direction: row;
-        width: 80%;
-        margin: auto;
-        padding-top: 2em;
-        margin-top: 2em;
-    }
-    .descriptionHeroes-card{
-        display: flex;
-        flex-direction: column;
-        width: 60%;
-        margin: auto;
-    }
-    span{
-        display: flex;
-        padding: 1em;
-        font-size: 1.5em;
-    }
-    
-    span > p {
-        color: #00ff05;
-        text-orientation: sideways-right;
-        margin-left: 1em;
-    }
-    
-    .descriptionHeroes-imgPrincipal{
-        display: flex;
-        flex-direction: column;
-        width: 40%;
-    }
+#descriptionHeroes-main {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary) 80%);
+  color: var(--text-primary);
+  font-family: 'Orbitron', 'Roboto Mono', 'Segoe UI', monospace, Arial, sans-serif;
+  transition: background 0.3s, color 0.3s;
+  padding-bottom: 40px;
+}
 
-    .descriptionHeroes-imgPrincipal > figure > img {
-        display: block;
-        position: relative;
-        max-width: 100%;
-        max-height: 100%;
-        -webkit-mask-image: linear-gradient(45deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 1) 50%,rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
-        mask-image: linear-gradient(45deg, rgba(0, 0, 0, 0) 15%, rgba(0, 0, 0, 1) 40%,rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
-        border-radius: 10% 0 10% 0;
-    }
-    
-    .descriptionHeroes-history__texto{
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin: auto;
-        margin-top: 2em;
-    }
-    .descriptionHeroes-history__texto > p{
-        text-align: justify;
-        text-indent: 2em;
-        font-size: 1.2em;
-        line-height: 2em;
-    }
-    
+.descriptionHeroes-heroArea {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 2.5rem auto 2rem auto;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+.descriptionHeroes-imgPrincipal {
+  flex: 1 1 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-blue) 30%, var(--bg-pink) 100%);
+  border-radius: 24px;
+  box-shadow: 0 0 48px var(--bg-blue);
+  padding: 2.5rem 1.5rem;
+  min-width: 320px;
+  max-width: 420px;
+  min-height: 420px;
+  margin: 0;
+  position: relative;
+}
+.hero-img {
+  width: 100%;
+  max-width: 340px;
+  max-height: 380px;
+  border-radius: 18px;
+  box-shadow: 0 0 32px var(--bg-gold);
+  background: var(--bg-card);
+  border: 3px solid var(--bg-gold);
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+.hero-img:hover {
+  transform: scale(1.04) rotate(-2deg);
+  box-shadow: 0 0 48px var(--bg-pink);
+}
+
+.descriptionHeroes-info {
+  flex: 2 1 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1.5rem;
+  min-width: 320px;
+  max-width: 600px;
+}
+
+.hero-title {
+  font-size: 2.7rem;
+  font-family: 'Orbitron', 'Roboto Mono', monospace;
+  color: var(--bg-blue);
+  text-shadow: 0 0 16px var(--bg-blue), 0 0 4px var(--bg-gold);
+  margin-bottom: 1.2rem;
+  letter-spacing: 2px;
+  text-align: left;
+  position: relative;
+  width: 100%;
+}
+
+.glitch {
+  position: relative;
+  color: var(--bg-blue);
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 2px 0 var(--bg-pink), -2px 0 var(--bg-gold), 0 2px var(--bg-blue);
+  animation: glitch 1.2s infinite linear alternate-reverse;
+}
+.glitch::before, .glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; width: 100%;
+  overflow: hidden;
+}
+.glitch::before {
+  top: -2px;
+  color: var(--bg-pink);
+  z-index: 1;
+  animation: glitchTop 1.2s infinite linear alternate-reverse;
+}
+.glitch::after {
+  top: 2px;
+  color: var(--bg-gold);
+  z-index: 2;
+  animation: glitchBottom 1.2s infinite linear alternate-reverse;
+}
+@keyframes glitch {
+  0% { text-shadow: 2px 0 var(--bg-pink), -2px 0 var(--bg-gold), 0 2px var(--bg-blue);}
+  20% { text-shadow: -2px 0 var(--bg-pink), 2px 0 var(--bg-gold), 0 -2px var(--bg-blue);}
+  40% { text-shadow: 2px 2px var(--bg-pink), -2px -2px var(--bg-gold), 2px 2px var(--bg-blue);}
+  60% { text-shadow: -2px -2px var(--bg-pink), 2px 2px var(--bg-gold), -2px -2px var(--bg-blue);}
+  100% { text-shadow: 2px 0 var(--bg-pink), -2px 0 var(--bg-gold), 0 2px var(--bg-blue);}
+}
+@keyframes glitchTop {
+  0% { clip-path: inset(0 0 80% 0);}
+  50% { clip-path: inset(0 0 0 0);}
+  100% { clip-path: inset(0 0 80% 0);}
+}
+@keyframes glitchBottom {
+  0% { clip-path: inset(80% 0 0 0);}
+  50% { clip-path: inset(0 0 0 0);}
+  100% { clip-path: inset(80% 0 0 0);}
+}
+
+.descriptionHeroes-card {
+  background: linear-gradient(120deg, var(--bg-card) 80%, var(--bg-blue) 100%);
+  border-radius: 18px;
+  box-shadow: 0 0 24px var(--shadow-color);
+  padding: 2.2rem 2rem 2rem 2rem;
+  min-width: 320px;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  font-size: 1.18rem;
+  color: var(--text-primary);
+  border: 2.5px solid var(--bg-blue);
+  transition: box-shadow 0.3s, border 0.3s;
+  margin-bottom: 0;
+}
+.info-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.08rem;
+}
+.info-row strong {
+  color: var(--bg-gold);
+  font-size: 1.08rem;
+  letter-spacing: 1px;
+  min-width: 150px;
+  text-align: right;
+}
+
+.descriptionHeroes-history {
+  max-width: 1100px;
+  margin: 2.5rem auto 2rem auto;
+  background: linear-gradient(120deg, var(--bg-card) 80%, var(--bg-blue) 100%);
+  border-radius: 18px;
+  box-shadow: 0 0 24px var(--shadow-color);
+  padding: 2.2rem 2rem;
+  color: var(--text-primary);
+  border: 2.5px solid var(--bg-blue);
+}
+.history-title {
+  color: var(--bg-blue);
+  font-family: 'Orbitron', 'Roboto Mono', monospace;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px var(--bg-blue);
+}
+.descriptionHeroes-history__texto {
+  font-size: 1.18rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* Responsivo */
+@media (max-width: 1100px) {
+  .descriptionHeroes-heroArea {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  .descriptionHeroes-imgPrincipal,
+  .descriptionHeroes-info,
+  .descriptionHeroes-card {
+    min-width: 220px;
+    max-width: 98vw;
+  }
+  .hero-img {
+    max-width: 220px;
+    max-height: 260px;
+  }
+}
+@media (max-width: 700px) {
+  .descriptionHeroes-heroArea {
+    gap: 1.2rem;
+    padding: 0 0.2rem;
+  }
+  .descriptionHeroes-imgPrincipal {
+    padding: 1rem 0.3rem;
+    min-height: 180px;
+  }
+  .hero-img {
+    max-width: 120px;
+    max-height: 160px;
+  }
+  .descriptionHeroes-card {
+    padding: 1rem 0.5rem;
+    font-size: 0.98rem;
+  }
+  .info-row strong {
+    min-width: 90px;
+    font-size: 0.98rem;
+  }
+  .history-title {
+    font-size: 1.1rem;
+  }
+  .descriptionHeroes-history {
+    padding: 1rem 0.5rem;
+    font-size: 0.98rem;
+  }
 }

@@ -79,20 +79,12 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
     this.searchHerois.getDadosMenu()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response: any) => {
-          console.log('=== DEBUG DADOS MENU ===');
-          console.log('Resposta completa:', response);
-          
+        next: (response: any) => {          
           if (response && response.dataUnit && Array.isArray(response.dataUnit)) {
             this.heroisMenuEditora = response.dataUnit[0] || [];
             this.heroisMenuEquipe = response.dataUnit[1] || [];
             this.heroisMenuMoralidade = response.dataUnit[2] || [];
             this.heroisMenuSexo = response.dataUnit[3] || [];
-            
-            console.log('Studios após extração:', this.heroisMenuEditora);
-            console.log('Teams após extração:', this.heroisMenuEquipe);
-            console.log('Morality após extração:', this.heroisMenuMoralidade);
-            console.log('Genre após extração:', this.heroisMenuSexo);
           } else {
             console.warn('Estrutura de dados inesperada:', response);
             this.initializeEmptyArrays();
@@ -123,8 +115,6 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
     
     // Toggle apenas o selecionado
     this.accordionStates[section] = !this.accordionStates[section];
-    
-    console.log(`Accordion ${section} ${this.accordionStates[section] ? 'aberto' : 'fechado'}`);
   }
 
   // ===== MÉTODOS DE ACCORDION =====
@@ -154,29 +144,24 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
 
   // ===== MÉTODOS DE NAVEGAÇÃO =====
   openForPublisher(studioId: number): void {
-    console.log('Navegando para studio:', studioId);
     this.router.navigate(['/webmain/cards'], { queryParams: { studioId } });
   }
 
   openForTeam(team: string): void {
-    console.log('Navegando para team:', team);
     this.router.navigate(['/webmain/cards'], { queryParams: { team } });
   }
 
   buscaPorAno() {
     if (this.anoLancamento && this.anoLancamento.trim() !== '') {
-      console.log('Navegando para ano:', this.anoLancamento);
       this.router.navigate(['/webmain/cards'], { queryParams: { anoLancamento: this.anoLancamento } });
     }
   }
 
   openForMorality(morality: string): void {
-    console.log('Navegando para morality:', morality);
     this.router.navigate(['/webmain/cards'], { queryParams: { morality } });
   }
 
   openForSexy(genre: string): void {
-    console.log('Navegando para genre:', genre);
     this.router.navigate(['/webmain/cards'], { queryParams: { genre } });
   }
 }
