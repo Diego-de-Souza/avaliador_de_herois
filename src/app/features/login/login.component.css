@@ -1,11 +1,14 @@
 #login-plataforma {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background: linear-gradient(to bottom, #101522, #1e2a38);
+    align-items: center;
+    justify-content: center;
 }
 
-h2{
+h2 {
     color: #00d2ff;
     width: 100%;
     text-align: center;
@@ -14,21 +17,24 @@ h2{
 #container_login {
     display: flex;
     flex-direction: column;
-    width: 70vw;
-    height: 70vh;
+    width: 40vw;
+    min-width: 280px;
+    height: 100%;
     margin: auto;
     border-radius: 1em;
     border: 2px solid #00d2ff;
     box-shadow: 0px 0px 10px #00d2ff;
+    background: rgba(30, 42, 56, 0.95);
+    padding: 2em 1em;
 }
 
-.capsula-login{
+.capsula-login {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
 
-.icon-login{
+.icon-login {
     display: flex;
     padding-left: 1em;
     padding-right: 1em;
@@ -36,67 +42,144 @@ h2{
     height: 2em;
     align-items: center;
     background-color: #00d2ff;
-    
 }
 
-input{
+input {
     border: 1px solid #00d2ff;
     background-color: #3b3b3be9;
+    width: 100%;
+    min-width: 0;
 }
 
-input::placeholder{
+input::placeholder {
     color: #00d2ff;
 }
 
-.btn-acessar{
-    color: #00d2ff;
-    border: 2px solid #00d2ff;
+.btn-acessar,
+.btn-google {
     width: 100%;
     margin-top: 2em;
-}
-
-.btn-acessar:hover{
-    background-color: #00d2ff;
-    color: black;
-    font-weight: bolder;
-}
-
-.error-message{
-    .icon-login{
-        background-color: rgb(246, 91, 122);
-        box-shadow: rgb(246, 91, 122);
-    }
-
-    input{
-        background-color: rgb(246, 91, 122);
-        border: 1px solid #ff0000;
-        box-shadow: 1px 1px 5px rgb(246, 91, 122);
-        color: #f2ff00;
-    }   
-}
-
-.form-label{
-   color: #00d2ff; 
-}
-
-.form-text{
+    padding: 0.75em 0;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 2px solid #00d2ff;
+    background: transparent;
     color: #00d2ff;
-    font-size: 0.5em;
+    box-shadow: 0px 0px 6px #00d2ff33;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-.login-for-register{
+.btn-acessar:hover,
+.btn-google:hover {
+    background-color: #00d2ff;
+    color: #101522;
+    border-color: #00d2ff;
+}
+
+.btn-google i {
+    color: #00d2ff;
+    font-size: 1.3em;
+    margin-right: 10px;
+    transition: color 0.2s;
+}
+
+.btn-google:hover i {
+    color: #101522;
+}
+
+.error-message .icon-login {
+    background-color: rgb(246, 91, 122);
+    box-shadow: rgb(246, 91, 122);
+}
+
+.error-message input {
+    background-color: rgb(246, 91, 122);
+    border: 1px solid #ff0000;
+    box-shadow: 1px 1px 5px rgb(246, 91, 122);
+    color: #f2ff00;
+}
+
+.form-label {
+    color: #00d2ff;
+}
+
+.form-text {
+    color: #00d2ff;
+    font-size: 0.9em;
+}
+
+.login-for-register {
     display: flex;
     width: 100%;
     justify-content: center;
+    margin: 0.75em 0;
+}
 
-    & p{
-        color:#00d2ff;
-        cursor: pointer;
-        padding: 0.5em 1em;
-        border-radius: 6px;
+.login-for-register p {
+    color: #00d2ff;
+    cursor: pointer;
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+}
+
+.login-for-register p:hover {
+    box-shadow: 0px 0px 3px #00d2ff;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    #container_login {
+        width: 90vw;
+        max-width: 95vw;
+        height: auto;
+        min-height: 350px;
+        padding: 1em 0.5em;
     }
+    .btn-acessar,
+    .btn-google {
+        font-size: 1em;
+        padding: 0.6em 0;
+    }
+}
 
-    & p:hover{
-        box-shadow: 0px 0px 3px #00d2ff;
+@media (max-width: 600px) {
+    #login-plataforma {
+        padding: 0;
+        height: auto;
+        min-height: 100vh;
+    }
+    #container_login {
+        width: 98vw;
+        max-width: 100vw;
+        min-width: 0;
+        height: auto;
+        min-height: 300px;
+        padding: 1em 0.2em;
+        border-radius: 0.5em;
+    }
+    .capsula-login {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .icon-login {
+        border-radius: 0.5em 0.5em 0 0;
+        margin-bottom: 0.5em;
+        padding: 0.5em;
+        height: 2em;
+        justify-content: center;
+    }
+    .btn-acessar,
+    .btn-google {
+        font-size: 1em;
+        padding: 0.6em 0;
+    }
+    h2 {
+        font-size: 1.3em;
     }
 }

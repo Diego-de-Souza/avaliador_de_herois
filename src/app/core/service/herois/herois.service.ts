@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HeroisModel } from '../../Model/herois.model';
-import { HeroisMenuModel } from '../../Model/heroisMenu.model';
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import {environment} from '../../../../environments/environment';
 
 @Injectable({

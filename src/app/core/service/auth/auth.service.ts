@@ -141,4 +141,31 @@ export class AuthService implements OnInit{
     
   }
 
+  async validateGoogleLogin(idToken:string): Promise<any>{
+    try{
+      const response:any = await lastValueFrom(this.userService.validateGoogleLogin(idToken));
+
+      if (response) {
+        sessionStorage.setItem('access_token', response.access_token);
+        return response;
+      } else {
+        throw new Error('Resposta inválida do servidor ao validar login do Google.');
+      }
+    }catch(error){
+      console.error('Erro ao validar login do Google:', error);
+      throw new Error('Erro ao validar login do Google. Tente novamente.');
+    }
+  }
+
+  async changePassword(newPassword: string): Promise<any> {
+    try {
+      const encryptedPassword = EncryptionUtil.encrypt(newPassword);
+      const response = await lastValueFrom(this.userService.changePassword(encryptedPassword));
+      return response;
+    } catch (error) {
+      console.error('Erro ao alterar a senha:', error);
+      throw new Error('Erro ao alterar a senha. Tente novamente.');
+    }
+  }
+
 }

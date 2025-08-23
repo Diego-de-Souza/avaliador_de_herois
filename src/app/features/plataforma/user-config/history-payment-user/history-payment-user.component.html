@@ -1,0 +1,73 @@
+<div class="p-4">
+  <h4>Compras & Pagamentos</h4>
+
+  <!-- Histórico de pedidos -->
+  <div class="mb-4">
+    <h5>Histórico de Pedidos</h5>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Data</th>
+          <th>Produto</th>
+          <th>Valor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos">
+          <td>{{ pedido.id }}</td>
+          <td>{{ pedido.data }}</td>
+          <td>{{ pedido.produto }}</td>
+          <td>{{ pedido.valor | currency:'BRL' }}</td>
+          <td>
+            <span [ngClass]="{
+              'badge bg-success': pedido.status === 'Pago',
+              'badge bg-warning': pedido.status === 'Pendente',
+              'badge bg-danger': pedido.status === 'Cancelado'
+            }">{{ pedido.status }}</span>
+          </td>
+        </tr>
+        <tr *ngIf="pedidos.length === 0">
+          <td colspan="5" class="text-muted text-center">Nenhum pedido encontrado.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Métodos de pagamento -->
+  <div class="mb-4">
+    <h5>Métodos de Pagamento</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let metodo of metodosPagamento">
+        <span>
+          <i class="bi bi-credit-card me-2"></i>
+          {{ metodo.tipo }} - {{ metodo.numero }}
+        </span>
+        <button class="btn btn-outline-danger btn-sm" (click)="removerMetodo(metodo.id)">Remover</button>
+      </li>
+      <li *ngIf="metodosPagamento.length === 0" class="list-group-item text-muted">Nenhum método cadastrado.</li>
+    </ul>
+    <button class="btn btn-primary mt-2" (click)="adicionarMetodo()">Adicionar Método</button>
+  </div>
+
+  <!-- Preferências de cobrança -->
+  <div>
+    <h5>Preferências de Cobrança</h5>
+    <form>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="emailCobranca" [(ngModel)]="preferencias.emailCobranca" name="emailCobranca">
+        <label class="form-check-label" for="emailCobranca">
+          Receber cobranças por e-mail
+        </label>
+      </div>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="smsCobranca" [(ngModel)]="preferencias.smsCobranca" name="smsCobranca">
+        <label class="form-check-label" for="smsCobranca">
+          Receber cobranças por SMS
+        </label>
+      </div>
+      <button class="btn btn-success mt-2" type="button" (click)="salvarPreferencias()">Salvar Preferências</button>
+    </form>
+  </div>
+</div>

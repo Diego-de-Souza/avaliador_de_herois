@@ -1,65 +1,41 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { DataUserComponent } from './data-user/data-user.component';
+import { SecurityUserComponent } from './security-user/security-user.component';
+import { HistoryPaymentUserComponent } from './history-payment-user/history-payment-user.component';
+import { GamesConquestUserComponent } from './games-conquest-user/games-conquest-user.component';
+import { QuizUserComponent } from './quiz-user/quiz-user.component';
+import { ConnectionsUserComponent } from './connections-user/connections-user.component';
+import { PrivacyUserComponent } from './privacy-user/privacy-user.component';
+import { PreferencesUserComponent } from './preferences-user/preferences-user.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-config',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ 
+    CommonModule, 
+    DataUserComponent, 
+    SecurityUserComponent,
+    HistoryPaymentUserComponent,
+    GamesConquestUserComponent,
+    QuizUserComponent,
+    ConnectionsUserComponent, 
+    PrivacyUserComponent,
+    PreferencesUserComponent
+  ],
   templateUrl: './user-config.component.html',
   styleUrl: './user-config.component.css'
 })
-export class UserConfigComponent {
-  public userSettingsForm: FormGroup;
-  avatarPreview: string | undefined;
+export class UserConfigComponent{
+  private router: Router = inject(Router);
 
-  constructor(private fb: FormBuilder){
-    this.userSettingsForm = this.fb.group({
-      fullname: ['', [Validators.required, Validators.minLength(3)]],
-      nickname: ['', [Validators.minLength(3)]],
-      email: ['', [Validators.email]],
-      secondemail: ['', [Validators.email]],
-      birthdate: ['', Validators.required],
-      emailNotifications: [true],
-      uf: ['', [Validators.required, Validators.maxLength(3)]],
-      address: ['', Validators.required],
-      complement: [''],
-      cep: ['', Validators.required],
-      state: ['', Validators.required],
-      city: ['', Validators.required],
-      newPassword: [''],
-      confirmNewPassword: ['']
-    }, {
-      validators: this.passwordsMatchValidator()
-    });
-  }
-
-  passwordsMatchValidator(): ValidatorFn {
-    return (form: AbstractControl): ValidationErrors | null => {
-      const password = form.get('newPassword')?.value;
-      const confirmPassword = form.get('confirmNewPassword')?.value;
-      return password && confirmPassword && password !== confirmPassword ? { passwordsMismatch: true } : null;
-    };
-  }
-
-  onAvatarChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.avatarPreview = e.target?.result as string;
-      };
-      reader.readAsDataURL(input.files[0]);
+  voltarPaginaAnterior() {
+    const returnUrl = localStorage.getItem('returnUrl');
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+    } else {
+      this.router.navigate(['/']); 
     }
   }
-
-  onSaveSettings(){
-
-  }
-
-  isFieldInvalid(field: string): boolean {
-    const control = this.userSettingsForm.get(field);
-    return control ? control.invalid && (control.touched || control.dirty) : false;
-  }
-
 }

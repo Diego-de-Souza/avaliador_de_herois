@@ -1,7 +1,8 @@
 import * as CryptoJS from 'crypto-js';
+import {environment} from '../../../environments/environment';
 
 export class EncryptionUtil {
-  private static encryptionKey: string = 'PLATAFORMAHEROES2024angularnestJS_projeto2025';
+  private static encryptionKey: string = environment.encryptionKey;
 
   /**
    * Criptografa o texto fornecido

@@ -54,5 +54,11 @@ export class UserService {
     });
   }
 
-  
+  validateGoogleLogin(idToken: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/google`, { idToken });
+  }
+
+  changePassword(newPassword: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/change-password`, { newPassword });
+  }
 }

@@ -43,6 +43,7 @@
 
   .itens-menu-user{
     text-align: center !important;
+    cursor: pointer;
   }
 
   .dropdown-item{

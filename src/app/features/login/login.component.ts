@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../core/service/user/user.service';
 import { ModalSucessoCadastroComponent } from '../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../core/service/auth/auth.service';
-import { MessageService } from '../../core/service/message/message.service';
+import { environment } from '../../../environments/environment';
+
+declare const google: any;
 
 @Component({
   selector: 'app-login',
@@ -14,67 +16,71 @@ import { MessageService } from '../../core/service/message/message.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  public title:string = '';
+  public title: string = '';
   public message: string = '';
+  public user: any = null;
   messagefcm: any = null;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private modalService : NgbModal,
-    private authService: AuthService,
-    private messagingService: MessageService
-  ){
+    private modalService: NgbModal,
+    private authService: AuthService
+  ) {
     this.loginForm = this.fb.group({
-      email:['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
-    })
+    });
   }
 
-  onSubmit(){
-    if(this.loginForm.valid){
+  ngOnInit(): void {
+    // Inicializa GIS uma única vez e define o callback global
+    (window as any).handleCredentialResponse = (response: any) => {
+      // Recebe o token JWT do Google e envia para o backend
+      this.checkPermission(response.credential);
+    };
+
+    google.accounts.id.initialize({
+      client_id: environment.ID_CLIENTE_GOOGLE,
+      callback: (window as any).handleCredentialResponse
+    });
+  }
+
+  onSubmit() {
+    if (this.loginForm.valid) {
       this.handleLogin();
-    }else{
+    } else {
       this.title = 'Login';
-      this.message = 'Dados inseridos não conferem com o formato válido ou ausente.'
+      this.message = 'Dados inseridos não conferem com o formato válido ou ausente.';
       this.openModal(this.title, this.message);
     }
   }
 
-  async handleLogin(): Promise<void>{
-    try{
+  async handleLogin(): Promise<void> {
+    try {
       const statusLogin = await this.authService.login(this.loginForm.value);
 
-      if(statusLogin){
+      if (statusLogin) {
         this.title = 'Login';
-        this.message = 'Login efetuado com sucesso!'
+        this.message = 'Login efetuado com sucesso!';
         this.openModal(this.title, this.message);
-
-        this.messagingService.currentMessage.subscribe(messagefcm => {
-          this.messagefcm = messagefcm;
-        });
-
-        this.getToken()
 
         const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
 
-        if(data){
-          if(data.role === "admin"){
+        if (data) {
+          if (data.role === 'admin') {
             this.router.navigate(['/plataforma']);
-          }else{
-            this.router.navigate(['/'])
+          } else {
+            this.router.navigate(['/']);
           }
-        }else{
-          this.router.navigate(['/'])
+        } else {
+          this.router.navigate(['/']);
         }
-        
       }
-    }catch(error){
-      console.error('Erro no login:', error);
-
+    } catch (error) {
       this.title = 'Erro';
       this.message = 'Houve um erro ao tentar realizar o login. Tente novamente.';
       this.openModal(this.title, this.message);
@@ -82,24 +88,46 @@ export class LoginComponent {
   }
 
   openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+    const modalRef = this.modalService.open(ModalSucessoCadastroComponent);
+    modalRef.componentInstance.modalTitle = title;
+    modalRef.componentInstance.modalMessage = message;
   }
 
-  requestPermission(): void {
-    this.messagingService.requestPermission();
+  signInWithGoogle(): void {
+    if (window.hasOwnProperty('google') && google.accounts && google.accounts.id) {
+      google.accounts.id.prompt();
+    } else {
+      this.title = 'Erro';
+      this.message = 'O serviço do Google não está disponível. Tente recarregar a página.';
+      this.openModal(this.title, this.message);
+    }
   }
 
-  async getToken(): Promise<void> {
-    const token = await this.messagingService.getToken();
-    const storedUserId = localStorage.getItem('user_id');
-    const user_id = storedUserId ? parseInt(storedUserId) : null;
+  async checkPermission(idToken: string) {
+    try {
+      console.log('ID Token:', idToken);
+      const statusLogin = await this.authService.validateGoogleLogin(idToken);
+      if (statusLogin) {
+        this.title = 'Login';
+        this.message = 'Login efetuado com sucesso!';
+        this.openModal(this.title, this.message);
 
-    if(token !== null  && user_id !== null){
-      const sendToken = this.messagingService.sendTokenToServer(token,user_id);
-    }else{
-      console.warn('Token ou user_id não disponível');
+        const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
+
+        if (data) {
+          if (data.role === 'admin') {
+            this.router.navigate(['/plataforma']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
+    } catch (error) {
+      this.title = 'Erro';
+      this.message = 'Houve um erro ao validar o login do Google. Tente novamente.';
+      this.openModal(this.title, this.message);
     }
   }
 }
