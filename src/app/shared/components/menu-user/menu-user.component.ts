@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter,OnInit, Output } from '@angular/core';
+import { Component, EventEmitter,inject,OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/service/auth/auth.service';
 
@@ -12,19 +12,25 @@ import { AuthService } from '../../../core/service/auth/auth.service';
 })
 export class MenuUserComponent implements OnInit{
   @Output() isNotLogged = new EventEmitter<boolean>();
+  private router: Router = inject(Router);
+  private authService: AuthService = inject(AuthService);
   public userName: string = '';
 
-  constructor(private router: Router, private authService: AuthService){}
-
   ngOnInit() {
-  console.log('nickname no MenuUserComponent:', this.userName);
-  const logged = sessionStorage.getItem('access_token');
-    this.userName = this.authService.decodeJwt(logged!).nickname || '';
-}
+    const logged = sessionStorage.getItem('access_token');
+      this.userName = this.authService.decodeJwt(logged!).nickname || '';
+  }
   
   goConfig(){
-    localStorage.setItem('returnUrl', this.router.url);  
-    console.log("userName no menu: ", this.userName);
+    const currentUrl = this.router.url;
+    console.log('entrou na preferencia')
+    console.log(currentUrl)
+    if (!currentUrl.includes('user-config')) {
+      localStorage.setItem('returnUrl', currentUrl);
+    }
+    this.router.navigate(['/plataforma/user-config']);
+    console.log(localStorage.getItem('returnUrl'));
+
   }
 
   logout() {

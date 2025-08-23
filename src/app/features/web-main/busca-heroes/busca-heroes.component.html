@@ -1,55 +1,194 @@
-<section id="search-heroes-main">
-    <div class="search-heroes-header">
-        <app-header></app-header>
+<section class="search-heroes-main" [ngClass]="_themeSearch">
+  <app-header></app-header>
+  
+  <div class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="gradient-text">Busca Avançada</span>
+        </h1>
+        <p class="hero-subtitle">
+          Encontre seus heróis favoritos usando nossa tecnologia de busca inteligente
+        </p>
+        <div class="hero-decoration">
+          <div class="tech-line"></div>
+          <div class="tech-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
     </div>
-    <section id="search-heroes-container">
-        <h1>Selecione a modalidade na qual deseja buscar seus heróis</h1>
-        <section class="search-heroes-container__menu">
-            <nav class="search-heroes-menu-main">
-                <ul>
-                    <li>
-                        <div class="menu-list" (click)="openEditoras()">Editora</div>
-                        <ul class="submenuEditora">
-                            @for(studio of heroisMenuEditora; track  studio){
-                                <li (click)="openForPublisher(studio.studioName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{studio.name}}</li> 
-                            }
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="menu-list" (click)="openEquipe()">Equipe / Afiliados</div>
-                        <ul class="submenuEquipe">
-                            @for(team of heroisMenuEquipe; track  team){
-                                <li (click)="openForTeam(team.teamName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{team.name}}</li> 
-                            }
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="menu-list" (click)="openAno()">Ano de lançamento</div>
-                        <div class="submenuAno input-Camp">
-                            <label for="dataLancamento">Digite o ano de lançamento</label>
-                            <input type="text" name="dataLancamento" id="dataLancamento" placeholder="ex: 1990" [(ngModel)]="anoLancamento"/>
-                            <button class="btnAno" (click)="buscaPorAno()">buscar</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="menu-list" (click)="openMoralidade()">Moralidade</div>
-                        <ul class="submenuMoralidade">
-                            @for(morality of heroisMenuMoralidade; track  morality){
-                                <li (click)="openForMorality(morality.moralityName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{morality.moralityName}}</li> 
-                            }
-                        </ul>
-                    </li>
-                    <li>
-                        <div class="menu-list" (click)="openSexo()">Sexo</div>
-                        <ul class="submenuSexo">
-                            @for(genre of heroisMenuSexo; track  genre){
-                                <li (click)="openForSexy(genre.genreName)" routerLinkActive="active" ariaCurrentWhenActive="page">{{genre.genreName}}</li> 
-                            }
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-    </section>
-    <app-footer></app-footer>
+  </div>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        
+        <div class="search-grid">
+          
+          <!-- Editora -->
+          <div class="search-card">
+            <div class="card-header" (click)="openEditoras()">
+              <div class="card-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <h3 class="card-title">Editora</h3>
+              <div class="expand-icon" [class.expanded]="statusEditora === 1">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <div class="card-content" [class.show]="statusEditora === 1">
+              <div class="options-list">
+                @if (heroisMenuEditora && heroisMenuEditora.length > 0) {
+                  @for(studio of heroisMenuEditora; track studio) {
+                    <div class="option-item" (click)="openForPublisher(studio.id)">
+                      <span class="option-text">{{ studio.name }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhum estúdio encontrado</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Equipe / Afiliados -->
+          <div class="search-card">
+            <div class="card-header" (click)="openEquipe()">
+              <div class="card-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h3 class="card-title">Equipe / Afiliados</h3>
+              <div class="expand-icon" [class.expanded]="statusEquipe === 1">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <div class="card-content" [class.show]="statusEquipe === 1">
+              <div class="options-list">
+                @if (heroisMenuEquipe && heroisMenuEquipe.length > 0) {
+                  @for(team of heroisMenuEquipe; track team) {
+                    <div class="option-item" (click)="openForTeam(team.name)">
+                      <span class="option-text">{{ team.name }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhuma equipe encontrada</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Ano de Lançamento -->
+          <div class="search-card">
+            <div class="card-header" (click)="openAno()">
+              <div class="card-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <h3 class="card-title">Ano de Lançamento</h3>
+              <div class="expand-icon" [class.expanded]="statusAno === 1">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <div class="card-content" [class.show]="statusAno === 1">
+              <div class="input-group">
+                <label for="dataLancamento" class="input-label">
+                  Digite o ano de lançamento
+                </label>
+                <div class="input-container">
+                  <input 
+                    type="number" 
+                    name="dataLancamento" 
+                    id="dataLancamento" 
+                    placeholder="ex: 1990"
+                    [(ngModel)]="anoLancamento"
+                    class="tech-input"
+                    min="1900"
+                    max="2030"/>
+                  <button class="btn-search" (click)="buscaPorAno()">
+                    <i class="fas fa-search me-2"></i>
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Moralidade -->
+          <div class="search-card">
+            <div class="card-header" (click)="openMoralidade()">
+              <div class="card-icon">
+                <i class="fas fa-balance-scale"></i>
+              </div>
+              <h3 class="card-title">Moralidade</h3>
+              <div class="expand-icon" [class.expanded]="statusMoralidade === 1">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <div class="card-content" [class.show]="statusMoralidade === 1">
+              <div class="options-list">
+                @if (heroisMenuMoralidade && heroisMenuMoralidade.length > 0) {
+                  @for(morality of heroisMenuMoralidade; track morality) {
+                    <div class="option-item" (click)="openForMorality(morality.moralityName)">
+                      <span class="option-text">{{ morality.moralityName }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhuma moralidade encontrada</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Gênero -->
+          <div class="search-card">
+            <div class="card-header" (click)="openSexo()">
+              <div class="card-icon">
+                <i class="fas fa-venus-mars"></i>
+              </div>
+              <h3 class="card-title">Gênero</h3>
+              <div class="expand-icon" [class.expanded]="statusSexo === 1">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            
+            <div class="card-content" [class.show]="statusSexo === 1">
+              <div class="options-list">
+                @if (heroisMenuSexo && heroisMenuSexo.length > 0) {
+                  @for(genre of heroisMenuSexo; track genre) {
+                    <div class="option-item" (click)="openForSexy(genre.genreName)">
+                      <span class="option-text">{{ genre.genreName }}</span>
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  }
+                } @else {
+                  <div class="option-item">
+                    <span class="option-text">Nenhum gênero encontrado</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
 </section>

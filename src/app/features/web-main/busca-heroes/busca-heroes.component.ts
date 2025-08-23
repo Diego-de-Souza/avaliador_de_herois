@@ -1,141 +1,167 @@
-import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
-import { Router , RouterLink, RouterLinkActive} from '@angular/router';
+import { Component, ElementRef, OnInit, OnDestroy, Renderer2, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { HeroisService } from '../../../core/service/herois/herois.service';
 import { HeroisModel } from '../../../core/Model/herois.model';
 import { HeroisMenuModel } from '../../../core/Model/heroisMenu.model';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
+import { ThemeService } from '../../../core/service/theme/theme.service';
+import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-busca-heroes',
   standalone: true,
-  imports: [RouterLinkActive, FormsModule, HeaderComponent, FooterComponent],
+  imports: [FormsModule, HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './busca-heroes.component.html',
   styleUrl: './busca-heroes.component.css'
 })
-export class BuscaHeroesComponent implements OnInit{
-  statusEditora:Number = 0;
-  statusEquipe:Number = 0;
-  statusOrigem:Number = 0;
-  statusAno:Number = 0;
-  statusMoralidade:Number =0;
-  statusSexo:Number = 0;
+export class BuscaHeroesComponent implements OnInit, OnDestroy {
+  // ===== INJEÇÕES COM inject() (MODERNO) =====
+  private themeService = inject(ThemeService);
+  private router = inject(Router);
+  private el = inject(ElementRef);
+  private renderer = inject(Renderer2);
+  private searchHerois = inject(HeroisService);
+  
+  // ===== CLEANUP =====
+  private destroy$ = new Subject<void>();
+  
+  // ===== PROPRIEDADES EXISTENTES =====
+  _themeSearch: string = 'dark';
   anoLancamento: string = '';
 
   herois: HeroisModel[] = [];
-  heroisMenuEditora: any[]=[];
-  heroisMenuEquipe: any[]=[];
-  heroisMenuMoralidade: any[]=[];
-  heroisMenuOrigem: any[]=[];
-  heroisMenuSexo: any[]=[];
+  heroisMenuEditora: any[] = [];
+  heroisMenuEquipe: any[] = [];
+  heroisMenuMoralidade: any[] = [];
+  heroisMenuOrigem: any[] = [];
+  heroisMenuSexo: any[] = [];
 
-  constructor(private router:Router, private el: ElementRef, private renderer: Renderer2, private searchHerois: HeroisService){ }
+  // ===== SISTEMA DE ACCORDION MELHORADO =====
+  private accordionStates = {
+    editora: false,
+    equipe: false,
+    origem: false,
+    ano: false,
+    moralidade: false,
+    sexo: false
+  };
+
+  // Getters para manter compatibilidade com seu HTML
+  get statusEditora(): number { return this.accordionStates.editora ? 1 : 0; }
+  get statusEquipe(): number { return this.accordionStates.equipe ? 1 : 0; }
+  get statusOrigem(): number { return this.accordionStates.origem ? 1 : 0; }
+  get statusAno(): number { return this.accordionStates.ano ? 1 : 0; }
+  get statusMoralidade(): number { return this.accordionStates.moralidade ? 1 : 0; }
+  get statusSexo(): number { return this.accordionStates.sexo ? 1 : 0; }
+
+  // ===== CONSTRUTOR VAZIO (MODERNO) =====
+  constructor() {}
+
   ngOnInit(): void {
     this.getDadosMenu();
+    
+    this.themeService.theme$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(theme => {
+        this._themeSearch = theme;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getDadosMenu(): void {
+    this.searchHerois.getDadosMenu()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) => {          
+          if (response && response.dataUnit && Array.isArray(response.dataUnit)) {
+            this.heroisMenuEditora = response.dataUnit[0] || [];
+            this.heroisMenuEquipe = response.dataUnit[1] || [];
+            this.heroisMenuMoralidade = response.dataUnit[2] || [];
+            this.heroisMenuSexo = response.dataUnit[3] || [];
+          } else {
+            console.warn('Estrutura de dados inesperada:', response);
+            this.initializeEmptyArrays();
+          }
+        },
+        error: (error) => {
+          console.error('Erro ao carregar heróis', error);
+          this.initializeEmptyArrays();
+        }
+      });
+  }
 
-    this.searchHerois.getDadosMenu().subscribe({
-      next: (data) => {
-        this.heroisMenuEditora = data[0];
-        this.heroisMenuEquipe = data[1];
-        this.heroisMenuMoralidade = data[2];
-        this.heroisMenuSexo = data[3];
-        console.log(data);
-      },
-      error: (error) => {
-        console.error('Erro ao carregar heróis', error);
+  private initializeEmptyArrays(): void {
+    this.heroisMenuEditora = [];
+    this.heroisMenuEquipe = [];
+    this.heroisMenuMoralidade = [];
+    this.heroisMenuSexo = [];
+  }
+
+  // ===== SISTEMA DE ACCORDION ROBUSTO =====
+  private toggleAccordion(section: keyof typeof this.accordionStates): void {
+    // Fechar todos os outros
+    Object.keys(this.accordionStates).forEach(key => {
+      if (key !== section) {
+        this.accordionStates[key as keyof typeof this.accordionStates] = false;
       }
     });
+    
+    // Toggle apenas o selecionado
+    this.accordionStates[section] = !this.accordionStates[section];
   }
 
-  openEditoras(){
-
-    const modalidadeEditora = this.el.nativeElement.querySelector('.submenuEditora');
-    if(this.statusEditora === 0){
-      this.renderer.setStyle(modalidadeEditora, 'display','flex');
-      this.statusEditora = 1;
-    }else{
-      this.renderer.setStyle(modalidadeEditora,  'display', 'none');
-      this.statusEditora =0;
-    }
+  // ===== MÉTODOS DE ACCORDION =====
+  openEditoras() {
+    this.toggleAccordion('editora');
   }
 
-  openEquipe(){
-    const modalidadeEquipe = this.el.nativeElement.querySelector('.submenuEquipe');
-    if(this.statusEquipe === 0){
-      this.renderer.setStyle(modalidadeEquipe, 'display', 'flex');
-      this.statusEquipe = 1;
-    }else{
-      this.renderer.setStyle(modalidadeEquipe, 'display', 'none');
-      this.statusEquipe = 0;
-    }
+  openEquipe() {
+    this.toggleAccordion('equipe');
   }
 
-  openOrigem(){
-    const modalidadeOrigem = this.el.nativeElement.querySelector('.submenuOrigem');
-    if(this.statusOrigem === 0){
-      this.renderer.setStyle(modalidadeOrigem, 'display', 'flex');
-      this.statusOrigem = 1;
-    }else{
-      this.renderer.setStyle(modalidadeOrigem, 'display', 'none');
-      this.statusOrigem = 0;
-    }
+  openOrigem() {
+    this.toggleAccordion('origem');
   }
 
-  openAno(){
-    const modalidadeAno = this.el.nativeElement.querySelector('.submenuAno');
-    if(this.statusAno === 0){
-      this.renderer.setStyle(modalidadeAno, 'display', 'flex');
-      this.statusAno = 1;
-    }else{
-      this.renderer.setStyle(modalidadeAno, 'display', 'none');
-      this.statusAno = 0;
-    }
+  openAno() {
+    this.toggleAccordion('ano');
   }
 
-  openMoralidade(){
-    const modalidadeMoralidade = this.el.nativeElement.querySelector('.submenuMoralidade');
-    if(this.statusMoralidade === 0){
-      this.renderer.setStyle(modalidadeMoralidade, 'display', 'flex');
-      this.statusMoralidade = 1;
-    }else{
-      this.renderer.setStyle(modalidadeMoralidade, 'display', 'none');
-      this.statusMoralidade = 0;
-    }
+  openMoralidade() {
+    this.toggleAccordion('moralidade');
   }
 
-  openSexo(){
-    const modalidadeSexo = this.el.nativeElement.querySelector('.submenuSexo');
-    if(this.statusSexo === 0){
-      this.renderer.setStyle(modalidadeSexo, 'display', 'flex');
-      this.statusSexo = 1;
-    }else{
-      this.renderer.setStyle(modalidadeSexo, 'display', 'none');
-      this.statusSexo = 0;
-    }
+  openSexo() {
+    this.toggleAccordion('sexo');
   }
 
-  openForPublisher(studio: string): void {
-    this.router.navigate(['/cards'], { queryParams: { studio } });
+  // ===== MÉTODOS DE NAVEGAÇÃO =====
+  openForPublisher(studioId: number): void {
+    this.router.navigate(['/webmain/cards'], { queryParams: { studioId } });
   }
 
-  openForTeam(team: string):void{
-    this.router.navigate(['/cards'], {queryParams: {team}});
+  openForTeam(team: string): void {
+    this.router.navigate(['/webmain/cards'], { queryParams: { team } });
   }
 
   buscaPorAno() {
-    // Navega para a rota '/cards' passando o ano de lançamento como queryParams
-    this.router.navigate(['/cards'], { queryParams: { anoLancamento: this.anoLancamento } });
+    if (this.anoLancamento && this.anoLancamento.trim() !== '') {
+      this.router.navigate(['/webmain/cards'], { queryParams: { anoLancamento: this.anoLancamento } });
+    }
   }
 
-  openForMorality(morality:string):void{
-    this.router.navigate(['/cards'], {queryParams:{morality}});
+  openForMorality(morality: string): void {
+    this.router.navigate(['/webmain/cards'], { queryParams: { morality } });
   }
 
-  openForSexy(genre: string): void{
-    this.router.navigate(['/cards'], {queryParams:{genre}});
+  openForSexy(genre: string): void {
+    this.router.navigate(['/webmain/cards'], { queryParams: { genre } });
   }
 }

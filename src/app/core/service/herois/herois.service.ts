@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HeroisModel } from '../../Model/herois.model';
-import { HeroisMenuModel } from '../../Model/heroisMenu.model';
-import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 import {environment} from '../../../../environments/environment';
 
 @Injectable({
@@ -47,7 +45,6 @@ export class HeroisService {
 
   postRegisterTeam(teamData: any): Observable<any>{
     const data = {data: teamData};
-    console.log(data);
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
       headers: {
         'Content-Type': 'application/json'
@@ -151,9 +148,12 @@ export class HeroisService {
     })
   }
 
-  searchHeroesStudio(studio: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('studio', studio);
-    return this.http.get<HeroisModel[]>(`${this.apiUrl}/editora/`, { params });
+  searchHeroesByStudio(studioId: number): Observable<HeroisModel[]> {
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/editora/` + studioId, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
   searchHeroesTeam(team: string): Observable<HeroisModel[]> {
@@ -177,7 +177,7 @@ export class HeroisService {
   }
 
   getDataHero(id: number): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/herois/find-data-hero/${id}`, {
+    return this.http.get<any>(`${this.apiUrl}/herois/find-one-hero/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }

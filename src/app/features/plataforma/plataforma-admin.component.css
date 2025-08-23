@@ -1,20 +1,36 @@
-:host{
+:host {
     .admin-hero-container {
         background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
         background-size: cover;
         background-position: center;
         color: white;
+        min-height: 100vh;
+        padding: 2em 1em;
+        width: 100vw;
+        box-sizing: border-box;
+        /* Garante que o fundo cobre toda a tela */
+        position: relative;
     }
 
     .admin-buttons-container {
         width: 100%;
         max-width: 500px;
+        margin: 0 auto 4em auto;
+        display: grid;
+        gap: 1em;
     }
 
     .btn {
         border-radius: 1rem;
         font-weight: 600;
         transition: all 0.2s ease-in-out;
+        min-width: 180px;
+        min-height: 56px;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
     }
 
     .btn:hover {
@@ -31,10 +47,49 @@
 
     .artigo-button {
         background-color: #04BFAD;
+        color: white;
     }
-
 
     .curiosity-button {
         background-color: #13f23c;
+        color: #222;
+    }
+
+    /* Último botão (Quiz) com cor e ícone diferentes */
+    .admin-buttons-container a:last-child {
+        background-color: #FF6F61 !important; /* Vermelho suave */
+        color: #fff !important;
+        border: 2px solid #fff;
+    }
+    .admin-buttons-container a:last-child i {
+        /* Novo ícone para Quiz */
+        content: "\f059"; /* fa-question-circle */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+    }
+
+    /* Responsividade */
+    @media (max-width: 700px) {
+        .admin-hero-container {
+            padding: 1em 0.2em;
+            min-height: 100vh;
+            width: 100vw;
+        }
+        .admin-buttons-container {
+            max-width: 98vw;
+            grid-template-columns: 1fr;
+            gap: 0.7em;
+        }
+        .btn {
+            font-size: 1em;
+            min-width: 120px;
+            min-height: 44px;
+        }
+        h1.display-4 {
+            font-size: 2em;
+        }
+        p.fs-5 {
+            font-size: 1em;
+        }
     }
 }

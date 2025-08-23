@@ -72,7 +72,6 @@ export class CadastroTeamComponent implements OnInit{
         })
       }else{
         this.heroisService.postRegisterTeam(teamData).subscribe((response)=>{
-          console.log('Team cadastrado :',response);
           if(response.status === 409){
             this.title = 'Cadastro de Equipe';
             this.message = response.message;

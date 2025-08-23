@@ -1,0 +1,93 @@
+.dark {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark .card {
+  background-color: #2d2d2d;
+  border-color: #404040;
+  color: #ffffff;
+}
+
+.light .card {
+  background-color: #ffffff;
+  border-color: #dee2e6;
+  color: #000000;
+}
+
+.dark .form-control {
+  background-color: #404040;
+  border-color: #555555;
+  color: #ffffff;
+}
+
+.light .form-control {
+  background-color: #ffffff;
+  border-color: #ced4da;
+  color: #000000;
+}
+
+.dark .form-control:focus {
+  background-color: #404040;
+  border-color: #80bdff;
+  color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Stripe Elements styling para versão 7.7.0 */
+.stripe-card-element {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: white;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dark .stripe-card-element {
+  background-color: #404040;
+  border-color: #555555;
+  color: #ffffff;
+}
+
+.stripe-card-element:focus,
+.stripe-card-element.StripeElement--focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.stripe-card-element.StripeElement--invalid {
+  border-color: #dc3545;
+}
+
+.stripe-card-element.StripeElement--complete {
+  border-color: #28a745;
+}
+
+/* Loading animation */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Security badges */
+.security-badges {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.security-badge {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.dark .security-badge {
+  color: #adb5bd;
+}

@@ -1,12 +1,9 @@
-import { HeroLevel } from "./hero-level.interface";
+import { Quiz_Level } from "./hero-level.interface";
 
- export interface Studio {
+export interface Quiz {
   id: number;
   name: string;
-  logo: string;
-  color: string;
-  description?: string;
-  levels: {
-    questionlevel: HeroLevel 
-  }[];
+  logo: { url: string }; 
+  theme: string;
+  quiz_levels: Quiz_Level[];
 }

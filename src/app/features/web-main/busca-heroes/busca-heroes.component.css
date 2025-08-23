@@ -1,108 +1,395 @@
-:host{
-    #search-heroes-main{
-        display: flex;
-        width: 100%;
-        min-height: 100vh;
-        background-image: url(/img/fundo_avaliador_herois.jpg);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-        flex-direction: column;
-    }
+:host {
+  font-family: 'AttackOfMonster', 'Arial', sans-serif;
+}
 
-    .search-heroes-header{
-        width: 100%;
-        background: linear-gradient(to bottom, #101522, #1e2a38);
-    }
-    #search-heroes-container {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        height: 100%;
-        margin: auto;
-        align-items: center;
-        background-color: rgb(39, 39, 39);
-        background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(39, 39, 39) 30%, rgba(39, 39, 39) 70%, rgba(255, 0, 0, 0) 100%);
-        color: #fff;
-    }
-    
-    h1 {
-        font-size: 2em;
-        padding: 1em 0 2em 0;
-    }
-    
-    .search-heroes-container__menu {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .search-heroes-menu-main {
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        margin: auto;
-    }
-    
-    .search-heroes-menu-main > ul > li {
-        display: flex;
-        flex-direction: column;
-        text-transform: uppercase;
-        border-radius: 1em;
-        position: relative;
-        cursor: pointer;
-        align-items: center;
-    }
-    .menu-list{
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        padding: 1em 0;
-        font-size: 2em;
-    }
-    .menu-list:hover {
-        background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 0) 100%);
-    }
-    
-    /*submenus escondidos*/
-    .submenuEditora, .submenuEquipe, .submenuOrigem, .submenuAno, .submenuMoralidade, .submenuSexo{
-        display: none;
-        flex-direction: column;
-        width: 100%;
-    }
-    .submenuEditora > li, .submenuEquipe > li, .submenuOrigem > li, .submenuAno > li, .submenuMoralidade > li, .submenuSexo > li{
-        display: flex;
-        padding: 1em 0;
-        width: 100%;
-        justify-content: center;
-    }
-    .submenuEditora > li:hover, .submenuEquipe >li:hover, .submenuOrigem >li:hover, .submenuAno >li:hover, .submenuMoralidade >li:hover, .submenuSexo >li:hover{
-        background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 0) 100%);
-    }
-    
-    .input-Camp{
-        align-items: center;
-        padding: 1em 0;
-    }
-    .input-Camp > input{
-        text-align: center;
-        height: 1.5em;
-        border-radius: 1em;
-        margin-top: 1em;
-        background-color: #6ebc9f;
-        color: black;
-    }
-    .input-Camp > input::placeholder{
-        color: #282727fa;
-    }
-    .btnAno{
-        display: flex;
-        width: 15em;
-        margin: 0.5em 0;
-        justify-content: center;
-        border-radius: 1em;
-        padding: 0.5em;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
+.search-heroes-main {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+  background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary));
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/img/fundo_avaliador_herois.jpg') no-repeat center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, var(--bg-blue), var(--bg-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-decoration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tech-line {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-green));
+  border-radius: 2px;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.tech-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tech-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--bg-blue);
+  border-radius: 50%;
+  animation: dot-pulse 1.5s ease-in-out infinite;
+}
+
+.tech-dots span:nth-child(2) { animation-delay: 0.2s; }
+.tech-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px var(--bg-blue); }
+  50% { box-shadow: 0 0 20px var(--bg-blue), 0 0 30px var(--bg-blue); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== SEARCH GRID (CORRIGIDO - 1 CARD POR LINHA) ===== */
+.search-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* APENAS 1 COLUNA */
+  gap: 1.5rem;
+  margin-top: 2rem;
+  max-width: 800px; /* Limita a largura máxima */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== SEARCH CARDS (ISOLAMENTO CORRIGIDO) ===== */
+.search-card {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+  width: 100%; /* Largura completa da linha */
+  /* CORREÇÃO PRINCIPAL: Isolamento completo */
+  contain: layout style;
+  isolation: isolate;
+}
+
+.search-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-green));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.search-card:hover::before {
+  opacity: 1;
+}
+
+.search-card:hover {
+  border-color: var(--bg-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px var(--shadow-color-primary);
+}
+
+/* ===== CARD HEADER (ESPECIFICIDADE MÁXIMA) ===== */
+.search-card .card-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  background: var(--bg-primary);
+  transition: all 0.3s ease;
+}
+
+.search-card .card-header:hover {
+  background: rgba(0, 210, 255, 0.05);
+}
+
+.search-card .card-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--bg-blue), var(--bg-green));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.search-card .card-title {
+  flex: 1;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.search-card .expand-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.search-card .expand-icon.expanded {
+  transform: rotate(180deg);
+  background: var(--bg-blue);
+  color: white;
+  border-color: var(--bg-blue);
+}
+
+/* ===== CARD CONTENT (CORREÇÃO CRÍTICA) ===== */
+.search-card .card-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: var(--bg-primary);
+  will-change: max-height;
+}
+
+/* APENAS cards com .show abrem */
+.search-card .card-content.show {
+  max-height: 500px !important;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Cards SEM .show permanecem fechados */
+.search-card .card-content:not(.show) {
+  max-height: 0 !important;
+  border-top: none;
+}
+
+/* ===== OPTIONS LIST ===== */
+.search-card .options-list {
+  padding: 1rem;
+}
+
+.search-card .option-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.search-card .option-item:hover {
+  background: rgba(0, 210, 255, 0.1);
+  border-color: var(--bg-blue);
+  transform: translateX(5px);
+}
+
+.search-card .option-text {
+  font-weight: 500;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.search-card .option-item i {
+  color: var(--bg-blue);
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.search-card .option-item:hover i {
+  opacity: 1;
+}
+
+/* ===== INPUT GROUP ===== */
+.search-card .input-group {
+  padding: 1.5rem;
+}
+
+.search-card .input-label {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.search-card .input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search-card .tech-input {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.search-card .tech-input:focus {
+  outline: none;
+  border-color: var(--bg-blue);
+  box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.1);
+}
+
+.search-card .tech-input::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.search-card .btn-search {
+  background: linear-gradient(45deg, var(--bg-blue), var(--bg-green));
+  border: none;
+  border-radius: 25px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-card .btn-search:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 210, 255, 0.3);
+}
+
+.search-card .btn-search::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.search-card .btn-search:hover::before {
+  left: 100%;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .search-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .search-card .card-header {
+    padding: 1rem;
+  }
+  
+  .search-card .card-title {
+    font-size: 1.1rem;
+  }
+  
+  .search-card .input-container {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .search-grid {
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+  
+  .search-card .options-list,
+  .search-card .input-group {
+    padding: 1rem;
+  }
 }

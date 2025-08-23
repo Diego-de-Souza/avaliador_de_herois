@@ -1,0 +1,70 @@
+<section class="team-container">
+  <app-header-platform></app-header-platform>
+  <section class="table-container">
+    <h2>Lista de Quizzes</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nome do Quiz</th>
+          <th>Nome do Nível</th>
+          <th>Questões Cadastradas</th>
+          <th>Qtd. Questões</th>
+          <th>XP do Nível</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(quiz of quizzes; track quiz) {
+          <tr>
+            <td>{{ quiz.name_quiz }}</td>
+            <td>{{ quiz.level_name }}</td>
+            <td [ngClass]="{ 'text-success': quiz.has_questions, 'text-danger': !quiz.has_questions }" class="text-center">{{ quiz.has_questions ? 'Sim' : 'Não' }}</td>
+            <td class="text-center">{{ quiz.questions_count }}</td>
+            <td class="text-center">{{ quiz.xp_reward }}</td>
+            <td class="td-acoes-team">
+              <button class="btn btn-primary" (click)="editQuiz(quiz)">Editar</button>
+              <button class="btn btn-danger" (click)="deleteQuiz(quiz, 'default')">Deletar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  @if(_confirmEdit || _confirmDelete){
+    <div class="modal-backdrop">
+      <div class="modal-content">
+        <h2>{{ title }}</h2>
+        <div class="modal-actions">
+          <button class="btn btn-primary m-2" (click)="confirmEdit(1)">{{ _messageQuiz }}</button>
+          <button class="btn btn-primary m-2" (click)="confirmEdit(2)">{{ _messageQuestion }}</button>
+          <button class="btn btn-danger m-2" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if(_questionExcluded){
+    <div class="modal-backdrop">
+      <div class="modal-content">
+        <h2>Escolha a opção de exclusão</h2>
+        <div class="modal-actions">
+          <div class="modal-question-input">
+            <div class="modal-input">
+              <label for="question">Selecione a questão a ser excluída:</label>
+              <select id="question" [(ngModel)]="_selectedQuestionNumber" class="form-control">
+                <option *ngFor="let num of getQuestionOptions()" [value]="num">{{ num }}</option>
+              </select>
+            </div>
+            <button class="btn btn-primary m-2" (click)="deleteQuiz(null, 'unit')">Excluir</button>
+          </div>
+          <div>
+            <p>ou</p>
+          </div>
+          <button class="btn btn-primary m-2" (click)="deleteQuiz(null, 'all')">Excluir Todas</button>
+          <button class="btn btn-danger m-2" (click)="cancel()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

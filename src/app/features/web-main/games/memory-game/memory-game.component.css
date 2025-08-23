@@ -1,0 +1,148 @@
+.memory-wrap {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary) 80%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.memory-game {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90px, 1fr));
+  grid-gap: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  perspective: 1200px;
+}
+
+.memory-card {
+  width: 100%;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  perspective: 800px;
+  position: relative;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px var(--shadow-color-primary);
+  transition: box-shadow 0.2s;
+  background: var(--bg-card);
+}
+.memory-card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  transition: transform 0.5s cubic-bezier(.4,2,.6,1);
+  transform-style: preserve-3d;
+  position: relative;
+}
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-front {
+  background: var(--bg-card);
+  z-index: 2;
+  transform: rotateY(180deg);
+  box-shadow: 0 0 24px var(--bg-blue);
+}
+.card-front img {
+  max-width: 70%;
+  max-height: 70%;
+  filter: drop-shadow(0 0 8px var(--bg-blue));
+}
+.card-back {
+  background: linear-gradient(135deg, var(--bg-blue), var(--bg-pink));
+  color: var(--bg-gold);
+  font-size: 2.5rem;
+  font-family: 'Orbitron', monospace;
+  z-index: 1;
+  box-shadow: 0 0 16px var(--bg-pink);
+}
+.tech-icon {
+  font-size: 2.5rem;
+  font-family: 'Orbitron', monospace;
+  color: var(--bg-gold);
+  text-shadow: 0 0 8px var(--bg-blue);
+}
+
+.memory-modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0; top: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+  align-items: center;
+  justify-content: center;
+}
+.memory-modal-overlay.show {
+  display: flex;
+}
+.memory-modal {
+  background: var(--bg-card);
+  border-radius: 18px;
+  box-shadow: 0 0 32px var(--bg-blue);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  max-width: 350px;
+  margin: 0 auto;
+  color: var(--text-primary);
+}
+.memory-modal .winner {
+  font-size: 2.2rem;
+  color: var(--bg-blue);
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 12px var(--bg-blue);
+}
+.memory-modal .moves {
+  color: var(--bg-gold);
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.memory-modal .restart {
+  background: linear-gradient(90deg, var(--bg-blue), var(--bg-pink));
+  color: var(--text-primary);
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--bg-blue);
+  transition: background 0.2s;
+}
+.memory-modal .restart:hover {
+  background: linear-gradient(90deg, var(--bg-pink), var(--bg-blue));
+}
+.memory-modal .message {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+.memory-modal .tech {
+  color: var(--bg-blue);
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  .memory-game {
+    grid-template-columns: repeat(3, minmax(80px, 1fr));
+    grid-gap: 0.7rem;
+    max-width: 98vw;
+  }
+  .memory-modal {
+    padding: 1.2rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}

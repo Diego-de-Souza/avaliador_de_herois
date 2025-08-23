@@ -5,6 +5,7 @@ import { NgClass } from '@angular/common';
 import { QuizService } from '../../../../core/service/quiz/quiz.service';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Quiz_Level } from '../../../../core/interface/hero-level.interface';
 
 @Component({
   selector: 'app-first-alert-quiz',
@@ -20,49 +21,36 @@ export class FirstAlertQuizComponent implements OnInit{
   private quizService = inject(QuizService);
   private modalService = inject(NgbModal)
 
-  _difficulty!: string;
-  _levelData: any;
-  _themeAll: string = "dark";
-  _title!:string;
-  _message!: string;
+  public _level_quiz!: Quiz_Level;
+  public _levelData: any;
+  public _themeAll: string = "dark";
+  public _title!:string;
+  public _message!: string;
 
-  totalQuestions = 10; 
-  timePerQuestion = 30;
+  timePerQuestion: number = 30;
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this._difficulty = params.get('difficulty') || 'basic';
-      console.log('Nível de dificuldade recebido:', this._difficulty);
-    });
-
     this.themeService.theme$.subscribe(theme => {
       this._themeAll = theme;
       this.applyTheme(theme);
     });
 
-    this._levelData = history.state['level'];
-    console.log('Dados recebidos via state:', this._levelData);
-
-
-    console.log('Dados recebidos via state:', this._levelData);
+    this._level_quiz = history.state['level'];
   }
 
   startQuiz() {
-    // this.quizService.getQuestion('teste').subscribe(
-    //   (response) =>{
-    //     this.router.navigate(['/webmain/quiz/question'],{
-    //     state: { quizData: response } 
-    //   });
-    //     console.log('Quiz iniciado!');
-    //   }, (error)=>{
-    //     this._title = 'Cadastro de Usuario';
-    //     this._message = 'Hove uma falha no cadastro dos dados do Usuario.';
-    //     this.openModal(this._title, this._message);
-    //   }
-    // )
-    this.router.navigate(['/webmain/quiz/question'],{
-        // state: { quizData: response } 
-      });
+    this.quizService.getQuestion(this._level_quiz).subscribe(
+      (response) =>{
+        this.router.navigate(['/webmain/quiz/question'], {
+          state: { quizData: response.data }
+        });
+      }, (error)=>{
+        this._title = 'Questões';
+        this._message = 'Houve uma falha na busca das questões';
+        this.openModal(this._title, this._message);
+      }
+    )
+    
   }
 
   applyTheme(theme: string) {

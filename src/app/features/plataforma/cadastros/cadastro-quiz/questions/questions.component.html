@@ -1,0 +1,53 @@
+<section class="questions-container-main">
+    <app-header-platform style="width: 100%;"></app-header-platform>
+    <section class="questions-container">
+      <h2>Cadastro de Perguntas</h2>
+      <div class="form-group">
+        <label for="quizSelect">Selecione o Quiz</label>
+        <select id="quizSelect" [(ngModel)]="selectedQuizId" (change)="onQuizSelect()" class="form-control">
+          <option value="" disabled selected>Escolha um quiz</option>
+          <option *ngFor="let quiz of quizzes" [value]="quiz.id">{{ quiz.name }}</option>
+        </select>
+      </div>
+      <div class="form-group" *ngIf="levels.length > 0">
+        <label for="levelSelect">Selecione o Nível do Quiz</label>
+        <select id="levelSelect" [(ngModel)]="selectedLevelId" (change)="onLevelSelect()" class="form-control">
+          <option value="" disabled selected>Escolha um nível</option>
+          <option *ngFor="let level of levels" [value]="level.id">{{ level.name }}</option>
+        </select>
+      </div>
+    
+      <div *ngIf="showQuestionsModal" class="modal-backdrop">
+        <div class="modal-content">
+          <h3>Pergunta {{ currentQuestionIndex + 1 }} de {{ questionsCount }}</h3>
+          <form *ngIf="currentQuestionGroup" [formGroup]="currentQuestionGroup">
+            <label>Pergunta</label>
+            <input type="text" formControlName="question" class="form-control" placeholder="Digite a pergunta">
+            <div class="mt-2">
+              <label>Opções de resposta:</label>
+              <div *ngFor="let opt of [0,1,2,3,4]">
+                <input type="text"
+                       [formControlName]="'option' + opt"
+                       class="form-control mb-1"
+                       placeholder="Opção {{ opt + 1 }}">
+              </div>
+            </div>
+            <div class="mt-2">
+              <label>Resposta correta:</label>
+              <select formControlName="answer" class="form-control">
+                <option *ngFor="let opt of [0,1,2,3,4]" [value]="currentQuestionGroup.get('option'+opt)?.value">
+                  {{ currentQuestionGroup.get('option'+opt)?.value || ('Opção ' + (opt + 1)) }}
+                </option>
+              </select>
+            </div>
+          </form>
+          <div class="modal-actions mt-3">
+            <button class="btn btn-secondary" (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">Anterior</button>
+            <button class="btn btn-primary" (click)="nextQuestion()" [disabled]="currentQuestionIndex === questionsForm.length - 1">Próxima</button>
+            <button class="btn btn-success" *ngIf="currentQuestionIndex === questionsForm.length - 1" (click)="saveQuestions()">Finalizar</button>
+            <button class="btn btn-danger" (click)="closeQuestionsModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+</section>

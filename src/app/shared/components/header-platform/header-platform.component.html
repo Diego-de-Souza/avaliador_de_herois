@@ -16,6 +16,21 @@
                         <div class="col">
                             <div ngbDropdown class="d-inline-block">
                                 <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                                    Admin
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem routerLink="/plataforma/dashboard" routerLinkActive="active">Dashboard</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="header-platform-item">
+                    <div class="row">
+                        <div class="col">
+                            <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
                                     Heróis
                                 </button>
                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -91,11 +106,12 @@
                         <div class="col">
                             <div ngbDropdown class="d-inline-block">
                                 <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
-                                    Admin
+                                    Quiz
                                 </button>
                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                                    <button ngbDropdownItem routerLink="/plataforma/dashboard" routerLinkActive="active">Dashboard</button>
-                                    
+                                    <button ngbDropdownItem routerLink="/plataforma/view/view-quiz" routerLinkActive="active">Lista de Quizzes</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/quiz-cadastro" routerLinkActive="active">Cadastro de Quizzes</button>
+                                    <button ngbDropdownItem routerLink="/plataforma/cadastro/question-cadastro" routerLinkActive="active">Cadastro de Perguntas</button>
                                 </div>
                             </div>
                         </div>

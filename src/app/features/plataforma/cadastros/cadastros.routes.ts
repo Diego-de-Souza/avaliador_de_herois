@@ -43,4 +43,24 @@ export const routesCadastros: Routes = [
         title: 'Atualizacao de Team',
         loadComponent: () => import('./cadastro-team/cadastro-team.component').then(m => m.CadastroTeamComponent)
     },
+    {
+        path: 'quiz-cadastro',
+        title: 'Cadastro de Quiz',
+        loadComponent: () => import('./cadastro-quiz/cadastro-quiz.component').then(m => m.CadastroQuizComponent)
+    },
+    {
+        path: 'quiz-cadastro/:id/:level_id',
+        title: 'Atualizacao de Quiz',
+        loadComponent: () => import('./cadastro-quiz/cadastro-quiz.component').then(m => m.CadastroQuizComponent)
+    },
+    {
+        path: 'question-cadastro',
+        title: 'Cadastro de Perguntas',
+        loadComponent: () => import('./cadastro-quiz/questions/questions.component').then(m => m.QuestionsComponent)
+    },
+    {
+        path: 'question-cadastro/:quiz_level_id',
+        title: 'Atualizacao de Perguntas',
+        loadComponent: () => import('./cadastro-quiz/questions/questions.component').then(m => m.QuestionsComponent)
+    },
 ]

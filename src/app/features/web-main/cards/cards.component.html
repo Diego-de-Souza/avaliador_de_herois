@@ -1,47 +1,26 @@
-<!-- <section id="cards-main">
-    <nav class="nav-card">
-        <button routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Voltar</button>
-    </nav>
-    <div class="cards-main__container">
-        @for (card of cardsHeroes; track card.id){
-            <a class="cards-container" 
-                routerLink="/descriptionHeroes" 
-                routerLinkActive="active"
-                ariaCurrentWhenActive="page">
-                <div class="card-wrapper">
-                    <img [src]="card.image" alt="" class="card-wrapper__img">
-                </div>
-                <div class="card-title">
-                    <p>{{card.moralidade}}</p>
-                    <p>{{card.name}}</p>
-                </div>
-
-                <img [src]="card.image_cover" alt="" class="card-cover">
-
-            </a>
-        }
-    </div>
-</section> -->
-
-<section id="cards-main">
-    <app-header/>
-    <div class="cards-main__container">
-        @for (card of cardsJson; track card.id){
-            <a class="cards-container" 
-                routerLink="/descriptionHeroes/{{card.id}}" 
-                routerLinkActive="active"
-                ariaCurrentWhenActive="page">
-                <div class="card-wrapper">
-                    <img [src]="card.image" alt="" class="card-wrapper__img">
-                </div>
-                <div class="card-title">
-                    <p>{{card.moralidade}}</p>
-                    <p>{{card.name}}</p>
-                </div>
-
-                <img [src]="card.image_cover" alt="" class="card-cover">
-
-            </a>
-        }
-    </div>
+@if(!isLoading){
+  <section class="cards-main" [ngClass]="currentTheme">
+  <app-header></app-header>
+  <div class="cards-mythrill-grid">
+    @for (card of cardsHeroes; track trackByCardId($index, card)) {
+      <div class="mythrill-card" (click)="openCardDetails(card)">
+        <div class="mythrill-wrapper">
+          <img [src]="card.image" class="mythrill-cover-image" [alt]="card.name">
+        </div>
+        <img [src]="card.image_cover" class="mythrill-character" [alt]="card.name + ' cover'">
+        <div class="mythrill-title">
+          <span>{{ card.name }}</span>
+          <span class="mythrill-moralidade">{{ card.moralidade }}</span>
+        </div>
+      </div>
+    }
+  </div>
+  <app-footer></app-footer>
 </section>
+} @else {
+  <app-flash-loading
+    [isVisible]="true"
+    [loadingText]="'CARREGANDO ' + currentFilter.toUpperCase()"
+    [subtitle]="'O Flash está buscando os heróis mais rápido que a luz!'"
+  ></app-flash-loading>
+}

@@ -22,9 +22,7 @@ export class ViewStudioComponent implements OnInit{
   loadStudios(): void {
     this.studiosService.getAllStudio().subscribe({
       next: (data) => {
-        console.log(data)
         this.studios = data.data;
-        
       },
       error: (error) => {
         console.error("Erro ao carregar os estúdios", error);

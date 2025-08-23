@@ -1,0 +1,15 @@
+<section>
+    <app-header></app-header>
+    <section class="games-selection-main">
+      <h1 class="games-title">Selecione um Jogo Geek</h1>
+      <div class="games-grid">
+        <div class="game-card" *ngFor="let game of games">
+          <div class="game-icon">{{ game.icon }}</div>
+          <h2 class="game-name">{{ game.title }}</h2>
+          <p class="game-desc">{{ game.description }}</p>
+          <a routerLink="/webmain/games/memory-game" routerLinkActive="active" class="play-btn">Jogar</a>
+        </div>
+      </div>
+    </section>
+    <app-footer></app-footer>
+</section>

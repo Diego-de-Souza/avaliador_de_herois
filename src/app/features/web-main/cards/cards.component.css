@@ -1,119 +1,184 @@
-#cards-main{
-    padding: 0 0 6em 0;
-    display: flex;
-    justify-content: center;
-    background: #18191e;
-    flex-direction: column;
-    width: 100%;
+.light {
+  background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary) );
 }
 
-.cards-main__container{
-    display: -ms-grid;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    grid-gap: 20px;
-    width: 90vw;
-    justify-items: center;
-    margin-top: 2em;
-    margin-left: auto;
-    margin-right: auto;
+.dark {
+  background: linear-gradient(to bottom, var(--bg-secondary), var(--bg-primary) );
 }
 
-.cards-container{
-    display: flex;
-    flex-direction: column;
-    width: 180px;
-    height: 300px;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    padding: 0 36px;
-    perspective: 2500px;
-}
-.card-wrapper{
-    transition: all 0.5s;
-    position: absolute;
-    width: 100%;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background-color: blueviolet;
-}
-.cards-container:hover .card-wrapper {
-    transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
-    box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 2px 35px 32px -8px rgba(0, 0, 0, 0.75);
-    opacity: 0.7;
-}
-.card-wrapper::before,
-  .card-wrapper::after {
-    content: "";
-    opacity: 0;
-    width: 100%;
-    height: 80px;
-    transition: all 0.5s;
-    position: absolute;
-    left: 0;
-}
-.card-wrapper::before {
-    top: 0;
-    height: 100%;
-    background-image: linear-gradient(
-      to top,
-      transparent 46%,
-      rgba(12, 13, 19, 0.5) 68%,
-      rgba(12, 13, 19) 97%
-    );
-}
-.card-wrapper::after {
-    bottom: 0;
-    opacity: 1;
-    background-image: linear-gradient(
-      to bottom,
-      transparent 46%,
-      rgba(12, 13, 19, 0.5) 68%,
-      rgba(12, 13, 19) 97%
-    );
-}
-.cards-container:hover .card-wrapper::before,
-  .card-wrapper::after {
-    opacity: 1;
-}
-  
-.cards-container:hover .card-wrapper::after {
-    height: 120px;
-}
-.card-wrapper__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.cards-mythrill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem 0;
 }
 
-.card-title{
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    transition: transform 0.5s;
-    color: #fff;
+/* Card base */
+.mythrill-card {
+  width: 220px;
+  height: 320px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 10px 30px 10px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  box-shadow: 0 2px 12px 0 var(--shadow-color-primary);
+  perspective: 1200px;
+  transition: box-shadow 0.4s, background 0.3s;
+  cursor: pointer;
 }
-.cards-container:hover .card-title{
-    transform: translate3d(0%, -50px, 100px);
+.mythrill-card:hover {
+  box-shadow: 0 8px 40px 0 var(--shadow-color-primary), 0 0 0 4px var(--bg-blue) inset;
+  z-index: 2;
 }
 
-.card-cover{
-    width: 100%;
-    opacity: 0;
-    transition: all 0.5s;
-    position: absolute;
-    z-index: -1;
+/* Projeção 3D */
+.mythrill-wrapper {
+  transition: all 0.5s;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0; top: 0;
+  z-index: 1;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 24px var(--shadow-color);
+  background: var(--bg-card);
 }
-.cards-container:hover .card-cover{
-    opacity: 1;
-    transform: translate3d(0%, -30%, 100px);
+.mythrill-card:hover .mythrill-wrapper {
+  transform: perspective(900px) translateY(-5%) rotateX(25deg) translateZ(0);
+  box-shadow: 2px 35px 32px -8px rgba(0,0,0,0.75);
+}
+.mythrill-wrapper::before,
+.mythrill-wrapper::after {
+  content: "";
+  opacity: 0;
+  width: 100%;
+  height: 100px;
+  transition: all 0.5s;
+  position: absolute;
+  left: 0;
+  pointer-events: none;
+}
+.mythrill-wrapper::before {
+  top: 0;
+  height: 100%;
+  background-image: linear-gradient(
+    to top,
+    transparent 46%,
+    rgba(12, 13, 19, 0.5) 68%,
+    rgba(12, 13, 19) 97%
+  );
+}
+.mythrill-wrapper::after {
+  bottom: 0;
+  opacity: 1;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 46%,
+    rgba(12, 13, 19, 0.5) 68%,
+    rgba(12, 13, 19) 97%
+  );
+}
+.mythrill-card:hover .mythrill-wrapper::before,
+.mythrill-wrapper::after {
+  opacity: 1;
+}
+.mythrill-card:hover .mythrill-wrapper::after {
+  height: 220px;
+}
+
+/* Cover image */
+.mythrill-cover-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+  background: var(--bg-card);
+}
+
+/* Character image */
+.mythrill-character {
+  width: 100%;
+  max-width: 190px;
+  position: absolute;
+  left: 50%;
+  bottom: 40px;
+  transform: translateX(-50%);
+  opacity: 0;
+  z-index: 2;
+  filter: drop-shadow(0 8px 24px var(--bg-blue));
+  pointer-events: none;
+  transition: all 0.5s;
+}
+.mythrill-card:hover .mythrill-character {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-30%) scale(1.08);
+}
+
+/* Title e moralidade */
+.mythrill-title {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.mythrill-title span {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  text-shadow: 0 0 8px var(--bg-blue);
+  background: rgba(0,0,0,0.25);
+  border-radius: 8px;
+  padding: 2px 10px;
+  margin-bottom: 2px;
+}
+.mythrill-moralidade {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--bg-gold);
+  background: rgba(0,0,0,0.18);
+  text-shadow: 0 0 4px var(--bg-gold);
+  border-radius: 8px;
+  padding: 2px 10px;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .mythrill-card {
+    width: 160px;
+    height: 220px;
+    padding: 0 4px;
+    margin: 0 5px 20px 5px;
+  }
+  .mythrill-character {
+    max-width: 80px;
+    bottom: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .mythrill-card {
+    width: 98vw;
+    height: 160px;
+    margin: 0 2px 10px 2px;
+  }
+  .mythrill-character {
+    max-width: 60px;
+    bottom: 10px;
+  }
+  .mythrill-title span {
+    font-size: 0.85rem;
+  }
 }

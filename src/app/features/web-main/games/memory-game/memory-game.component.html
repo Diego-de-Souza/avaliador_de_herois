@@ -1,0 +1,29 @@
+<div class="memory-wrap" [ngClass]="_themeMemoryGame">
+  <div class="memory-game">
+    <div
+      class="memory-card"
+      *ngFor="let card of cards; let i = index"
+      [class.flipped]="card.flipped || card.matched"
+      (click)="flipCard(card)"
+    >
+      <div class="card-inner">
+        <div class="card-front">
+          <img [src]="card.img" [alt]="card.name" />
+        </div>
+        <div class="card-back">
+          <span class="tech-icon">?</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memory-modal-overlay" [class.show]="showModal">
+    <div class="memory-modal">
+      <h2 class="winner">Você é Geek!</h2>
+      <p class="moves">Movimentos: {{ moves }}</p>
+      <button class="restart" (click)="restart()">Próximo</button>
+      <button class="restart" (click)="returnMenu()">Próximo</button>
+      <p class="message">Desenvolvido para <span class="tech">Angular</span> por <span class="tech">Você</span></p>
+    </div>
+  </div>
+</div>

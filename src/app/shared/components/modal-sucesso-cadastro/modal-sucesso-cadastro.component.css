@@ -1,0 +1,21 @@
+.modal-content.light {
+  background: #fff !important;
+  color: #222 !important;
+}
+.modal-content {
+  background: #222 !important;
+  color: #fff !important;
+}
+
+.modal-header {
+  background: #222 !important;
+  color: #fff !important;
+}
+
+.btn-close {
+  filter: invert(0);
+}
+
+.modal-content.dark .btn-close {
+  filter: invert(1);
+}

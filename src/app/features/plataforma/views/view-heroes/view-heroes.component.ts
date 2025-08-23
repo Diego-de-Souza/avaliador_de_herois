@@ -22,7 +22,6 @@ export class ViewHeroesComponent implements OnInit{
   loadHeroes(): void{
     this.heroesService.getAllHeroes().subscribe({
       next: (data)=>{
-        console.log(data);
         this.heroes = data.data;
       },error:(error)=>{
         console.error("Erro ao carregar os heróis", error);

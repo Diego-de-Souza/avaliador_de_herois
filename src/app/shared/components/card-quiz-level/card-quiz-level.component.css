@@ -92,7 +92,7 @@
 
 .light:hover {
     box-shadow: 0 4px 8px #F2A413;
-    background-color: var(--accent-color);
+    background-color: var(--bg-green);
 }
 
 .dark {

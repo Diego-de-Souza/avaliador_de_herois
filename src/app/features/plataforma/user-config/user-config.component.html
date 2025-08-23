@@ -1,152 +1,90 @@
 <section id="container-user-settings" class="container-user-settings">
+  <button class="btn btn-outline-secondary" (click)="voltarPaginaAnterior()">
+    <i class="bi bi-arrow-left"></i> Voltar
+  </button>
+
   <div class="container py-5">
     <h2 class="mb-4 text-center">Configurações da Conta</h2>
-    <form [formGroup]="userSettingsForm" (ngSubmit)="onSaveSettings()">
-      <div class="row g-3">
-        <!-- Nome Completo -->
-        <div class="col-md-6">
-          <label for="fullname" class="form-label">Nome Completo</label>
-          <input
-            type="text"
-            class="form-control"
-            id="fullname"
-            formControlName="fullname"
-            placeholder="Seu nome completo"
-          />
-          <div *ngIf="isFieldInvalid('fullname')" class="fieldInvalid">
-            Nome é obrigatório e deve ter no mínimo 3 caracteres
-          </div>
-        </div>
-
-        <!-- Nickname -->
-        <div class="col-md-6">
-          <label for="nickname" class="form-label">Apelido</label>
-          <input
-            type="text"
-            class="form-control"
-            id="nickname"
-            formControlName="nickname"
-            placeholder="Apelido"
-          />
-          <div *ngIf="isFieldInvalid('nickname')" class="fieldInvalid">
-            O apelido é obrigatório e deve conter no mínimo 3 caracteres
-          </div>
-        </div>
-
-        <!-- Email -->
-        <div class="col-md-6">
-          <label for="email" class="form-label">E-mail</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            placeholder="E-mail principal"
-          />
-          <div *ngIf="isFieldInvalid('email')" class="fieldInvalid">
-            E-mail obrigatório e com formato válido
-          </div>
-        </div>
-
-        <!-- Email Secundário -->
-        <div class="col-md-6">
-          <label for="secondemail" class="form-label">E-mail Secundário</label>
-          <input
-            type="email"
-            class="form-control"
-            id="secondemail"
-            formControlName="secondemail"
-            placeholder="Opcional"
-          />
-        </div>
-
-        <!-- Data de Nascimento -->
-        <div class="col-md-6">
-          <label for="birthdate" class="form-label">Data de Nascimento</label>
-          <input
-            type="date"
-            class="form-control"
-            id="birthdate"
-            formControlName="birthdate"
-          />
-          <div *ngIf="isFieldInvalid('birthdate')" class="fieldInvalid">
-            Data de nascimento obrigatória
-          </div>
-        </div>
-
-        <!-- Endereço Completo -->
-        <div class="col-md-6">
-          <label for="cep" class="form-label">CEP</label>
-          <input
-            type="text"
-            class="form-control"
-            id="cep"
-            formControlName="cep"
-            placeholder="Digite o CEP"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label for="address" class="form-label">Endereço</label>
-          <input
-            type="text"
-            class="form-control"
-            id="address"
-            formControlName="address"
-            placeholder="Endereço completo"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label for="complement" class="form-label">Complemento</label>
-          <input
-            type="text"
-            class="form-control"
-            id="complement"
-            formControlName="complement"
-            placeholder="Opcional"
-          />
-        </div>
-
-        <div class="col-md-4">
-          <label for="city" class="form-label">Cidade</label>
-          <input
-            type="text"
-            class="form-control"
-            id="city"
-            formControlName="city"
-          />
-        </div>
-
-        <div class="col-md-4">
-          <label for="state" class="form-label">Estado</label>
-          <input
-            type="text"
-            class="form-control"
-            id="state"
-            formControlName="state"
-          />
-        </div>
-
-        <div class="col-md-4">
-          <label for="uf" class="form-label">UF</label>
-          <input
-            type="text"
-            class="form-control"
-            id="uf"
-            formControlName="uf"
-            maxlength="2"
-            placeholder="Ex: SP"
-          />
-        </div>
+    <div class="mb-3">
+    <!-- Nav Tabs -->
+      <ul class="nav nav-tabs mb-4 justify-content-center" id="userConfigTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="perfil-tab" data-bs-toggle="tab" data-bs-target="#perfil" type="button" role="tab" aria-controls="perfil" aria-selected="true">
+            Perfil
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="preferencias-tab" data-bs-toggle="tab" data-bs-target="#preferencias" type="button" role="tab" aria-controls="preferencias" aria-selected="false">
+            Preferências
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="seguranca-tab" data-bs-toggle="tab" data-bs-target="#seguranca" type="button" role="tab" aria-controls="seguranca" aria-selected="false">
+            Segurança
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="compras-tab" data-bs-toggle="tab" data-bs-target="#compras" type="button" role="tab" aria-controls="compras" aria-selected="false">
+            Compras & Pagamentos
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="games-tab" data-bs-toggle="tab" data-bs-target="#games" type="button" role="tab" aria-controls="games" aria-selected="false">
+            Games & Conquistas
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="quiz-tab" data-bs-toggle="tab" data-bs-target="#quiz" type="button" role="tab" aria-controls="quiz" aria-selected="false">
+            Quiz & Pontuação
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="conexoes-tab" data-bs-toggle="tab" data-bs-target="#conexoes" type="button" role="tab" aria-controls="conexoes" aria-selected="false">
+            Conexões & Integrações
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="privacidade-tab" data-bs-toggle="tab" data-bs-target="#privacidade" type="button" role="tab" aria-controls="privacidade" aria-selected="false">
+            Privacidade
+          </button>
+        </li>
+      </ul>
+    </div>
+    <!-- Tab Content -->
+    <div class="tab-content" id="userConfigTabsContent">
+      <!-- Perfil -->
+      <div class="tab-pane fade show active" id="perfil" role="tabpanel" aria-labelledby="perfil-tab">
+        <!-- Componente ou conteúdo do perfil -->
+        <app-data-user></app-data-user>
       </div>
-
-      <!-- Botão Salvar -->
-      <div class="text-center mt-4">
-        <button type="submit" class="btn btn-success px-4" [disabled]="userSettingsForm.invalid">
-          Salvar Configurações
-        </button>
+      <!-- Preferências -->
+      <div class="tab-pane fade" id="preferencias" role="tabpanel" aria-labelledby="preferencias-tab">
+        <app-preferences-user> </app-preferences-user>
       </div>
-    </form>
+      <!-- Segurança -->
+      <div class="tab-pane fade" id="seguranca" role="tabpanel" aria-labelledby="seguranca-tab">
+        <app-security-user></app-security-user>
+      </div>
+      <!-- Compras & Pagamentos -->
+      <div class="tab-pane fade" id="compras" role="tabpanel" aria-labelledby="compras-tab">
+        <app-history-payment-user></app-history-payment-user>
+      </div>
+      <!-- Games & Conquistas -->
+      <div class="tab-pane fade" id="games" role="tabpanel" aria-labelledby="games-tab">
+        <app-games-conquest-user></app-games-conquest-user>
+      </div>
+      <!-- Quiz & Pontuação -->
+      <div class="tab-pane fade" id="quiz" role="tabpanel" aria-labelledby="quiz-tab">
+        <app-quiz-user></app-quiz-user>
+      </div>
+      <!-- Conexões & Integrações -->
+      <div class="tab-pane fade" id="conexoes" role="tabpanel" aria-labelledby="conexoes-tab">
+        <app-connections-user> </app-connections-user>
+      </div>
+      <!-- Privacidade -->
+      <div class="tab-pane fade" id="privacidade" role="tabpanel" aria-labelledby="privacidade-tab">
+        <app-privacy-user></app-privacy-user>
+      </div>
+    </div>
   </div>
 </section>

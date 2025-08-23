@@ -1,0 +1,51 @@
+<div class="p-4">
+  <h4>Preferências</h4>
+  <p>Configurações de tema, idioma, notificações e personalização de experiência.</p>
+
+  <!-- Tema -->
+  <div class="mb-3">
+    <label for="tema" class="form-label">Tema</label>
+    <select class="form-select w-auto" id="tema" [(ngModel)]="preferencias.tema" name="tema">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </div>
+
+  <!-- Idioma -->
+  <div class="mb-3">
+    <label for="idioma" class="form-label">Idioma</label>
+    <select class="form-select w-auto" id="idioma" [(ngModel)]="preferencias.idioma" name="idioma">
+      <option value="pt">Português</option>
+      <option value="en">Inglês</option>
+      <option value="es">Espanhol</option>
+    </select>
+  </div>
+
+  <!-- Notificações -->
+  <div class="mb-3">
+    <label class="form-label">Notificações</label>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="notificacaoSons" [(ngModel)]="preferencias.notificacoes.sons" name="notificacaoSons">
+      <label class="form-check-label" for="notificacaoSons">Ativar sons</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="notificacaoPush" [(ngModel)]="preferencias.notificacoes.push" name="notificacaoPush">
+      <label class="form-check-label" for="notificacaoPush">Ativar push</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="notificacaoEmail" [(ngModel)]="preferencias.notificacoes.email" name="notificacaoEmail">
+      <label class="form-check-label" for="notificacaoEmail">Ativar e-mail</label>
+    </div>
+  </div>
+
+  <!-- Heróis favoritos -->
+  <div class="mb-3">
+    <label for="heroisFavoritos" class="form-label">Heróis Favoritos</label>
+    <select multiple class="form-select" id="heroisFavoritos" [(ngModel)]="preferencias.heroisFavoritos" name="heroisFavoritos">
+      <option *ngFor="let heroi of listaHerois" [value]="heroi">{{ heroi }}</option>
+    </select>
+    <small class="text-muted">Selecione seus heróis favoritos para personalizar sua experiência.</small>
+  </div>
+
+  <button class="btn btn-success mt-2" type="button" (click)="salvarPreferencias()">Salvar Preferências</button>
+</div>

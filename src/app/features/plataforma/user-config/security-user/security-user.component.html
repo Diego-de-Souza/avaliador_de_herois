@@ -1,0 +1,58 @@
+<div class="p-4">
+  <h4>Segurança</h4>
+
+  <!-- Alterar Senha -->
+  <div class="mb-4">
+    <h5>Alterar Senha</h5>
+    <form [formGroup]="userSettingsForm" (ngSubmit)="onChangePassword()">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <input type="password" class="form-control" formControlName="newPassword" placeholder="Nova senha" />
+        </div>
+        <div class="col-md-4">
+          <input type="password" class="form-control" formControlName="confirmNewPassword" placeholder="Confirmar nova senha" />
+        </div>
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-primary" [disabled]="userSettingsForm.invalid">Alterar Senha</button>
+        </div>
+      </div>
+      <div *ngIf="userSettingsForm.errors?.['passwordsMismatch']" class="text-danger mt-2">
+        As senhas não conferem.
+      </div>
+    </form>
+  </div>
+
+  <!-- Autenticação em Duas Etapas (2FA) -->
+  <div class="mb-4">
+    <h5>Autenticação em Duas Etapas (2FA)</h5>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="2faSwitch" [(ngModel)]="is2FAEnabled" (change)="toggle2FA()" />
+      <label class="form-check-label" for="2faSwitch">
+        {{ is2FAEnabled ? 'Desativar' : 'Ativar' }} autenticação em duas etapas
+      </label>
+    </div>
+    <div *ngIf="is2FAEnabled" class="mt-2">
+      <small class="text-success">Autenticação em duas etapas está ativada para sua conta.</small>
+    </div>
+    <div *ngIf="!is2FAEnabled" class="mt-2">
+      <small class="text-muted">Sua conta está protegida apenas por senha.</small>
+    </div>
+  </div>
+
+  <!-- Sessões Ativas -->
+  <div>
+    <h5>Sessões Ativas</h5>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let session of activeSessions">
+        <span>
+          <i class="bi bi-laptop"></i>
+          {{ session.device }} - {{ session.location }} <span class="text-muted">({{ session.lastActive }})</span>
+        </span>
+        <button class="btn btn-outline-danger btn-sm" (click)="logoutSession(session.id)">Encerrar sessão</button>
+      </li>
+    </ul>
+    <div *ngIf="activeSessions.length === 0" class="mt-2 text-muted">
+      Nenhuma sessão ativa encontrada.
+    </div>
+  </div>
+</div>

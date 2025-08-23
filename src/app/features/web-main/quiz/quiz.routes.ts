@@ -7,7 +7,7 @@ export const routesWebMainQuiz: Routes = [
         loadComponent: () => import('./quiz.component').then(q => q.QuizComponent)
     },
     {
-        path: 'first-alert/:difficulty',
+        path: 'first-alert',
         title: 'Alert Quiz',
         loadComponent: () => import('./first-alert-quiz/first-alert-quiz.component').then(q => q.FirstAlertQuizComponent)
     },
