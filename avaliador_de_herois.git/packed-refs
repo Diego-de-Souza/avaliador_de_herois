@@ -1,0 +1,15 @@
+# pack-refs with: peeled fully-peeled sorted 
+4245ae83ab30debf9373d6fbbd2106e8ed9c9084 refs/heads/feature/criacao_artigos
+9dc6ce4cd7dbbace4428199d25d4e202e43d833a refs/heads/feature/insercao_quiz
+a3cbd78cae6436a9badec4900507d37dfad852a8 refs/heads/main
+84aafe624f606369cb0cf2d99885680d52c667c0 refs/pull/1/head
+4245ae83ab30debf9373d6fbbd2106e8ed9c9084 refs/pull/10/head
+aba751bcc17deb8ce1189648961d238c59d57390 refs/pull/11/head
+cebac2556e048f4db6ffb197b475bf3aaf317141 refs/pull/2/head
+08288621db7aec5a5bdad40f5c995c8bf4177d50 refs/pull/3/head
+14d36d4ceceebf091cf440c7cfc7d3d72247e2fc refs/pull/4/head
+0876b52a5d9f8fdcdffafebdef10338466e2c7ab refs/pull/5/head
+35d7fbd74b53e1947b53bdcb231c47bc7361d307 refs/pull/6/head
+c21b0fb3a174840c6de2aea360b938b817cceb19 refs/pull/7/head
+4664d28c707130389b9ad403d814211388a9932c refs/pull/8/head
+a6923065e65eb9f90fd71dd071567babf76a107a refs/pull/9/head
