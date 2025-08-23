@@ -1,0 +1,355 @@
+/* Container principal da página de eventos */
+.eventos-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+.eventos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 2.5rem 0 2rem 0;
+  letter-spacing: 2px;
+  color: var(--text-blue);
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+  text-align: center;
+}
+
+.eventos-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto 3rem auto;
+  padding: 0 2vw;
+}
+
+.evento-card {
+  background: var(--bg-card);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px var(--shadow-color-primary);
+  border: 2px solid var(--border-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.evento-card:hover {
+  transform: scale(1.04) rotate(-1deg);
+  box-shadow: 0 16px 48px var(--bg-blue);
+  border-color: var(--bg-gold);
+  z-index: 2;
+}
+
+.evento-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 24px var(--shadow-color);
+}
+
+.evento-content {
+  text-align: left;
+  padding: 0 0.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.evento-name {
+  font-size: 1.6rem;
+  color: var(--text-yellow);
+  margin-bottom: 0.7rem;
+  font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+
+.evento-date, .evento-location {
+  font-size: 1.1rem;
+  color: var(--text-blue);
+  margin-bottom: 0.3rem;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.evento-icon {
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.evento-description {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  margin-top: 0.7rem;
+}
+
+/* Timeline criativa para eventos geek */
+.eventos-timeline {
+  min-height: 100vh;
+  width: 100vw;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+.eventos-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 2.5rem 0 2rem 0;
+  letter-spacing: 2px;
+  color: var(--text-blue);
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+  text-align: center;
+}
+
+.timeline {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.timeline-event {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+  min-height: 320px;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.timeline-event.right {
+  flex-direction: row;
+}
+.timeline-event.left {
+  flex-direction: row-reverse;
+}
+
+.timeline-image {
+  flex: 1.2;
+  background-size: cover;
+  background-position: center;
+  border-radius: 2rem;
+  min-width: 320px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  box-shadow: 0 8px 32px var(--shadow-color-primary);
+  overflow: hidden;
+}
+
+.timeline-date {
+  background: rgba(0,0,0,0.7);
+  color: var(--text-yellow);
+  padding: 1.2rem 2rem;
+  border-radius: 0 0 2rem 2rem;
+  font-size: 1.2rem;
+  font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif;
+  width: 100%;
+  text-align: left;
+}
+
+.timeline-day {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-right: 1.5rem;
+}
+.timeline-location {
+  font-size: 1.1rem;
+  color: var(--bg-gold);
+}
+
+.timeline-content {
+  flex: 1.5;
+  background: var(--bg-card);
+  border-radius: 2rem;
+  margin: 0 0.5rem;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 4px 24px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+}
+
+.timeline-title {
+  font-size: 2rem;
+  color: var(--text-blue);
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+
+.timeline-description {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 1200px) {
+  .eventos-list {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 0 1vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .eventos-container {
+    min-height: 100vh;
+    width: 100vw;
+    padding: 0;
+  }
+  .eventos-list {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5vw;
+  }
+  .evento-card {
+    min-height: 320px;
+    padding: 1rem;
+  }
+  .timeline {
+    max-width: 98vw;
+    gap: 2rem;
+  }
+  .timeline-event {
+    flex-direction: column !important;
+    min-height: 220px;
+  }
+  .timeline-image {
+    min-width: 100%;
+    min-height: 180px;
+    border-radius: 1.2rem;
+  }
+  .timeline-content {
+    margin: 0;
+    border-radius: 1.2rem;
+    padding: 1.2rem 1rem;
+  }
+  .timeline-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Modo light inspirado no design do site da Marvel */
+.light .eventos-container {
+  background: #fff;
+  color: #212529;
+}
+
+.light .evento-card {
+  background: #f8f9fa;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+}
+
+.light .evento-name {
+  font-size: 1.3rem;
+  color: #212529;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+
+.light .evento-date, .light .evento-location {
+  color: #e62429;
+}
+
+.light .evento-description {
+  font-size: 1rem;
+  color: #121929;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+.light .eventos-timeline {
+  background: #fff;
+  color: #212529;
+}
+
+.light .timeline-content {
+  background: #f8f9fa;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+}
+
+.light .timeline-title {
+  color: #212529;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+
+.light .timeline-day {
+  color: #e62429;
+}
+
+.light .timeline-location {
+  color: #e62429;
+}
+
+.light .timeline-description {
+  color: #121929;
+}
+
+/* Modo DARK: geek, tecnológico, vibrante */
+.dark .eventos-timeline {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+.dark .timeline-content {
+  background: var(--bg-card);
+  box-shadow: 0 4px 24px var(--shadow-color);
+  border: 2px solid var(--border-blue);
+}
+.dark .timeline-title {
+  color: var(--text-blue);
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+.dark .timeline-day {
+  color: var(--text-yellow);
+}
+.dark .timeline-location {
+  color: var(--bg-gold);
+}
+.dark .timeline-description {
+  color: var(--text-secondary);
+}
+.dark .timeline-date {
+  background: rgba(16,21,34,0.85);
+  color: var(--text-yellow);
+}

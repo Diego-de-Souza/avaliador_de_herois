@@ -1,1 +1,18 @@
-<p>destaques-page works!</p>
+<section [ngClass]="_themeHighlight">
+    <app-header></app-header>
+    <div class="highlights-container">
+      <h2 class="highlights-title">Destaques Geek</h2>
+      <div class="highlights-list">
+        <div class="highlight-card" *ngFor="let hero of highlights">
+          <div class="highlight-image">
+            <img [src]="hero.image" [alt]="hero.name" />
+          </div>
+          <div class="highlight-info">
+            <h3 class="highlight-name">{{ hero.name }}</h3>
+            <p class="highlight-description">{{ hero.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+</section>

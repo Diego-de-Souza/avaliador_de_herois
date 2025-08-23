@@ -1,1 +1,21 @@
-<p>eventos-page works!</p>
+<section [ngClass]="_themeService">
+    <app-header></app-header>
+    <section class="eventos-container">
+        <h2 class="eventos-title">Linha do Tempo dos Eventos Geek</h2>
+        <div class="timeline">
+            <div class="timeline-event" *ngFor="let evento of eventos; let i = index" [ngClass]="{ 'right': i % 2 === 0, 'left': i % 2 !== 0 }">
+                <div class="timeline-image" [style.backgroundImage]="'url(' + evento.image + ')'">
+                    <div class="timeline-date">
+                        <span class="timeline-day">{{ evento.date }}</span>
+                        <span class="timeline-location">{{ evento.location }}</span>
+                    </div>
+                </div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">{{ evento.title }}</h3>
+                    <p class="timeline-description">{{ evento.description }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <app-footer></app-footer>
+</section>

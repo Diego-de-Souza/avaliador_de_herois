@@ -1,1 +1,27 @@
-<p>newsletter works!</p>
+<section [ngClass]="_themeService">
+    <app-header></app-header>
+    <div class="newsletter-container">
+      <h2 class="newsletter-title">Notícias Geek em Destaque</h2>
+      <div class="news-list">
+        <div class="news-card" *ngFor="let news of newsList">
+          <img *ngIf="news.image" [src]="news.image" [alt]="news.title" class="news-image" />
+          <div class="news-content">
+            <h3 class="news-title">{{ news.title }}</h3>
+            <p class="news-description">{{ news.description }}</p>
+            <a *ngIf="news.link" [href]="news.link" target="_blank" class="news-link">Leia mais</a>
+          </div>
+        </div>
+      </div>
+      <div class="newsletter-signup">
+        <h3 class="signup-title">Receba novidades por e-mail</h3>
+        <form (ngSubmit)="subscribe()" *ngIf="!subscribed" class="newsletter-form">
+          <input type="email" [(ngModel)]="email" name="email" required placeholder="Seu e-mail geek" class="newsletter-input" />
+          <button type="submit" class="newsletter-btn">Assinar</button>
+        </form>
+        <div *ngIf="subscribed" class="newsletter-success">
+          <span>Obrigado por se inscrever! 🦸‍♂️</span>
+        </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+</section>
