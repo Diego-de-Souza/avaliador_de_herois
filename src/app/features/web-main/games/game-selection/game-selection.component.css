@@ -1,98 +1,170 @@
 .games-selection-main {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary) 80%);
+  width: 100vw;
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: 'Orbitron', 'Roboto Mono', monospace, Arial, sans-serif;
-  padding: 2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0;
+  margin: 0;
+  transition: background 0.3s, color 0.3s;
 }
 
 .games-title {
   font-size: 2.5rem;
-  color: var(--bg-blue);
-  text-shadow: 0 0 12px var(--bg-blue), 0 0 2px var(--bg-gold);
-  margin-bottom: 2.5rem;
+  font-weight: bold;
+  margin: 2.5rem 0 2rem 0;
   letter-spacing: 2px;
+  color: var(--text-blue);
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+  text-align: center;
 }
 
 .games-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2.5rem;
-  justify-content: center;
   width: 100%;
-  max-width: 900px;
+  max-width: 1400px;
+  margin: 0 auto 3rem auto;
+  padding: 0 2vw;
 }
 
 .game-card {
-  background: linear-gradient(120deg, var(--bg-card) 80%, var(--bg-blue) 100%);
-  border-radius: 18px;
-  box-shadow: 0 0 24px var(--shadow-color);
-  padding: 2.2rem 2rem 2rem 2rem;
-  min-width: 220px;
-  max-width: 300px;
+  background: var(--bg-card);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px var(--shadow-color-primary);
+  border: 2px solid var(--border-blue);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  border: 2.5px solid var(--bg-blue);
-  transition: box-shadow 0.3s, border 0.3s, transform 0.2s;
-  color: var(--text-primary);
+  padding: 2rem 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  cursor: pointer;
+  z-index: 1;
 }
+
 .game-card:hover {
-  transform: translateY(-8px) scale(1.04);
-  box-shadow: 0 0 32px var(--bg-pink);
-  border-color: var(--bg-pink);
+  transform: scale(1.04) rotate(-1deg);
+  box-shadow: 0 16px 48px var(--bg-blue);
+  border-color: var(--bg-gold);
+  z-index: 2;
+}
+
+.game-icon-bg {
+  background: linear-gradient(135deg, var(--bg-blue) 60%, var(--bg-pink) 100%);
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+  box-shadow: 0 4px 24px var(--shadow-color);
 }
 
 .game-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1.2rem;
-  text-shadow: 0 0 8px var(--bg-gold);
+  font-size: 2.8rem;
+  color: var(--text-yellow);
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
+}
+
+.game-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .game-name {
-  font-size: 1.4rem;
-  color: var(--bg-blue);
-  margin-bottom: 0.7rem;
-  font-family: 'Orbitron', monospace;
-  text-align: center;
+  font-size: 1.5rem;
+  color: var(--text-blue);
+  margin-bottom: 0.5rem;
+  font-family: 'Orbitron', 'Montserrat', 'Segoe UI', sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px var(--shadow-color-primary);
 }
 
 .game-desc {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  text-align: center;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  margin-bottom: 1rem;
 }
 
 .play-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
   background: linear-gradient(90deg, var(--bg-blue), var(--bg-pink));
-  color: var(--text-primary);
-  font-family: 'Orbitron', monospace;
+  color: #fff;
   font-size: 1.1rem;
+  font-weight: bold;
   border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.5rem;
   cursor: pointer;
-  box-shadow: 0 0 8px var(--bg-blue);
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: background 0.2s, transform 0.2s;
   text-decoration: none;
-  transition: background 0.2s;
 }
 .play-btn:hover {
-  background: linear-gradient(90deg, var(--bg-pink), var(--bg-blue));
+  background: linear-gradient(90deg, var(--bg-gold), var(--bg-blue));
+  transform: scale(1.05);
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
   .games-grid {
-    flex-direction: column;
-    gap: 1.2rem;
-    align-items: center;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5vw;
   }
   .game-card {
-    min-width: 90vw;
-    max-width: 98vw;
-    padding: 1.2rem 0.7rem;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 120px;
+    padding: 1rem;
   }
+  .game-icon-bg {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Modo light inspirado no design do site da Marvel */
+.light .games-selection-main {
+  background: #fff;
+  color: #212529;
+}
+.light .game-card {
+  background: #f8f9fa;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+}
+.light .game-name {
+  color: #212529;
+  font-family: 'Montserrat', 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+.light .game-desc {
+  color: #121929;
+}
+.light .play-btn {
+  background: #e62429;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(230,36,41,0.15);
+}
+.light .play-btn:hover {
+  background: #b71c1c;
+}
+.light .game-icon-bg {
+  background: #e62429;
+}
+.light .game-icon {
+  color: #fff;
+  text-shadow: none;
 }
