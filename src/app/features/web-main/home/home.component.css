@@ -54,11 +54,11 @@
   flex: 1;
   min-width: 320px;
   max-width: 400px;
-  background: #fff;
+  background: var(--bg-secondary);
   border-radius: 0 0 0 0;
   box-shadow: 0 2px 12px #e0e0e0;
   padding: 2rem 1.5rem;
-  border-left: 4px solid #cfcfcf;
+  border-left: 4px solid var(--border-primary);
   position: sticky;
   top: 2rem;
 }

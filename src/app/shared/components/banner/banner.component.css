@@ -39,17 +39,17 @@
   justify-content: flex-end;
 }
 .banner-image {
-  width: 60vw;
-  max-width: 700px;
+  width: 100%;
+  /* max-width: 700px; */
   height: 60vh;
   object-fit: contain;
   object-position: right center;
-  filter: drop-shadow(0 0 32px #000a);
+  /* filter: drop-shadow(0 0 32px #000a); */
 }
 .banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #181c2b 60%, transparent 100%);
+  background: linear-gradient(90deg, #181c2b 40%, transparent 100%);
   pointer-events: none;
 }
 .banner-content {

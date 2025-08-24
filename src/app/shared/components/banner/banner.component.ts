@@ -36,7 +36,7 @@ export class BannerComponent {
 			MenuDesc: 'Eyes Of Wakanda'
 		},
 		{
-			url: '/img/home/a3.jpg',
+			url: '/img/home/a3.png',
 			Title: 'Curiosidades do mundo Geek',
 			Description: 'Se quer saber mais é só vim ver!',
 			rota: '/busca_heroes',

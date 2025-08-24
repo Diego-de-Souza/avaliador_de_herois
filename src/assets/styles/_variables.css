@@ -21,6 +21,7 @@
   --text-yellow: #FFD43B;
 
   /*border colors*/
+  --border-primary: #007bff;
   --border-blue: #00D2FF;
   --border-color: rgba(255, 255, 255, 0.1);
   --border-gray: #747474;
@@ -29,6 +30,9 @@
   /*sombra colors*/
   --shadow-color-primary: rgba(255, 255, 255, 0.2);
   --shadow-color: rgba(0, 210, 255, 0.2);
+
+  /*Box shadow*/
+  --box-shadow: 0 2px 12px #00D2FF;
 }
 
 .light {
@@ -52,6 +56,7 @@
   --text-yellow: #FFD43B;
 
   /*border colors*/
+  --border-primary: #cfcfcf;
   --border-blue: #007bff;
   --border-color: rgba(0, 0, 0, 0.1);
   --border-gray: #747474;
@@ -60,4 +65,7 @@
   /*sombra colors*/
   --shadow-color-primary: rgba(0, 0, 0, 0.1);
   --shadow-color: rgba(0, 123, 255, 0.1);
+
+  /*Box shadow*/
+  --box-shadow: 0 2px 12px #e0e0e0;
 }
