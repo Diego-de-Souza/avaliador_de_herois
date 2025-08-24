@@ -4,7 +4,10 @@
   </div>
 
   <div class="novidade" *ngFor="let article of getRecentArticles(5)">
-    <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
+    <a
+    [routerLink]="['webmain/conteudo/artigos/', article.id]"
+    routerLinkActive="active"
+    class="novidade-link">
       <div class="img-container">
         <img [ngSrc]="article.thumbnail" width="400" height="300" loading="lazy" />
       </div>

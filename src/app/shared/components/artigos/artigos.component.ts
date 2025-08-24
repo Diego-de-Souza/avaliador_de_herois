@@ -23,6 +23,7 @@ export class ArtigosComponent implements OnInit {
   public themeArtigos: string | null = 'dark';
   public categoryPageMap: { [key: string]: number } = {}; // Página atual de cada categoria
   public articlesPerPage = 3; // Quantos artigos por categoria
+  mostViewed: articlesProps[] = [];
 
   constructor(
     private articleService: ArticleService
@@ -34,6 +35,7 @@ export class ArtigosComponent implements OnInit {
     this.initCategoryPages(); // Inicializa a paginação
     this.updateTheme();
     window.addEventListener('storage', () => this.updateTheme());
+    this.mostViewed = this.articleService.getMostViewed(3);
   }
 
   readonly ARTICLES_PER_PAGE = 3;
@@ -59,6 +61,28 @@ export class ArtigosComponent implements OnInit {
   getCategories(): string[] {
     const categories = new Set(this.articles.map(article => article.category));
     return Array.from(categories);
+  }
+
+  // retorna as categorias com artigos recentes
+  // traz três categorias, filtrando pelos artigos mais recente adicionado
+  filteredCategory(): string[] {
+    const categories = this.getCategories();
+    const recentArticles = this.getRecentArticles(3);
+    return categories.filter(category => recentArticles.some(article => article.category === category));
+  }
+
+  // getRecentCategories(limit: number): string[] {
+  //   const recentArticles = this.getRecentArticles(limit);
+  //   const categories = new Set(recentArticles.map(article => article.category));
+  //   return Array.from(categories);
+  // }
+
+  getRecentArticles(limit: number): articlesProps[] {
+    const recentArticles = this.articles
+      .slice()
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, limit);
+    return recentArticles;
   }
 
   filteredArticles(category: string): articlesProps[] {
@@ -99,14 +123,6 @@ export class ArtigosComponent implements OnInit {
     if (this.categoryPageMap[category] > 0) {
       this.categoryPageMap[category]--;
     }
-  }
-
-  getRecentArticles(limit: number): articlesProps[] {
-    const recentArticles = this.articles
-      .slice()
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-      .slice(0, limit);
-    return recentArticles;
   }
 
 }

@@ -1,3 +1,22 @@
+:host {
+  font-family: 'Orbitron', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+ol,
+li,
+a {
+  list-style: none;
+  /* Remove os marcadores padrão de listas */
+  text-decoration: none;
+}
+
 .sidebar-header {
   width: 100%;
 }
@@ -9,7 +28,9 @@
   height: 4px;
   margin: 10px auto;
   border-radius: 4px;
+  background: #ffffff;
 }
+
 
 .novidades-title {
   font-size: 1.7rem;
@@ -22,22 +43,19 @@
   margin-bottom: 10px;
 }
 
-.novidade .img-container {
-  max-width: 100%;
+.novidade-link {
+  display: flex;
+  background: linear-gradient(135deg, #1e2a38, #2e3b50);
+  padding: 10px;
 }
 
-.novidade img {
-  overflow: hidden;
+.novidade-link:hover {
+  background: linear-gradient(135deg, #4e6683, #4d6894);
 }
 
 .img-container {
-  width: 100%;
-  max-height: 250px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
+  flex: 1;
+  max-height: 130px;
 }
 
 .img-container img {
@@ -51,45 +69,48 @@
 }
 
 .novidade-content {
+  flex: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 10px;
-}
-
-.novidade-content .article-card-category {
-  align-self: flex-end;
-}
-
-.novidade-content .article-card-date {
-  align-self: center;
-}
-
-.article-card-category,
-.article-card-description,
-.article-card-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: normal;
-  text-decoration: none;
+  text-align: left;
+  padding: 10px 10px 0 10px;
 }
 
 .article-card-category {
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: #f2a413;
+  align-self: flex-end;
 }
 
+.article-card-date {
+  font-size: 0.9rem;
+  color: #f2a413;
+  align-self: flex-end;
+}
+
+
 .article-card-title {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: var(--primary-color);
-  font-weight: normal;
+  margin: 10px 0;
+  font-size: 1.3rem;
+  color: #ffffff;
 }
 
 .article-card-description {
   font-size: 0.9rem;
-  color: var(--text-color)
+  color: #ffffff;
 }
+
 /* =============//=============//=============//=============// */
 /* 🔹 Tema Dark */
+
+.dark .novidades-title {
+  color: #00d2ff;
+}
+
+.dark .novidades-title::after {
+  background: #00d2ff;
+}
 
 .dark .sidebar-header,
 .dark .novidade {
@@ -115,6 +136,14 @@
 
 /* =============//=============//=============//=============// */
 /* 🔹 Tema Light */
+
+.light .novidades-title {
+  color: #101522;
+}
+
+.light .novidades-title::after {
+  background: #101522;
+}
 
 .light .sidebar-header,
 .light .novidade {

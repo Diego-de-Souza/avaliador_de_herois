@@ -73,11 +73,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     this.articles = this.articleService.getArticles();
     // DEV MODE
 
-    console.log('O que tem em this.route.paramMap:', this.route.paramMap);
-    console.log('O que tem em this.route.paramMap.subscribe:', this.route.paramMap.subscribe(params => {return params.get('id')}));
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
-      console.log('ID do artigo:', idParam);
       if (idParam) {
         this.isEditMode = true;
         this.studioId = Number(idParam);
@@ -139,6 +136,7 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     return Array.from(categories);
   }
 
+  // Para gerar sublistas
   parseStructuredList(markdownText: string): ListItem[] {
     return markdownText
       .split('\n')

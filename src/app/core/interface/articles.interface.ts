@@ -13,4 +13,5 @@ export interface articlesProps {
     thumbnail: string;
     keyWords: string[];
     created_at: string;
+    views?: number;
 }
