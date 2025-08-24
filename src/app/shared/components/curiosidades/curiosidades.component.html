@@ -1,9 +1,31 @@
-<section #curiosidadesContainer class="curiosidades" id="theme_curiosidades">
-  <h2>Curiosidades do Universo Geek</h2>
-  <div class="timeline">
-    <div *ngFor="let curiosidade of curiosidades" class="timeline-item curiosidade-item">
-      <div class="timeline-content">
-        <p>{{ curiosidade.texto }}</p>
+
+<section #curiosidadesContainer class="curiosidades-timeline" [ngClass]="themeCuriosidades">
+  <h2 class="curiosidades-title">
+    <span class="curiosidades-title-icon">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="19" cy="19" r="18" stroke="#00d2ff" stroke-width="2" fill="none" />
+        <path d="M19 10v8l6 4" stroke="#00d2ff" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </span>
+    Curiosidades do Universo Geek
+  </h2>
+  <div class="timeline-circuit">
+    <div class="circuit-line"></div>
+    <div *ngFor="let curiosidade of curiosidades; let i = index" class="timeline-node" [ngClass]="{ 'left': i % 2 === 0, 'right': i % 2 !== 0 }" [attr.data-index]="i">
+      <div class="node-dot">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="#00d2ff" stroke-width="2" fill="none" />
+          <circle cx="16" cy="16" r="6" fill="#00d2ff" />
+        </svg>
+      </div>
+      <div class="node-content">
+        <span class="node-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="6" stroke="#00d2ff" stroke-width="2" fill="none" />
+            <circle cx="12" cy="12" r="4" fill="#00d2ff" />
+          </svg>
+        </span>
+        <p class="node-text">{{ curiosidade.texto }}</p>
       </div>
     </div>
   </div>

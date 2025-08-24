@@ -1,16 +1,19 @@
 <section class="destaques" id="theme_destaques">
-  <h2>Destaques do Universo Geek</h2>
-
+  <h2 class="destaques-titulo">Destaques</h2>
   <div class="destaques-lista">
     @for (item of destaques; track item){
-        <div class="destaque-item">
-            <img [src]="item.imagem" [alt]="item.titulo" />
-            <h3>{{ item.titulo }}</h3>
-            <p>{{ item.descricao }}</p>
-            <a [href]="item.link" target="_blank" rel="noopener noreferrer">
-                Ver Mais
-            </a>
+      <div class="destaque-card">
+        <img class="destaque-img" [src]="item.imagem" [alt]="item.titulo" />
+        <div class="destaque-info">
+          <span class="destaque-categoria">GAMES</span>
+          <span class="destaque-data">3 DAYS AGO</span>
+          <h3 class="destaque-titulo">{{ item.titulo }}</h3>
+          <p class="destaque-desc">{{ item.descricao }}</p>
+          <a class="destaque-link" [href]="item.link" target="_blank" rel="noopener noreferrer">
+            Ver Mais
+          </a>
         </div>
+      </div>
     }
   </div>
 </section>

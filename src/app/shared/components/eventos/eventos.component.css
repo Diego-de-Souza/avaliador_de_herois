@@ -1,3 +1,207 @@
+.icon-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 6px;
+}
+.vertical-title {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: #fff;
+  opacity: 0.85;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 2px 8px #0008;
+  transition: opacity 0.3s;
+  margin-top: 2px;
+}
+.left-title {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+.option.active .vertical-title {
+  display: none;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+}
+.eventos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  background: var(--eventos-bg, #f4f7fb);
+  transition: background 0.3s;
+}
+.eventos.dark {
+  --eventos-bg: #232223;
+  color: #fff;
+}
+.eventos.light {
+  --eventos-bg: #f4f7fb;
+  color: #222;
+}
+.eventos h2 {
+  margin-bottom: 32px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.credit {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: inherit;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+.options {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  min-width: 900px;
+  max-width: 1400px;
+  width: calc(100% - 60px);
+  height: 540px;
+}
+.option {
+  position: relative;
+  overflow: hidden;
+  min-width: 60px;
+  margin: 10px;
+  background: var(--optionBackground, #E6E9ED);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  transition: flex-grow 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), margin 0.5s, border-radius 0.5s, background-size 0.5s;
+  flex-grow: 1;
+  border-radius: 30px;
+  display: flex;
+  align-items: flex-end;
+}
+.option.active {
+  flex-grow: 10000;
+  transform: scale(1.04);
+  max-width: 900px;
+  min-height: 540px;
+  margin: 0px;
+  border-radius: 48px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 2;
+}
+.option:not(.active) {
+  z-index: 1;
+}
+.option .shadow {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 120px;
+  box-shadow: inset 0 -120px 0px -120px black, inset 0 -120px 0px -100px black;
+  transition: box-shadow 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+}
+.option.active .shadow {
+  box-shadow: inset 0 -120px 120px -120px black, inset 0 -120px 120px -100px black;
+}
+.label {
+  display: flex;
+  position: absolute;
+  right: 0px;
+  height: 40px;
+  bottom: 10px;
+  left: 10px;
+  transition: bottom 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), left 0.5s;
+}
+.option.active .label {
+  bottom: 20px;
+  left: 20px;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  max-width: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--defaultBackground, #ED5565);
+  font-size: 2rem;
+  box-shadow: 0 2px 12px #0002;
+  margin-bottom: 4px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+  color: white;
+  white-space: pre;
+}
+.info > div {
+  position: relative;
+  transition: left 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity 0.5s ease-out;
+  left: 20px;
+  opacity: 0;
+}
+.option.active .info > div {
+  left: 0px;
+  opacity: 1;
+}
+.main {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.sub {
+  transition-delay: .1s;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+@media screen and (max-width: 1400px) {
+  .options {
+    min-width: 700px;
+    max-width: 1100px;
+    height: 420px;
+  }
+  .option.active {
+    max-width: 700px;
+    min-height: 420px;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .options {
+    min-width: 520px;
+    max-width: 700px;
+    height: 320px;
+  }
+  .option.active {
+    max-width: 520px;
+    min-height: 320px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .options {
+    min-width: 400px;
+    max-width: 600px;
+    height: 220px;
+  }
+  .option.active {
+    max-width: 400px;
+    min-height: 220px;
+  }
+}
 :host {
   .eventos {
     padding: 50px 20px;

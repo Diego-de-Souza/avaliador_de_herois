@@ -1,24 +1,24 @@
 <section class="reviews" id="theme_reviews">
-  <h2>Reviews da Galera Geek</h2>
-
+  <h2 class="reviews-title">Reviews da Galera Geek</h2>
   <div class="reviews-lista">
     @for (review of reviews; track review){
-        <div class="review-item">
-            <img [src]="review.imagem" [alt]="review.titulo" />
-            <h3>{{ review.titulo }}</h3>
-            <p>{{ review.descricao }}</p>
-
-            <div class="estrelas">
-                <ng-container *ngFor="let star of estrelasArray(review.nota); let i = index">
-                <i class="bi" [ngClass]="star >= 1 ? 'bi-star-fill' : star >= 0.5 ? 'bi-star-half' : 'bi-star'"></i>
-                </ng-container>
-            </div>
-
-            <a [href]="review.link" target="_blank" rel="noopener noreferrer">
-                Ver Mais
-            </a>
+      <div class="review-item">
+        <div class="review-img-wrap">
+          <img [src]="review.imagem" [alt]="review.titulo" />
         </div>
+        <div class="review-content">
+          <h3>{{ review.titulo }}</h3>
+          <p>{{ review.descricao }}</p>
+          <div class="estrelas">
+            <ng-container *ngFor="let star of estrelasArray(review.nota); let i = index">
+              <i class="bi" [ngClass]="star >= 1 ? 'bi-star-fill' : star >= 0.5 ? 'bi-star-half' : 'bi-star'" [class.star-animate]="star >= 1"></i>
+            </ng-container>
+          </div>
+          <a class="review-link" [href]="review.link" target="_blank" rel="noopener noreferrer">
+            Ver Mais
+          </a>
+        </div>
+      </div>
     }
-    
   </div>
 </section>

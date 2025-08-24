@@ -1,27 +1,38 @@
-<div class="banner"  id="theme_banner">
-  <ngb-carousel
-    #carousel
-    [interval]="5000"
-    [pauseOnHover]="pauseOnHover"
-	[pauseOnFocus]="pauseOnFocus"
-    (slide)="onSlide($event)"
-  >
-    @for (img of images; track img; let i = $index) {
-      <ng-template ngbSlide>
-        <a routerLink="{{img.rota}}" routerLinkActive="active" rel="nofollow noopener noreferrer" >
-          <div class="picsum-img-wrapper">
-            <img [src]="img.url" alt="My image {{ i + 1 }} description"/>
-          </div>
-        </a>
-        <!-- Contêiner para o conteúdo (sobreposição da imagem) -->
-        <div class="banner-content">
-          <h3>{{img.Title}}</h3>
-          <p>{{img.Description}}</p>
-        </div>
-      </ng-template>
-      
-    }
-  </ngb-carousel>
-  
-  
+
+<div class="banner" id="_themeBanner" [ngClass]="_themeBanner">
+  <div class="banner-bg">
+    <!-- Efeito de luz/bokeh pode ser feito via CSS -->
+  </div>
+  <div class="banner-main">
+    <div class="banner-image-wrapper">
+    <img [src]="images[activeIndex].url" alt="Banner image" class="banner-image"/>
+      <div class="banner-overlay"></div>
+    </div>
+    <div class="banner-content">
+      <span class="banner-date">ON SALE {{images[activeIndex].date}}</span>
+      <h1 class="banner-title">{{images[activeIndex].Title}}</h1>
+      <p class="banner-desc">{{images[activeIndex].Description}}</p>
+      <button class="banner-btn" routerLink="{{images[activeIndex].rota}}">READ MORE</button>
+    </div>
+    <!-- Ícones sociais na lateral -->
+    <div class="banner-social">
+      <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://x.com" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://tiktok.com" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+    <!-- Menu inferior com abas/descrição -->
+    <div class="banner-menu">
+      <div class="banner-tab" *ngFor="let img of images; let i = index" [class.active]="i === activeIndex" (click)="setActive(i)">
+        <span class="banner-tab-title">{{img.Title}}</span>
+        <span class="banner-tab-desc">{{img.MenuDesc}}</span>
+      </div>
+    </div>
+    <!-- Indicador de carregamento/progresso -->
+    <div class="banner-progress">
+      <div class="banner-progress-bar" [style.width]="progress + '%'">
+      </div>
+    </div>
+  </div>
 </div>

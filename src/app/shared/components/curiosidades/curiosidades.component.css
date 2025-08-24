@@ -1,3 +1,283 @@
+.timeline-node {
+  opacity: 0;
+  transform: perspective(600px) rotateX(90deg);
+  transition: opacity 0.7s cubic-bezier(.77,.2,.25,1), transform 0.7s cubic-bezier(.77,.2,.25,1);
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+.timeline-node.revealed {
+  opacity: 1;
+  transform: perspective(600px) rotateX(0deg);
+}
+/* Geek/Tech Timeline - No Cards, Only Circuit Nodes */
+.curiosidades-timeline {
+  padding: 60px 0;
+  background: var(--curiosidades-bg, #10131a);
+  transition: background 0.3s;
+}
+.curiosidades-timeline.light {
+  --curiosidades-bg: #f4f7fb;
+  --node-bg: #eaf6ff;
+  --node-text: #1a2330;
+  --circuit-glow: #7fd8ff55;
+}
+.curiosidades-timeline.dark {
+  --curiosidades-bg: #10131a;
+  --node-bg: #181c24;
+  --node-text: #eaf6ff;
+  --circuit-glow: #00d2ff88;
+}
+.curiosidades-title {
+  font-size: 2.7rem;
+  text-align: center;
+  margin-bottom: 48px;
+  color: #009eea;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.curiosidades-title-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 8px #00d2ff88);
+}
+.timeline-circuit {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 500px;
+}
+.circuit-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg, #009eea 0%, #7fd8ff 100%);
+  box-shadow: 0 0 32px 8px var(--circuit-glow);
+  transform: translateX(-50%);
+  border-radius: 3px;
+  z-index: 0;
+  animation: circuitPulse 2.5s infinite alternate;
+}
+@keyframes circuitPulse {
+  0% { box-shadow: 0 0 32px 8px var(--circuit-glow); }
+  100% { box-shadow: 0 0 48px 16px #00d2ffcc; }
+}
+.timeline-node {
+  position: relative;
+  width: 48%;
+  min-height: 120px;
+  margin-bottom: 64px;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(.77,.2,.25,1);
+}
+.timeline-node.left {
+  left: 0;
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+  margin-right: 2vw;
+}
+.timeline-node.right {
+  left: 52%;
+  justify-content: flex-start;
+  margin-left: 2vw;
+}
+.node-dot {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  filter: drop-shadow(0 0 12px #00d2ffcc);
+}
+.timeline-node.left .node-dot {
+  left: calc(100% - 32px);
+  transform: translateY(-50%);
+}
+.timeline-node.right .node-dot {
+  left: -32px;
+  transform: translateY(-50%);
+}
+.node-content {
+  background: var(--node-bg);
+  border-radius: 18px;
+  box-shadow: 0 0 24px var(--circuit-glow);
+  padding: 28px 36px;
+  min-width: 220px;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: box-shadow 0.3s, transform 0.3s;
+  cursor: pointer;
+  position: relative;
+  margin-left: 0;
+  margin-right: 0;
+}
+.timeline-node.left .node-content {
+  margin-right: 40px;
+}
+.timeline-node.right .node-content {
+  margin-left: 40px;
+}
+.timeline-node:hover .node-content {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 0 48px #00d2ffcc, 0 0 0 4px #00d2ff44;
+}
+.node-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 8px #00d2ff88);
+}
+.node-text {
+  font-size: 1.25rem;
+  color: var(--node-text);
+  font-family: 'Orbitron', 'Roboto', 'Trebuchet MS', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #7fd8ff22;
+}
+@media (max-width: 900px) {
+  .curiosidades-title {
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+  }
+  .timeline-circuit {
+    min-height: 300px;
+  }
+  .timeline-node {
+    width: 100%;
+    left: 0 !important;
+    margin-bottom: 32px;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .node-content {
+    padding: 16px 12px;
+    gap: 10px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .node-dot {
+    left: 0 !important;
+    top: 0;
+    transform: translateY(-50%);
+  }
+}
+/* Modern Geek/Tech CSS for Curiosidades */
+:host {
+  font-family: 'Orbitron', 'Roboto', 'Trebuchet MS', Arial, sans-serif;
+}
+
+.curiosidades {
+  padding: 60px 20px;
+  position: relative;
+  background: var(--curiosidades-bg, #10131a);
+  transition: background 0.3s;
+}
+.curiosidades.light {
+  --curiosidades-bg: #f7f8fa;
+  --curiosidade-module-bg: #fff;
+  --curiosidade-text: #222;
+  --curiosidade-glow: #00d2ff44;
+}
+.curiosidades.dark {
+  --curiosidades-bg: #10131a;
+  --curiosidade-module-bg: #181c24;
+  --curiosidade-text: #eaf6ff;
+  --curiosidade-glow: #00d2ff88;
+}
+.curiosidades-title {
+  font-size: 2.7rem;
+  text-align: center;
+  margin-bottom: 48px;
+  color: #00d2ff;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.curiosidades-title-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 8px #00d2ff88);
+}
+.curiosidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.curiosidade-module {
+  position: relative;
+  background: var(--curiosidade-module-bg);
+  border-radius: 18px;
+  box-shadow: 0 0 32px var(--curiosidade-glow);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.curiosidade-module:hover {
+  transform: scale(1.04) translateY(-4px);
+  box-shadow: 0 0 48px #00d2ffcc, 0 0 0 4px #00d2ff44;
+}
+.curiosidade-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  box-shadow: 0 0 48px 8px var(--curiosidade-glow);
+  opacity: 0.7;
+  z-index: 0;
+  animation: glowPulse 2.5s infinite alternate;
+}
+@keyframes glowPulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+.curiosidade-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 32px;
+}
+.curiosidade-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 8px #00d2ff88);
+}
+.curiosidade-text {
+  font-size: 1.25rem;
+  color: var(--curiosidade-text);
+  font-family: 'Orbitron', 'Roboto', 'Trebuchet MS', Arial, sans-serif;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #00d2ff22;
+}
+@media (max-width: 900px) {
+  .curiosidades-title {
+    font-size: 1.5rem;
+    margin-bottom: 28px;
+  }
+  .curiosidades-grid {
+    gap: 18px;
+  }
+  .curiosidade-content {
+    padding: 16px 12px;
+    gap: 10px;
+  }
+}
 :host {
   font-family: 'Orbitron', sans-serif;
 }

@@ -29,29 +29,25 @@ export class CuriosidadesComponent implements AfterViewInit, OnInit {
   }
 
   private setupAnimations(): void {
-    const timeline = this.curiosidadesContainer.nativeElement.querySelector('.timeline');
-    
+    const timeline = this.curiosidadesContainer.nativeElement.querySelector('.timeline-circuit');
     if (!timeline) {
-      console.warn('Elemento timeline não encontrado');
+      console.warn('Elemento timeline-circuit não encontrado');
       return;
     }
-
-    const items = timeline.querySelectorAll('.timeline-item');
-    
+    const nodes = timeline.querySelectorAll('.timeline-node');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            this.renderer.addClass(entry.target, 'animate');
+            this.renderer.addClass(entry.target, 'revealed');
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
-
-    items.forEach((item: HTMLElement) => {
-      observer.observe(item);
+    nodes.forEach((node: HTMLElement) => {
+      observer.observe(node);
     });
   }
 

@@ -1,9 +1,11 @@
+// ...existing code...
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { articlesProps } from '../../../core/interface/articles.interface';
 import { ArticleService } from '../../../core/service/articles/articles.service';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-artigos',
@@ -13,36 +15,28 @@ import { ArticleService } from '../../../core/service/articles/articles.service'
   styleUrl: './artigos.component.css'
 })
 export class ArtigosComponent implements OnInit {
-  public articles: articlesProps[] = [];
-  public themeArtigos: string | null = 'dark';
-  public categoryPageMap: { [key: string]: number } = {}; // Página atual de cada categoria
-  public articlesPerPage = 3; // Quantos artigos por categoria
+  private articleService: ArticleService = inject(ArticleService);
+  private themeService: ThemeService = inject(ThemeService);
 
-  constructor(
-    private articleService: ArticleService
-  ) {}
+  public articles: articlesProps[] = [];
+
+  getAllArticles(): articlesProps[] {
+    return this.articles;
+  }
+  public _themeArtigos: string | null = 'dark';
+  public categoryPageMap: { [key: string]: number } = {}; 
+  public articlesPerPage = 3; 
 
   ngOnInit() {
     this.articleService.loadFromLocalStorage();
     this.articles = this.articleService.getArticles();
-    this.initCategoryPages(); // Inicializa a paginação
-    this.updateTheme();
-    window.addEventListener('storage', () => this.updateTheme());
+    this.initCategoryPages();
+    this.themeService.theme$.subscribe(theme =>{
+      this._themeArtigos = theme;
+    })
   }
 
   readonly ARTICLES_PER_PAGE = 3;
-
-  updateTheme(){
-    this.themeArtigos = localStorage.getItem('theme');
-    let classTheme = document.getElementById('theme_artigos')
-    if(this.themeArtigos === 'light'){
-      classTheme?.classList.add('light');
-      classTheme?.classList.remove('dark');
-    }else{
-      classTheme?.classList.add('dark');
-      classTheme?.classList.remove('light');
-    }
-  }
 
   initCategoryPages() {
     this.getCategories().forEach(category => {

@@ -10,10 +10,26 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
   styleUrl: './eventos.component.css',
 })
 export class EventosComponent implements OnInit {
+  activeIndex = 0;
+
+  setActive(index: number) {
+    this.activeIndex = index;
+  }
+
+  getIcon(index: number): string {
+    const icons = [
+      'fas fa-walking',
+      'fas fa-snowflake',
+      'fas fa-tree',
+      'fas fa-tint',
+      'fas fa-sun'
+    ];
+    return icons[index % icons.length];
+  }
   public themeEventos: string = 'dark';
   eventos = [
     {
-      imagem: '/img/events/user-icon.png',
+      imagem: '/img/Adam_Warlock.jpg',
       titulo: 'Comic Con Experience 2025',
       data: '03 a 06 de Dezembro',
       local: 'São Paulo - SP',
@@ -21,7 +37,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/img/events/user-icon.png',
+      imagem: '/img/Capitã_Marvel.jpg',
       titulo: 'Anime Friends',
       data: '20 a 23 de Julho',
       local: 'São Paulo - SP',
@@ -29,7 +45,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/img/events/user-icon.png',
+      imagem: '/img/Cyclope.jpg',
       titulo: 'Brasil Game Show',
       data: '09 a 13 de Outubro',
       local: 'São Paulo - SP',
@@ -37,7 +53,7 @@ export class EventosComponent implements OnInit {
       link: '#',
     },
     {
-      imagem: '/img/events/user-icon.png',
+      imagem: '/img/doutorEstranho.jpg',
       titulo: 'Star Wars Fan Fest',
       data: '15 de Agosto',
       local: 'Rio de Janeiro - RJ',
