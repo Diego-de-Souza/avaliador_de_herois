@@ -11,8 +11,26 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 })
 export class FlashLoadingComponent {
   private themeService = inject(ThemeService);
-  
-  @Input() isVisible: boolean = false;
+  private hideTimeout: any;
+
+  private _isVisible: boolean = false;
+  @Input()
+  set isVisible(val: boolean) {
+    if (val) {
+      this._isVisible = true;
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = setTimeout(() => {
+        this._isVisible = false;
+      }, 1200000); // 1 minuto
+    } else {
+      this._isVisible = false;
+      clearTimeout(this.hideTimeout);
+    }
+  }
+  get isVisible() {
+    return this._isVisible;
+  }
+
   @Input() loadingText: string = 'CARREGANDO HERÓIS';
   @Input() subtitle: string = 'Aguarde enquanto o Flash busca os dados...';
   
@@ -21,7 +39,6 @@ export class FlashLoadingComponent {
 
   constructor() {
     this.generateParticles();
-    
     this.themeService.theme$.subscribe(theme => {
       this.currentTheme = theme;
     });

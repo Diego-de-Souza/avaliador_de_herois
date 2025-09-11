@@ -1,3 +1,15 @@
+/* Flip the Flash GIF horizontally and center it */
+.flash-gif-flip {
+  transform: scaleX(-1);
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  pointer-events: none;
+  position: relative;
+  z-index: 10;
+}
 .flash-loading-overlay {
   position: fixed;
   top: 0;
@@ -33,9 +45,13 @@
 /* ===== FLASH CHARACTER ===== */
 .flash-runner {
   position: relative;
-  width: 200px;
-  height: 120px;
-  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  margin: 0 auto 1.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flash-character {
