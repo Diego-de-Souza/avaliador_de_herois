@@ -41,6 +41,7 @@
     "gsap": "^3.13.0",
     "jwt-decode": "^4.0.0",
     "ng-apexcharts": "^1.7.4",
+    "ngx-markdown": "^18.1.0",
     "rxjs": "~7.8.0",
     "tinymce": "^7.9.1",
     "tslib": "^2.3.0",

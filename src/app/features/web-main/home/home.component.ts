@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit{
     })
   }
 
-   
+
   applyTheme(theme: string) {
     const el = document.getElementById('container-home');
     if (theme === 'dark') {
@@ -51,5 +51,5 @@ export class HomeComponent implements OnInit{
     }
   }
 }
- 
+
 
