@@ -45,6 +45,7 @@ export class HeroisService {
 
   postRegisterTeam(teamData: any): Observable<any>{
     const data = {data: teamData};
+    console.log(data);
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
       headers: {
         'Content-Type': 'application/json'

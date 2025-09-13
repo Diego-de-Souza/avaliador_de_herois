@@ -61,4 +61,16 @@ export class UserService {
   changePassword(newPassword: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/change-password`, { newPassword });
   }
+
+  enable2FA(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/auth/qrcode/totp`, {});
+  }
+
+  disable2FA(): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/disable-2fa`, {});
+  }
+
+  validate2FA(token: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/validate/totp`, { token });
+  }
 }

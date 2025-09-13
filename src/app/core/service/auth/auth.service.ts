@@ -168,4 +168,24 @@ export class AuthService implements OnInit{
     }
   }
 
+  async enable2FA(): Promise<string | null> {
+    try {
+      const response: any = await lastValueFrom(this.userService.enable2FA());
+      return response.qrCode; // Retorna o QR code para o usuário escanear
+    } catch (error) {
+      console.error('Erro ao habilitar 2FA:', error);
+      throw new Error('Erro ao habilitar a autenticação de dois fatores. Tente novamente.');
+    }
+  }
+
+  async disable2FA(): Promise<boolean> {
+    try {
+      await lastValueFrom(this.userService.disable2FA());
+      return true; // Retorna true se a desativação foi bem-sucedida
+    } catch (error) {
+      console.error('Erro ao desabilitar 2FA:', error);
+      throw new Error('Erro ao desabilitar a autenticação de dois fatores. Tente novamente.');
+    }
+  }
+
 }

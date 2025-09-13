@@ -1,7 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderPlatformComponent } from "../../../../shared/components/header-platform/header-platform.component";
 import { CommonModule } from '@angular/common';
 
@@ -25,7 +24,6 @@ export class CadastroCuriosidadesComponent {
     constructor(
       private fb: FormBuilder,
       private route: ActivatedRoute,
-      private modalService: NgbModal
     ) {
       this.curiosidadeForm = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(5)]],

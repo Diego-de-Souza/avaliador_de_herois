@@ -46,16 +46,14 @@ export class ArtigosComponent implements OnInit {
     });
   }
 
-  private applyTheme(theme: string): void {
-    const el = this.artigosContainer.nativeElement;
-    if (!el) return;
-
+  applyTheme(theme: string) {
+    const el = document.getElementById('theme_artigos');
     if (theme === 'dark') {
-      this.renderer.removeClass(el, 'light');
-      this.renderer.addClass(el, 'dark');
+      el?.classList.remove('light');
+      el?.classList.add('dark');
     } else {
-      this.renderer.removeClass(el, 'dark');
-      this.renderer.addClass(el, 'light');
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
   }
 

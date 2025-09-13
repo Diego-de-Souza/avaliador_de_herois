@@ -4,8 +4,6 @@ import { environment } from "../../../../environments/environment";
 import { Observable, of } from "rxjs";
 import { Router } from "@angular/router";
 import { AuthService } from "../auth/auth.service";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ModalSucessoCadastroComponent } from "../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component";
 import { ThemeService } from "../theme/theme.service";
 
 @Injectable({
@@ -16,7 +14,6 @@ export class QuizService {
     private apiUrl = environment.apiURL;
     private router = inject(Router);
     private authService = inject(AuthService);
-    private modalService = inject(NgbModal);
     private themeService = inject(ThemeService);
 
     public _currentQuestionIndex = 0;
@@ -82,13 +79,7 @@ export class QuizService {
             });
             this.title = 'Fim do Quiz';
             this.message = 'Parabéns! Você completou o quiz.';
-            const modalRef = this.modalService.open(ModalSucessoCadastroComponent, {
-            modalDialogClass: this._themeAll 
-            });
-            modalRef.componentInstance.modalTitle = this.title;
-            modalRef.componentInstance.modalMessage = this.message;
-
-            await modalRef.result;
+            // Exiba o modal de sucesso via variável de controle no componente pai
             this._currentQuestionIndex = 0;
             this._nextLevel = true;
         }

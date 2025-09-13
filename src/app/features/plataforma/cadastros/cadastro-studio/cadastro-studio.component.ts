@@ -5,103 +5,94 @@ import { HeaderPlatformComponent } from '../../../../shared/components/header-pl
 import { ActivatedRoute } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-cadastro-studio',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderPlatformComponent, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, HeaderPlatformComponent, ReactiveFormsModule, ModalSucessoCadastroComponent],
   templateUrl: './cadastro-studio.component.html',
   styleUrl: './cadastro-studio.component.css'
 })
-export class CadastroStudioComponent implements OnInit{
-  public title: string = '';
-  public message: string = '';
-
+export class CadastroStudioComponent implements OnInit {
   public studioForm: FormGroup;
-  public isEditMode: Boolean = false;
+  public isEditMode: boolean = false;
   public studioId: number | null = null;
+  public showModal = false;
+  public modalTitle: string = '';
+  public modalMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService,
-    private modalService: NgbModal
-  ){
+    private heroisService: HeroisService
+  ) {
     this.studioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
       nationality: ['', [Validators.required, Validators.minLength(3)]],
       history: ['', [Validators.required, Validators.minLength(10)]]
-    })
+    });
   }
 
   ngOnInit(): void {
-      this.route.paramMap.subscribe(params =>{
-        const idParam = params.get('id');
-        if(idParam){
-          this.studioId = Number(idParam);
-          this.isEditMode = true;
-
-          this.heroisService.getOneStudio(this.studioId).subscribe((Response)=>{
-            if (Response?.dataUnit) {
-              this.studioForm.patchValue({
-                name: Response.dataUnit.name || '',
-                nationality: Response.dataUnit.nationality || '',
-                history: Response.dataUnit.history || ''
-              });
-            }
-            
-          })
-        }
-      })
+    this.route.paramMap.subscribe(params => {
+      const idParam = params.get('id');
+      if (idParam) {
+        this.studioId = Number(idParam);
+        this.isEditMode = true;
+        this.heroisService.getOneStudio(this.studioId).subscribe((response: any) => {
+          if (response?.dataUnit) {
+            this.studioForm.patchValue({
+              name: response.dataUnit.name || '',
+              nationality: response.dataUnit.nationality || '',
+              history: response.dataUnit.history || ''
+            });
+          }
+        });
+      }
+    });
   }
 
   isFieldInvalid(field: string): boolean {
     const control = this.studioForm.get(field);
-    return control ? !control.valid && control.touched : false; 
+    return control ? !control.valid && control.touched : false;
   }
 
-  // Método para salvar o estúdio
   onSubmit() {
     if (this.studioForm.valid) {
       const studioData = this.studioForm.value;
       if (this.isEditMode) {
         this.heroisService.putUpdateStudio(this.studioId, studioData).subscribe(
-          (response) => {
-            if(response.status === 404){
-              this.title = 'Atualização de Studio';
-              this.message = response.message;
-              this.openModal(this.title, this.message);
+          (response: any) => {
+            if (response.status === 404) {
+              this.modalTitle = 'Atualização de Studio';
+              this.modalMessage = response.message;
+              this.showModal = true;
             }
-
-            if(response.status === 200){
-              this.title = 'Atualização de Studio';
-              this.message = 'Studio atualizado com sucesso!';
-              this.openModal(this.title, this.message);
+            if (response.status === 200) {
+              this.modalTitle = 'Atualização de Studio';
+              this.modalMessage = 'Studio atualizado com sucesso!';
+              this.showModal = true;
             }
           },
-          (error) => {
+          (error: any) => {
             console.log('Erro ao atualizar o studio:', error);
           }
         );
       } else {
-        console.log('Dados enviados para registro:', studioData); // Pode remover após testes
-  
         this.heroisService.postRegisterStudio(studioData).subscribe(
-          (response) => {
-            if(response.status === 409){
-              this.title = 'Cadastro de Studio';
-              this.message = response.message;
-              this.openModal(this.title, this.message);
+          (response: any) => {
+            if (response.status === 409) {
+              this.modalTitle = 'Cadastro de Studio';
+              this.modalMessage = response.message;
+              this.showModal = true;
             }
-
-            if(response.status === 201){
-              this.title = 'Cadastro de Studio';
-              this.message = 'Studio cadastrado com sucesso!';
-              this.openModal(this.title, this.message);
+            if (response.status === 201) {
+              this.modalTitle = 'Cadastro de Studio';
+              this.modalMessage = 'Studio cadastrado com sucesso!';
+              this.showModal = true;
             }
           },
-          (error) => {
+          (error: any) => {
             console.log('Erro ao cadastrar studio:', error);
           }
         );
@@ -112,7 +103,6 @@ export class CadastroStudioComponent implements OnInit{
     }
   }
 
-  // Método para cancelar e limpar o formulário
   onCancel() {
     const confirmCancel = confirm('Tem certeza que deseja cancelar?');
     if (confirmCancel) {
@@ -120,17 +110,13 @@ export class CadastroStudioComponent implements OnInit{
     }
   }
 
-  // Limpa os dados do formulário
   clearForm() {
     this.studioForm.reset();
     this.isEditMode = false;
     this.studioId = null;
   }
 
-  openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+  closeModal() {
+    this.showModal = false;
   }
-  
 }

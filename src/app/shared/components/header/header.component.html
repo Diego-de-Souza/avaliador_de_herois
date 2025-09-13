@@ -44,16 +44,16 @@
                     <li class="has-submenu">
                         <i class="fa-solid fa-layer-group m-2"></i> Conteúdos
                         <ul class="submenu">
-                            <li routerLink="webmain/conteudo/destaques" routerLinkActive="active">
+                            <li (click)="routerSubMenu('destaques')">
                             <i class="fa-solid fa-star m-2"></i> Destaques
                             </li>
-                            <li routerLink="webmain/conteudo/newsletter" routerLinkActive="active">
+                            <li (click)="routerSubMenu('newsletter')">
                             <i class="fa-solid fa-envelope m-2"></i> Newsletter
                             </li>
-                            <li routerLink="webmain/conteudo/artigos" routerLinkActive="active">
+                            <li (click)="routerSubMenu('artigos')">
                             <i class="fa-solid fa-book m-2"></i> Artigos
                             </li>
-                            <li routerLink="webmain/conteudo/eventos" routerLinkActive="active">
+                            <li (click)="routerSubMenu('eventos')">
                             <i class="fa-solid fa-calendar-days m-2"></i> Eventos
                             </li>
                         </ul>

@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuUserComponent } from '../menu-user/menu-user.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
@@ -15,13 +15,16 @@ import { CartIconComponent } from '../cart-icon/cart-icon.component';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  private router: Router= inject(Router);
+  private themeService: ThemeService = inject(ThemeService);
+  private authService: AuthService = inject(AuthService);
+
   public _themeAll: string = 'dark';
   public isLoggedIn: boolean = false;
   public isMobile = false;
   public isMenuOpen = false;
-  submenuOpen = false;
+  public submenuOpen = false;
 
-  constructor(private themeService: ThemeService, private authService: AuthService) {}
 
   ngOnInit(): void {
     const logged = sessionStorage.getItem('access_token');
@@ -57,5 +60,22 @@ export class HeaderComponent implements OnInit {
 
   closeMenu() {
     this.isMenuOpen = false;
+  }
+
+  routerSubMenu(rota:string): void{
+    switch(rota){
+      case 'destaques':
+        this.router.navigate(['/webmain/conteudo/destaques']);
+        break;
+      case 'newsletter':
+        this.router.navigate(['/webmain/conteudo/newsletter']);
+        break;
+      case 'artigos':
+        this.router.navigate(['/webmain/conteudo/artigos']);
+        break;
+      case 'eventos':
+        this.router.navigate(['/webmain/conteudo/eventos']);
+        break;
+    }
   }
 }

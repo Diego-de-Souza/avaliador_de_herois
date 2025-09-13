@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 
 // Declaração para evitar erro do TinyMCE
@@ -25,7 +24,6 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private modalService: NgbModal
   ) {
     this.artigosForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
