@@ -4,17 +4,19 @@ import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Valid
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-cadastro-team',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderPlatformComponent, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, HeaderPlatformComponent, ReactiveFormsModule, ModalSucessoCadastroComponent],
   templateUrl: './cadastro-team.component.html',
   styleUrl: './cadastro-team.component.css'
 })
 export class CadastroTeamComponent implements OnInit{
+  showModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
   equipe = { name: '', creator: '' };
   public title: string = '';
   public message: string = '';
@@ -26,8 +28,7 @@ export class CadastroTeamComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService,
-    private modalService: NgbModal
+    private heroisService: HeroisService
   ){
     this.dadosTeam = this.fb.group({
       name: ['', Validators.required],
@@ -73,15 +74,15 @@ export class CadastroTeamComponent implements OnInit{
       }else{
         this.heroisService.postRegisterTeam(teamData).subscribe((response)=>{
           if(response.status === 409){
-            this.title = 'Cadastro de Equipe';
-            this.message = response.message;
-            this.openModal(this.title, this.message);
+            this.modalTitle = 'Cadastro de Equipe';
+            this.modalMessage = response.message;
+            this.showModal = true;
           }
 
           if(response.status === 201){
-            this.title = 'Cadastro de Equipe';
-            this.message = 'Studio cadastrado com sucesso!';
-            this.openModal(this.title, this.message);
+            this.modalTitle = 'Cadastro de Equipe';
+            this.modalMessage = 'Studio cadastrado com sucesso!';
+            this.showModal = true;
           }
         },(error)=>{
           console.log("erro ao cadastrar:",error);
@@ -103,9 +104,7 @@ export class CadastroTeamComponent implements OnInit{
     this.teamId = null;
   }
   
-  openModal(title: string, message: string) {
-      const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-      modalRef.componentInstance.modalTitle = title; 
-      modalRef.componentInstance.modalMessage = message; 
+  closeModal() {
+    this.showModal = false;
   }
 }

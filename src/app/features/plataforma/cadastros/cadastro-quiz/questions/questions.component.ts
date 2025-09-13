@@ -3,21 +3,22 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderPlatformComponent } from '../../../../../shared/components/header-platform/header-platform.component';
 import { QuizService } from '../../../../../core/service/quiz/quiz.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSucessoCadastroComponent } from '../../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-questions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, HeaderPlatformComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, HeaderPlatformComponent, ModalSucessoCadastroComponent],
   templateUrl: './questions.component.html',
   styleUrl: './questions.component.css'
 })
 export class QuestionsComponent implements OnInit{
   private fb = inject(FormBuilder);
   private readonly quizService = inject(QuizService);
-  private modalService = inject(NgbModal);
+  showModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -53,9 +54,9 @@ export class QuestionsComponent implements OnInit{
       },
       error: (error) => {
         console.error('Erro ao buscar quizzes:', error);
-        this.title = 'Erro';
-        this.message = 'Houve um erro ao tentar buscar os quizzes. Tente novamente.';
-        this.openModal(this.title, this.message);
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Houve um erro ao tentar buscar os quizzes. Tente novamente.';
+  this.showModal = true;
       }
     });
   }
@@ -84,9 +85,9 @@ export class QuestionsComponent implements OnInit{
         this.showQuestionsModal = true;
       },
       error: (error) => {
-        this.title = 'Erro';
-        this.message = 'Não foi possível carregar as questões.';
-        this.openModal(this.title, this.message);
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Não foi possível carregar as questões.';
+  this.showModal = true;
       }
     });
   }
@@ -100,9 +101,9 @@ export class QuestionsComponent implements OnInit{
       },
       error: (error) => {
         console.error('Erro ao buscar níveis do quiz:', error);
-        this.title = 'Erro';
-        this.message = 'Houve um erro ao tentar buscar os níveis do quiz. Tente novamente.';
-        this.openModal(this.title, this.message);
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Houve um erro ao tentar buscar os níveis do quiz. Tente novamente.';
+  this.showModal = true;
       }
     });
   }
@@ -153,29 +154,35 @@ export class QuestionsComponent implements OnInit{
     if (this._editQuestion) {
       this.quizService.updateQuestions(cadastro).subscribe({
         next: (response) => {
-          this.title = 'Edição de Questões';
-          this.message = 'Questões atualizadas com sucesso!';
-          this.openModal(this.title, this.message);
-          this.router.navigate(['/plataforma/view/view-quiz']);
+          this.modalTitle = 'Edição de Questões';
+          this.modalMessage = 'Questões atualizadas com sucesso!';
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.router.navigate(['/plataforma/view/view-quiz']);
+          }, 2000);
         },
         error: (error) => {
-          this.title = 'Erro';
-          this.message = 'Erro ao atualizar questões.';
-          this.openModal(this.title, this.message);
+          this.modalTitle = 'Erro';
+          this.modalMessage = 'Erro ao atualizar questões.';
+          this.showModal = true;
         }
       });
     } else {
       this.quizService.createQuestions(cadastro).subscribe({
         next: (response) => {
-          this.title = 'Cadastro de Questões';
-          this.message = 'Questões cadastradas com sucesso!';
-          this.openModal(this.title, this.message);
-          this.router.navigate(['/plataforma/view/view-quiz']);
+          this.modalTitle = 'Cadastro de Questões';
+          this.modalMessage = 'Questões cadastradas com sucesso!';
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.router.navigate(['/plataforma/view/view-quiz']);
+          }, 2000);
         },
         error: (error) => {
-          this.title = 'Erro';
-          this.message = 'Erro ao cadastrar questões.';
-          this.openModal(this.title, this.message);
+          this.modalTitle = 'Erro';
+          this.modalMessage = 'Erro ao cadastrar questões.';
+          this.showModal = true;
         }
       });
     }
@@ -192,9 +199,7 @@ export class QuestionsComponent implements OnInit{
     return this.questionsForm.at(this.currentQuestionIndex) as FormGroup;
   }
 
-  openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+  closeModal() {
+    this.showModal = false;
   }
 }

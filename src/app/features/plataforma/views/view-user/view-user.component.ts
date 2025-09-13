@@ -5,7 +5,6 @@ import { ModalSucessoCadastroComponent } from '../../../../shared/components/mod
 import { CepService } from '../../../../core/service/cep/cep.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-view-user',
@@ -26,7 +25,6 @@ export class ViewUserComponent implements OnInit{
     private cepService: CepService,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private modalService : NgbModal,
   ) {
     this.settingsForm = this.fb.group({
       fullname: ['', [Validators.required, Validators.minLength(3)]],
@@ -133,10 +131,18 @@ export class ViewUserComponent implements OnInit{
     }
   }
 
+  showSuccessModal = false;
+  modalTitle = '';
+  modalMessage = '';
+
   openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.showSuccessModal = true;
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
   }
 
   isFieldInvalid(field: string): boolean {

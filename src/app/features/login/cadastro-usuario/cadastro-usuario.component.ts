@@ -8,7 +8,6 @@ import { UserService } from '../../../core/service/user/user.service';
 import { faCalendarDays, faCircleCheck, faCity, faEnvelope, faMap, faMapLocationDot, faSignsPost, faUserTag, faVihara, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 import { EncryptionUtil } from '../../../shared/utils/encryption.utils';
 import { CepService } from '../../../core/service/cep/cep.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSucessoCadastroComponent } from '../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
@@ -44,7 +43,6 @@ export class CadastroUsuarioComponent{
       private userService: UserService, 
       private fb : FormBuilder,
       private cepService: CepService,
-      private modalService: NgbModal,
       private router: Router
     ){
       // Inicializar o FormGroup no construtor
@@ -151,10 +149,18 @@ export class CadastroUsuarioComponent{
       }
     }
   
+    showSuccessModal = false;
+    modalTitle = '';
+    modalMessage = '';
+
     openModal(title: string, message: string) {
-      const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-      modalRef.componentInstance.modalTitle = title; 
-      modalRef.componentInstance.modalMessage = message; 
+      this.modalTitle = title;
+      this.modalMessage = message;
+      this.showSuccessModal = true;
+    }
+
+    closeSuccessModal() {
+      this.showSuccessModal = false;
     }
 
     clearForm() {

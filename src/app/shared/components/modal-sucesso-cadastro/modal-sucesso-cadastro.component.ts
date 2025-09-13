@@ -1,5 +1,4 @@
-import { Component, inject, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, inject, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
@@ -12,12 +11,13 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 })
 export class ModalSucessoCadastroComponent {
   private readonly themeService: ThemeService = inject(ThemeService);
-  @Input() modalTitle: string = '';  
+  @Input() modalTitle: string = '';
   @Input() modalMessage: string = '';
-  
-  constructor(public modal: NgbModal, public activeModal: NgbActiveModal) {}
+  @Output() closeModalEvent = new EventEmitter<void>();
 
-  closeModal() {
-    this.activeModal.close();  
+  constructor() {}
+
+  closeModalClick() {
+    this.closeModalEvent.emit();
   }
 }

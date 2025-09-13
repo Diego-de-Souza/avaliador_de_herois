@@ -4,13 +4,12 @@ import { ThemeService } from '../../../../core/service/theme/theme.service';
 import { NgClass } from '@angular/common';
 import { QuizService } from '../../../../core/service/quiz/quiz.service';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Quiz_Level } from '../../../../core/interface/hero-level.interface';
 
 @Component({
   selector: 'app-first-alert-quiz',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, ModalSucessoCadastroComponent],
   templateUrl: './first-alert-quiz.component.html',
   styleUrl: './first-alert-quiz.component.css'
 })
@@ -19,7 +18,9 @@ export class FirstAlertQuizComponent implements OnInit{
   private route = inject(ActivatedRoute);
   private themeService = inject(ThemeService);
   private quizService = inject(QuizService);
-  private modalService = inject(NgbModal)
+  showModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
 
   public _level_quiz!: Quiz_Level;
   public _levelData: any;
@@ -45,9 +46,9 @@ export class FirstAlertQuizComponent implements OnInit{
           state: { quizData: response.data }
         });
       }, (error)=>{
-        this._title = 'Questões';
-        this._message = 'Houve uma falha na busca das questões';
-        this.openModal(this._title, this._message);
+  this.modalTitle = 'Questões';
+  this.modalMessage = 'Houve uma falha na busca das questões';
+  this.showModal = true;
       }
     )
     
@@ -57,10 +58,9 @@ export class FirstAlertQuizComponent implements OnInit{
     this._themeAll = theme;
   }
 
-  openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+
+  closeModal() {
+    this.showModal = false;
   }
 
 }

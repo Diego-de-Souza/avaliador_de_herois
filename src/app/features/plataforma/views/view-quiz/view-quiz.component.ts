@@ -3,8 +3,6 @@ import { Component, inject } from '@angular/core';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 import { QuizService } from '../../../../core/service/quiz/quiz.service';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -18,7 +16,6 @@ export class ViewQuizComponent {
   public quizzes: any[] = [];
   private readonly quizService = inject(QuizService);
   private readonly router = inject(Router);
-  private modalService = inject(NgbModal);
 
   public title: string = '';
   public message: string = '';
@@ -129,10 +126,18 @@ export class ViewQuizComponent {
     }
   }
 
+  public showSuccessModal = false;
+  public modalTitle = '';
+  public modalMessage = '';
+
   openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent);
-    modalRef.componentInstance.modalTitle = title;
-    modalRef.componentInstance.modalMessage = message;
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.showSuccessModal = true;
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
   }
 
   confirmEdit(selection: number) {

@@ -4,19 +4,20 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService } from '../../../../core/service/auth/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-security-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ModalSucessoCadastroComponent],
   templateUrl: './security-user.component.html',
   styleUrl: './security-user.component.css'
 })
 export class SecurityUserComponent {
   private authService: AuthService = inject(AuthService);
-  private modalService: NgbModal = inject(NgbModal);
+  showModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
   private router = inject(Router);
   userSettingsForm: FormGroup;
   is2FAEnabled = false;
@@ -48,14 +49,21 @@ export class SecurityUserComponent {
         let qrCode = await this.authService.enable2FA();
 
         if(qrCode){
-          this.openModal('Autenticação de Dois Fatores Habilitada', 'A autenticação de dois fatores foi habilitada com sucesso. Use o aplicativo autenticador para escanear o código QR e gerar códigos de verificação.');
-          this.router.navigate(['/']);
+          this.modalTitle = 'Autenticação de Dois Fatores Habilitada';
+          this.modalMessage = 'A autenticação de dois fatores foi habilitada com sucesso. Use o aplicativo autenticador para escanear o código QR e gerar códigos de verificação.';
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false;
+            this.router.navigate(['/']);
+          }, 2000);
         }
       }else{
         let is2FADisable = await this.authService.disable2FA();
 
         if(is2FADisable){
-          this.openModal('Autenticação de Dois Fatores Desabilitada', 'A autenticação de dois fatores foi desabilitada com sucesso.');
+          this.modalTitle = 'Autenticação de Dois Fatores Desabilitada';
+          this.modalMessage = 'A autenticação de dois fatores foi desabilitada com sucesso.';
+          this.showModal = true;
           this.is2FAEnabled = false;
         }
       }
@@ -74,16 +82,18 @@ export class SecurityUserComponent {
     if (this.userSettingsForm.valid && !this.userSettingsForm.errors?.['passwordsMismatch']) {
       try {
         await this.authService.changePassword(this.userSettingsForm.value.newPassword);
-        this.openModal('Sucesso', 'Senha alterada com sucesso!');
+  this.modalTitle = 'Sucesso';
+  this.modalMessage = 'Senha alterada com sucesso!';
+  this.showModal = true;
       } catch (err) {
-        this.openModal('Erro', 'Erro ao alterar a senha. Tente novamente.');
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Erro ao alterar a senha. Tente novamente.';
+  this.showModal = true;
       }
     }
   }
 
-  openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent);
-    modalRef.componentInstance.modalTitle = title;
-    modalRef.componentInstance.modalMessage = message;
+  closeModal() {
+    this.showModal = false;
   }
 }

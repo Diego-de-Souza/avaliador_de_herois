@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../core/service/user/user.service';
 import { ModalSucessoCadastroComponent } from '../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../core/service/auth/auth.service';
 import { environment } from '../../../environments/environment';
 
@@ -27,7 +26,6 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private modalService: NgbModal,
     private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
@@ -87,10 +85,18 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  showSuccessModal = false;
+  modalTitle = '';
+  modalMessage = '';
+
   openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent);
-    modalRef.componentInstance.modalTitle = title;
-    modalRef.componentInstance.modalMessage = message;
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.showSuccessModal = true;
+  }
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
   }
 
   signInWithGoogle(): void {

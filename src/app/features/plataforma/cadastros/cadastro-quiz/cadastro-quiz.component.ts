@@ -6,14 +6,13 @@ import { ThemeService } from '../../../../core/service/theme/theme.service';
 import { QuizService } from '../../../../core/service/quiz/quiz.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Difficulty } from '../../../../core/enums/difficulty.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cadastro-quiz',
   standalone: true,
-  imports: [CommonModule, HeaderPlatformComponent, ReactiveFormsModule],
+  imports: [CommonModule, HeaderPlatformComponent, ReactiveFormsModule, ModalSucessoCadastroComponent],
   templateUrl: './cadastro-quiz.component.html',
   styleUrl: './cadastro-quiz.component.css'
 })
@@ -21,7 +20,9 @@ export class CadastroQuizComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private fb = inject(FormBuilder);
   private readonly quizService = inject(QuizService);
-  private modalService = inject(NgbModal)
+  showSuccessModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
@@ -97,9 +98,9 @@ export class CadastroQuizComponent implements OnInit {
         this._quizForm.setControl('quiz_levels', levelsArray);
       },
       error: (err) => {
-        this.title = 'Erro';
-        this.message = 'Não foi possível carregar os dados do quiz.';
-        this.openModal(this.title, this.message);
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Não foi possível carregar os dados do quiz.';
+  this.showSuccessModal = true;
       }
     });
   }
@@ -130,15 +131,18 @@ export class CadastroQuizComponent implements OnInit {
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (response) => {
-              this.title = 'Edição de Quiz';
-              this.message = 'Quiz atualizado com sucesso!';
-              this.openModal(this.title, this.message);
-              this.router.navigate(['/plataforma/view/view-quiz']);
+              this.modalTitle = 'Edição de Quiz';
+              this.modalMessage = 'Quiz atualizado com sucesso!';
+              this.showSuccessModal = true;
+              setTimeout(() => {
+                this.showSuccessModal = false;
+                this.router.navigate(['/plataforma/view/view-quiz']);
+              }, 2000);
             },
             error: (error) => {
-              this.title = 'Erro';
-              this.message = 'Erro ao atualizar quiz.';
-              this.openModal(this.title, this.message);
+              this.modalTitle = 'Erro';
+              this.modalMessage = 'Erro ao atualizar quiz.';
+              this.showSuccessModal = true;
             }
           });
       } else {
@@ -146,29 +150,31 @@ export class CadastroQuizComponent implements OnInit {
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (response) => {
-              this.title = 'Cadastro de Quiz';
-              this.message = 'Quiz cadastrado com sucesso!';
-              this.openModal(this.title, this.message);
-              this.router.navigate(['/plataforma/view/view-quiz']);
+              this.modalTitle = 'Cadastro de Quiz';
+              this.modalMessage = 'Quiz cadastrado com sucesso!';
+              this.showSuccessModal = true;
+              setTimeout(() => {
+                this.showSuccessModal = false;
+                this.router.navigate(['/plataforma/view/view-quiz']);
+              }, 2000);
             },
             error: (error) => {
-              this.title = 'Erro';
-              this.message = 'Erro ao cadastrar quiz.';
-              this.openModal(this.title, this.message);
+              this.modalTitle = 'Erro';
+              this.modalMessage = 'Erro ao cadastrar quiz.';
+              this.showSuccessModal = true;
             }
           });
       }
     } else {
-      this.title = 'Erro';
-      this.message = 'Por favor, preencha todos os campos obrigatórios corretamente.';
-      this.openModal(this.title, this.message);
+  this.modalTitle = 'Erro';
+  this.modalMessage = 'Por favor, preencha todos os campos obrigatórios corretamente.';
+  this.showSuccessModal = true;
     }
   }
 
-  openModal(title: string, message: string) {
-    const modalRef = this.modalService.open(ModalSucessoCadastroComponent); 
-    modalRef.componentInstance.modalTitle = title; 
-    modalRef.componentInstance.modalMessage = message; 
+
+  closeSuccessModal() {
+    this.showSuccessModal = false;
   }
 
   onCancel() {

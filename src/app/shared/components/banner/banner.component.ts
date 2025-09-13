@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
+// Removido ng-bootstrap
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
 
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 @Component({
 	selector: 'app-banner',
 	standalone: true,
-	imports: [NgbCarouselModule, FormsModule, RouterLink, CommonModule],
+	imports: [FormsModule, RouterLink, CommonModule],
 	templateUrl: './banner.component.html',
 	styleUrl: './banner.component.css'
 })
@@ -62,7 +62,7 @@ export class BannerComponent {
 	pauseOnHover = false;
 	pauseOnFocus = false;
 
-	@ViewChild('carousel', { static: true }) carousel!: NgbCarousel;
+	// Remover referência ao NgbCarousel
 
 	setActive(index: number) {
 		this.activeIndex = index;
@@ -82,24 +82,9 @@ export class BannerComponent {
 	}
 
 	togglePaused() {
-		if (this.paused) {
-			this.carousel.cycle();
-		} else {
-			this.carousel.pause();
-		}
+		// Adapte a lógica de pausar/retomar banner para JS puro ou remova se não for necessário
 		this.paused = !this.paused;
 	}
 
-	onSlide(slideEvent: NgbSlideEvent) {
-		if (
-			this.unpauseOnArrow &&
-			slideEvent.paused &&
-			(slideEvent.source === NgbSlideEventSource.ARROW_LEFT || slideEvent.source === NgbSlideEventSource.ARROW_RIGHT)
-		) {
-			this.togglePaused();
-		}
-		if (this.pauseOnIndicator && !slideEvent.paused && slideEvent.source === NgbSlideEventSource.INDICATOR) {
-			this.togglePaused();
-		}
-	}
+	// Remover método onSlide e lógica relacionada ao NgbSlideEvent
 }
