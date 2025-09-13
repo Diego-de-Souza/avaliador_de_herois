@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
+import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { ActivatedRoute } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
-import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
+
 
 @Component({
   selector: 'app-cadastro-team',
