@@ -59,24 +59,32 @@ export class LoginComponent implements OnInit {
 
   async handleLogin(): Promise<void> {
     try {
-      const statusLogin = await this.authService.login(this.loginForm.value);
-
-      if (statusLogin) {
+      const login = await this.authService.login(this.loginForm.value);
+      console.log('login:', login);
+      if (login.status) {
+        console.log('Login bem-sucedido:', login);
         this.title = 'Login';
         this.message = 'Login efetuado com sucesso!';
         this.openModal(this.title, this.message);
 
         const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
 
-        if (data) {
-          if (data.role === 'admin') {
-            this.router.navigate(['/plataforma']);
+        if (login.has_totp) {
+          console.log('Redirecionando para 2FA');
+          sessionStorage.setItem('role', data.role);
+          this.router.navigate(['/validate-two-fa'], { state: { role: data.role } });
+        }else{
+          if (data) {
+            if (data.role === 'admin') {
+              this.router.navigate(['/plataforma']);
+            } else {
+              this.router.navigate(['/']);
+            }
           } else {
             this.router.navigate(['/']);
           }
-        } else {
-          this.router.navigate(['/']);
         }
+        
       }
     } catch (error) {
       this.title = 'Erro';

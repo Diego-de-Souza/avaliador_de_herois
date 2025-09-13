@@ -70,7 +70,17 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/auth/disable-2fa`, {});
   }
 
-  validate2FA(token: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/auth/validate/totp`, { token });
+  validate2FA(code: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/validate/totp`, { code });
   }
+
+  getUserSettings(type: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/auth/settings`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      params: { type }
+    });
+  }
+
 }

@@ -34,8 +34,13 @@ export class AuthService implements OnInit{
       if (userAccess) {
         sessionStorage.setItem('access_token', userAccess.access_token);
       }
+
+      const result = {
+        has_totp: userAccess.has_totp,
+        status: true
+      }
       
-      return true
+      return result;
     }catch(error){
       console.error('Erro no login:', error);
       throw new Error('Erro ao realizar login. Tente novamente.');
@@ -171,7 +176,7 @@ export class AuthService implements OnInit{
   async enable2FA(): Promise<string | null> {
     try {
       const response: any = await lastValueFrom(this.userService.enable2FA());
-      return response.qrCode; // Retorna o QR code para o usuário escanear
+      return response.dataUnit[0]; // Retorna o QR code para o usuário escanear
     } catch (error) {
       console.error('Erro ao habilitar 2FA:', error);
       throw new Error('Erro ao habilitar a autenticação de dois fatores. Tente novamente.');
@@ -181,10 +186,29 @@ export class AuthService implements OnInit{
   async disable2FA(): Promise<boolean> {
     try {
       await lastValueFrom(this.userService.disable2FA());
-      return true; // Retorna true se a desativação foi bem-sucedida
+      return true; 
     } catch (error) {
       console.error('Erro ao desabilitar 2FA:', error);
       throw new Error('Erro ao desabilitar a autenticação de dois fatores. Tente novamente.');
+    }
+  }
+
+  async validate2FA(code: string): Promise<any> {
+    try {
+      const response: any = await lastValueFrom(this.userService.validate2FA(code));
+      return response;
+    } catch (error) {
+      console.error('Erro ao validar o código 2FA:', error);
+      throw new Error('Erro ao validar o código de autenticação de dois fatores. Tente novamente.');
+    }
+  }
+
+  async getUserSettings(type: string): Promise<any> {
+    try{
+      const response: any = await lastValueFrom(this.userService.getUserSettings(type));
+      return response.data;
+    }catch(error){
+
     }
   }
 

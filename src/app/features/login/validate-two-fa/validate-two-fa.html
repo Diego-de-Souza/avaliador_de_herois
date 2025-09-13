@@ -1,0 +1,26 @@
+<section class="hero-section" [ngClass]="_themeAll">
+  <section class="d-flex justify-content-center align-items-center vh-100">
+	<div class="validate-2fa-container">
+		<h2 class="mb-4">Validação de 2FA</h2>
+		<div class="d-flex gap-2 mb-3">
+			<ng-container *ngFor="let digit of digits; let i = index; trackBy: trackByIndex">
+				<input
+					type="text"
+					maxlength="1"
+					class="form-control text-center mfa-digit"
+					name="digit{{i}}"
+					(input)="onDigitInput($event, i)"
+					(keydown)="onDigitKeydown($event, i)"
+					autocomplete="one-time-code"
+					[autofocus]="i === 0"
+				/>
+			</ng-container>
+		</div>
+		<button class="btn btn-primary w-100 mb-2" (click)="validate()" [disabled]="loading || code.length !== 6">
+			{{ loading ? 'Validando...' : 'Validar' }}
+		</button>
+		@if (message) {
+			<div class="alert alert-info w-100 text-center mt-2">{{ message }}</div>
+		}
+	</div>
+</section>

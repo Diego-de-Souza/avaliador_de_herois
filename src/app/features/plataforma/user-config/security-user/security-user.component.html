@@ -16,9 +16,11 @@
           <button type="submit" class="btn btn-primary" [disabled]="userSettingsForm.invalid">Alterar Senha</button>
         </div>
       </div>
-      <div *ngIf="userSettingsForm.errors?.['passwordsMismatch']" class="text-danger mt-2">
-        As senhas não conferem.
-      </div>
+      @if (userSettingsForm.errors?.['passwordsMismatch']) {
+        <div class="text-danger mt-2">
+          As senhas não conferem.
+        </div>
+      }
     </form>
   </div>
 
@@ -31,12 +33,15 @@
         {{ is2FAEnabled ? 'Desativar' : 'Ativar' }} autenticação em duas etapas
       </label>
     </div>
-    <div *ngIf="is2FAEnabled" class="mt-2">
-      <small class="text-success">Autenticação em duas etapas está ativada para sua conta.</small>
-    </div>
-    <div *ngIf="!is2FAEnabled" class="mt-2">
-      <small class="text-muted">Sua conta está protegida apenas por senha.</small>
-    </div>
+    @if (is2FAEnabled) {
+      <div class="mt-2">
+        <small class="text-success">Autenticação em duas etapas está ativada para sua conta.</small>
+      </div>
+    } @else {
+      <div class="mt-2">
+        <small class="text-muted">Sua conta está protegida apenas por senha.</small>
+      </div>
+    }
   </div>
 
   <!-- Sessões Ativas -->
@@ -51,11 +56,27 @@
         <button class="btn btn-outline-danger btn-sm" (click)="logoutSession(session.id)">Encerrar sessão</button>
       </li>
     </ul>
-    <div *ngIf="activeSessions.length === 0" class="mt-2 text-muted">
-      Nenhuma sessão ativa encontrada.
-    </div>
+    @if (activeSessions.length === 0) {
+      <div class="mt-2 text-muted">
+        Nenhuma sessão ativa encontrada.
+      </div>
+    }
   </div>
 </div>
+@if (showQrModal) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <app-modal-qrcode
+          [modalTitle]="modalTitle"
+          [modalMessage]="modalMessage"
+          [qrCodeUrl]="qrCodeUrl"
+          (closeModalEvent)="closeQrModal()">
+        </app-modal-qrcode>
+      </div>
+    </div>
+  </div>
+}
 @if (showModal) {
   <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
     <div class="modal-dialog modal-dialog-centered">

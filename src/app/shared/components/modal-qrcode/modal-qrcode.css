@@ -1,0 +1,57 @@
+/* Estilos para o modal de QR Code 2FA */
+.modal-content {
+	border-radius: 8px;
+	box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.modal-header {
+	border-bottom: 1px solid var(--border-primary);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.modal-title {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
+
+.modal-body {
+	text-align: center;
+	padding: 1.5rem 1rem;
+}
+
+.modal-body img {
+	display: block;
+	margin: 1rem auto;
+	max-width: 220px;
+	width: 100%;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 1px 8px var(--box-shadow);
+}
+
+.modal-footer {
+	border-top: 1px solid var(--border-primary);
+	display: flex;
+	justify-content: flex-end;
+	padding: 1rem;
+}
+
+.btn-close {
+  background: none;
+  position: relative;
+}
+.btn-close::before {
+  content: '×';
+  font-size: 1.5rem;
+  color: #ff5555; /* cor desejada */
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}

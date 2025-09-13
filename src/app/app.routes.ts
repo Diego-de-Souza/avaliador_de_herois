@@ -20,6 +20,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/login/cadastro-usuario/cadastro-usuario.component').then(m => m.CadastroUsuarioComponent)
   },
   {
+    path: 'validate-two-fa',
+    title: 'Validar 2FA',
+    loadComponent: () => import('./features/login/validate-two-fa/validate-two-fa').then(m => m.ValidateTwoFa)
+  },
+  {
     path: 'em-construcao',
     title: 'Em_construção',
     canActivate: [plansGuard],

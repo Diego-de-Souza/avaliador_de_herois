@@ -1,23 +1,27 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthService } from '../../../../core/service/auth/auth.service';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
+import { ModalQrcode } from '../../../../shared/components/modal-qrcode/modal-qrcode';
 
 @Component({
   selector: 'app-security-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, ModalSucessoCadastroComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, ModalSucessoCadastroComponent, ModalQrcode],
   templateUrl: './security-user.component.html',
   styleUrl: './security-user.component.css'
 })
-export class SecurityUserComponent {
+export class SecurityUserComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   showModal = false;
   modalTitle: string = '';
   modalMessage: string = '';
+  showQrModal = false;
+
+  qrCodeUrl: string = '';
   private router = inject(Router);
   userSettingsForm: FormGroup;
   is2FAEnabled = false;
@@ -25,6 +29,10 @@ export class SecurityUserComponent {
     { id: 1, device: 'Chrome Windows', location: 'São Paulo, BR', lastActive: 'Hoje, 10:23' },
     { id: 2, device: 'Mobile Android', location: 'Rio de Janeiro, BR', lastActive: 'Ontem, 22:11' }
   ];
+
+  ngOnInit() {
+    this.getdataSecurityUser();
+  }
 
   constructor(private fb: FormBuilder) {
     this.userSettingsForm = this.fb.group({
@@ -35,6 +43,16 @@ export class SecurityUserComponent {
     });
   }
 
+  async getdataSecurityUser() {
+    try{
+      const type = 'security';
+      const userDataSecurity = await this.authService.getUserSettings(type);
+      this.is2FAEnabled = userDataSecurity[0]?.totp_enabled || false;
+    }catch(error){
+
+    }
+  }
+  
   passwordsMatchValidator() {
     return (form: FormGroup) => {
       const password = form.get('newPassword')?.value;
@@ -44,32 +62,26 @@ export class SecurityUserComponent {
   }
 
   async toggle2FA() {
-    try{
-      if(this.is2FAEnabled){
-        let qrCode = await this.authService.enable2FA();
-
-        if(qrCode){
+    try {
+      if (this.is2FAEnabled) {
+        const qrCodeUrl = await this.authService.enable2FA();
+        if (qrCodeUrl) {
           this.modalTitle = 'Autenticação de Dois Fatores Habilitada';
-          this.modalMessage = 'A autenticação de dois fatores foi habilitada com sucesso. Use o aplicativo autenticador para escanear o código QR e gerar códigos de verificação.';
-          this.showModal = true;
-          setTimeout(() => {
-            this.showModal = false;
-            this.router.navigate(['/']);
-          }, 2000);
+          this.modalMessage = 'Use o aplicativo autenticador para escanear o QR Code abaixo e concluir a configuração.';
+          this.qrCodeUrl = qrCodeUrl;
+          this.showQrModal = true;
         }
-      }else{
+      } else {
         let is2FADisable = await this.authService.disable2FA();
-
-        if(is2FADisable){
+        if (is2FADisable) {
           this.modalTitle = 'Autenticação de Dois Fatores Desabilitada';
           this.modalMessage = 'A autenticação de dois fatores foi desabilitada com sucesso.';
           this.showModal = true;
           this.is2FAEnabled = false;
         }
       }
-      
-    }catch(error){
-
+    } catch (error) {
+      // Tratar erro se necessário
     }
   }
 
@@ -95,5 +107,10 @@ export class SecurityUserComponent {
 
   closeModal() {
     this.showModal = false;
+  }
+
+  closeQrModal() {
+    this.showQrModal = false;
+    this.qrCodeUrl = '';
   }
 }

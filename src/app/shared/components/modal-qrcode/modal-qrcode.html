@@ -1,0 +1,15 @@
+<div class="modal-content" [ngClass]="_themeModal">
+  <div class="modal-header">
+    <h4 class="modal-title">{{modalTitle}}</h4>
+    <button type="button" class="btn-close" (click)="closeModalClick()"></button>
+  </div>
+  <div class="modal-body text-center">
+    <p>{{ modalMessage }}</p>
+    @if (qrCodeUrl) {
+      <img [src]="qrCodeUrl" alt="QR Code para 2FA" class="img-fluid my-3" style="max-width: 220px;" />
+    }
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeModalClick()">Fechar</button>
+  </div>
+</div>
