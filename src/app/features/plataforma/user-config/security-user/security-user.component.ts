@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { Router } from "@angular/router";
 import { AuthService } from '../../../../core/service/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
@@ -16,6 +17,7 @@ import { ModalSucessoCadastroComponent } from '../../../../shared/components/mod
 export class SecurityUserComponent {
   private authService: AuthService = inject(AuthService);
   private modalService: NgbModal = inject(NgbModal);
+  private router = inject(Router);
   userSettingsForm: FormGroup;
   is2FAEnabled = false;
   activeSessions = [
@@ -40,8 +42,27 @@ export class SecurityUserComponent {
     };
   }
 
-  toggle2FA() {
-    // Aqui você pode chamar o serviço para ativar/desativar 2FA
+  async toggle2FA() {
+    try{
+      if(this.is2FAEnabled){
+        let qrCode = await this.authService.enable2FA();
+
+        if(qrCode){
+          this.openModal('Autenticação de Dois Fatores Habilitada', 'A autenticação de dois fatores foi habilitada com sucesso. Use o aplicativo autenticador para escanear o código QR e gerar códigos de verificação.');
+          this.router.navigate(['/']);
+        }
+      }else{
+        let is2FADisable = await this.authService.disable2FA();
+
+        if(is2FADisable){
+          this.openModal('Autenticação de Dois Fatores Desabilitada', 'A autenticação de dois fatores foi desabilitada com sucesso.');
+          this.is2FAEnabled = false;
+        }
+      }
+      
+    }catch(error){
+
+    }
   }
 
   logoutSession(sessionId: number) {
