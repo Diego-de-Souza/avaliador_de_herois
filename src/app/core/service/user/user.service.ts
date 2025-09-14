@@ -66,12 +66,20 @@ export class UserService {
     return this.http.get<any>(`${this.apiUrl}/auth/qrcode/totp`, {});
   }
 
+  generateCodeMFA(typeCanal: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/generate/mfa`, { typeCanal });
+  }
+
   disable2FA(): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/disable-2fa`, {});
   }
 
   validate2FA(code: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/validate/totp`, { code });
+  }
+
+  validateCodeMFA(code: string, type: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/validate/mfa`, { code, type });
   }
 
   getUserSettings(type: string): Observable<any> {

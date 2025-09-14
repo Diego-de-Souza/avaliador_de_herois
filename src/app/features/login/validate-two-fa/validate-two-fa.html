@@ -1,26 +1,58 @@
 <section class="hero-section" [ngClass]="_themeAll">
-  <section class="d-flex justify-content-center align-items-center vh-100">
-	<div class="validate-2fa-container">
-		<h2 class="mb-4">Validação de 2FA</h2>
-		<div class="d-flex gap-2 mb-3">
-			<ng-container *ngFor="let digit of digits; let i = index; trackBy: trackByIndex">
-				<input
-					type="text"
-					maxlength="1"
-					class="form-control text-center mfa-digit"
-					name="digit{{i}}"
-					(input)="onDigitInput($event, i)"
-					(keydown)="onDigitKeydown($event, i)"
-					autocomplete="one-time-code"
-					[autofocus]="i === 0"
-				/>
-			</ng-container>
-		</div>
-		<button class="btn btn-primary w-100 mb-2" (click)="validate()" [disabled]="loading || code.length !== 6">
-			{{ loading ? 'Validando...' : 'Validar' }}
-		</button>
-		@if (message) {
-			<div class="alert alert-info w-100 text-center mt-2">{{ message }}</div>
-		}
-	</div>
+  <div class="mfa-central-frame d-flex flex-column flex-md-row align-items-center justify-content-center">
+    <!-- Card MFA Esquerda -->
+    <div class="mfa-card-container d-flex flex-column align-items-center">
+      <!-- Mini-card superior -->
+      <div class="mfa-mini-card mb-3">
+        <span class="mfa-mini-title"><i class="bi bi-shield-lock"></i> Autenticação MFA</span>
+      </div>
+      <div class="validate-2fa-card p-4">
+        <h2 class="mb-4 text-center">Validação de 2FA</h2>
+        <div class="d-flex gap-2 mb-3 justify-content-center">
+          <ng-container *ngFor="let digit of digits; let i = index; trackBy: trackByIndex">
+            <input
+              type="text"
+              maxlength="1"
+              class="form-control text-center mfa-digit"
+              name="digit{{i}}"
+              (input)="onDigitInput($event, i)"
+              (keydown)="onDigitKeydown($event, i)"
+              autocomplete="one-time-code"
+              [autofocus]="i === 0"
+            />
+          </ng-container>
+        </div>
+        <button class="btn btn-primary w-100 mb-2" (click)="validate()" [disabled]="loading || code.length !== 6">
+          {{ loading ? 'Validando...' : 'Validar' }}
+        </button>
+        @if (message) {
+          <div class="alert alert-info w-100 text-center mt-2">{{ message }}</div>
+        }
+        <div class="mfa-alternatives mt-4">
+          <button class="btn btn-outline-info w-100 mb-2" (click)="sendCode('email')">
+            <i class="bi bi-envelope"></i> Receber código por E-mail
+          </button>
+          <button class="btn btn-outline-success w-100 mb-2" (click)="sendCode('sms')">
+            <i class="bi bi-phone"></i> Receber código por SMS
+          </button>
+          <button class="btn btn-outline-success w-100" (click)="sendCode('whatsapp')">
+            <i class="bi bi-whatsapp"></i> Receber código por WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Imagem Direita -->
+    <div class="mfa-image-container d-none d-md-flex align-items-center justify-content-center ms-md-5">
+      <!-- Substitua o src abaixo pela imagem desejada futuramente -->
+      <img src="assets/images/mfa-hero-placeholder.svg" alt="MFA Hero" class="mfa-hero-img" />
+    </div>
+  </div>
 </section>
+@if (typeCode === 1 || typeCode === 2 || typeCode === 3) {
+  <app-modal-validate
+    (close)="typeCode = 0"
+    (codeValidated)="validateCodeMFA($event)"
+    [loading]="loading"
+    [message]="message">
+  </app-modal-validate>
+}

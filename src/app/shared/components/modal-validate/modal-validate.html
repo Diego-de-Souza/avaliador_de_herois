@@ -1,0 +1,27 @@
+<div class="modal-validate-backdrop" (click)="closeModal()" tabindex="-1"></div>
+<div class="modal-validate-card" tabindex="0" [ngClass]="_themeService">
+  <button class="modal-validate-close" (click)="closeModal()" aria-label="Fechar">&times;</button>
+  <h3 class="modal-validate-title mb-3 text-center">
+    Digite o código recebido
+  </h3>
+  <div class="modal-validate-inputs d-flex justify-content-center gap-2 mb-3">
+    @for (char of codeChars; let i = $index; track $index) {
+      <input
+        type="text"
+        maxlength="1"
+        class="form-control text-center modal-validate-char"
+        name="char{{i}}"
+        (input)="onCharInput($event, i)"
+        (keydown)="onCharKeydown($event, i)"
+        [autofocus]="i === 0"
+        autocomplete="one-time-code"
+      />
+    }
+  </div>
+  <button class="btn btn-primary w-100" (click)="validate()" [disabled]="loading || codeChars.join('').length !== 9">
+    {{ loading ? 'Validando...' : 'Validar Código' }}
+  </button>
+  @if (message) {
+    <div class="alert alert-info w-100 text-center mt-2">{{ message }}</div>
+  }
+</div>

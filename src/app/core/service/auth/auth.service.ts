@@ -183,6 +183,32 @@ export class AuthService implements OnInit{
     }
   }
 
+  async generateCodeMFA(type: number): Promise<string | null> {
+    let typeCanal = '';
+    switch(type){
+      case 1:
+        typeCanal = 'email';
+        break;
+      case 2:
+        typeCanal = 'sms';
+        break;
+      case 3:
+        typeCanal = 'whatsapp';
+        break;
+      default:
+        typeCanal = '';
+    }
+
+    try{
+      console.log('Canal selecionado para MFA:', typeCanal);
+      await lastValueFrom(this.userService.generateCodeMFA(typeCanal));
+      return 'Código enviado com sucesso';
+    }catch(error){
+      console.error('Erro ao gerar código MFA:', error);
+      throw new Error('Erro ao gerar código de autenticação de múltiplos fatores. Tente novamente.');
+    }
+  }
+
   async disable2FA(): Promise<boolean> {
     try {
       await lastValueFrom(this.userService.disable2FA());
@@ -200,6 +226,30 @@ export class AuthService implements OnInit{
     } catch (error) {
       console.error('Erro ao validar o código 2FA:', error);
       throw new Error('Erro ao validar o código de autenticação de dois fatores. Tente novamente.');
+    }
+  }
+
+  async validateCodeMFA(code: string, type: number): Promise<any> {
+    let typeCanal = '';
+    try {
+      switch(type){
+        case 1:
+          typeCanal = 'email';
+          break;
+        case 2:
+          typeCanal = 'sms';
+          break;
+        case 3:
+          typeCanal = 'whatsapp';
+          break;
+        default:
+          typeCanal = '';
+      }
+      const response: any = await lastValueFrom(this.userService.validateCodeMFA(code, typeCanal));
+      return response;
+    } catch (error) {
+      console.error('Erro ao validar o código MFA:', error);
+      throw new Error('Erro ao validar o código de autenticação de múltiplos fatores. Tente novamente.');
     }
   }
 
