@@ -91,4 +91,8 @@ export class UserService {
     });
   }
 
+  codeSent(typeCanal: string, data: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/generate/code-password`, { typeCanal, data });
+  }
+
 }

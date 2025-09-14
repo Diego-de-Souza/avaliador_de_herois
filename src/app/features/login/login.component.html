@@ -31,6 +31,13 @@
           />
         </div>
       </div>
+      <p class="forgot-password"
+        [routerLink]="['/login/forgot-password']"
+        [queryParams]="{ inicio: true }"
+        routerLinkActive="active"
+      >
+        Esqueci minha senha
+      </p>
       <button type="submit" class="btn btn-acessar">Acessar</button>
     </form>
     <button type="button" class="btn btn-google" (click)="signInWithGoogle()">

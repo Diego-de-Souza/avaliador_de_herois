@@ -132,6 +132,18 @@ input::placeholder {
     box-shadow: 0px 0px 3px #00d2ff;
 }
 
+.forgot-password {
+    color: #00d2ff;
+    cursor: pointer;
+    text-align: end;
+    margin-top: -1em;
+    padding: 0.5em 0.5em;
+    border-radius: 6px;
+    transition: box-shadow 0.2s;
+    width: fit-content;
+    float: right;
+}
+
 /* Responsividade */
 @media (max-width: 900px) {
     #container_login {

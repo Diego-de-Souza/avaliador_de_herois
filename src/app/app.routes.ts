@@ -25,6 +25,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/login/validate-two-fa/validate-two-fa').then(m => m.ValidateTwoFa)
   },
   {
+    path: 'login/forgot-password',
+    title: 'Esqueci minha senha',
+    loadComponent: () => import('./features/login/forgot-passaword/forgot-passaword').then(m => m.ForgotPassaword)
+  },
+  {
     path: 'em-construcao',
     title: 'Em_construção',
     canActivate: [plansGuard],

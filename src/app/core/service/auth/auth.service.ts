@@ -262,4 +262,29 @@ export class AuthService implements OnInit{
     }
   }
 
+  async codeSent(type: number, data: string): Promise<any> {
+    let typeCanal = '';
+    switch(type){
+      case 1:
+        typeCanal = 'email';
+        break;
+      case 2:
+        typeCanal = 'sms';
+        break;
+      case 3:
+        typeCanal = 'whatsapp';
+        break;
+      default:
+        typeCanal = '';
+    }
+
+    try{
+      console.log('Canal selecionado para redefinição de senha:', typeCanal);
+      await lastValueFrom(this.userService.codeSent(typeCanal, data));
+      return 'Código enviado com sucesso';
+    }catch(error){
+      console.error('Erro ao gerar código de redefinição de senha:', error);
+      throw new Error('Erro ao gerar código de redefinição de senha. Tente novamente.');
+    }
+  }
 }
