@@ -10,6 +10,7 @@ import { Copywriter } from '../../../../core/interface/copywriter.interface';
 import { CopywriterUser } from '../../../../core/storage/copywriters/copywriters.data';
 import { MarkdownModule } from 'ngx-markdown';
 import { NovidadesComponent } from '../../../../shared/components/novidades/novidades.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-article-page',
@@ -29,6 +30,7 @@ export class ArticlePageComponent implements OnInit {
   // article: (articlesProps & { summary?: { level: number }[] }) | null = null;
   article: articlesProps | null = null;
   public copywriter: Copywriter = CopywriterUser;
+  articleContent: string = "";
 
   // DEV MODE
   // public imgDevMode: string = CopywriterUser[0].foto;
@@ -36,7 +38,8 @@ export class ArticlePageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private http: HttpClient // DEV MODE
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +50,22 @@ export class ArticlePageComponent implements OnInit {
     if (index) {
       this.article = articles.find(article => article.id === index) || null;
     }
+
+    if (this.article?.text) {
+      this.loadMarkdown(this.article.text);
+    }
+
+    console.log(this.article);
   }
+
+  // DEV MODE
+  loadMarkdown(path: string) {
+    this.http.get(path, { responseType: 'text' })
+      .subscribe(data => {
+        this.articleContent = data; // 👈 texto markdown
+      });
+  }
+  // DEV MODE
 
   summaryAsMarkdown(): string {
     if (!this.article || !this.article.summary) {

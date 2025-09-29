@@ -7,14 +7,18 @@
         <a href="webmain/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a>
       </p>
       <h1 class="article-title">{{ article.title }}</h1>
-      <img [src]="article.thumbnail" class="img-banner" alt="{{ article.title }}" />
+      <figure>
+        <img [src]="article.thumbnail" class="img-banner" alt="{{ article.title }}" />
+      </figure>
 
       <!-- copywriter é a variável que contém informações sobre o usuário que escreveu o artigo -->
       @if(copywriter != null) {
       <div class="article-author-top">
         <div class="author-info-top">
           <div class="photo_frame">
-            <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
+            <figure>
+              <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
+            </figure>
           </div>
           <div class="author-info-more">
             <p class="author-name">{{ copywriter.nome }}</p>
@@ -84,8 +88,13 @@
           </div>
         </aside>
 
-        <markdown class="variable-binding" [data]="article.text">
-        </markdown>
+        <!-- <markdown class="variable-binding" [data]="article.text">
+        </markdown> -->
+
+        <!-- renderiza o conteúdo do markdown -->
+         <!-- DEV MODE -->
+        <markdown [data]="articleContent" class="variable-binding"></markdown>
+        <!-- DEV MODE -->
 
         <aside class="sidebar-right">
           <app-novidades></app-novidades>

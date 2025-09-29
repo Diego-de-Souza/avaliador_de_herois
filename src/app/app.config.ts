@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
+import { provideMarkdown } from 'ngx-markdown';
+
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from '../environments/environment';
@@ -16,6 +18,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([authInterceptor])
     ),
+    provideMarkdown(),
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -29,5 +32,5 @@ export const appConfig: ApplicationConfig = {
       } as SocialAuthServiceConfig,
     }
   ],
-  
+
 };

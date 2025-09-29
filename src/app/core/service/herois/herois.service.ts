@@ -83,7 +83,7 @@ export class HeroisService {
     return this.http.get<any>(`${this.apiUrl}/studio/find-one-studio/${id}`,{
       headers:{
         'Content-Type': 'application/json',
-      } 
+      }
     });
   }
 

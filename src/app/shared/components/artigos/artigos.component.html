@@ -1,13 +1,12 @@
-<section class="articles" id="theme_artigos">
+<section #artigosContainer class="articles" id="theme_artigos">
   <h2 class="title">Últimos artigos publicados</h2>
   <span class="subtitle">Explore o universo Geek</span>
 
   <div class="articles-container">
 
     <main>
-      <div class="category-section">
+      <section class="category-section">
         <div *ngFor="let category of filteredCategory()" class="category">
-          <!-- <span>Página {{ categoryPageMap[category] + 1 }}</span> -->
           <div class="category-selector">
             <button class="seta" (click)="changePage(category, 'prev')" [disabled]="categoryPageMap[category] === 0">
               ◀
@@ -25,7 +24,9 @@
             <div class="article-card" *ngFor="let article of filteredArticles(category)">
               <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
                 <div class="img-container">
-                  <img [ngSrc]="article.img" width="400" height="300" loading="lazy" />
+                  <figure>
+                    <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
+                  </figure>
                 </div>
                 <span class="article-card-category">{{ article.category }}</span>
                 <h3 class="article-card-title">{{ article.title }}</h3>
@@ -34,16 +35,18 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Mais Vistos -->
-      <div class="mais-vistos">
+      <section class="mais-vistos">
         <h2 class="visto-title">Mais vistos</h2>
         <div class="visto-grid">
           <div class="visto-card" *ngFor="let article of mostViewed">
             <a [routerLink]="['/webmain/conteudo/artigos', article.id]">
               <div class="visto-img">
-                <img [ngSrc]="article.img" width="300" height="200" loading="lazy" />
+                <figure>
+                  <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
+                </figure>
               </div>
               <div class="novidade-content">
                 <span class="article-card-category">{{ article.category }}</span>
@@ -54,8 +57,10 @@
             </a>
           </div>
         </div>
-        <button class="ver-mais">VER MAIS</button>
-      </div>
+        <a [routerLink]="['/webmain/conteudo/artigos']" class="ver-mais" target="_blank" rel="noopener noreferrer">
+          Ver Mais
+        </a>
+      </section>
     </main>
 
     <aside class="sidebar-right">
@@ -82,7 +87,9 @@
           </li>
         </ul>
       </nav>
-      <app-novidades></app-novidades>
+      <aside>
+          <app-novidades></app-novidades>
+        </aside>
     </aside>
 
   </div>
