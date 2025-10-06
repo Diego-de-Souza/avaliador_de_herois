@@ -15,7 +15,6 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
   standalone: true,
   imports: [
     BannerComponent,
-    DestaqueComponent,
     ReviewComponent,
     ArtigosComponent,
     FooterComponent,

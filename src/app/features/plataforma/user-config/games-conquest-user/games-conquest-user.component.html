@@ -2,54 +2,77 @@
   <h4>Games & Conquistas</h4>
   <p>Conquistas desbloqueadas, estatísticas, ranking.</p>
 
-  <!-- Conquistas desbloqueadas -->
-  <div class="mb-4">
-    <h5>Conquistas</h5>
-    <div class="row">
-      <div class="col-md-3 mb-3" *ngFor="let conquista of conquistas">
-        <div class="card text-center">
-          <div class="card-body">
-            <i class="bi bi-trophy-fill text-warning" style="font-size:2em;"></i>
-            <h6 class="mt-2">{{ conquista.nome }}</h6>
-            <small class="text-muted">{{ conquista.descricao }}</small>
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
+      </div>
+      <p class="mt-2 text-muted">Carregando dados...</p>
+    </div>
+  }
+
+  <!-- Mensagem quando não há dados (só mostra quando NÃO está loading) -->
+  @if (!loading && !hasData) {
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <i class="bi bi-receipt fs-1 text-muted icon-config-user"></i>
+      </div>
+      <h5 class="text-muted text-config-user">Não há dados de games ou conquistas registrados</h5>
+      <p class="text-muted mb-4 text-config-user">Você ainda não desbloqueou nenhuma conquista ou jogou nenhum jogo.</p>
+    </div>
+  }
+
+  @if (!loading && hasData) {
+    <!-- Conquistas desbloqueadas -->
+    <div class="mb-4">
+      <h5>Conquistas</h5>
+      <div class="row">
+        <div class="col-md-3 mb-3" *ngFor="let conquista of conquistas">
+          <div class="card text-center">
+            <div class="card-body">
+              <i class="bi bi-trophy-fill text-warning" style="font-size:2em;"></i>
+              <h6 class="mt-2">{{ conquista.nome }}</h6>
+              <small class="text-muted">{{ conquista.descricao }}</small>
+            </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="conquistas.length === 0" class="col-12 text-muted text-center">
-        Nenhuma conquista desbloqueada.
+        <div *ngIf="conquistas.length === 0" class="col-12 text-muted text-center">
+          Nenhuma conquista desbloqueada.
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Estatísticas de jogos -->
-  <div class="mb-4">
-    <h5>Estatísticas</h5>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">Jogos disputados: <strong>{{ stats.jogos }}</strong></li>
-      <li class="list-group-item">Vitórias: <strong>{{ stats.vitorias }}</strong></li>
-      <li class="list-group-item">Derrotas: <strong>{{ stats.derrotas }}</strong></li>
-      <li class="list-group-item">Pontuação total: <strong>{{ stats.pontos }}</strong></li>
-    </ul>
-  </div>
+    <!-- Estatísticas de jogos -->
+    <div class="mb-4">
+      <h5>Estatísticas</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Jogos disputados: <strong>{{ stats.jogos }}</strong></li>
+        <li class="list-group-item">Vitórias: <strong>{{ stats.vitorias }}</strong></li>
+        <li class="list-group-item">Derrotas: <strong>{{ stats.derrotas }}</strong></li>
+        <li class="list-group-item">Pontuação total: <strong>{{ stats.pontos }}</strong></li>
+      </ul>
+    </div>
 
-  <!-- Ranking -->
-  <div>
-    <h5>Ranking</h5>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Posição</th>
-          <th>Jogador</th>
-          <th>Pontos</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let player of ranking">
-          <td>{{ player.posicao }}</td>
-          <td>{{ player.nome }}</td>
-          <td>{{ player.pontos }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- Ranking -->
+    <div>
+      <h5>Ranking</h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Jogador</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let player of ranking">
+            <td>{{ player.posicao }}</td>
+            <td>{{ player.nome }}</td>
+            <td>{{ player.pontos }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  }
+  
 </div>

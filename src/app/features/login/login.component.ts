@@ -60,9 +60,7 @@ export class LoginComponent implements OnInit {
   async handleLogin(): Promise<void> {
     try {
       const login = await this.authService.login(this.loginForm.value);
-      console.log('login:', login);
       if (login.status) {
-        console.log('Login bem-sucedido:', login);
         this.title = 'Login';
         this.message = 'Login efetuado com sucesso!';
         this.openModal(this.title, this.message);
@@ -70,7 +68,6 @@ export class LoginComponent implements OnInit {
         const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
 
         if (login.has_totp) {
-          console.log('Redirecionando para 2FA');
           sessionStorage.setItem('role', data.role);
           this.router.navigate(['/validate-two-fa'], { state: { role: data.role } });
         }else{
@@ -119,7 +116,6 @@ export class LoginComponent implements OnInit {
 
   async checkPermission(idToken: string) {
     try {
-      console.log('ID Token:', idToken);
       const statusLogin = await this.authService.validateGoogleLogin(idToken);
       if (statusLogin) {
         this.title = 'Login';

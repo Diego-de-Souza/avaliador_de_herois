@@ -1,73 +1,119 @@
 <div class="p-4">
   <h4>Compras & Pagamentos</h4>
 
-  <!-- Histórico de pedidos -->
-  <div class="mb-4">
-    <h5>Histórico de Pedidos</h5>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Data</th>
-          <th>Produto</th>
-          <th>Valor</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pedido of pedidos">
-          <td>{{ pedido.id }}</td>
-          <td>{{ pedido.data }}</td>
-          <td>{{ pedido.produto }}</td>
-          <td>{{ pedido.valor | currency:'BRL' }}</td>
-          <td>
-            <span [ngClass]="{
-              'badge bg-success': pedido.status === 'Pago',
-              'badge bg-warning': pedido.status === 'Pendente',
-              'badge bg-danger': pedido.status === 'Cancelado'
-            }">{{ pedido.status }}</span>
-          </td>
-        </tr>
-        <tr *ngIf="pedidos.length === 0">
-          <td colspan="5" class="text-muted text-center">Nenhum pedido encontrado.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Métodos de pagamento -->
-  <div class="mb-4">
-    <h5>Métodos de Pagamento</h5>
-    <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let metodo of metodosPagamento">
-        <span>
-          <i class="bi bi-credit-card me-2"></i>
-          {{ metodo.tipo }} - {{ metodo.numero }}
-        </span>
-        <button class="btn btn-outline-danger btn-sm" (click)="removerMetodo(metodo.id)">Remover</button>
-      </li>
-      <li *ngIf="metodosPagamento.length === 0" class="list-group-item text-muted">Nenhum método cadastrado.</li>
-    </ul>
-    <button class="btn btn-primary mt-2" (click)="adicionarMetodo()">Adicionar Método</button>
-  </div>
-
-  <!-- Preferências de cobrança -->
-  <div>
-    <h5>Preferências de Cobrança</h5>
-    <form>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="checkbox" id="emailCobranca" [(ngModel)]="preferencias.emailCobranca" name="emailCobranca">
-        <label class="form-check-label" for="emailCobranca">
-          Receber cobranças por e-mail
-        </label>
+  <!-- Loading -->
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Carregando...</span>
       </div>
-      <div class="form-check mb-2">
-        <input class="form-check-input" type="checkbox" id="smsCobranca" [(ngModel)]="preferencias.smsCobranca" name="smsCobranca">
-        <label class="form-check-label" for="smsCobranca">
-          Receber cobranças por SMS
-        </label>
+      <p class="mt-2 text-muted">Carregando dados...</p>
+    </div>
+  }
+
+  <!-- Mensagem quando não há dados (só mostra quando NÃO está loading) -->
+  @if (!loading && !hasData) {
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <i class="bi bi-receipt fs-1 text-muted icon-config-user"></i>
       </div>
-      <button class="btn btn-success mt-2" type="button" (click)="salvarPreferencias()">Salvar Preferências</button>
-    </form>
-  </div>
+      <h5 class="text-muted text-config-user">Não há dados de compras e pagamentos registrados</h5>
+      <p class="text-muted mb-4 text-config-user">Você ainda não realizou nenhuma compra ou cadastrou métodos de pagamento.</p>
+      <button class="btn btn-primary" (click)="adicionarMetodo()">
+        <i class="bi bi-plus-circle me-2"></i>Adicionar Método de Pagamento
+      </button>
+    </div>
+  }
+
+  <!-- Conteúdo quando há dados -->
+  @if (!loading && hasData) {
+    <!-- resto do conteúdo... -->
+    <!-- Histórico de pedidos -->
+    <div class="mb-4">
+      <h5>Histórico de Pedidos</h5>
+      @if (pedidos.length > 0) {
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Data</th>
+              <th>Produto</th>
+              <th>Valor</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pedido of pedidos; track pedido.id) {
+              <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.data }}</td>
+                <td>{{ pedido.produto }}</td>
+                <td>{{ pedido.valor | currency:'BRL' }}</td>
+                <td>
+                  <span [ngClass]="{
+                    'badge bg-success': pedido.status === 'Pago',
+                    'badge bg-warning': pedido.status === 'Pendente',
+                    'badge bg-danger': pedido.status === 'Cancelado'
+                  }">{{ pedido.status }}</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          Nenhum pedido encontrado. Que tal fazer sua primeira compra?
+        </div>
+      }
+    </div>
+
+    <!-- Métodos de pagamento -->
+    <div class="mb-4">
+      <h5>Métodos de Pagamento</h5>
+      @if (metodosPagamento.length > 0) {
+        <ul class="list-group">
+          @for (metodo of metodosPagamento; track metodo.id) {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>
+                <i class="bi bi-credit-card me-2"></i>
+                {{ metodo.tipo }} - {{ metodo.numero }}
+              </span>
+              <button class="btn btn-outline-danger btn-sm" (click)="removerMetodo(metodo.id)">Remover</button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="alert alert-info">
+          <i class="bi bi-info-circle me-2"></i>
+          Nenhum método de pagamento cadastrado.
+        </div>
+      }
+      <button class="btn btn-primary mt-2" (click)="adicionarMetodo()">
+        <i class="bi bi-plus-circle me-2"></i>Adicionar Método
+      </button>
+    </div>
+
+    <!-- Preferências de cobrança -->
+    <div>
+      <h5>Preferências de Cobrança</h5>
+      <form>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="emailCobranca" [(ngModel)]="preferencias.emailCobranca" name="emailCobranca">
+          <label class="form-check-label" for="emailCobranca">
+            Receber cobranças por e-mail
+          </label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="smsCobranca" [(ngModel)]="preferencias.smsCobranca" name="smsCobranca">
+          <label class="form-check-label" for="smsCobranca">
+            Receber cobranças por SMS
+          </label>
+        </div>
+        <button class="btn btn-success mt-2" type="button" (click)="salvarPreferencias()">
+          <i class="bi bi-check-circle me-2"></i>Salvar Preferências
+        </button>
+      </form>
+    </div>
+  }
 </div>

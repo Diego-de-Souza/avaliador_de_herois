@@ -2,61 +2,74 @@
   <h4>Quiz & Pontuação</h4>
   <p>Histórico de quizzes, pontuação, badges, reset de progresso.</p>
 
-  <!-- Histórico de quizzes -->
-  <div class="mb-4">
-    <h5>Histórico de Quizzes</h5>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Título</th>
-          <th>Data</th>
-          <th>Pontuação</th>
-          <th>Resultado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let quiz of quizzes">
-          <td>{{ quiz.id }}</td>
-          <td>{{ quiz.titulo }}</td>
-          <td>{{ quiz.data }}</td>
-          <td>{{ quiz.pontos }}</td>
-          <td>
-            <span [ngClass]="{
-              'badge bg-success': quiz.resultado === 'Aprovado',
-              'badge bg-danger': quiz.resultado === 'Reprovado'
-            }">{{ quiz.resultado }}</span>
-          </td>
-        </tr>
-        <tr *ngIf="quizzes.length === 0">
-          <td colspan="5" class="text-muted text-center">Nenhum quiz realizado.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Pontuação total -->
-  <div class="mb-4">
-    <h5>Pontuação Total</h5>
-    <div class="display-6">{{ pontuacaoTotal }}</div>
-  </div>
-
-  <!-- Badges conquistados -->
-  <div class="mb-4">
-    <h5>Badges</h5>
-    <div class="d-flex flex-wrap gap-3">
-      <div *ngFor="let badge of badges" class="text-center">
-        <i class="bi bi-award-fill text-warning" style="font-size:2em;"></i>
-        <div>{{ badge.nome }}</div>
+  @if (!loading && !hasData) {
+    <div class="text-center py-5">
+      <div class="mb-4">
+        <i class="bi bi-receipt fs-1 text-muted icon-config-user"></i>
       </div>
-      <div *ngIf="badges.length === 0" class="text-muted">Nenhum badge conquistado.</div>
+      <h5 class="text-muted text-config-user">Não há dados de quiz e conquistas registrados</h5>
+      <p class="text-muted mb-4 text-config-user">Você ainda não realizou nenhum quiz ou conquistou badges.</p>
     </div>
-  </div>
+  }
 
-  <!-- Resetar progresso -->
-  <div>
-    <button class="btn btn-outline-danger" type="button" (click)="resetarProgresso()">
-      Resetar Progresso
-    </button>
-  </div>
+  @if (!loading && hasData) {
+    <!-- Histórico de quizzes -->
+    <div class="mb-4">
+      <h5>Histórico de Quizzes</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Data</th>
+            <th>Pontuação</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let quiz of quizzes">
+            <td>{{ quiz.id }}</td>
+            <td>{{ quiz.titulo }}</td>
+            <td>{{ quiz.data }}</td>
+            <td>{{ quiz.pontos }}</td>
+            <td>
+              <span [ngClass]="{
+                'badge bg-success': quiz.resultado === 'Aprovado',
+                'badge bg-danger': quiz.resultado === 'Reprovado'
+              }">{{ quiz.resultado }}</span>
+            </td>
+          </tr>
+          <tr *ngIf="quizzes.length === 0">
+            <td colspan="5" class="text-muted text-center">Nenhum quiz realizado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pontuação total -->
+    <div class="mb-4">
+      <h5>Pontuação Total</h5>
+      <div class="display-6">{{ pontuacaoTotal }}</div>
+    </div>
+
+    <!-- Badges conquistados -->
+    <div class="mb-4">
+      <h5>Badges</h5>
+      <div class="d-flex flex-wrap gap-3">
+        <div *ngFor="let badge of badges" class="text-center">
+          <i class="bi bi-award-fill text-warning" style="font-size:2em;"></i>
+          <div>{{ badge.nome }}</div>
+        </div>
+        <div *ngIf="badges.length === 0" class="text-muted">Nenhum badge conquistado.</div>
+      </div>
+    </div>
+
+    <!-- Resetar progresso -->
+    <div>
+      <button class="btn btn-outline-danger" type="button" (click)="resetarProgresso()">
+        Resetar Progresso
+      </button>
+    </div>
+  }
+  
 </div>

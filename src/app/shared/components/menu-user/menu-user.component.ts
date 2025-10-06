@@ -23,13 +23,10 @@ export class MenuUserComponent implements OnInit{
   
   goConfig(){
     const currentUrl = this.router.url;
-    console.log('entrou na preferencia')
-    console.log(currentUrl)
     if (!currentUrl.includes('user-config')) {
       localStorage.setItem('returnUrl', currentUrl);
     }
     this.router.navigate(['/plataforma/user-config']);
-    console.log(localStorage.getItem('returnUrl'));
 
   }
 

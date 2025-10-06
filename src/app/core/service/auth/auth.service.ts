@@ -200,7 +200,6 @@ export class AuthService implements OnInit{
     }
 
     try{
-      console.log('Canal selecionado para MFA:', typeCanal);
       await lastValueFrom(this.userService.generateCodeMFA(typeCanal));
       return 'Código enviado com sucesso';
     }catch(error){
@@ -279,7 +278,6 @@ export class AuthService implements OnInit{
     }
 
     try{
-      console.log('Canal selecionado para redefinição de senha:', typeCanal);
       await lastValueFrom(this.userService.codeSent(typeCanal, data));
       return 'Código enviado com sucesso';
     }catch(error){

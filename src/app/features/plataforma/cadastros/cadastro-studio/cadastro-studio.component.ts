@@ -98,7 +98,6 @@ export class CadastroStudioComponent implements OnInit {
         );
       }
     } else {
-      console.log('Formulário inválido:', this.studioForm.errors);
       return;
     }
   }
