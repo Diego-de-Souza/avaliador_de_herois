@@ -191,7 +191,176 @@ body {
     min-height: 320px;
   }
 }
-@media screen and (max-width: 900px) {
+
+/* ESTILOS PARA MOBILE */
+@media screen and (max-width: 768px) {
+  .eventos {
+    padding: 20px 10px;
+    min-height: auto;
+  }
+
+  .eventos h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .options {
+    flex-direction: column;
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+    height: auto;
+    align-items: stretch;
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .option {
+    width: 100%;
+    min-width: auto;
+    height: 80px;
+    margin: 0;
+    flex-grow: 0;
+    border-radius: 15px;
+    transition: height 0.4s cubic-bezier(0.05, 0.61, 0.41, 0.95), transform 0.4s;
+    transform: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .option.active {
+    height: 200px;
+    flex-grow: 0;
+    transform: none;
+    max-width: none;
+    min-height: auto;
+    border-radius: 15px;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .vertical-title {
+    writing-mode: horizontal-tb;
+    text-orientation: initial;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .left-title {
+    transform: none;
+  }
+
+  .icon-title-group {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    gap: 15px;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .option:not(.active) .icon-title-group {
+    justify-content: center;
+  }
+
+  .option.active .icon-title-group {
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .option.active .vertical-title {
+    display: block;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    max-width: 40px;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .option.active .icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    max-width: 48px;
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .label {
+    position: static;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .option.active .label {
+    position: static;
+    align-items: flex-start;
+    padding: 0 20px 20px 20px;
+  }
+
+  .info {
+    margin-left: 0;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .option.active .info {
+    text-align: left;
+    margin-top: 10px;
+  }
+
+  .info > div {
+    left: 0;
+    opacity: 1;
+    position: static;
+  }
+
+  .main {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .sub {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .option:not(.active) .info {
+    display: none;
+  }
+
+  .option.active .info {
+    display: flex;
+  }
+
+  .option .shadow {
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.6) 100%);
+    box-shadow: none;
+  }
+
+  .option.active .shadow {
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.7) 100%);
+    box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 900px) and (min-width: 769px) {
   .options {
     min-width: 400px;
     max-width: 600px;
@@ -202,6 +371,7 @@ body {
     min-height: 220px;
   }
 }
+
 :host {
   .eventos {
     padding: 50px 20px;

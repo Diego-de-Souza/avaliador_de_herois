@@ -140,33 +140,114 @@
   letter-spacing: 1px;
   text-shadow: 0 2px 8px #7fd8ff22;
 }
-@media (max-width: 900px) {
+
+/* MOBILE SPECIFIC STYLES */
+@media (max-width: 768px) {
+  .curiosidades-timeline {
+    padding: 40px 15px;
+  }
+
   .curiosidades-title {
-    font-size: 1.5rem;
-    margin-bottom: 28px;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    gap: 12px;
   }
+
+  .curiosidades-title-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
   .timeline-circuit {
-    min-height: 300px;
+    min-height: auto;
+    max-width: 100%;
+    padding: 0 10px;
   }
+
+  .circuit-line {
+    left: 30px;
+    transform: none;
+    width: 4px;
+    height: calc(100% - 40px);
+    top: 20px;
+  }
+
   .timeline-node {
     width: 100%;
     left: 0 !important;
-    margin-bottom: 32px;
+    margin-bottom: 25px;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 0;
+    margin-right: 0;
   }
-  .node-content {
-    padding: 16px 12px;
-    gap: 10px;
-    min-width: 0;
-    max-width: 100%;
-  }
+
   .node-dot {
-    left: 0 !important;
-    top: 0;
-    transform: translateY(-50%);
+    left: 14px !important;
+    top: 20px !important;
+    transform: none;
+    position: absolute;
+  }
+
+  .node-dot svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .node-content {
+    padding: 18px 20px;
+    gap: 12px;
+    min-width: 0;
+    max-width: none;
+    width: calc(100% - 70px);
+    margin-left: 70px !important;
+    margin-right: 0 !important;
+    border-radius: 12px;
+  }
+
+  .node-icon {
+    flex-shrink: 0;
+  }
+
+  .node-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .node-text {
+    font-size: 1rem;
+    line-height: 1.4;
+    letter-spacing: 0.5px;
+  }
+
+  .timeline-node:hover .node-content {
+    transform: none;
   }
 }
+
+/* TABLET STYLES */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .curiosidades-title {
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+  }
+  
+  .timeline-circuit {
+    max-width: 900px;
+    min-height: 400px;
+  }
+  
+  .node-content {
+    padding: 24px 30px;
+    max-width: 350px;
+  }
+  
+  .node-text {
+    font-size: 1.1rem;
+  }
+}
+
 /* Modern Geek/Tech CSS for Curiosidades */
 :host {
   font-family: 'Orbitron', 'Roboto', 'Trebuchet MS', Arial, sans-serif;
@@ -265,19 +346,7 @@
   letter-spacing: 1px;
   text-shadow: 0 2px 8px #00d2ff22;
 }
-@media (max-width: 900px) {
-  .curiosidades-title {
-    font-size: 1.5rem;
-    margin-bottom: 28px;
-  }
-  .curiosidades-grid {
-    gap: 18px;
-  }
-  .curiosidade-content {
-    padding: 16px 12px;
-    gap: 10px;
-  }
-}
+
 :host {
   font-family: 'Orbitron', sans-serif;
 }
@@ -336,7 +405,6 @@
 .timeline-item:nth-child(4) {
   animation-delay: 0.6s;
 }
-/* Se quiser mais, continue incrementando... */
 
 .timeline-item::before {
   content: '';
@@ -368,7 +436,6 @@
   transform: scale(1.03);
 }
 
-/* 🔥 Animação */
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -380,7 +447,6 @@
   }
 }
 
-/* 🔥 Tema Dark */
 .dark {
   background: linear-gradient(to bottom,  #101522 , #304760 );
   color: white;
@@ -398,7 +464,6 @@
   background: #00d2ff;
 }
 
-/* 🔥 Tema Light */
 .light {
     background: linear-gradient(
       to bottom,
@@ -427,28 +492,4 @@
 
 .timeline-content p {
   margin: 0;
-}
-
-/* 📱 Responsivo */
-@media screen and (max-width: 768px) {
-  .timeline::after {
-    left: 8px;
-  }
-
-  .timeline-item {
-    width: 100%;
-    padding-left: 30px;
-    padding-right: 25px;
-    left: 0 !important;
-  }
-
-  .timeline-item::before {
-    left: 0;
-    right: auto;
-  }
-
-  .timeline-item .timeline-content {
-    margin-left: 20px;
-    text-align: left;
-  }
 }
