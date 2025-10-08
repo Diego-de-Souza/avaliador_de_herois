@@ -23,7 +23,7 @@ export class BannerComponent {
 			url: '/img/home/a7.jpg',
 			Title: 'Busque seus heróis favoritos',
 			Description: 'Conheça mais sobre os heróis.',
-			rota: '/busca_heroes',
+			rota: '/webmain/busca_heroes',
 			date: 'AUGUST 20',
 			MenuDesc: 'The Fantastic Four: First Steps'
 		},
@@ -39,7 +39,7 @@ export class BannerComponent {
 			url: '/img/home/a3.png',
 			Title: 'Curiosidades do mundo Geek',
 			Description: 'Se quer saber mais é só vim ver!',
-			rota: '/busca_heroes',
+			rota: '/webmain/conteudo/newsletter',
 			date: 'AUGUST 22',
 			MenuDesc: 'The Official Marvel Podcast'
 		},
@@ -47,7 +47,7 @@ export class BannerComponent {
 			url: '/img/home/a5.jpg',
 			Title: 'Games',
 			Description: 'Mostre sua força em nossos jogos.',
-			rota: '/busca_heroes',
+			rota: '/webmain/games',
 			date: 'AUGUST 23',
 			MenuDesc: 'How To Read Fantastic Four'
 		}
