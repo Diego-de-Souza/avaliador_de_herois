@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { articlesProps } from '../../../../core/interface/articles.interface';
-import { ArticleService } from '../../../../core/service/articles/articles.service';
-import { HeaderComponent } from '../../../../shared/components/header/header.component';
-import { NewsletterComponent } from '../../../../shared/components/newsletter/newsletter.component';
-import { FooterComponent } from '../../../../shared/components/footer/footer.component';
-import { Copywriter } from '../../../../core/interface/copywriter.interface';
-import { CopywriterUser } from '../../../../core/storage/copywriters/copywriters.data';
+import { articlesProps } from '../../../core/interface/articles.interface';
+import { ArticleService } from '../../../core/service/articles/articles.service';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
+import { Copywriter } from '../../../core/interface/copywriter.interface';
+import { CopywriterUser } from '../../../core/storage/copywriters/copywriters.data';
 import { MarkdownModule } from 'ngx-markdown';
-import { NovidadesComponent } from '../../../../shared/components/novidades/novidades.component';
+import { NovidadesComponent } from '../../../shared/components/novidades/novidades.component';
 import { HttpClient } from '@angular/common/http';
+import { ThemeService } from '../../../core/service/theme/theme.service';
 
 @Component({
   selector: 'app-article-page',
@@ -27,8 +28,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./article-page.component.css']
 })
 export class ArticlePageComponent implements OnInit {
-  // article: (articlesProps & { summary?: { level: number }[] }) | null = null;
+  public themeHome: string | null = 'dark';
   article: articlesProps | null = null;
+  articleId!: number;
   public copywriter: Copywriter = CopywriterUser;
   articleContent: string = "";
 
@@ -37,25 +39,38 @@ export class ArticlePageComponent implements OnInit {
   // DEV MODE
 
   constructor(
+    private themeService: ThemeService,
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private http: HttpClient // DEV MODE
   ) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    const articles = this.articleService.getArticles();
+    this.themeService.theme$.subscribe(theme =>{
+      this.themeHome = theme;
+      this.applyTheme(theme);
+    });
+    this.articleService.loadFromLocalStorage();
 
-    const index = Number(id);
-    if (index) {
-      this.article = articles.find(article => article.id === index) || null;
-    }
+
+    // const id = this.route.snapshot.paramMap.get('id');
+    // const index = Number(id);
+
+    this.route.paramMap.subscribe(params => {
+      this.articleId = Number(params.get('id'));
+      this.carregarArtigo(this.articleId);
+    });
 
     if (this.article?.text) {
       this.loadMarkdown(this.article.text);
     }
+  }
 
-    console.log(this.article);
+  carregarArtigo(id: number) {
+    const articles = this.articleService.getArticles();
+    if (articles.length > 0) {
+      this.article = articles.find(article => article.id === id) || null;
+    }
   }
 
   // DEV MODE
@@ -87,5 +102,16 @@ export class ArticlePageComponent implements OnInit {
       else break;
     }
     return count;
+  }
+
+  applyTheme(theme: string) {
+    const el = document.getElementById('container-articles-page');
+    if (theme === 'dark') {
+      el?.classList.remove('light');
+      el?.classList.add('dark');
+    } else {
+      el?.classList.remove('dark');
+      el?.classList.add('light');
+    }
   }
 }

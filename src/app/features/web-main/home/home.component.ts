@@ -9,6 +9,7 @@ import { ReviewComponent } from '../../../shared/components/review/review.compon
 import { NewsletterComponent } from "../../../shared/components/newsletter/newsletter.component";
 import { EventosComponent } from '../../../shared/components/eventos/eventos.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
+import { NovidadesComponent } from '../../../shared/components/novidades/novidades.component';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
     CuriosidadesComponent,
     EventosComponent,
     HeaderComponent,
-    NewsletterComponent
+    NewsletterComponent,
+    NovidadesComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

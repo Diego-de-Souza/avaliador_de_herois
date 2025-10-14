@@ -88,11 +88,13 @@
           </div>
         </aside>
 
-        <!-- <markdown class="variable-binding" [data]="article.text">
-        </markdown> -->
-
         <!-- renderiza o conteúdo do markdown -->
-         <!-- DEV MODE -->
+        <!--
+        <markdown class="variable-binding" [data]="article.text">
+        </markdown>
+        -->
+
+         <!-- DEV MODE, Apagar depois -->
         <markdown [data]="articleContent" class="variable-binding"></markdown>
         <!-- DEV MODE -->
 
@@ -161,7 +163,8 @@
           </div>
           <p class="related-articles-text">
             Veja outros artigos sobre <br />
-            <a href="webmain/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a>
+            <a href="webmain/conteudo/artigos" class="sitemap-category">{{ article.category | titlecase }}</a>
+            <!-- <a href="webmain/conteudo/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a> -->
           </p>
         </div>
       </div>
