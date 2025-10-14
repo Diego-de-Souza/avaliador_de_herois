@@ -13,7 +13,6 @@ ol,
 li,
 a {
   list-style: none;
-  /* Remove os marcadores padrão de listas */
   text-decoration: none;
 }
 
@@ -36,7 +35,8 @@ a {
 }
 
 .articles {
-  padding: 40px;
+  padding: 40px 0;
+  padding-bottom: 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -45,9 +45,8 @@ a {
 .title {
   font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
   font-size: 2.5rem;
-  margin-bottom: 30px;
   position: relative;
-  padding: 3rem;
+  padding: 1rem;
 }
 
 .title::after {
@@ -73,10 +72,8 @@ a {
   margin-top: 2rem;
 }
 
-.category-section {
+.category-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -92,13 +89,12 @@ a {
 
 .category-selector {
   display: flex;
-  justify-content: space-between;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
   padding: 10px;
   border-radius: 12px;
-  background: #333;
+  /* background: #333; */
 }
 
 .category-selector:hover {
@@ -113,7 +109,6 @@ a {
   margin-bottom: 0;
 }
 
-.seta,
 .botao-excluir,
 .botao-editar {
   color: white;
@@ -122,21 +117,15 @@ a {
   padding: 5px 10px;
 }
 
-.seta:hover,
 .botao-excluir:hover,
 .botao-editar:hover {
   color: #00d2ff;
   cursor: pointer;
 }
 
-.seta:disabled {
-  color: #555;
-  background: transparent;
-}
-
 .articles-grid {
   display: flex;
-  gap: 20px;
+  gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 10px;
@@ -154,9 +143,10 @@ a {
 .article-card {
   flex: 0 0 auto;
   width: 80%;
+  min-height: 450px;
   scroll-snap-align: center;
   text-align: left;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 16px;
   margin-bottom: 10px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -197,58 +187,19 @@ a {
 }
 
 .article-card-title {
+  font-size: 1.3rem;
   margin: 10px 0;
-  font-size: 1.1rem;
   color: white;
 }
 
 .article-card-description {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: white;
-}
-
-.sidebar-right {
-  background-position: 0% 50%;
-}
-
-.category-nav {
-  margin-bottom: 1rem;
-}
-
-.sidebar-right .search-input {
-  background: transparent;
-  border: 1px solid #ffffff;
-  border-radius: 4px;
-  padding: 8px 12px;
-  color: white;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.category-item {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid white;
-  align-items: center;
-  padding: 5px 10px;
-}
-
-.category-item:hover {
-  background: linear-gradient(135deg, #1e2a38, #1358f8);
-}
-
-.category-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-decoration: none;
-  color: white;
-  width: 100%;
-}
-
-.category-link span {
-  text-transform: capitalize;
-  font-size: 1.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* número de linhas que quer exibir */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .botoes {
@@ -258,12 +209,11 @@ a {
 }
 
 .visto-title {
-  margin-top: 3rem;
   text-align: center;
   font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
   font-size: 2.5rem;
   margin-bottom: 30px;
-  padding: 3rem;
+  padding: 2rem;
 }
 
 .visto-title::after {
@@ -285,13 +235,11 @@ a {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 10px;
-
   width: 100%;
   padding: 5px;
   text-align: center;
   font-size: 1.2rem;
   border-radius: 8px;
-  /* flex-wrap: wrap; */
 }
 
 .visto-grid::-webkit-scrollbar {
@@ -308,7 +256,7 @@ a {
   width: 80%;
   scroll-snap-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 10px;
   margin-bottom: 1rem;
 }
@@ -335,8 +283,6 @@ a {
   border-radius: 5px;
   z-index: 1;
   position: relative;
-  width: 100%;
-  max-height: 150px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -344,19 +290,9 @@ a {
   margin-bottom: 10px;
 }
 
-.visto-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 5px;
-  z-index: 1;
-  position: relative;
-}
-
-.mais-vistos .ver-mais {
+.ver-mais {
   display: inline-block;
-  margin: 2rem;
+  margin-inline: auto;
   padding: 8px 16px;
   background-color: #00d2ff;
   color: #fff;
@@ -364,9 +300,10 @@ a {
   text-decoration: none;
   transition: background 0.3s;
   font-size: 1.3rem;
+  margin-top: 2rem;
 }
 
-.mais-vistos .ver-mais:hover {
+.ver-mais:hover {
   background-color: #0077a6;
 }
 
@@ -374,8 +311,6 @@ a {
 /* 🔹 Tema Dark */
 
 .dark {
-  background-position: 0% 50%;
-  background: linear-gradient(135deg, #1e2a38, #1358f8);
   color: white;
 }
 
@@ -390,17 +325,11 @@ a {
   background: rgba(20, 20, 20, 0.6);
 }
 
-.dark .sidebar-right {
-  background: linear-gradient(135deg, #1e2a38, #1358f8);
-}
 
 /* =============//=============//=============//=============// */
 /* 🔹 Tema Light */
+
 .light {
-  background: linear-gradient(to bottom,
-      #4e6683 10%,
-      #00d2ff 40%,
-      #4e6683 100%);
   color: #101522;
 }
 
@@ -413,10 +342,6 @@ a {
   color: #101522;
 }
 
-.light .article-card {
-  box-shadow: #101522 0px 0px 10px 2px;
-}
-
 .light .article-card,
 .light .category-selector,
 .light .visto-card {
@@ -426,13 +351,6 @@ a {
 .light .article-card-title,
 .light .article-card-description {
   color: #101522;
-}
-
-.light .sidebar-right {
-  background: linear-gradient(to bottom,
-      #4e6683 10%,
-      #00d2ff 40%,
-      #4e6683 100%);
 }
 
 /* =============//=============//=============//=============// */
@@ -482,28 +400,9 @@ a {
     width: 65%;
   }
 
-  .visto-card .article-card-title {
-    font-size: 1.5rem;
-  }
-
-  .visto-card .article-card-description {
-    font-size: 1.3rem;
-  }
-
-  .visto-card .article-card-category,
-  .visto-card .article-card-date {
-    font-size: 1rem;
-  }
-
 }
 
 @media (min-width: 1024px) {
-  .articles-container {
-    display: grid;
-    grid-template-columns: calc(70% - 1rem) calc(30% - 1rem);
-    gap: 2rem;
-  }
-
   .visto-grid {
     width: 100%;
     display: flex;
@@ -529,7 +428,6 @@ a {
     gap: 1rem;
     margin-bottom: 1rem;
   }
-
   .visto-card {
     width: 100%;
   }

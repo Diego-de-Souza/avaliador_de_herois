@@ -29,12 +29,6 @@ export class DestaqueComponent implements OnInit {
       titulo: 'Star Wars',
       descricao: 'Nova série live-action no universo de Mandalorian.',
       link: '#'
-    },
-    {
-      imagem: '/img/events/user-icon.png',
-      titulo: 'Batman',
-      descricao: 'Trailer incrível do novo jogo Arkham Legacy.',
-      link: '#'
     }
   ];
 

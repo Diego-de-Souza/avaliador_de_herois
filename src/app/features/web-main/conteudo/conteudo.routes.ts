@@ -3,9 +3,9 @@ import { Routes } from "@angular/router";
 
 export const routesConteudo: Routes =[
     {
-        path: 'artigos/:id',
+        path: 'artigos',
         title: 'Artigos',
-        loadComponent: () => import('./artigos-page/article-page.component').then(m => m.ArticlePageComponent)
+        loadComponent: () => import('./artigos-page/artigos-page.component').then(m => m.ArtigosPageComponent)
     },
     {
         path: 'destaques',

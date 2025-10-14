@@ -1,0 +1,53 @@
+.sidebar-right .search-input {
+  background: transparent;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.category-nav {
+  margin-bottom: 1rem;
+}
+
+.category-nav ul {
+  padding-left: 0;
+}
+
+.category-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.category-item:hover {
+  background: linear-gradient(135deg, #1e2a38, #1358f8);
+}
+
+.category-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: white;
+  width: 100%;
+}
+
+.category-link span {
+  text-transform: capitalize;
+  font-size: 1.2rem;
+}
+
+/* =============//=============//=============//=============// */
+/* 🔹 Tema Dark */
+
+/* .dark .sidebar-right {
+  background: linear-gradient(135deg, #1e2a38, #1358f8);
+} */
+
+/* =============//=============//=============//=============// */
+/* 🔹 Tema Light */

@@ -24,12 +24,12 @@ export class NovidadesComponent implements OnInit {
   constructor(
     private articleService: ArticleService,
     private renderer: Renderer2,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) { }
 
   ngOnInit() {
     this.articleService.loadFromLocalStorage();
-    this.articles = this.articleService.getArticles();
+    // this.articles = this.articleService.getArticles();
     this.getRecentArticles = this.articleService.getRecentArticles(4);
     this.themeService.theme$.subscribe(theme => {
       this.themeNovidades = theme;

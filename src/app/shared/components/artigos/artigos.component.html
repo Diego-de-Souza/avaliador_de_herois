@@ -6,43 +6,39 @@
 
     <main>
       <section class="category-section">
-        <div *ngFor="let category of filteredCategory()" class="category">
-          <div class="category-selector">
-            <button class="seta" (click)="changePage(category, 'prev')" [disabled]="categoryPageMap[category] === 0">
-              ◀
-            </button>
+        <div class="category-container">
+          <div *ngFor="let category of filteredCategory()" class="category">
+            <div class="category-selector">
+              <h2 class="category-title">{{ category.toUpperCase() | titlecase }}</h2>
+            </div>
 
-            <h2 class="category-title">{{ category.toUpperCase() | titlecase }}</h2>
-
-            <button class="seta" (click)="changePage(category, 'next')"
-              [disabled]="categoryPageMap[category] >= getTotalPages(category) - 1">
-              ▶
-            </button>
-          </div>
-
-          <div class="articles-grid">
-            <div class="article-card" *ngFor="let article of filteredArticles(category)">
-              <a [routerLink]="['webmain/conteudo/artigos/', article.id]" routerLinkActive="active">
-                <div class="img-container">
-                  <figure>
-                    <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
-                  </figure>
-                </div>
-                <span class="article-card-category">{{ article.category }}</span>
-                <h3 class="article-card-title">{{ article.title }}</h3>
-                <p class="article-card-description">{{ article.description }}</p>
-              </a>
+            <div class="articles-grid">
+              <div class="article-card" *ngFor="let article of filteredArticles(category)">
+                <a [routerLink]="['webmain/artigos/', article.id]" routerLinkActive="active">
+                  <div class="img-container">
+                    <figure>
+                      <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
+                    </figure>
+                  </div>
+                  <span class="article-card-category">{{ article.category }}</span>
+                  <h3 class="article-card-title">{{ article.title }}</h3>
+                  <p class="article-card-description">{{ article.description }}</p>
+                </a>
+              </div>
             </div>
           </div>
         </div>
+        <a [routerLink]="['/webmain/conteudo/artigos']" class="ver-mais" target="_blank" rel="noopener noreferrer">
+          Ver Mais
+        </a>
       </section>
 
       <!-- Mais Vistos -->
       <section class="mais-vistos">
-        <h2 class="visto-title">Mais vistos</h2>
+        <h2 class="visto-title">Artigos Mais vistos</h2>
         <div class="visto-grid">
           <div class="visto-card" *ngFor="let article of mostViewed">
-            <a [routerLink]="['/webmain/conteudo/artigos', article.id]">
+            <a [routerLink]="['/webmain/artigos', article.id]">
               <div class="visto-img">
                 <figure>
                   <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
@@ -62,36 +58,6 @@
         </a>
       </section>
     </main>
-
-    <aside class="sidebar-right">
-      <input class="search-input" type="search" name="search" id="search" placeholder="Buscar artigos...">
-      <nav class="category-nav">
-        <ul>
-          <li class="category-item" *ngFor="let category of getCategories()">
-            <a [routerLink]="['/webmain/conteudo/artigos']" [queryParams]="{ category: category }"
-              class="category-link">
-              <span>{{ category }}</span>
-              <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path d="M12 3C4.5885 3 3 4.5885 3 12C3 19.4115 4.5885 21 12 21C19.4115 21 21 19.4115 21 12"
-                    stroke="#ffffff" stroke-width="2" stroke-linecap="round"></path>
-                  <path d="M20.5 3.5L15 9" stroke="#ffffff" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round"></path>
-                  <path d="M16 3H20.6717C20.853 3 21 3.14703 21 3.32837V8" stroke="#ffffff" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"></path>
-                </g>
-              </svg>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <aside>
-          <app-novidades></app-novidades>
-        </aside>
-    </aside>
-
   </div>
 
 </section>

@@ -11,7 +11,7 @@
     background: linear-gradient(to bottom, #101522, #1e2a38);
     color: #fff;
     min-height: 100vh;
-    
+
     h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
@@ -19,13 +19,13 @@
       text-align: center;
     }
   }
-  
+
   .light{
     font-family: 'Orbitron', sans-serif;
     background: linear-gradient(to bottom, #f0f0f0, #00d2ff);
     color: #000;
     min-height: 100vh;
-    
+
     h2 {
       font-size: 2.5rem;
       margin-bottom: 1rem;
@@ -60,14 +60,15 @@
   padding: 2rem 1.5rem;
   border-left: 4px solid var(--border-primary);
   position: sticky;
-  top: 2rem;
+  top: 1rem;
 }
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .home-main-layout {
     flex-direction: column;
     gap: 1.5rem;
   }
   .home-main-right {
+    background: none !important;
     position: static !important;
     border-left: none !important;
     box-shadow: none !important;
