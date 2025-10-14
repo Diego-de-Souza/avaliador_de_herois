@@ -23,7 +23,8 @@ import { NovidadesComponent } from '../../../shared/components/novidades/novidad
     EventosComponent,
     HeaderComponent,
     NewsletterComponent,
-    NovidadesComponent
+    NovidadesComponent,
+    DestaqueComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
