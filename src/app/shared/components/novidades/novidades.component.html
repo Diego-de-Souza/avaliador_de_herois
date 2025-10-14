@@ -1,12 +1,12 @@
 <div #novidadesContainer class="sidebar" id="theme_novidades">
   <div class="sidebar-header">
-    <h2 class="sidebar-title">Novidades</h2>
+    <h2 class="sidebar-title">Novidades em Artigos</h2>
   </div>
 
   <div class="novidade">
     @for (article of getRecentArticles; track article){
       <a
-      [routerLink]="['webmain/conteudo/artigos/', article.id]"
+      [routerLink]="['/webmain/artigos/', article.id]"
       routerLinkActive="active"
       class="novidade-link">
         <div class="novidade-content">
@@ -25,4 +25,7 @@
       </a>
     }
   </div>
+  <a [routerLink]="['/webmain/conteudo/artigos']" class="ver-mais" target="_blank" rel="noopener noreferrer">
+    Ver Mais
+  </a>
 </div>

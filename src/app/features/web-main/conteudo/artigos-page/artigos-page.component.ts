@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
-import { ArtigosComponent } from '../../../shared/components/artigos/artigos.component';
-import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
-import { FooterComponent } from '../../../shared/components/footer/footer.component';
-import { articlesProps } from '../../../core/interface/articles.interface';
-import { ArticleService } from '../../../core/service/articles/articles.service';
+import { HeaderComponent } from '../../../../shared/components/header/header.component';
+import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
+import { ArtigosComponent } from '../../../../shared/components/artigos/artigos.component';
+import { NewsletterComponent } from '../../../../shared/components/newsletter/newsletter.component';
+import { FooterComponent } from '../../../../shared/components/footer/footer.component';
+import { articlesProps } from '../../../../core/interface/articles.interface';
+import { ArticleService } from '../../../../core/service/articles/articles.service';
 
 interface imagesProps {
   url: string;
