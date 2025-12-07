@@ -81,8 +81,12 @@ export class AuthService{
   async checkSession(): Promise<boolean> {
     try {
       const response: any = await lastValueFrom(
-        this.userService.checkSession()
+        this.userService.checkSession(),
       );
+
+      await lastValueFrom(this.userService.testeCookies().pipe(
+        tap(res => console.log('Resposta do teste de cookies:', res)),
+      ));
       
       if (response && response.user) {
         localStorage.setItem('user', JSON.stringify(response.user));
