@@ -1,54 +1,85 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ThemeService } from '../../../../core/service/theme/theme.service';
-import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
-
-interface MemoryCard {
-  name: string;
-  img: string;
-  id: number;
-  matched?: boolean;
-  flipped?: boolean;
-}
+import { MemoryGameService } from '../../../../core/service/games/memory-game.service';
+import { FormsModule } from '@angular/forms';
+import { MemoryCard } from '../../../../core/interface/game-memory.interface';
+import { AuthService } from '../../../../core/service/auth/auth.service';
+import { ProgressService } from '../../../../core/service/games/progress.service';
+import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
 @Component({
   selector: 'app-memory-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ModalSucessoCadastroComponent],
   templateUrl: './memory-game.component.html',
   styleUrl: './memory-game.component.css'
 })
-export class MemoryGameComponent {
+export class MemoryGameComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
+  private readonly memoryGameService = inject(MemoryGameService);
+  private readonly progressService = inject(ProgressService);
+  private readonly authService = inject(AuthService);
 
   _themeMemoryGame = 'dark';
-  private destroy$ = new Subject<void>();
-  
   cards: MemoryCard[] = [];
   flippedCards: MemoryCard[] = [];
   lockBoard = false;
   showModal = false;
+  modalTitle: string = '';
+  modalMessage: string = '';
   moves = 0;
 
-  readonly cardImages: MemoryCard[] = [
-    { name: "angular", img: "https://angular.io/assets/images/logos/angular/angular.png", id: 1 },
-    { name: "typescript", img: "https://cdn.worldvectorlogo.com/logos/typescript.svg", id: 2 },
-    { name: "github", img: "https://cdn.worldvectorlogo.com/logos/github-icon-1.svg", id: 3 },
-    { name: "js", img: "https://cdn.worldvectorlogo.com/logos/logo-javascript.svg", id: 4 },
-    { name: "css3", img: "https://cdn.worldvectorlogo.com/logos/css-3.svg", id: 5 },
-    { name: "html5", img: "https://cdn.worldvectorlogo.com/logos/html-1.svg", id: 6 }
-  ];
+  themes: string[] = [];
+  selectedTheme: string = '';
+  levels: number[] = [1, 2, 3, 4, 5];
+  selectedLevel: number = 1;
+  private gameCompleted = false;
+
+  userProgress: any = null;
+  userId: number | null = null;
+  gameId: number = 1; 
+
+  message: string | null = null;
 
   ngOnInit() {
-    this.themeService.theme$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(theme => {
-        this._themeMemoryGame = theme;
-      });
+    this.themeService.theme$.subscribe(theme => {
+      this._themeMemoryGame = theme;
+    });
 
-    this.startGame();
+    this.memoryGameService.getThemes().subscribe(themes => {
+      this.themes = themes;
+      this.selectedTheme = themes[0] || '';
+      this.loadProgressAndStart();
+    });
+  }
+
+  loadProgressAndStart() {
+    console.log(this.authService.isLoggedIn())
+    if (this.authService.isLoggedIn()) {
+      this.userId = this.authService.getUserId();
+      console.log('Usuário logado:', this.userId);
+      if (this.userId !== null) {
+         this.progressService.getUserGameProgress(this.userId, this.gameId).subscribe(progress => {
+            console.log('Progresso recebido:', progress);  
+            console.log('dados iguais?:', progress.dataUnit.metadata.theme == this.selectedTheme);
+            
+            if (progress) {
+              this.userProgress = progress;
+              this.selectedTheme = progress.metadata?.theme || this.selectedTheme;
+              if(progress.dataUnit.metadata.theme == this.selectedTheme){
+                this.selectedLevel = progress.dataUnit.lvl_user + 1 || this.selectedLevel;
+              }
+            }
+            this.startGame();
+          });
+      }
+     
+    } else {
+      this.startGame();
+    }
   }
 
   startGame() {
@@ -56,8 +87,16 @@ export class MemoryGameComponent {
     this.showModal = false;
     this.lockBoard = false;
     this.flippedCards = [];
-    // Duplicar e embaralhar
-    this.cards = this.shuffle([...this.cardImages, ...this.cardImages].map(card => ({ ...card, matched: false, flipped: false })));
+    this.memoryGameService.getCards(this.selectedLevel, this.selectedTheme).subscribe(cards => {
+      let prepared = cards.map((card, idx) => ({
+        ...card,
+        id: idx,
+        flipped: false,
+        matched: false,
+        uuid: idx + '-' + Math.random().toString(36).substring(2, 8)
+      }));
+      this.cards = this.shuffle([...prepared, ...prepared].map((c, i) => ({ ...c, uuid: i + '-' + c.id })));
+    });
   }
 
   shuffle(array: MemoryCard[]): MemoryCard[] {
@@ -84,23 +123,127 @@ export class MemoryGameComponent {
 
   checkForMatch() {
     const [first, second] = this.flippedCards;
-    if (first.id === second.id && first !== second) {
+    if (first.id === second.id && first.uuid !== second.uuid) {
       first.matched = second.matched = true;
     } else {
       first.flipped = second.flipped = false;
     }
     this.flippedCards = [];
     this.lockBoard = false;
+    
+    // ✅ VERIFICAR SE COMPLETOU O JOGO
     if (this.cards.every(card => card.matched)) {
-      setTimeout(() => this.showModal = true, 500);
+      this.gameCompleted = true; 
+      this.modalTitle = 'Parabéns!';
+      this.modalMessage = `Você completou o nível ${this.selectedLevel} em ${this.moves} movimentos!`;
+      this.showModal = true;
+      
+      // ✅ SALVAR PROGRESSO APENAS SE ESTIVER LOGADO
+      this.saveProgress();
     }
   }
 
-  restart() {
-    this.router.navigate(['/webmain/games'])
+  saveProgress() {
+    if (this.authService.isLoggedIn() && this.userId) {
+      this.progressService.saveProgress(
+        this.userId,
+        this.gameId,
+        this.selectedLevel,
+        this.selectedTheme,
+        this.moves,
+        this.cards.length / 2
+      ).subscribe({
+        next: (response) => {
+          if (response?.status === 200) {
+            this.updateUserProgress(response);
+
+          } else {
+            this.modalTitle = 'Game da memoria';
+            this.modalMessage = 'Erro ao salvar progresso!';
+            this.showModal = true;
+          }
+        },
+        error: () => {
+          this.modalTitle = 'Game da memoria';
+          this.modalMessage = 'Erro ao salvar progresso!';
+          this.showModal = true;
+        }
+      });
+    }
   }
 
-  returnMenu(){
-    this.router.navigate(['/webmain'])
+  nextLevel() {
+    this.gameCompleted = false;
+    this.selectedLevel++;
+    this.showModal = false;
+    this.startGame();
+  }
+
+  restart() {
+    this.gameCompleted = false; // ✅ RESETAR FLAG ao reiniciar
+    this.showModal = false;
+    this.startGame();
+  }
+
+  returnMenu() {
+    this.router.navigate(['/webmain']);
+  }
+
+  onThemeChange(theme: string) {
+    this.selectedTheme = theme;
+    this.gameCompleted = false; // ✅ RESETAR FLAG ao mudar tema
+    
+    if (this.userProgress && this.userProgress.dataUnit.metadata.theme === theme) {
+      this.selectedLevel = this.userProgress.dataUnit.lvl_user + 1;
+    } else {
+      this.selectedLevel = 1;
+    }
+    
+    this.startGame();
+  }
+
+  onLevelChange(level: number) {
+    this.selectedLevel = level;
+    this.gameCompleted = false; // ✅ RESETAR FLAG ao mudar nível
+    this.startGame();
+  }
+
+  closeModal() {
+    this.showModal = false;
+    
+    if (this.gameCompleted) {
+      this.gameCompleted = false; // ✅ RESETAR A FLAG
+      this.selectedLevel++; // ✅ AVANÇAR PARA O PRÓXIMO NÍVEL
+      this.startGame(); // ✅ INICIAR O NOVO JOGO
+      
+      // ✅ SALVAR O PROGRESSO DO NOVO NÍVEL (opcional)
+      if (this.authService.isLoggedIn() && this.userId) {
+        this.progressService.saveProgress(
+          this.userId,
+          this.gameId,
+          this.selectedLevel,
+          this.selectedTheme,
+          0, // moves zerados
+          this.cards.length / 2
+        ).subscribe({
+          next: (response) => {
+            if (response?.status === 200) {
+              this.updateUserProgress(response);
+              console.log('✅ Progresso do novo nível salvo!');
+            }
+          },
+          error: (error) => {
+            console.error('❌ Erro ao salvar progresso do novo nível:', error);
+          }
+        });
+      }
+    }
+  }
+
+  private updateUserProgress(response: any) {
+    this.userProgress = response;
+    console.log('📊 Progresso atualizado:', this.userProgress);
+    
+    // ✅ NÃO atualizar selectedLevel aqui, pois já é feito no closeModal()
   }
 }

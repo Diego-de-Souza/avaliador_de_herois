@@ -1,17 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { articlesProps } from '../../../core/interface/articles.interface';
 import { ArticleService } from '../../../core/service/articles/articles.service';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
-import { Copywriter } from '../../../core/interface/copywriter.interface';
-import { CopywriterUser } from '../../../core/storage/copywriters/copywriters.data';
 import { MarkdownModule } from 'ngx-markdown';
-import { NovidadesComponent } from '../../../shared/components/novidades/novidades.component';
-import { HttpClient } from '@angular/common/http';
 import { ThemeService } from '../../../core/service/theme/theme.service';
+import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+
+interface CarouselImage {
+  url: string;
+  title: string;
+  description: string;
+  route: string;
+}
+
+interface imagesProps {
+  url: string;
+  title: string;
+  description: string;
+  route: string;
+}
 
 @Component({
   selector: 'app-article-page',
@@ -19,99 +30,173 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
   imports: [
     CommonModule,
     HeaderComponent,
-    NewsletterComponent,
     FooterComponent,
-    MarkdownModule,
-    NovidadesComponent
+    MarkdownModule, 
+    NewsletterComponent,
+    CarouselComponent
   ],
   templateUrl: './article-page.component.html',
   styleUrls: ['./article-page.component.css']
 })
 export class ArticlePageComponent implements OnInit {
+  private readonly themeService = inject(ThemeService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly articleService = inject(ArticleService);
+
   public themeHome: string | null = 'dark';
-  article: articlesProps | null = null;
-  articleId!: number;
-  public copywriter: Copywriter = CopywriterUser;
-  articleContent: string = "";
 
-  // DEV MODE
-  // public imgDevMode: string = CopywriterUser[0].foto;
-  // DEV MODE
+  images: imagesProps[] = [];
+  getRecentArticles: articlesProps[] = [];
 
-  constructor(
-    private themeService: ThemeService,
-    private route: ActivatedRoute,
-    private articleService: ArticleService,
-    private http: HttpClient // DEV MODE
-  ) { }
+  articles: articlesProps[] = [];
+  filteredArticles: articlesProps[] = [];
+  categories: string[] = [];
+  themes: string[] = [];
+  filter: string = '';
+  dateFilter: string = '';
+  categoryFilter: string = '';
+  keywordFilter: string = '';
+  themeFilter: string = '';
+  authorFilter: string = '';
+  page: number = 1;
+  pageSize: number = 8;
+  totalPages: number = 1;
+  selectedArticle: articlesProps | null = null;
 
   ngOnInit(): void {
-    this.themeService.theme$.subscribe(theme =>{
+    this.themeService.theme$.subscribe(theme => {
       this.themeHome = theme;
-      this.applyTheme(theme);
     });
-    this.articleService.loadFromLocalStorage();
 
-
-    // const id = this.route.snapshot.paramMap.get('id');
-    // const index = Number(id);
+    let routeId: string | null = null;
 
     this.route.paramMap.subscribe(params => {
-      this.articleId = Number(params.get('id'));
-      this.carregarArtigo(this.articleId);
+      const routeId = params.get('id');
+      if (routeId && this.articles.length) {
+        const artigo = this.articles.find(a => a.id === +routeId);
+        if (artigo) {
+          this.openModal(artigo);
+        }
+      }
     });
 
-    if (this.article?.text) {
-      this.loadMarkdown(this.article.text);
-    }
-  }
+    this.articleService.getArticlesList().subscribe((response) => {
+      this.articles = response.data;
+      this.categories = [...new Set(this.articles.map(a => a.category).filter(Boolean))];
+      this.themes = [
+        'Marvel',
+        'DC',
+        'Anime',
+        'Destaque'
+      ];
+      this.getRecentArticles = this.articleService.getRecentArticles(5);
+      this.images = this.getImages();
+      this.applyFilter();
 
-  carregarArtigo(id: number) {
-    const articles = this.articleService.getArticles();
-    if (articles.length > 0) {
-      this.article = articles.find(article => article.id === id) || null;
-    }
-  }
-
-  // DEV MODE
-  loadMarkdown(path: string) {
-    this.http.get(path, { responseType: 'text' })
-      .subscribe(data => {
-        this.articleContent = data; // 👈 texto markdown
+      this.route.paramMap.subscribe(params => {
+        const routeId = params.get('id');
+        if (routeId) {
+          const artigo = this.articles.find(a => a.id === +routeId);
+          if (artigo) {
+            this.openModal(artigo);
+          }
+        }
       });
-  }
-  // DEV MODE
-
-  summaryAsMarkdown(): string {
-    if (!this.article || !this.article.summary) {
-      return '';
-    }
-    return this.article.summary
-      .map(item => `${item.level === 2 ? '-- ' : '- '}${item.text}`)
-      .join('\n');
+    });
   }
 
-  subCount(startIndex: number): number {
-    let count = 0;
-    if (!this.article || !this.article.summary) {
-      return count;
-    }
-    this.summaryAsMarkdown()
-    for (let i = startIndex + 1; i < this.article.summary.length; i++) {
-      if (this.article.summary[i].level === 2) count++;
-      else break;
-    }
-    return count;
+  getImages(): imagesProps[] {
+    const recentArticles = this.getRecentArticles;
+    if (recentArticles.length === 0) return [];
+    return recentArticles.map(article => ({
+      url: article.thumbnail,
+      title: article.title,
+      description: article.description,
+      route: article.route
+    }));
   }
 
-  applyTheme(theme: string) {
-    const el = document.getElementById('container-articles-page');
-    if (theme === 'dark') {
-      el?.classList.remove('light');
-      el?.classList.add('dark');
-    } else {
-      el?.classList.remove('dark');
-      el?.classList.add('light');
+  getValue(event: Event): string {
+    return (event.target as HTMLInputElement | HTMLSelectElement)?.value || '';
+  }
+
+  setDateFilter(date: string) {
+    this.dateFilter = date;
+    this.applyFilter();
+  }
+  setCategoryFilter(category: string) {
+    this.categoryFilter = category;
+    this.applyFilter();
+  }
+  setKeywordFilter(keyword: string) {
+    this.keywordFilter = keyword;
+    this.applyFilter();
+  }
+  setThemeFilter(theme: string) {
+    this.themeFilter = theme;
+    this.applyFilter();
+  }
+  setAuthorFilter(author: string) {
+    this.authorFilter = author;
+    this.applyFilter();
+  }
+  setFilter(filter: string) {
+    this.filter = filter;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    let result = [...this.articles];
+
+    if (this.dateFilter) {
+      result = result.filter(a => a.created_at?.startsWith(this.dateFilter));
     }
+    if (this.categoryFilter) {
+      result = result.filter(a => a.category === this.categoryFilter);
+    }
+    if (this.keywordFilter) {
+      result = result.filter(a => a.keyWords?.some(k => k.toLowerCase().includes(this.keywordFilter.toLowerCase())));
+    }
+    if (this.themeFilter) {
+      result = result.filter(a => a.theme === this.themeFilter);
+    }
+    if (this.authorFilter) {
+      result = result.filter(a => a.author?.toLowerCase().includes(this.authorFilter.toLowerCase()));
+    }
+    if (this.filter === 'destaques') {
+      result = result.filter(a => a.theme === 'Destaque');
+    }
+    if (this.filter === 'mais-vistos') {
+      result = [...result].sort((a, b) => (b.views ?? 0) - (a.views ?? 0));
+    }
+
+    this.filteredArticles = result;
+    this.totalPages = Math.max(1, Math.ceil(this.filteredArticles.length / this.pageSize));
+    this.page = Math.min(this.page, this.totalPages);
+  }
+
+  paginatedArticles() {
+    const start = (this.page - 1) * this.pageSize;
+    return this.filteredArticles.slice(start, start + this.pageSize);
+  }
+
+  nextPage() {
+    if (this.page < this.totalPages) {
+      this.page++;
+    }
+  }
+
+  prevPage() {
+    if (this.page > 1) {
+      this.page--;
+    }
+  }
+
+  openModal(article: articlesProps) {
+    this.selectedArticle = article;
+  }
+
+  closeModal() {
+    this.selectedArticle = null;
   }
 }

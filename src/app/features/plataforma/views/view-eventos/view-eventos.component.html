@@ -1,0 +1,50 @@
+<div class="eventos-container">
+    <app-header-platform></app-header-platform>
+    <section class="table-container">
+        <h2>Lista de Eventos</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>data</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+                @if (isList && eventos.length > 0) {
+                    @for (evento of eventos; track evento) {
+                        <tr class="tr-viewEventos">
+                            <td>{{ evento.title }}</td>
+                            <td>{{ evento.date_event | date:'yyyy-MM-dd'}}</td>
+                            <td class="td-acoes-eventos">
+                                <button class="btn btn-primary" (click)="editArtigos(evento.id)">Editar</button>
+                                <button class="btn btn-danger" (click)="deleteArtigos(evento.id)">Deletar</button>
+                            </td>
+                        </tr>
+                    }
+                } @else {
+                    <tr>
+                    <td colspan="3">Nenhum evento encontrado.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+    @if (showSuccessModal) {
+      <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <app-modal-sucesso-cadastro
+              [modalTitle]="modalTitle"
+              [modalMessage]="modalMessage"
+              (closeModalEvent)="closeSuccessModal()">
+            </app-modal-sucesso-cadastro>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="closeSuccessModal()">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+</div>
+

@@ -1,29 +1,50 @@
-<div class="memory-wrap" [ngClass]="_themeMemoryGame">
-  <div class="memory-game">
+<div [ngClass]="_themeMemoryGame" class="memory-game-root">
+  <div class="controls">
+    <label>
+      Tema:
+      <select [(ngModel)]="selectedTheme" (change)="onThemeChange(selectedTheme)">
+        <option *ngFor="let theme of themes" [value]="theme">{{ theme }}</option>
+      </select>
+    </label>
+    <label>
+      Nível:
+      <select [(ngModel)]="selectedLevel" (change)="onLevelChange(selectedLevel)">
+        <option *ngFor="let lvl of levels" [value]="lvl">{{ lvl }}</option>
+      </select>
+    </label>
+    <button class="memory-btn" (click)="restart()">Reiniciar</button>
+    <span *ngIf="userProgress" class="progress-info">
+      Progresso: Nível {{userProgress.lvl_user}}, Tema: {{userProgress.metadata?.theme}}
+    </span>
+  </div>
+
+  <div class="memory-matrix">
     <div
       class="memory-card"
-      *ngFor="let card of cards; let i = index"
+      *ngFor="let card of cards"
       [class.flipped]="card.flipped || card.matched"
       (click)="flipCard(card)"
     >
-      <div class="card-inner">
-        <div class="card-front">
-          <img [src]="card.img" [alt]="card.name" />
+      <div class="memory-card-inner">
+        <div class="memory-card-front">
+          <img [src]="card.url" alt="card" />
         </div>
-        <div class="card-back">
-          <span class="tech-icon">?</span>
+        <div class="memory-card-back">
+          <span class="card-back-title">Platform<br>Heroes</span>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="memory-modal-overlay" [class.show]="showModal">
-    <div class="memory-modal">
-      <h2 class="winner">Você é Geek!</h2>
-      <p class="moves">Movimentos: {{ moves }}</p>
-      <button class="restart" (click)="restart()">Próximo</button>
-      <button class="restart" (click)="returnMenu()">Próximo</button>
-      <p class="message">Desenvolvido para <span class="tech">Angular</span> por <span class="tech">Você</span></p>
+@if (showModal) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <app-modal-sucesso-cadastro
+          [modalTitle]="modalTitle"
+          [modalMessage]="modalMessage"
+          (closeModalEvent)="closeModal()">
+        </app-modal-sucesso-cadastro>
+      </div>
     </div>
   </div>
-</div>
+}

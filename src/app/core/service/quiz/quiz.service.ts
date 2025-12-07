@@ -30,7 +30,7 @@ export class QuizService {
             return of(null);
         }
 
-        const teste = this.authService.decodeJwt(accessToken);
+        const teste = this.authService.getUser()
 
         return this.http.get<any>(`${this.apiUrl}/quiz/get-progress-quiz/${teste.sub}`, {
             headers: {
@@ -92,7 +92,7 @@ export class QuizService {
             return of(null);
         }
 
-        const _dataUser = this.authService.decodeJwt(accessToken);
+        const _dataUser = this.authService.getUser()
         data.user_id = _dataUser.sub;
 
         return this.http.post<any>(`${this.apiUrl}/quiz/answer-quiz`, data, {

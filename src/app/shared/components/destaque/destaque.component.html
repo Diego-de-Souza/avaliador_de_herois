@@ -1,18 +1,34 @@
 <section class="destaques" id="theme_destaques">
   <h2 class="destaques-titulo">Destaques</h2>
   <div class="destaques-lista">
-    @for (item of destaques; track item){
+    @for (group of destaques; track group) {
       <div class="destaque-card">
-        <img class="destaque-img" [src]="item.imagem" [alt]="item.titulo" />
-        <div class="destaque-info">
-          <span class="destaque-categoria">GAMES</span>
-          <span class="destaque-data">3 DAYS AGO</span>
-          <h3 class="destaque-titulo">{{ item.titulo }}</h3>
-          <p class="destaque-desc">{{ item.descricao }}</p>
-          <a class="destaque-link" [href]="item.link" target="_blank" rel="noopener noreferrer">
+        <div class="destaque-card-content">
+          @if(group.image){
+            <img class="destaque-img" [src]="group.image" [alt]="group.label" />
+          }
+          <div class="destque-card-conteudo">
+            <h3 class="destaque-label">{{ group.label }}</h3>
+            @if(group.date_event){
+              <span class="destaque-data">{{ group.date_event }}</span>
+            }
+            <ul class="destaque-itens">
+              @for (item of group.items; track item) {
+                <li class="destaque-item">
+                  <div class="destaque-info">
+                    <strong>{{ item.title }}</strong>
+                    <span class="destaque-categoria">{{ item.category }}</span>
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+        @if(group.link){
+          <a class="destaque-link" [href]="group.link" target="_blank" rel="noopener noreferrer">
             Ver Mais
           </a>
-        </div>
+        }
       </div>
     }
   </div>

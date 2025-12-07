@@ -95,4 +95,14 @@ export class UserService {
     return this.http.post<any>(`${this.apiUrl}/auth/generate/code-password`, { typeCanal, data });
   }
 
+  checkSession(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/auth/me`, { withCredentials: true });
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/logout`, {}, { 
+      withCredentials: true 
+    });
+  }
+
 }

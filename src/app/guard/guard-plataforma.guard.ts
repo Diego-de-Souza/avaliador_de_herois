@@ -4,8 +4,6 @@ import { AuthService } from '../core/service/auth/auth.service';
 
 export const guardPlataformaGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
-  
-  const accessToken = sessionStorage.getItem('access_token');
 
   const bypassRoutes = [
     '/plataforma/user-config',
@@ -15,13 +13,12 @@ export const guardPlataformaGuard: CanActivateFn = (route, state) => {
     return true;
   }
 
-  if(!accessToken){
-    console.error('Acesso negado: Token de acesso não encontrado.');
+  const dataUser = authService.getUser();
+  if (!dataUser) {
+    console.error('Acesso negado: Usuário não encontrado.');
     return false;
   }
-
-  const dataUser = authService.decodeJwt(accessToken);
-  if(dataUser.role !== "admin" ){
+  if (dataUser.role !== "admin") {
     return false;
   }
 

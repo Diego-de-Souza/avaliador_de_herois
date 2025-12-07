@@ -1,179 +1,95 @@
-<section id="container-articles-page">
+<div id="container-articles-page" [ngClass]="themeHome">
   <app-header></app-header>
-  <article class="article-container">
-    <div *ngIf="article" class="article-page">
-      <p class="sitemap">
-        <a href="webmain/artigos" class="sitemap-articles">Artigos > </a>
-        <a href="webmain/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a>
-      </p>
-      <h1 class="article-title">{{ article.title }}</h1>
-      <figure>
-        <img [src]="article.thumbnail" class="img-banner" alt="{{ article.title }}" />
-      </figure>
-
-      <!-- copywriter é a variável que contém informações sobre o usuário que escreveu o artigo -->
-      @if(copywriter != null) {
-      <div class="article-author-top">
-        <div class="author-info-top">
-          <div class="photo_frame">
-            <figure>
-              <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
-            </figure>
+  <app-carousel
+    [images]="images"
+    [height]="'520px'"
+    [width]="'100%'"
+    [imgHeight]="'520px'"
+    [imgWidth]="'100%'"
+    class="carousel-articles"
+  ></app-carousel>
+  <div class="articles-layout">
+    <aside class="articles-sidebar">
+      <h3>Filtrar por</h3>
+      <ul>
+        <li>
+          <label for="dateFilter">Por data</label>
+          <input id="dateFilter" type="date" (change)="setDateFilter(getValue($event))" />
+        </li>
+        <li>
+          <label for="categoryFilter">Por categoria</label>
+          <select id="categoryFilter" (change)="setCategoryFilter(getValue($event))">
+            <option value="">Todas</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+          </select>
+        </li>
+        <li>
+          <label for="keywordFilter">Palavra-chave</label>
+          <input id="keywordFilter" type="text" placeholder="Digite a palavra" (input)="setKeywordFilter(getValue($event))" />
+        </li>
+        <li>
+          <label for="themeFilter">Tema</label>
+          <select id="themeFilter" (change)="setThemeFilter(getValue($event))">
+            <option value="">Todos</option>
+            <option *ngFor="let theme of themes" [value]="theme">{{theme}}</option>
+          </select>
+        </li>
+        <li>
+          <label for="authorFilter">Autor</label>
+          <input id="authorFilter" type="text" placeholder="Digite o autor" (input)="setAuthorFilter(getValue($event))" />
+        </li>
+        <li (click)="setFilter('destaques')" [class.active]="filter === 'destaques'">Destaques</li>
+        <li (click)="setFilter('mais-vistos')" [class.active]="filter === 'mais-vistos'">Mais vistos</li>
+      </ul>
+    </aside>
+    <main class="articles-main">
+      <div class="articles-grid">
+        @for(article of paginatedArticles(); track article) {
+          <div class="article-card" (click)="openModal(article)">
+            <img [src]="article.image || 'assets/img/placeholder.jpg'" alt="thumb" />
+            <h4>{{article.title}}</h4>
+            <p>{{article.description}}</p>
           </div>
-          <div class="author-info-more">
-            <p class="author-name">{{ copywriter.nome }}</p>
-            <p class="article-createdAt">{{ article.created_at | date:'dd/MM/yyyy' }}</p>
-          </div>
-        </div>
-
-        <div class="social-container">
-          <p>Compartilhe:</p>
-          <ul class="social-icons">
-            <li *ngIf="copywriter.url_facebook" class="social-icon">
-              <a href="{{ copywriter.url_facebook }}" target="_blank">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-            </li>
-            <li *ngIf="copywriter.url_x" class="social-icon">
-              <a href="{{ copywriter.url_x }}" target="_blank">
-                <i class="fab fa-twitter"></i>
-              </a>
-            </li>
-            <li *ngIf="copywriter.url_linkedin" class="social-icon">
-              <a href="{{ copywriter.url_linkedin }}" target="_blank">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-            </li>
-            <li *ngIf="copywriter.url_instagram" class="social-icon">
-              <a href="{{ copywriter.url_instagram }}" target="_blank">
-                <i class="fab fa-instagram"></i>
-              </a>
-            </li>
-            <li *ngIf="copywriter.url_github" class="social-icon">
-              <a href="{{ copywriter.url_github }}" target="_blank">
-                <i class="fab fa-github"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
+        }
       </div>
-      }
-
-      <main class="content">
-        <p class="article-description">
-          {{ article.description }}
-        </p>
-
-        <aside class="sidebar-left">
-          <div class="sidebar-left-content">
-            <span>Confira neste artigo:</span>
-
-            <!-- Navegação do sumário -->
-            <nav>
-              <ol>
-                <div *ngFor="let item of article.summary; let i = index">
-                  <li *ngIf="item.level === 1">
-                    {{ item.text }}
-
-                    <!-- verifica se o próximo item é subitem -->
-                    <ul *ngIf="article.summary[i + 1]?.level === 2">
-                      <li *ngFor="let subitem of article.summary.slice(i + 1) | slice:0:subCount(i)">
-                        {{ subitem.text }}
-                      </li>
-                    </ul>
-                  </li>
-                </div>
-              </ol>
-            </nav>
-          </div>
-        </aside>
-
-        <!-- renderiza o conteúdo do markdown -->
-        <!--
-        <markdown class="variable-binding" [data]="article.text">
-        </markdown>
-        -->
-
-         <!-- DEV MODE, Apagar depois -->
-        <markdown [data]="articleContent" class="variable-binding"></markdown>
-        <!-- DEV MODE -->
-
-        <aside class="sidebar-right">
-          <app-novidades></app-novidades>
-        </aside>
-      </main>
-
-      <div class="keywords">
-        <span *ngFor="let word of article.keyWords">{{ word }} </span>
+      <div class="pagination">
+        <button (click)="prevPage()" [disabled]="page === 1">Anterior</button>
+        <span>Página {{page}} de {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="page === totalPages">Próxima</button>
       </div>
-
-      <!-- copywriter é a variável que contém informações sobre o usuário que escreveu o artigo -->
-      @if(copywriter != null) {
-      <div class="article-author-bottom">
-        <img [src]="copywriter.foto" alt="{{ copywriter.nome }}" />
-        <div>
-          <div class="author-info-bottom">
-            <p class="author-name">{{ copywriter.nome }}</p>
-            <p class="author-role">{{ copywriter.funcao }}</p>
-            <p class="author-description">{{ copywriter.artigos_descricao }}</p>
-          </div>
-
-          <div class="social-container">
-            <p>Compartilhe:</p>
-            <ul class="social-icons">
-              <li *ngIf="copywriter.url_facebook" class="social-icon">
-                <a href="{{ copywriter.url_facebook }}" target="_blank">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li *ngIf="copywriter.url_x" class="social-icon">
-                <a href="{{ copywriter.url_x }}" target="_blank">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li *ngIf="copywriter.url_linkedin" class="social-icon">
-                <a href="{{ copywriter.url_linkedin }}" target="_blank">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-              </li>
-              <li *ngIf="copywriter.url_instagram" class="social-icon">
-                <a href="{{ copywriter.url_instagram }}" target="_blank">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-              <li *ngIf="copywriter.url_github" class="social-icon">
-                <a href="{{ copywriter.url_github }}" target="_blank">
-                  <i class="fab fa-github"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      }
-
-      <div class="related-articles">
-        <div class="related-articles-content">
-          <div class="related-articles-icon">
-            <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="none" viewBox="0 0 24 24">
-              <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023" />
-            </svg>
-          </div>
-          <p class="related-articles-text">
-            Veja outros artigos sobre <br />
-            <a href="webmain/conteudo/artigos" class="sitemap-category">{{ article.category | titlecase }}</a>
-            <!-- <a href="webmain/conteudo/artigos/{{ article.category }}" class="sitemap-category">{{ article.category | titlecase }}</a> -->
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Comentários -->
-
-  </article>
+    </main>
+  </div>
   <app-newsletter></app-newsletter>
   <app-footer></app-footer>
-</section>
+
+  <!-- Modal de artigo -->
+   @if(selectedArticle){
+    <div class="modal-article" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeModal()">×</button>
+        <h2 class="modal-title">{{selectedArticle.title}}</h2>
+        <img [src]="selectedArticle.image" alt="imagem artigo" />
+        <div class="modal-body">
+          <p>{{selectedArticle.text}}</p>
+          @if(selectedArticle.route){
+            <a
+              [href]="selectedArticle.route"
+              target="_blank"
+              rel="noopener"
+              class="btn-acessar-noticia"
+            >
+              Acessar notícia completa
+            </a>
+          }
+          <div class="articles-page-data">
+            <h4>Dados:</h4>
+            <div><strong>Autor:</strong> {{selectedArticle.author || 'Desconhecido'}}</div>
+            <div><strong>Categoria:</strong> {{selectedArticle.category}}</div>
+            <div><strong>Tema:</strong> {{selectedArticle.theme}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+   }
+  
+</div>

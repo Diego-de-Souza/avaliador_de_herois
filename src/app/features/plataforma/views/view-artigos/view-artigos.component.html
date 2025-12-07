@@ -1,22 +1,22 @@
-<div class="studios-container">
+<div class="artigos-container">
     <app-header-platform></app-header-platform>
     <section class="table-container">
-        <h2>Lista de Estúdios</h2>
+        <h2>Lista de Artigos</h2>
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Nacionalidade</th>
-                <th>Ações</th>
-            </tr>
+                <tr>
+                    <th>Título</th>
+                    <th>Categoria</th>
+                    <th>Ações</th>
+                </tr>
             </thead>
             <tbody>
-                @if (isList && articles.length > 0) {
-                    @for (article of articles; track article) {
-                        <tr class="tr-viewStudio">
-                            <td>{{ article.name }}</td>
-                            <td>{{ article.nationality }}</td>
-                            <td class="td-acoes-studio">
+                @if (isList && articles().length > 0) {
+                    @for (article of articles(); track article) {
+                        <tr class="tr-viewArtigo">
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.category }}</td>
+                            <td class="td-acoes-artigo">
                                 <button class="btn btn-primary" (click)="editArtigos(article.id)">Editar</button>
                                 <button class="btn btn-danger" (click)="deleteArtigos(article.id)">Deletar</button>
                             </td>
@@ -24,11 +24,10 @@
                     }
                 } @else {
                     <tr>
-                    <td colspan="3">Nenhum artigo encontrado.</td>
+                        <td colspan="3">Nenhum artigo encontrado.</td>
                     </tr>
                 }
             </tbody>
         </table>
     </section>
 </div>
-

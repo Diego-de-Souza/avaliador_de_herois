@@ -48,5 +48,10 @@ export const routes: Routes = [
     path: 'shopping',
     loadChildren: () => import('./features/shopping/shopping.routes').then(m => m.routesShopping)
   },
+  {
+        path: 'ecommerce',
+        title: 'E-commerce',
+        loadChildren: () => import('./features/ecommerce/ecommerce.routes').then(m => m.routesEcommerce)
+  },
   { path: '**', redirectTo: '' },
 ];

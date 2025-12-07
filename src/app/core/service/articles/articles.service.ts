@@ -9,31 +9,32 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ArticleService {
+  private readonly http = inject(HttpClient);
 
   // // Buscar todos artigos
   // getArticles(): Observable<Article[]> {
   //   return this.http.get<Article[]>(this.apiUrl);
   // }
 
-  // // Buscar artigo por ID
-  // getArticleById(id: number): Observable<Article> {
-  //   return this.http.get<Article>(`${environment.apiURL}/${id}`);
-  // }
+  // Buscar artigo por ID
+  getArticleById(id: number): Observable<String[]> {
+    return this.http.get<String[]>(`${environment.apiURL}/articles/find-one-article/${id}`);
+  }
 
-  // // Criar artigo
-  // createArticle(article: Article): Observable<Article> {
-  //   return this.http.post<Article>(`${environment.apiURL}`, article);
-  // }
+  // Criar artigo
+  createArticle(article: articlesProps): Observable<articlesProps> {
+    return this.http.post<articlesProps>(`${environment.apiURL}/articles`, article);
+  }
 
-  // // Atualizar artigo
-  // updateArticle(id: number, article: Article): Observable<Article> {
-  //   return this.http.put<Article>(`${environment.apiURL}/${id}`, article);
-  // }
+  // Atualizar artigo
+  updateArticle(id: number, article: articlesProps): Observable<articlesProps> {
+    return this.http.put<articlesProps>(`${environment.apiURL}/articles/update/${id}`, article);
+  }
 
-  // // Excluir artigo
-  // deleteArticle(id: number): Observable<any> {
-  //   return this.http.delete(`${environment.apiURL}/${id}`);
-  // }
+  // Excluir artigo
+  deleteArticle(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiURL}/articles/delete-one-article/${id}`);
+  }
 
   // // Incrementar visualizações
   // incrementViews(id: number): Observable<any> {
@@ -44,8 +45,6 @@ export class ArticleService {
   // getMostViewed(limit: number = 3): Observable<Article[]> {
   //   return this.http.get<Article[]>(`http://localhost:3000/articles-most-viewed/${limit}`);
   // }
-
-  private readonly http = inject(HttpClient);
 
   private articles: articlesProps[] = [...articlesDataBase];
 
@@ -91,15 +90,10 @@ export class ArticleService {
     }
   }
 
-  updateArticle(index: number, updatedArticle: articlesProps): void {
-    this.articles[index] = updatedArticle;
-    this.saveToLocalStorage();
-  }
-
   incrementArticleById(id: number): articlesProps | undefined {
     const article = this.articles.find(a => a.id === id);
     if (article) {
-      this.incrementViews(article.id); // 👈 contabiliza ao abrir
+      this.incrementViews(article.id);
     }
     return article;
   }
@@ -115,5 +109,9 @@ export class ArticleService {
     return [...this.articles]
       .sort((a, b) => (b.views ?? 0) - (a.views ?? 0))
       .slice(0, limit);
+  }
+
+  getArticlesHomepage(): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/articles/articles-for-homepage`);
   }
 }

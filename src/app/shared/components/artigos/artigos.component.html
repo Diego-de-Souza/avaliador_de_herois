@@ -1,63 +1,70 @@
-<section #artigosContainer class="articles" id="theme_artigos">
-  <h2 class="title">Últimos artigos publicados</h2>
-  <span class="subtitle">Explore o universo Geek</span>
+<section id="theme_artigos" class="artigos-section" #artigosContainer>
+  <h2 class="artigos-title">
+    <i class="fa-solid fa-book-open"></i> Artigos
+  </h2>
 
-  <div class="articles-container">
-
-    <main>
-      <section class="category-section">
-        <div class="category-container">
-          <div *ngFor="let category of filteredCategory()" class="category">
-            <div class="category-selector">
-              <h2 class="category-title">{{ category.toUpperCase() | titlecase }}</h2>
-            </div>
-
-            <div class="articles-grid">
-              <div class="article-card" *ngFor="let article of filteredArticles(category)">
-                <a [routerLink]="['webmain/artigos/', article.id]" routerLinkActive="active">
-                  <div class="img-container">
-                    <figure>
-                      <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
-                    </figure>
-                  </div>
-                  <span class="article-card-category">{{ article.category }}</span>
-                  <h3 class="article-card-title">{{ article.title }}</h3>
-                  <p class="article-card-description">{{ article.description }}</p>
-                </a>
-              </div>
-            </div>
-          </div>
+  <!-- Destaques -->
+  <div class="artigos-subtitle">
+    <i class="fa-solid fa-star"></i> Destaques
+  </div>
+  <div class="artigos-grid">
+    @for (artigo of mostViewed; track artigo.id) {
+      <div class="artigo-card destaque" [ngStyle]="{'border-color': artigo.themeColor}">
+        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" />
+        <div class="artigo-content">
+          <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
+          <h3 class="artigo-title">{{ artigo.title }}</h3>
+          <p class="artigo-summary">{{ artigo.summary }}</p>
+          <button class="artigo-btn" [routerLink]="['/webmain/artigos', artigo.id]">Ler mais</button>
         </div>
-        <a [routerLink]="['/webmain/conteudo/artigos']" class="ver-mais" target="_blank" rel="noopener noreferrer">
-          Ver Mais
-        </a>
-      </section>
-
-      <!-- Mais Vistos -->
-      <section class="mais-vistos">
-        <h2 class="visto-title">Artigos Mais vistos</h2>
-        <div class="visto-grid">
-          <div class="visto-card" *ngFor="let article of mostViewed">
-            <a [routerLink]="['/webmain/artigos', article.id]">
-              <div class="visto-img">
-                <figure>
-                  <img [src]="article.thumbnail" [alt]="article.title" loading="lazy" />
-                </figure>
-              </div>
-              <div class="novidade-content">
-                <span class="article-card-category">{{ article.category }}</span>
-                <h3 class="article-card-title">{{ article.title }}</h3>
-                <p class="article-card-description">{{ article.description }}</p>
-                <small class="article-card-date">{{ article.created_at | date:'dd/MM/yyyy' }}</small>
-              </div>
-            </a>
-          </div>
-        </div>
-        <a [routerLink]="['/webmain/conteudo/artigos']" class="ver-mais" target="_blank" rel="noopener noreferrer">
-          Ver Mais
-        </a>
-      </section>
-    </main>
+      </div>
+    }
   </div>
 
+  <!-- Últimos artigos -->
+  <div class="artigos-subtitle">
+    <i class="fa-solid fa-clock"></i> Últimos artigos
+  </div>
+  <div class="artigos-grid">
+    @for (artigo of getRecentArticles; track artigo.id) {
+      <div class="artigo-card recente" [ngStyle]="{'border-color': artigo.themeColor}">
+        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" />
+        <div class="artigo-content">
+          <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
+          <h3 class="artigo-title">{{ artigo.title }}</h3>
+          <p class="artigo-summary">{{ artigo.summary }}</p>
+          <button class="artigo-btn" [routerLink]="['/webmain/artigos', artigo.id]">Ler mais</button>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Categorias -->
+  <div class="artigos-subtitle">
+    <i class="fa-solid fa-layer-group"></i> Categorias
+  </div>
+  <div class="artigos-categorias">
+    @for (article of articles; track article.category) {
+      <div class="categoria-card">
+        <h4 class="categoria-title">{{ article.category }}</h4>
+        <div class="categoria-artigos">
+          <div class="artigo-card categoria" [ngStyle]="{'border-color': article.themeColor}">
+              <img [src]="article.image" [alt]="article.title" class="artigo-img" />
+              <div class="artigo-content">
+                <span class="artigo-theme" [style.background]="article.themeColor">{{ article.theme }}</span>
+                <h3 class="artigo-title">{{ article.title }}</h3>
+                <p class="artigo-summary">{{ article.summary }}</p>
+                <button class="artigo-btn" [routerLink]="['/webmain/artigos', article.id]">Ler mais</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="artigos-footer">
+    <a routerLink="/webmain/artigos" class="ver-todos-btn">
+      Ver todos os artigos <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
 </section>

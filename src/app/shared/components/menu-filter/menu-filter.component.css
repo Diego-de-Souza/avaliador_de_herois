@@ -1,0 +1,152 @@
+:host {
+  .ecommerce-aside {
+    width: 320px;
+    min-width: 260px;
+    padding: 2.5rem 2rem;
+    border-right: 2px solid var(--bg-orange);
+    background: var(--bg-secondary);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    border-radius: 0 24px 24px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .dark {
+    background:  var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  .light {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+  }
+
+  .filter-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .filter-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.2rem;
+    color: var(--bg-blue);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: left;
+    border-left: 4px solid var(--bg-orange);
+    padding-left: 0.5rem;
+  }
+  .filter-section {
+    margin-bottom: 0.5rem;
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    padding: 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    transition: box-shadow 0.3s;
+  }
+  .filter-section h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.3rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .filter-section label {
+    font-size: 0.98rem;
+    color: var(--text-primary);
+    margin-left: 0.3rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .filter-section input[type="checkbox"]:hover + label,
+  .filter-section input[type="range"]:hover,
+  .filter-section select:focus {
+    color: var(--bg-blue);
+  }
+  .filter-section input[type="text"],
+  .filter-section select {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-primary);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    transition: border 0.2s;
+  }
+  .filter-section input[type="text"]:focus,
+  .filter-section select:focus {
+    border-color: var(--bg-blue);
+    outline: none;
+  }
+  .filter-section input[type="range"] {
+    width: 100%;
+    accent-color: var(--bg-blue);
+    margin-top: 0.5rem;
+  }
+  .filter-section span {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+  }
+
+  .filter-btn {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(90deg, var(--bg-blue) 60%, var(--bg-orange) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    transition: background 0.3s, box-shadow 0.3s;
+    margin-top: 1rem;
+    letter-spacing: 1px;
+  }
+  .filter-btn:hover {
+    background: linear-gradient(90deg, var(--bg-dark-orange) 60%, var(--bg-blue) 100%);
+    box-shadow: 0 4px 16px var(--shadow-color-primary);
+  }
+
+  /* Scrollbar customizado */
+  ::-webkit-scrollbar {
+    width: 8px;
+    background: var(--bg-secondary);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bg-blue);
+    border-radius: 8px;
+  }
+
+  /* Responsivo */
+  @media (max-width: 900px) {
+    .ecommerce-aside {
+      width: 100vw;
+      min-width: unset;
+      border-radius: 0 0 24px 24px;
+      border-right: none;
+      border-bottom: 2px solid var(--bg-orange);
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 1.2rem 0.5rem;
+    }
+    .logo-container {
+      margin-bottom: 0;
+      margin-right: 1.2rem;
+    }
+    .filter-form {
+      gap: 1.2rem;
+    }
+  }
+}

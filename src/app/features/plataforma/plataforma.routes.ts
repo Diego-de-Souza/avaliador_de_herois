@@ -29,5 +29,5 @@ export const routesPlataforma: Routes = [
         path: 'cadastro',
         title: 'Cadastro',
         loadComponent: () => import('./usuario/usuario.component').then(m => m.UsuarioComponent)
-    },
+    }
 ]

@@ -1,28 +1,75 @@
 <section class="artigos-container">
   <app-header-platform></app-header-platform>
-    <section class="cadastro-artigos-container">
-      <h1>Cadastro de Artigos</h1>
-      <form [formGroup]="artigosForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="name">Título do Artigo</label>
-          <input type="text" id="name" formControlName="name" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('name')}">
-        </div>
-        <div class="form-group">
-          <label for="category">Categoria</label>
-          <input type="text" id="category" formControlName="category" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('category')}">
-        </div>
-        <div class="form-group">
-          <label for="content">Conteúdo do Artigo</label>
-          <textarea id="editor" formControlName="content" class="form-control"></textarea>
-          <div *ngIf="isFieldInvalid('content')" class="text-danger">
-            O conteúdo do artigo é obrigatório.
+  <section class="cadastro-artigos-container">
+    <h1>Cadastro de Artigos</h1>
+    <form [formGroup]="artigosForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Título do Artigo</label>
+        <input type="text" id="title" formControlName="title" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('title')}">
+      </div>
+      <div class="form-group">
+        <label for="category">Categoria</label>
+        <input type="text" id="category" formControlName="category" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('category')}">
+      </div>
+      <div class="form-group">
+        <label for="author">Autor</label>
+        <input type="text" id="author" formControlName="author" class="form-control" [ngClass]="{'is-invalid': isFieldInvalid('author')}">
+      </div>
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <input type="text" id="description" formControlName="description" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="text">Texto Completo</label>
+        <textarea id="text" formControlName="text" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="summary">Resumo</label>
+        <div formArrayName="summary">
+          <div *ngFor="let item of summaryArray.controls; let i = index" [formGroupName]="i" class="summary-item">
+            <input type="text" formControlName="text" placeholder="Resumo" class="form-control" />
+            <input type="number" formControlName="level" placeholder="Nível" class="form-control" min="1" max="5" />
           </div>
         </div>
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary"  [disabled]="artigosForm.invalid">Salvar Artigo</button>
-          <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+        <button type="button" class="btn btn-sm btn-info" (click)="addSummaryItem('', 1)">Adicionar Resumo</button>
+      </div>
+      <div class="form-group">
+        <label for="thumbnail">Thumbnail (URL da imagem)</label>
+        <input type="text" id="thumbnail" formControlName="thumbnail" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="image">Imagem Principal (JPG/JPEG, máx. 300x300)</label>
+        <input
+          type="file"
+          id="image"
+          accept="image/jpeg, image/jpg"
+          (change)="onImageSelected($event)"
+          class="form-control"
+        />
+        <div *ngIf="imagePreview || artigosForm.get('image')?.value" class="image-preview">
+          <img [src]="imagePreview || artigosForm.get('image')?.value" alt="Preview" style="max-width: 120px; max-height: 120px; margin-top: 8px;" />
         </div>
-      </form>
-    </section>
+      </div>
+      <div class="form-group">
+        <label for="keyWords">Palavras-chave</label>
+        <input type="text" id="keyWords" formControlName="keyWords" class="form-control" placeholder="Separadas por vírgula">
+      </div>
+      <div class="form-group">
+        <label for="route">Rota</label>
+        <input type="text" id="route" formControlName="route" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="theme">Tema</label>
+        <input type="text" id="theme" formControlName="theme" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="themeColor">Cor do Tema</label>
+        <input type="color" id="themeColor" formControlName="themeColor" class="form-control">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="artigosForm.invalid">Salvar Artigo</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+      </div>
+    </form>
+  </section>
 </section>
-  

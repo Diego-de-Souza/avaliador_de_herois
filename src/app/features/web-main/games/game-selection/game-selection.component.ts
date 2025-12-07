@@ -24,18 +24,11 @@ export class GameSelectionComponent implements OnInit {
       link: '/webmain/games/memory-game'
     },
     {
-      title: 'Quiz Geek',
-      description: 'Teste seus conhecimentos sobre cultura pop, heróis e filmes!',
-      icon: '❓',
-      link: '/webmain/games/quiz-geek'
-    },
-    {
       title: 'Hero Battle',
       description: 'Monte seu time de heróis e desafie outros jogadores!',
       icon: '⚔️',
       link: '/webmain/games/hero-battle'
     }
-    // Adicione outros jogos aqui futuramente
   ];
 
   ngOnInit() {

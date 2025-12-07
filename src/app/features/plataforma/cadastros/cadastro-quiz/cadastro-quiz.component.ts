@@ -98,9 +98,9 @@ export class CadastroQuizComponent implements OnInit {
         this._quizForm.setControl('quiz_levels', levelsArray);
       },
       error: (err) => {
-  this.modalTitle = 'Erro';
-  this.modalMessage = 'Não foi possível carregar os dados do quiz.';
-  this.showSuccessModal = true;
+        this.modalTitle = 'Erro';
+        this.modalMessage = 'Não foi possível carregar os dados do quiz.';
+        this.showSuccessModal = true;
       }
     });
   }

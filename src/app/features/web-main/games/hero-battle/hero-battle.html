@@ -1,0 +1,283 @@
+<app-header></app-header>
+
+<main class="hero-battle-container" [class.dark]="_themeService === 'dark'" [class.light]="_themeService === 'light'">
+  <div class="game-wrapper">
+    <!-- CABEÇALHO COM BOTÃO DE AJUDA -->
+    <div class="game-header">
+      <h1 class="game-title">🏆 Hero Battle - RPG Épico</h1>
+      <button class="help-btn" (click)="openHelp()" title="Guia Completo do Jogo">
+        <span class="help-icon">📖</span>
+        <span class="help-text">Guia do Jogo</span>
+      </button>
+    </div>
+
+    <!-- SELEÇÃO DE CLASSE -->
+    <div *ngIf="fase === 'selecao-classe'" class="class-selection">
+      <div class="selection-header">
+        <h2>Escolha sua Classe</h2>
+        <p class="selection-subtitle">
+          Cada classe possui habilidades únicas e estilos de combate diferentes. 
+          <button class="inline-help-btn" (click)="openHelp()">
+            📖 Clique aqui para ver o guia completo
+          </button>
+        </p>
+      </div>
+      
+      <div class="classes-grid">
+        <div *ngFor="let classe of classesDisponiveis" 
+             class="class-card" 
+             (click)="selecionarClasse(classe)">
+          <div class="class-icon">{{ classe.icone }}</div>
+          <h3>{{ classe.nome }}</h3>
+          <p class="class-description">{{ classe.descricao }}</p>
+          <div class="class-stats">
+            <div class="stat">❤️ Vida: {{ classe.statsBase.vida }}</div>
+            <div class="stat">⚔️ Ataque: {{ classe.statsBase.ataque }}</div>
+            <div class="stat">🛡️ Defesa: {{ classe.statsBase.defesa }}</div>
+            <div class="stat">⚡ Velocidade: {{ classe.statsBase.velocidade }}</div>
+            <div class="stat">🔮 {{ classe.recurso }}: {{ classe.statsBase.mana }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERFACE DE BATALHA -->
+    <div *ngIf="fase === 'batalha' && jogador" class="battle-interface">
+      
+      <!-- INFORMAÇÕES DE PROGRESSO -->
+      <div class="progress-info">
+        <div class="game-stats">
+          <div class="stat-item">
+            <span class="stat-label">🏆 Score</span>
+            <span class="stat-value">{{ gameStats.score | number }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">🎯 Tentativa</span>
+            <span class="stat-value">#{{ gameStats.attempts }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">⏱️ Tempo</span>
+            <span class="stat-value">{{ getTempoJogado() }}</span>
+          </div>
+        </div>
+        
+        <div class="saving-status" *ngIf="progressSaving || progressMessage">
+          <div class="saving-indicator" *ngIf="progressSaving">
+            <span class="spinner">⏳</span> Salvando progresso...
+          </div>
+          <div class="success-message" *ngIf="progressMessage && !progressSaving">
+            {{ progressMessage }}
+          </div>
+        </div>
+
+        <button 
+          class="save-btn" 
+          (click)="saveProgress()"
+          [disabled]="progressSaving"
+          title="Salvar Progresso Manualmente">
+          <span *ngIf="!progressSaving">💾 Salvar</span>
+          <span *ngIf="progressSaving">⏳ Salvando...</span>
+        </button>
+      </div>
+
+      <!-- HUD DO JOGADOR -->
+      <div class="player-hud">
+        <div class="character-info">
+          <div class="character-avatar">{{ jogador.classe.icone }}</div>
+          <div class="character-details">
+            <h3>{{ jogador.classe.nome }} - Nível {{ jogador.stats.nivel }}</h3>
+            
+            <!-- BARRA DE VIDA -->
+            <div class="stat-bar vida-bar">
+              <label>❤️ Vida: {{ jogador.stats.vida }} / {{ jogador.stats.vidaMax }}</label>
+              <div class="bar-container">
+                <div class="bar-fill vida" [style.width.%]="getBarraVidaPercent(jogador.stats.vida, jogador.stats.vidaMax)"></div>
+              </div>
+            </div>
+
+            <!-- BARRA DE MANA/ENERGIA -->
+            <div class="stat-bar mana-bar">
+              <label>🔮 {{ jogador.classe.recurso }}: {{ jogador.stats.mana }} / {{ jogador.stats.manaMax }}</label>
+              <div class="bar-container">
+                <div class="bar-fill mana" [style.width.%]="getBarraManaPercent(jogador.stats.mana, jogador.stats.manaMax)"></div>
+              </div>
+            </div>
+
+            <!-- EXPERIÊNCIA -->
+            <div class="stat-bar exp-bar">
+              <label>⭐ EXP: {{ jogador.stats.experiencia }} / {{ jogador.stats.experienciaProximo }}</label>
+              <div class="bar-container">
+                <div class="bar-fill exp" [style.width.%]="getBarraManaPercent(jogador.stats.experiencia, jogador.stats.experienciaProximo)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARENA DE BATALHA -->
+      <div class="battle-arena">
+        <div class="level-info">
+          <h2>Nível {{ nivel }}: {{ inimigo?.nome }}</h2>
+          <p *ngIf="inimigo?.tipo === 'chefe'" class="boss-indicator">👑 CHEFE</p>
+        </div>
+
+        <!-- INIMIGO -->
+        <div class="enemy-display" *ngIf="inimigo">
+          <div class="enemy-avatar">{{ inimigo.sprite }}</div>
+          <div class="enemy-info">
+            <h3>{{ inimigo.nome }}</h3>
+            <p class="enemy-description">{{ inimigo.descricao }}</p>
+            
+            <!-- VIDA DO INIMIGO -->
+            <div class="stat-bar enemy-hp">
+              <label>❤️ Vida: {{ inimigo.vida }} / {{ inimigo.vidaMax }}</label>
+              <div class="bar-container">
+                <div class="bar-fill enemy-vida" [style.width.%]="getBarraVidaPercent(inimigo.vida, inimigo.vidaMax)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INDICADOR DE TURNO -->
+        <div class="turn-indicator">
+          <div class="turn-info" [class.active]="turno === 'jogador'">
+            <span *ngIf="turno === 'jogador'">🗡️ SEU TURNO</span>
+            <span *ngIf="turno === 'inimigo'">🤖 Turno do Inimigo...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AÇÕES DO JOGADOR -->
+      <div class="player-actions" [class.disabled]="turno !== 'jogador'">
+        <div class="action-buttons">
+          <button class="action-btn attack-btn" 
+                  (click)="atacar()" 
+                  [disabled]="turno !== 'jogador'">
+            ⚔️ Atacar
+          </button>
+
+          <div class="abilities-section">
+            <h4>Habilidades:</h4>
+            <div class="abilities-grid">
+              <button *ngFor="let habilidade of getHabilidadesDisponiveis()" 
+                      class="ability-btn"
+                      [class.disabled]="!podeUsarHabilidade(habilidade)"
+                      [disabled]="turno !== 'jogador' || !podeUsarHabilidade(habilidade)"
+                      (click)="usarHabilidade(habilidade)"
+                      [title]="habilidade.descricao">
+                <span class="ability-name">{{ habilidade.nome }}</span>
+                <span class="ability-cost">{{ habilidade.custo }}</span>
+                <span *ngIf="habilidade.isUltimate" class="ultimate-mark">⭐</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG DE COMBATE -->
+      <div class="combat-log">
+        <h4>📜 Log de Combate:</h4>
+        <div class="log-messages">
+          <div *ngFor="let message of log.slice(-8); let i = index" 
+               class="log-message"
+               [class.recent]="i >= log.length - 3">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELA DE VITÓRIA -->
+    <div *ngIf="fase === 'vitoria'" class="victory-screen">
+      <div class="victory-content">
+        <h2>🎉 VITÓRIA!</h2>
+        <p>Você derrotou {{ inimigo?.nome }}!</p>
+        <div class="victory-rewards">
+          <p>💰 Experiência ganha: {{ nivel * 20 }} XP</p>
+          <p>⭐ Nível atual: {{ jogador?.stats?.nivel }}</p>
+          <p>🏆 Score obtido: {{ gameStats.score | number }} pontos</p>
+        </div>
+        
+        <!-- STATUS DE SALVAMENTO -->
+        <div class="save-status" *ngIf="progressSaving || progressMessage">
+          <div *ngIf="progressSaving" class="saving-progress">
+            <span class="spinner">⏳</span> Salvando seu progresso...
+          </div>
+          <div *ngIf="progressMessage && !progressSaving" class="save-success">
+            ✅ {{ progressMessage }}
+          </div>
+        </div>
+
+        <div class="victory-actions">
+          <button class="btn-primary" 
+                  (click)="proximoNivel()"
+                  [disabled]="progressSaving">
+            <span *ngIf="!progressSaving">➡️ Próximo Nível</span>
+            <span *ngIf="progressSaving">⏳ Aguarde...</span>
+          </button>
+          <button class="btn-secondary" (click)="reiniciarJogo()">
+            🔄 Recomeçar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TELA DE LEVEL UP -->
+    <div *ngIf="fase === 'level-up'" class="levelup-screen">
+      <div class="levelup-content">
+        <h2>⭐ LEVEL UP!</h2>
+        <p>Parabéns! Você subiu para o nível {{ jogador?.stats?.nivel }}!</p>
+        <div class="stat-improvements">
+          <div class="improvement">❤️ Vida Máxima: +10</div>
+          <div class="improvement">⚔️ Ataque: +3</div>
+          <div class="improvement">🛡️ Defesa: +2</div>
+          <div class="improvement">🔮 Mana Máxima: +10</div>
+        </div>
+        <button class="btn-primary" (click)="proximoNivel()">
+          ✨ Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- TELA DE DERROTA -->
+    <div *ngIf="fase === 'derrota'" class="defeat-screen">
+      <div class="defeat-content">
+        <h2>💀 DERROTA</h2>
+        <p>Você foi derrotado por {{ inimigo?.nome }}...</p>
+        <p>Não desista! Tente novamente!</p>
+        
+        <!-- ESTATÍSTICAS DA TENTATIVA -->
+        <div class="defeat-stats">
+          <p>📊 Estatísticas desta tentativa:</p>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <span>🏆 Score Final:</span>
+              <span>{{ gameStats.score | number }}</span>
+            </div>
+            <div class="stat-item">
+              <span>⏱️ Tempo Jogado:</span>
+              <span>{{ getTempoJogado() }}</span>
+            </div>
+            <div class="stat-item">
+              <span>🎯 Nível Alcançado:</span>
+              <span>{{ nivel }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="defeat-actions">
+          <button class="btn-primary" (click)="reiniciarJogo()">
+            🔄 Tentar Novamente
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-game-help-modal 
+  [isOpen]="showHelpModal" 
+  (closeModal)="closeHelp()">
+</app-game-help-modal>
+
+<app-footer></app-footer>

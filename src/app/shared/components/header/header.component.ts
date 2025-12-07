@@ -15,7 +15,7 @@ import { CartIconComponent } from '../cart-icon/cart-icon.component';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  private router: Router= inject(Router);
+  private router: Router = inject(Router);
   private themeService: ThemeService = inject(ThemeService);
   private authService: AuthService = inject(AuthService);
 
@@ -25,14 +25,10 @@ export class HeaderComponent implements OnInit {
   public isMenuOpen = false;
   public submenuOpen = false;
 
-
   ngOnInit(): void {
-    const logged = sessionStorage.getItem('access_token');
-
-    if (logged) {
-      this.isLoggedIn = true;
-    }
-
+    this.authService.user$.subscribe(user => {
+      this.isLoggedIn = !!user;
+    });
 
     this.themeService.theme$.subscribe(theme => {
       this._themeAll = theme;
@@ -41,12 +37,9 @@ export class HeaderComponent implements OnInit {
     this.checkScreenSize();
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   checkScreenSize() {
     this.isMobile = window.innerWidth <= 992; 
-  }
-  receiveData(data: boolean) {
-    this.isLoggedIn = data;
   }
 
   changeTheme() {
@@ -62,16 +55,13 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = false;
   }
 
-  routerSubMenu(rota:string): void{
-    switch(rota){
-      case 'destaques':
-        this.router.navigate(['/webmain/conteudo/destaques']);
-        break;
+  routerSubMenu(rota: string): void {
+    switch(rota) {
       case 'newsletter':
         this.router.navigate(['/webmain/conteudo/newsletter']);
         break;
       case 'artigos':
-        this.router.navigate(['/webmain/conteudo/artigos']);
+        this.router.navigate(['/webmain/artigos']);
         break;
       case 'eventos':
         this.router.navigate(['/webmain/conteudo/eventos']);

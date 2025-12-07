@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -6,12 +7,16 @@ import { NgbCarousel, NgbCarouselModule, NgbSlideEvent, NgbSlideEventSource } fr
 @Component({
   selector: 'app-carousel',
   standalone: true,
-  imports: [NgbCarouselModule, FormsModule, RouterLink, RouterLinkActive],
+  imports: [NgbCarouselModule, FormsModule, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './carousel.component.html',
   styleUrl: './carousel.component.css'
 })
 export class CarouselComponent {
 	public themeBanner: string | null = 'dark';
+	@Input() height: string = '480px';
+	@Input() width: string = '100%';
+	@Input() imgHeight: string = '100%';
+	@Input() imgWidth: string = '100%';
 
   @Input() images: {
     url: string,

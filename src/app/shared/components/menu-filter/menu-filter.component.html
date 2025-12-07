@@ -1,0 +1,32 @@
+<aside class="ecommerce-aside" id="menu-filter-container">
+            <form class="filter-form">
+            <h2>Filtrar Produtos</h2>
+            <div class="filter-section">
+                <h3>Categoria</h3>
+                <div>
+                <input type="checkbox" id="camisetas" name="categoria" value="camisetas" />
+                <label for="camisetas">Camisetas</label>
+                </div>
+                <div>
+                <input type="checkbox" id="action-figures" name="categoria" value="action-figures" />
+                <label for="action-figures">Action Figures</label>
+                </div>
+                <!-- Adicione mais categorias conforme necessário -->
+            </div>
+            <div class="filter-section">
+                <h3>Faixa de Preço</h3>
+                <input type="range" min="10" max="1000" step="10" />
+                <span>R$10 - R$1000</span>
+            </div>
+            <div class="filter-section">
+                <h3>Marca</h3>
+                <select>
+                <option value="">Todas</option>
+                <option value="marvel">Marvel</option>
+                <option value="dc">DC</option>
+                <!-- Adicione mais marcas -->
+                </select>
+            </div>
+            <button type="submit" class="filter-btn">Aplicar Filtros</button>
+            </form>
+        </aside>

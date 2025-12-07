@@ -6,9 +6,9 @@ export const plansGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
       
-    const accessToken = sessionStorage.getItem('access_token');
+    const user_is_logged_in = authService.getUser()
     
-    if (!accessToken) {
+    if (!user_is_logged_in) {
         console.error('Acesso negado: Usuário não logado para acessar o conteúdo.');
         
         // Mostrar alerta informativo
@@ -20,7 +20,7 @@ export const plansGuard: CanActivateFn = (route, state) => {
     }
     
     try {
-        const dataUser = authService.decodeJwt(accessToken);
+        const dataUser = authService.getUser()
         return true;
     } catch (error) {
         console.error('Token inválido:', error);

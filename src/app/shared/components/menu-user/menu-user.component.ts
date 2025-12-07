@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter,inject,OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/service/auth/auth.service';
 
@@ -10,41 +10,32 @@ import { AuthService } from '../../../core/service/auth/auth.service';
   templateUrl: './menu-user.component.html',
   styleUrl: './menu-user.component.css'
 })
-export class MenuUserComponent implements OnInit{
+export class MenuUserComponent implements OnInit {
   @Output() isNotLogged = new EventEmitter<boolean>();
   private router: Router = inject(Router);
-  private authService: AuthService = inject(AuthService);
+  public authService: AuthService = inject(AuthService);
   public userName: string = '';
 
   ngOnInit() {
-    const logged = sessionStorage.getItem('access_token');
-      this.userName = this.authService.decodeJwt(logged!).nickname || '';
+    this.authService.user$.subscribe(user => {
+      this.userName = user?.nickname || '';
+    });
   }
-  
-  goConfig(){
+
+  goConfig() {
     const currentUrl = this.router.url;
     if (!currentUrl.includes('user-config')) {
       localStorage.setItem('returnUrl', currentUrl);
     }
     this.router.navigate(['/plataforma/user-config']);
-
   }
 
   logout() {
     const data = false;
     this.isNotLogged.emit(data);
-    // Remover informações da sessão (se necessário)
-    localStorage.clear(); 
+    localStorage.clear();
     sessionStorage.clear();
-    deleteCookie('refresh_token');
-    // Redirecionar para a página inicial
+    this.authService.logout();
     this.router.navigate(['/']);
   }
-
-  
 }
-
-function deleteCookie(cookieName: string) {
-  document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-}
-

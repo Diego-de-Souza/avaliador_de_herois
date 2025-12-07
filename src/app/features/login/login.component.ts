@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       });
       
       this.isGoogleInitialized = true;
-      console.log('✅ Google Sign-In inicializado');
     } catch (error) {
       console.error('❌ Erro ao inicializar Google Sign-In:', error);
     }
@@ -75,8 +74,6 @@ export class LoginComponent implements OnInit {
       // Remover iframes do Google existentes
       const googleIframes = document.querySelectorAll('iframe[src*="google"], iframe[src*="gstatic"]');
       googleIframes.forEach(iframe => iframe.remove());
-      
-      console.log('🧹 Estado do Google limpo');
     } catch (error) {
       console.error('Erro ao limpar estado:', error);
     }
@@ -99,9 +96,6 @@ export class LoginComponent implements OnInit {
         // Forçar o prompt do Google
         google.accounts.id.prompt((notification: any) => {
           if (notification.isNotDisplayed()) {
-            console.log('❌ Prompt não foi exibido:', notification.getNotDisplayedReason());
-            
-            // Se não conseguir via prompt, tentar via renderButton
             this.fallbackGoogleLogin();
           } else if (notification.isSkippedMoment()) {
             console.log('⏭️ Usuário pulou o momento');
@@ -168,7 +162,7 @@ export class LoginComponent implements OnInit {
         this.message = 'Login efetuado com sucesso!';
         this.openModal(this.title, this.message);
 
-        const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
+        const data = await this.authService.getUser()
 
         if (login.has_totp) {
           sessionStorage.setItem('role', data.role);
@@ -215,7 +209,7 @@ export class LoginComponent implements OnInit {
         this.message = 'Login efetuado com sucesso!';
         this.openModal(this.title, this.message);
 
-        const data = await this.authService.decodeJwt(sessionStorage.getItem('access_token')!);
+        const data = await this.authService.getUser();
 
         if (data) {
           if (data.role === 'admin') {

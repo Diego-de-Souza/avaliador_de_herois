@@ -1,0 +1,40 @@
+<section class="ecommerce-container" id="ecommerce-container">
+    <app-header></app-header>
+    <div class="ecommerce-content">
+        <app-menu-filter></app-menu-filter>
+        <main class="ecommerce-main">
+            <div class="filter-section">
+                <label for="search">Busca</label>
+                <div class="container-search">
+                    <input type="text" id="search" name="search" placeholder="Buscar produto..." />
+                    <button>Buscar</button>
+                </div>
+            </div>
+            <h1>E-commerce</h1>
+            <p>Em breve, uma loja completa para você adquirir produtos incríveis relacionados ao universo dos heróis!</p>
+            <!-- Aqui vão os cards dos produtos -->
+            <div class="products-grid">
+                @for(itens of produtos; track itens.id){
+                    <div class="product-card">
+                        <img src="assets/img/products/produto1.jpg" alt="Produto 1" />
+                        <h2>Nome do Produto</h2>
+                        <p>Descrição breve do produto.</p>
+                        <span class="price">R$99,90</span>
+                        <button class="buy-btn">Comprar</button>
+                    </div>
+                }
+            <!-- Exemplo de card de produto -->
+            <!--
+            <div class="product-card">
+                <img src="assets/img/products/produto1.jpg" alt="Produto 1" />
+                <h2>Nome do Produto</h2>
+                <p>Descrição breve do produto.</p>
+                <span class="price">R$99,90</span>
+                <button class="buy-btn">Comprar</button>
+            </div>
+            -->
+            </div>
+        </main>
+    </div>
+  
+</section>

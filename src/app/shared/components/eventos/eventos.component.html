@@ -4,7 +4,7 @@
     <div *ngFor="let evento of eventos; let i = index" 
          class="option" 
          [class.active]="i === activeIndex"
-         [style.--optionBackground]="'url(' + evento.imagem + ')'"
+         [style.--optionBackground]="'url(' + evento.url_image + ')'"
          (click)="setActive(i)">
       <div class="shadow"></div>
       <div class="label">
@@ -12,8 +12,8 @@
           <i [ngClass]="getIcon(i)"></i>
         </div>
         <div class="info" *ngIf="i === activeIndex">
-          <div class="main">{{ evento.titulo }}</div>
-          <div class="sub">{{ evento.descricao }}</div>
+          <div class="main">{{ evento.title }}</div>
+          <div class="sub">{{ evento.description }}</div>
         </div>
       </div>
     </div>

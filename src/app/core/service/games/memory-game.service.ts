@@ -21,4 +21,16 @@ export class MemoryGameService {
             }
         );
     }
+
+    getCards(level: number, theme: string): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/games/cards?level=${level}&theme=${theme}`);
+    }
+
+    getThemes(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.apiUrl}/games/themes`);
+    }
+
+    getStatus(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/games/status`);
+    }
 }

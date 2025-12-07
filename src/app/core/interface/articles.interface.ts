@@ -17,4 +17,8 @@ export interface articlesProps {
     created_at: string;
     updated_at: string;
     views?: number;
+    theme?: string;       
+    themeColor?: string; 
+    image?: string; 
+    author: string;
 }

@@ -9,6 +9,11 @@ export const routesCadastros: Routes = [
         loadComponent: () => import('./cadastro-artigos/cadastro-artigos.component').then(m => m.CadastroArtigosComponent)
     },
     {
+        path: 'artigos/:id',
+        title: 'Atualizacao de Artigos',
+        loadComponent: () => import('./cadastro-artigos/cadastro-artigos.component').then(m => m.CadastroArtigosComponent)
+    },
+    {
         path: 'curiosidades',
         title: 'Cadastro de Curiosidades',
         loadComponent: () => import('./cadastro-curiosidades/cadastro-curiosidades.component').then(m => m.CadastroCuriosidadesComponent)
@@ -63,4 +68,9 @@ export const routesCadastros: Routes = [
         title: 'Atualizacao de Perguntas',
         loadComponent: () => import('./cadastro-quiz/questions/questions.component').then(m => m.QuestionsComponent)
     },
+    {
+        path: 'events-cadastro',
+        title: 'Cadastro de Eventos',
+        loadComponent: () => import('./cadastro-eventos/cadastro-eventos.component').then(m => m.CadastroEventosComponent)
+    }
 ]

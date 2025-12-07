@@ -1,26 +1,40 @@
-<div class="carousel"  id="theme_carousel">
+<div
+  class="carousel"
+  id="theme_carousel"
+  [ngStyle]="{ height: height, width: width }"
+>
   <ngb-carousel
     #carousel
     [interval]="5000"
     [pauseOnHover]="pauseOnHover"
-	  [pauseOnFocus]="pauseOnFocus"
+    [pauseOnFocus]="pauseOnFocus"
     (slide)="onSlide($event)"
   >
     @for (img of images; track img.url; let i = $index) {
       <ng-template ngbSlide>
-        <a routerLink="{{img.route}}" routerLinkActive="active" rel="nofollow noopener noreferrer" >
-          <div class="picsum-img-wrapper">
-            <img [src]="img.url" alt="My image {{ i + 1 }} description" fill/>
+        <a
+          [routerLink]="img.route"
+          routerLinkActive="active"
+          rel="nofollow noopener noreferrer"
+        >
+          <div
+            class="picsum-img-wrapper"
+            [ngStyle]="{ height: imgHeight, width: imgWidth }"
+          >
+            <img
+              [src]="img.url"
+              [alt]="'My image ' + (i + 1) + ' description'"
+              [style.height]="imgHeight"
+              [style.width]="imgWidth"
+              style="object-fit: cover; object-position: center;"
+            />
           </div>
         </a>
-        <!-- Contêiner para o conteúdo (sobreposição da imagem) -->
         <div class="carousel-content">
-          <h3>{{img.title}}</h3>
-          <p>{{img.description}}</p>
+          <h3>{{ img.title }}</h3>
+          <p>{{ img.description }}</p>
         </div>
       </ng-template>
     }
   </ngb-carousel>
-
-
 </div>

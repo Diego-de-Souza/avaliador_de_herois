@@ -1,148 +1,184 @@
-.memory-wrap {
+.memory-game-root {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary) 80%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
+  padding: 32px 12px;
+  background: var(--memory-bg, #181a1b);
+  transition: background 0.3s;
+  font-family: 'Orbitron', 'Roboto', sans-serif;
 }
 
-.memory-game {
+.dark.memory-game-root {
+  --memory-bg: #181a1b;
+  color: #fff;
+}
+
+.light.memory-game-root {
+  --memory-bg: #f4f7fb;
+  color: #222;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.memory-btn {
+  padding: 8px 18px;
+  background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0002;
+}
+.memory-btn:hover {
+  background: linear-gradient(90deg, #3a7bd5 0%, #00d2ff 100%);
+}
+
+.memory-matrix {
   display: grid;
-  grid-template-columns: repeat(4, minmax(90px, 1fr));
-  grid-gap: 1.2rem;
-  max-width: 600px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  max-width: 700px;
   margin: 0 auto;
-  perspective: 1200px;
+  background: rgba(0,0,0,0.10);
+  border-radius: 24px;
+  padding: 32px 12px;
+  box-shadow: 0 4px 32px #00d2ff22;
 }
 
 .memory-card {
-  width: 100%;
-  aspect-ratio: 3/4;
+  width: 110px;
+  height: 150px;
+  perspective: 900px;
   cursor: pointer;
-  perspective: 800px;
-  position: relative;
   border-radius: 18px;
-  box-shadow: 0 2px 16px var(--shadow-color-primary);
-  transition: box-shadow 0.2s;
-  background: var(--bg-card);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  background: transparent;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+  will-change: transform;
 }
-.memory-card.flipped .card-inner {
-  transform: rotateY(180deg);
+.memory-card.flipped,
+.memory-card:hover {
+  box-shadow: 0 6px 24px #00d2ff44;
+  transform: scale(1.04);
 }
-.card-inner {
+
+.memory-card-inner {
   width: 100%;
   height: 100%;
-  border-radius: 18px;
+  position: relative;
   transition: transform 0.5s cubic-bezier(.4,2,.6,1);
   transform-style: preserve-3d;
-  position: relative;
 }
-.card-front, .card-back {
-  position: absolute;
+
+.memory-card.flipped .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-front,
+.memory-card-back {
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   border-radius: 18px;
+  position: absolute;
+  backface-visibility: hidden;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.card-front {
-  background: var(--bg-card);
+
+.memory-card-front {
+  background: #fff;
   z-index: 2;
   transform: rotateY(180deg);
-  box-shadow: 0 0 24px var(--bg-blue);
+  overflow: hidden;
+  box-shadow: 0 2px 8px #0002;
 }
-.card-front img {
-  max-width: 70%;
-  max-height: 70%;
-  filter: drop-shadow(0 0 8px var(--bg-blue));
+.memory-card-front img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #0002;
 }
-.card-back {
-  background: linear-gradient(135deg, var(--bg-blue), var(--bg-pink));
-  color: var(--bg-gold);
-  font-size: 2.5rem;
-  font-family: 'Orbitron', monospace;
+
+.memory-card-back {
+  background: linear-gradient(135deg, #00d2ff 60%, #3a7bd5 100%);
   z-index: 1;
-  box-shadow: 0 0 16px var(--bg-pink);
-}
-.tech-icon {
-  font-size: 2.5rem;
-  font-family: 'Orbitron', monospace;
-  color: var(--bg-gold);
-  text-shadow: 0 0 8px var(--bg-blue);
-}
-
-.memory-modal-overlay {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  left: 0; top: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85);
-  align-items: center;
-  justify-content: center;
-}
-.memory-modal-overlay.show {
-  display: flex;
-}
-.memory-modal {
-  background: var(--bg-card);
-  border-radius: 18px;
-  box-shadow: 0 0 32px var(--bg-blue);
-  padding: 2.5rem 2rem;
-  text-align: center;
-  max-width: 350px;
-  margin: 0 auto;
-  color: var(--text-primary);
-}
-.memory-modal .winner {
-  font-size: 2.2rem;
-  color: var(--bg-blue);
-  font-family: 'Orbitron', monospace;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 12px var(--bg-blue);
-}
-.memory-modal .moves {
-  color: var(--bg-gold);
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-.memory-modal .restart {
-  background: linear-gradient(90deg, var(--bg-blue), var(--bg-pink));
-  color: var(--text-primary);
-  font-family: 'Orbitron', monospace;
+  color: #fff;
+  font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
   font-size: 1.1rem;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.5rem;
-  margin-bottom: 1.2rem;
-  cursor: pointer;
-  box-shadow: 0 0 8px var(--bg-blue);
-  transition: background 0.2s;
-}
-.memory-modal .restart:hover {
-  background: linear-gradient(90deg, var(--bg-pink), var(--bg-blue));
-}
-.memory-modal .message {
-  font-size: 1rem;
-  color: var(--text-secondary);
-}
-.memory-modal .tech {
-  color: var(--bg-blue);
-  font-weight: bold;
+  letter-spacing: 1px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px #00d2ff44;
+  text-shadow: 0 2px 8px #0008;
 }
 
-@media (max-width: 700px) {
-  .memory-game {
-    grid-template-columns: repeat(3, minmax(80px, 1fr));
-    grid-gap: 0.7rem;
+.card-back-title {
+  font-size: 1.1rem;
+  font-family: 'AttackOfMonster', 'Orbitron', sans-serif;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  opacity: 0.92;
+  pointer-events: none;
+  user-select: none;
+}
+
+.memory-card:not(.flipped) .memory-card-inner {
+  transform: rotateY(0deg);
+}
+
+.modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 10;
+}
+
+.dark .modal {
+  background: #232223;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .memory-matrix {
     max-width: 98vw;
+    padding: 18px 2px;
+    gap: 12px;
   }
-  .memory-modal {
-    padding: 1.2rem 0.5rem;
-    font-size: 0.95rem;
+  .memory-card {
+    width: 80px;
+    height: 100px;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .progress-info {
+    margin-left: 24px;
+    font-size: 1rem;
+    color: #00d2ff;
+    font-weight: 500;
   }
 }

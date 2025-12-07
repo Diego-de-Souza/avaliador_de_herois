@@ -9,6 +9,11 @@ export const routesWebMain: Routes = [
         loadComponent: () => import('./about/about.component').then(m => m.AboutComponent)
     },
     {
+        path: 'artigos',
+        title: 'Artigos',
+        loadComponent: () => import('./artigos/article-page.component').then(m => m.ArticlePageComponent)
+    },
+    {
         path: 'artigos/:id',
         title: 'Artigos',
         loadComponent: () => import('./artigos/article-page.component').then(m => m.ArticlePageComponent)

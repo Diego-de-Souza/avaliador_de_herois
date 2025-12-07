@@ -1,25 +1,32 @@
 <div class="dropdown" id="menu-user">
-  <!-- Botão para abrir o menu -->
   <button
-    class="btn btn-secondary dropdown-toggle  icon-principal"
+    class="btn btn-secondary dropdown-toggle icon-principal"
     type="button"
     id="dropdownMenuButton"
     data-bs-toggle="dropdown"
     aria-expanded="false"
   >
-    <i class="bi bi-person-circle"></i> 
-    {{ userName ? userName : 'Usuário' }}
+    <i class="bi bi-person-circle"></i>
+    <ng-container *ngIf="authService.user$ | async as user; else loading">
+      {{ user?.nickname || 'Usuário' }}
+    </ng-container>
+    <ng-template #loading>
+      Usuário
+    </ng-template>
   </button>
 
   <!-- Conteúdo do menu -->
   <ul class="dropdown-menu content-menu" aria-labelledby="dropdownMenuButton">
     <li>
-      <a class="dropdown-item itens-menu-user" (click)="goConfig()"><i class="bi bi-person-fill-gear" style="margin-right: 1em;"></i>Configurações</a>
+      <a class="dropdown-item itens-menu-user" (click)="goConfig()">
+        <i class="bi bi-person-fill-gear" style="margin-right: 1em;"></i>Configurações
+      </a>
     </li>
     <hr>
     <li>
-      
-      <button class="dropdown-item itens-menu-user" (click)="logout()"><i class="bi bi-door-open" style="margin-right: 1em;"></i>Logout</button>
+      <button class="dropdown-item itens-menu-user" (click)="logout()">
+        <i class="bi bi-door-open" style="margin-right: 1em;"></i>Logout
+      </button>
     </li>
   </ul>
 </div>
