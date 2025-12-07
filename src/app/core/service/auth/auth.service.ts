@@ -83,7 +83,11 @@ export class AuthService{
       await lastValueFrom(this.userService.testeCookies().pipe(
         tap(res => console.log('Resposta do teste de cookies:', res)),
       ));
-      
+
+      await lastValueFrom(this.userService.debugHeaders().pipe(
+        tap(res => console.log('Resposta do debug de headers:', res)),
+      ));
+
       const response: any = await lastValueFrom(
         this.userService.checkSession(),
       );

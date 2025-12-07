@@ -107,7 +107,11 @@ export class UserService {
 
 
   testeCookies(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/auth/teste-cookies`, { withCredentials: true });
+    return this.http.get(`${this.apiUrl}/migrations/debug-cookies`, { withCredentials: true });
+  }
+
+  debugHeaders(): Observable<any>{
+    return this.http.get(`${this.apiUrl}/migrations/debug-headers`, { withCredentials: true });
   }
 
 }
