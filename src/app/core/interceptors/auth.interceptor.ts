@@ -8,9 +8,20 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
 
-  const authReq = req.clone({
+  const sessionToken = localStorage.getItem('session_token');
+  
+  let authReq = req.clone({
     withCredentials: true
   });
+
+  //adicionado, porque o vercel não funciona com cookies
+  if (sessionToken) {
+    authReq = authReq.clone({
+      setHeaders: {
+        'X-Session-Token': sessionToken
+      }
+    });
+  }
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {

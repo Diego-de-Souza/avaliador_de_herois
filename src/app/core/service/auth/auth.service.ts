@@ -31,6 +31,7 @@ export class AuthService{
       const response: any = await lastValueFrom(this.userService.postLogin(userData));
       if (response && response.user) {
         localStorage.setItem('user', JSON.stringify(response.user));
+        localStorage.setItem('session_token', response.session_token);
         this.userSubject.next(response.user);
       }
       return {
