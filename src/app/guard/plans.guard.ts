@@ -7,7 +7,7 @@ export const plansGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
       
     const user_is_logged_in = authService.getUser()
-    
+    console.log('plansGuard - user_is_logged_in:', user_is_logged_in);
     if (!user_is_logged_in) {
         console.error('Acesso negado: Usuário não logado para acessar o conteúdo.');
         
@@ -21,6 +21,7 @@ export const plansGuard: CanActivateFn = (route, state) => {
     
     try {
         const dataUser = authService.getUser()
+        console.log('plano ok')
         return true;
     } catch (error) {
         console.error('Token inválido:', error);

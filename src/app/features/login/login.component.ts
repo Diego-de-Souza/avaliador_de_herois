@@ -1,33 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../core/service/user/user.service';
-import { ModalSucessoCadastroComponent } from '../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { AuthService } from '../../core/service/auth/auth.service';
 import { environment } from '../../../environments/environment';
+import { ToastService } from '../../core/service/toast/toast.service';
 
 declare const google: any;
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, ReactiveFormsModule],
+  imports: [
+    RouterLink, 
+    RouterLinkActive, 
+    ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
+  private readonly toastService = inject(ToastService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly userService = inject(UserService);
+
   public loginForm: FormGroup;
-  public title: string = '';
-  public message: string = '';
   public user: any = null;
   messagefcm: any = null;
   private isGoogleInitialized = false;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router,
-    private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -81,9 +85,7 @@ export class LoginComponent implements OnInit {
 
   signInWithGoogle(): void {
     if (!this.isGoogleInitialized) {
-      this.title = 'Erro';
-      this.message = 'Google ainda não foi carregado. Aguarde um momento e tente novamente.';
-      this.openModal(this.title, this.message);
+      this.toastService.error('Google ainda não foi carregado. Aguarde um momento e tente novamente.');
       return;
     }
 
@@ -107,9 +109,7 @@ export class LoginComponent implements OnInit {
       
     } catch (error) {
       console.error('❌ Erro no signInWithGoogle:', error);
-      this.title = 'Erro';
-      this.message = 'Erro ao iniciar login com Google. Recarregue a página e tente novamente.';
-      this.openModal(this.title, this.message);
+      this.toastService.error('Houve um erro ao tentar o login com o Google. Tente novamente.');
     }
   }
 
@@ -148,9 +148,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.handleLogin();
     } else {
-      this.title = 'Login';
-      this.message = 'Dados inseridos não conferem com o formato válido ou ausente.';
-      this.openModal(this.title, this.message);
+      this.toastService.warning('Dados inseridos não conferem com o formato válido ou estão ausentes.');
     }
   }
 
@@ -158,9 +156,9 @@ export class LoginComponent implements OnInit {
     try {
       const login = await this.authService.login(this.loginForm.value);
       if (login.status) {
-        this.title = 'Login';
-        this.message = 'Login efetuado com sucesso!';
-        this.openModal(this.title, this.message);
+        this.toastService.success('Login efetuado com sucesso!');
+
+        console.log('login efetuado')
 
         const data = await this.authService.getUser()
 
@@ -168,8 +166,11 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('role', data.role);
           this.router.navigate(['/validate-two-fa'], { state: { role: data.role } });
         }else{
+          console.log('Usuario logado:', data);
           if (data) {
-            if (data.role === 'admin') {
+            console.log('Role do usuario:', data.role);
+            if (data.role === 'admin' || data.role === 'root') {
+              console.log('Redirecionando para plataforma');
               this.router.navigate(['/plataforma']);
             } else {
               this.router.navigate(['/']);
@@ -181,33 +182,15 @@ export class LoginComponent implements OnInit {
         
       }
     } catch (error) {
-      this.title = 'Erro';
-      this.message = 'Houve um erro ao tentar realizar o login. Tente novamente.';
-      this.openModal(this.title, this.message);
+      this.toastService.error('Houve um erro ao efetuar o login. Verifique suas credenciais e tente novamente.');
     }
-  }
-
-  showSuccessModal = false;
-  modalTitle = '';
-  modalMessage = '';
-
-  openModal(title: string, message: string) {
-    this.modalTitle = title;
-    this.modalMessage = message;
-    this.showSuccessModal = true;
-  }
-
-  closeSuccessModal() {
-    this.showSuccessModal = false;
   }
 
   async checkPermission(idToken: string) {
     try {
       const statusLogin = await this.authService.validateGoogleLogin(idToken);
       if (statusLogin) {
-        this.title = 'Login';
-        this.message = 'Login efetuado com sucesso!';
-        this.openModal(this.title, this.message);
+        this.toastService.success('Login efetuado com sucesso!');
 
         const data = await this.authService.getUser();
 
@@ -222,9 +205,7 @@ export class LoginComponent implements OnInit {
         }
       }
     } catch (error) {
-      this.title = 'Erro';
-      this.message = 'Houve um erro ao validar o login do Google. Tente novamente.';
-      this.openModal(this.title, this.message);
+      this.toastService.error('Houve um erro ao validar o login do Google. Tente novamente.');
     }
   }
 }

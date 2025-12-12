@@ -100,18 +100,23 @@ export class UserService {
   }
 
   logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/logout-session`, {}, { 
+      withCredentials: true 
+    });
+  }
+
+  logoutAllSessions(): Observable<any> {
     return this.http.post(`${this.apiUrl}/auth/logout`, {}, { 
       withCredentials: true 
     });
   }
 
-
-  testeCookies(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/migrations/debug-cookies`, { withCredentials: true });
+  logoutSession(sessionId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/logout-session/${sessionId}`, sessionId)
   }
 
-  debugHeaders(): Observable<any>{
-    return this.http.get(`${this.apiUrl}/migrations/debug-headers`, { withCredentials: true });
+  getActiveSessions(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/auth/active-sessions`);
   }
 
 }

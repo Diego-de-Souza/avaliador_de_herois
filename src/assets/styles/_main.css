@@ -1,1 +1,23 @@
 
+.toast-global-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-global-container > * {
+  pointer-events: all;
+}
+
+@media (max-width: 768px) {
+  .toast-global-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+}

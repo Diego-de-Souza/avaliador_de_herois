@@ -46,19 +46,62 @@
 
   <!-- Sessões Ativas -->
   <div>
-    <h5>Sessões Ativas</h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0">Sessões Ativas</h5>
+      @if (activeSessions.length > 1) {
+        <button 
+          class="btn btn-outline-danger btn-sm"
+          (click)="logoutAllSessions()"
+          [disabled]="isLoggingOutAll">
+          <i class="bi bi-power me-1"></i>
+          {{ isLoggingOutAll ? 'Encerrando...' : 'Encerrar todas as sessões' }}
+        </button>
+      }
+    </div>
+
     <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let session of activeSessions">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let session of activeSessions; let i = index">
         <span>
-          <i class="bi bi-laptop"></i>
-          {{ session.device }} - {{ session.location }} <span class="text-muted">({{ session.lastActive }})</span>
+          <!-- ✅ ÍCONES DIFERENTES POR TIPO DE DEVICE -->
+          <i class="bi" [ngClass]="{
+            'bi-laptop': session.device.includes('Desktop') || session.device.includes('Windows') || session.device.includes('Mac'),
+            'bi-phone': session.device.includes('Mobile') || session.device.includes('iPhone') || session.device.includes('Android'),
+            'bi-tablet': session.device.includes('Tablet') || session.device.includes('iPad'),
+            'bi-globe': !session.device.includes('Desktop') && !session.device.includes('Windows') && !session.device.includes('Mac') && !session.device.includes('Mobile') && !session.device.includes('iPhone') && !session.device.includes('Android') && !session.device.includes('Tablet') && !session.device.includes('iPad')
+          }"></i>
+          {{ session.device }} - {{ session.location }} 
+          <span class="text-muted">({{ session.lastActive }})</span>
+          
+          <!-- ✅ BADGE PARA SESSÃO ATUAL -->
+          @if (session.isCurrent) {
+            <span class="badge bg-success ms-2">Sessão atual</span>
+          }
         </span>
-        <button class="btn btn-outline-danger btn-sm" (click)="logoutSession(session.id)">Encerrar sessão</button>
+        
+        <!-- ✅ BOTÃO DESABILITADO PARA SESSÃO ATUAL -->
+        @if (session.isCurrent) {
+          <span class="text-muted small">Esta sessão</span>
+        } @else {
+          <button 
+            class="btn btn-outline-danger btn-sm" 
+            (click)="logoutSession(session.id)"
+            [disabled]="session.isLoggingOut">
+            <i class="bi bi-x-circle me-1"></i>
+            {{ session.isLoggingOut ? 'Encerrando...' : 'Encerrar' }}
+          </button>
+        }
       </li>
     </ul>
+    
     @if (activeSessions.length === 0) {
       <div class="mt-2 text-muted">
+        <i class="bi bi-info-circle me-1"></i>
         Nenhuma sessão ativa encontrada.
+      </div>
+    } @else if (activeSessions.length === 1) {
+      <div class="mt-2 text-muted">
+        <i class="bi bi-info-circle me-1"></i>
+        Apenas sua sessão atual está ativa.
       </div>
     }
   </div>

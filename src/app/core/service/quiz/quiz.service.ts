@@ -24,15 +24,14 @@ export class QuizService {
     public _themeAll: string = 'dark';
 
     getProgressQuiz(): Observable<any>  {
-        const accessToken = sessionStorage.getItem('access_token')
-        if (!accessToken) {
+        const user_is_logged_in = localStorage.getItem('user');
+        if (!user_is_logged_in) {
             this.router.navigate(['/login']);
             return of(null);
         }
 
         const teste = this.authService.getUser()
-
-        return this.http.get<any>(`${this.apiUrl}/quiz/get-progress-quiz/${teste.sub}`, {
+        return this.http.get<any>(`${this.apiUrl}/quiz/get-progress-quiz/${teste.id}`, {
             headers: {
                 'Content-Type': 'application/json'
             }

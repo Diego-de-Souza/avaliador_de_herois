@@ -26,6 +26,7 @@ export class QuizComponent implements OnInit{
   public _isLoading: boolean = false;
 
   ngOnInit(): void {
+    console.log("QuizComponent initialized");
     this.handlerQuizProgress();
 
     this.themeService.theme$.subscribe(theme => {

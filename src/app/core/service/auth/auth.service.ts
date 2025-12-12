@@ -46,10 +46,18 @@ export class AuthService{
 
   async logout(): Promise<void> {
     await lastValueFrom(this.userService.logout());
-    
+    localStorage.removeItem('session_token');
     this.clearUserData();
     this.router.navigate(['/login']);
     return;
+  }
+
+  async logoutAllSessions(): Promise<any> {
+    const response = await lastValueFrom(this.userService.logoutAllSessions());
+    localStorage.removeItem('session_token');
+    this.clearUserData();
+    this.router.navigate(['/login']);
+    return response;
   }
 
   private clearUserData(): void {
@@ -81,20 +89,11 @@ export class AuthService{
 
   async checkSession(): Promise<boolean> {
     try {
-      await lastValueFrom(this.userService.testeCookies().pipe(
-        tap(res => console.log('Resposta do teste de cookies:', res)),
-      ));
-
-      await lastValueFrom(this.userService.debugHeaders().pipe(
-        tap(res => console.log('Resposta do debug de headers:', res)),
-      ));
 
       const response: any = await lastValueFrom(
         this.userService.checkSession(),
       );
 
-      
-      
       if (response && response.user) {
         localStorage.setItem('user', JSON.stringify(response.user));
         this.userSubject.next(response.user);
@@ -226,6 +225,20 @@ export class AuthService{
     } catch (error) {
       console.error('Erro ao gerar código de redefinição de senha:', error);
       throw new Error('Erro ao gerar código de redefinição de senha. Tente novamente.');
+    }
+  }
+
+  async logoutSession(sessionId: string): Promise<any> {
+    return await lastValueFrom(this.userService.logoutSession(sessionId));
+  }
+
+  async getActiveSessions(): Promise<any> {
+    try {
+      const response: any = await lastValueFrom(this.userService.getActiveSessions());
+      return response;
+    } catch (error) {
+      console.error('Erro ao buscar sessões ativas:', error);
+      throw new Error('Erro ao buscar sessões ativas. Tente novamente.');
     }
   }
 }

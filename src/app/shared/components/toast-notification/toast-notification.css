@@ -1,0 +1,154 @@
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 300px;
+  max-width: 500px;
+  z-index: 99999;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideInRight 0.3s ease-out;
+  backdrop-filter: blur(10px);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 12px;
+  position: relative;
+}
+
+.toast-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  opacity: 0.7;
+}
+
+.toast-close:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.toast-progress {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.toast-progress.animate::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  animation: progress 3s linear;
+}
+
+/* ✅ VARIAÇÕES POR TIPO */
+.toast-success {
+  background: linear-gradient(135deg, #00d2ff 0%, #0099cc 100%);
+  color: #101522;
+  border-left: 4px solid #00ff88;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
+  color: white;
+  border-left: 4px solid #ff3742;
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #ffa726 0%, #ff7043 100%);
+  color: #101522;
+  border-left: 4px solid #ffb300;
+}
+
+.toast-info {
+  background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+  color: white;
+  border-left: 4px solid #2196f3;
+}
+
+/* ✅ ANIMAÇÕES */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ✅ RESPONSIVO */
+@media (max-width: 768px) {
+  .toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .toast-content {
+    padding: 12px;
+  }
+  
+  .toast-message {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 5px;
+    right: 5px;
+    left: 5px;
+  }
+  
+  .toast-content {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .toast-message {
+    font-size: 0.85rem;
+  }
+}

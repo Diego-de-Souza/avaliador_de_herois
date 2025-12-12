@@ -36,6 +36,7 @@ export class CadastroQuizComponent implements OnInit {
   public _quizForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
     theme: ['', Validators.required],
+    url_logo: [''],
     quiz_levels: this.fb.array([
       this.fb.group({
         name_quiz_level: ['', Validators.required],
@@ -124,6 +125,9 @@ export class CadastroQuizComponent implements OnInit {
 
   onSubmit() {
     if (this._quizForm.valid) {
+      this._quizForm.patchValue({
+        url_logo: 'https://img.freepik.com/vetores-premium/modelo-de-design-plano-de-icone-de-pessoa-ilustracao-vetorial-de-sinal-de-avatar-isolado_109161-1680.jpg?semt=ais_se_enriched&w=740&q=80'
+      });
       const payload = this._quizForm.value;
       if (this.editingQuizId && this.editingQuizLevelId) {
         // Atualiza quiz e quiz_levels juntos

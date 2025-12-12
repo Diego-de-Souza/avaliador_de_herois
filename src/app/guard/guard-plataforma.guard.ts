@@ -18,7 +18,7 @@ export const guardPlataformaGuard: CanActivateFn = (route, state) => {
     console.error('Acesso negado: Usuário não encontrado.');
     return false;
   }
-  if (dataUser.role !== "admin") {
+  if (dataUser.role !== "admin" && dataUser.role !== "root") {
     return false;
   }
 
