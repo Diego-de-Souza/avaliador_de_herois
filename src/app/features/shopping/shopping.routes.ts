@@ -11,11 +11,11 @@ export const routesShopping: Routes = [
     loadComponent: () => import('./cart/cart.component').then(m => m.CartComponent),
     canActivate: [cartGuard]
   },
-  {
-    path: 'checkout',
-    loadComponent: () => import('./checkout/checkout.component').then(m => m.CheckoutComponent),
-    canActivate: [cartGuard]
-  },
+  // {
+  //   path: 'checkout',
+  //   loadComponent: () => import('./checkout/checkout.component').then(m => m.CheckoutComponent),
+  //   canActivate: [cartGuard]
+  // },
   {
     path: 'modern-checkout',
     loadComponent: () => import('./modern-checkout/modern-checkout.component').then(m => m.ModernCheckoutComponent),
