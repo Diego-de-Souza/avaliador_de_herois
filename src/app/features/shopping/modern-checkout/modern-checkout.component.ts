@@ -124,7 +124,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
 
       // Redirecionar se carrinho vazio
       if (cart.items.length === 0) {
-        this.router.navigate(['/features/shopping/plans']);
+        this.router.navigate(['/shopping/plans']);
       }
     });
 
@@ -266,7 +266,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
       const result = await this.stripeService.confirmPayment({
         confirmParams,
         // Stripe exige URL absoluta para return_url
-        return_url: `${window.location.origin}/features/shopping/payment-success`
+        return_url: `${window.location.origin}/shopping/payment-success`
       });
 
       if (result.error) {
@@ -282,15 +282,15 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         // Limpar carrinho
         this.cartService.clearCart();
 
-        // // Pequeno delay para garantir exibição do toast antes do redirect
-        // setTimeout(() => {
-        //   this.router.navigate(['features/shopping/payment-success'], {
-        //     queryParams: {
-        //       payment_intent: result.paymentIntent?.id,
-        //       status: 'success'
-        //     }
-        //   });
-        // }, 800);
+        // Pequeno delay para garantir exibição do toast antes do redirect
+        setTimeout(() => {
+          this.router.navigate(['shopping/payment-success'], {
+            queryParams: {
+              payment_intent: result.paymentIntent?.id,
+              status: 'success'
+            }
+          });
+        }, 800);
         console.log('Redirecionando para página de sucesso de pagamento...');
         return;
       }
@@ -338,7 +338,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
    * Retorna ao carrinho
    */
   goBackToCart(): void {
-    this.router.navigate(['/features/shopping/cart']);
+    this.router.navigate(['/shopping/cart']);
   }
 
   /**
