@@ -265,8 +265,8 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
       // Confirmar pagamento com Stripe
       const result = await this.stripeService.confirmPayment({
         confirmParams,
-        // Usar URL relativa para evitar sobrescrever domínio
-        return_url: '/features/shopping/payment-success'
+        // Stripe exige URL absoluta para return_url
+        return_url: `${window.location.origin}/features/shopping/payment-success`
       });
 
       if (result.error) {
