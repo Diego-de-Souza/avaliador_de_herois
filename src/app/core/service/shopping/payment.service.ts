@@ -55,7 +55,7 @@ export class PaymentService {
       this.setLoading(true);
       
       return this.http.post<PaymentIntent>(
-        `${this.apiUrl}/payment/create-intent`,
+        `${this.apiUrl}/payment/create-payment-intent`,
         {
           amount: amount * 100,
           currency: curr
@@ -80,7 +80,7 @@ export class PaymentService {
     };
 
     return this.http.post<PaymentIntentResponse>(
-      `${this.apiUrl}/payment/create-intent`,
+      `${this.apiUrl}/payment/create-payment-intent`,
       payload,
       { withCredentials: true }
     ).pipe(
