@@ -87,7 +87,7 @@
                   <button 
                     type="button" 
                     class="btn btn-success btn-lg flex-grow-1"
-                    [disabled]="!cardElementReady || loading || checkoutForm.invalid"
+                    [disabled]="!paymentElementReady || loading || checkoutForm.invalid"
                     (click)="processPayment()">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
                     {{ loading ? 'Processando...' : 'Finalizar Pagamento' }}

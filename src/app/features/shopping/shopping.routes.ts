@@ -17,6 +17,11 @@ export const routesShopping: Routes = [
     canActivate: [cartGuard]
   },
   {
+    path: 'modern-checkout',
+    loadComponent: () => import('./modern-checkout/modern-checkout.component').then(m => m.ModernCheckoutComponent),
+    canActivate: [cartGuard]
+  },
+  {
     path: 'payment-success',
     loadComponent: () => import('./payment-sucess/payment-sucess.component').then(m => m.PaymentSucessComponent),
     canActivate: [cartGuard]

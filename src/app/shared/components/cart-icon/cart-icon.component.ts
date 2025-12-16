@@ -4,6 +4,7 @@ import { CartService } from '../../../core/service/shopping/cart.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../core/service/theme/theme.service';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-cart-icon',
@@ -14,9 +15,11 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 })
 export class CartIconComponent implements OnInit, OnDestroy{
   _themeAll = 'dark';
-  themeService = inject(ThemeService);
-  cartService = inject(CartService);
-  router = inject(Router);
+  private readonly themeService = inject(ThemeService);
+  private readonly cartService = inject(CartService);
+
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   cartCount = 0;
   private destroy$ = new Subject<void>();
@@ -38,15 +41,22 @@ export class CartIconComponent implements OnInit, OnDestroy{
     this.destroy$.complete();
   }
 
-  goToCart(): void {
-    const token = sessionStorage.getItem('access_token');
-    
-    if (!token) {
+  async goToCart(): Promise<void> {
+    try {
+      const user = await this.authService.getUser();
+      
+      if (!user) {
+        this.router.navigate(['/login'], { 
+          queryParams: { returnUrl: '/shopping/cart' } 
+        });
+        return;
+      }
+      this.router.navigate(['/shopping/cart']);
+    } catch (error) {
+      console.error('Erro ao verificar usuário:', error);
       this.router.navigate(['/login'], { 
-        queryParams: { returnUrl: '/features/shopping/cart' } 
+        queryParams: { returnUrl: '/shopping/cart' } 
       });
-      return;
     }
-    this.router.navigate(['/shopping/cart']);
   }
 }

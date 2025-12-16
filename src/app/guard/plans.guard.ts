@@ -6,28 +6,24 @@ export const plansGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
       
-    const user_is_logged_in = authService.getUser()
-    console.log('plansGuard - user_is_logged_in:', user_is_logged_in);
-    if (!user_is_logged_in) {
-        console.error('Acesso negado: Usuário não logado para acessar o conteúdo.');
-        
-        // Mostrar alerta informativo
-        showSubscriptionAlert();
-        
-        // Redirecionar para página de planos
-        router.navigate(['/shopping/plans'], { queryParams: { returnUrl: state.url } });
-        return false;
-    }
+    
     
     try {
-        const dataUser = authService.getUser()
-        console.log('plano ok')
+        const user_is_logged_in = authService.getUser()
+        if (!user_is_logged_in) {
+            console.error('Acesso negado: Usuário não logado para acessar o conteúdo.');
+            
+            showSubscriptionAlert();
+            
+            router.navigate(['/shopping/plans'], { queryParams: { returnUrl: state.url } });
+            return false;
+        }
+        
         return true;
     } catch (error) {
         console.error('Token inválido:', error);
         sessionStorage.removeItem('access_token');
         
-        // Mostrar alerta para token inválido
         showInvalidTokenAlert();
         
         router.navigate(['/login']);
@@ -35,7 +31,6 @@ export const plansGuard: CanActivateFn = (route, state) => {
     }
 }
 
-// Função para mostrar alerta de assinatura necessária
 function showSubscriptionAlert(): void {
     // Opção 1: Alert simples do navegador
     alert('🦸‍♂️ Para acessar esta funcionalidade é necessário ter uma assinatura ativa!\n\nEscolha um plano e desperte o herói que existe em você!');

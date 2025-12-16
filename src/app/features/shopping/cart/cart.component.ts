@@ -56,7 +56,7 @@ export class CartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.router.navigate(['/shopping/checkout']);
+    this.router.navigate(['/shopping/modern-checkout']);
   }
 
   continueShopping(): void {

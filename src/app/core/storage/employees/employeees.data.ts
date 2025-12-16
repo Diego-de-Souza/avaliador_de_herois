@@ -12,12 +12,6 @@ export const Employees = [
       descricao: 'Guarda os segredos da API e do banco de dados com maestria, enquanto dá aquele toque final com edição de imagens impecáveis. Lucas é onde lógica e criatividade se encontram.'
     },
     {
-      foto: '/img/about/keven.jpeg',
-      nome: 'Keven',
-      funcao: 'Pesquisador',
-      descricao: 'O explorador incansável do time! Keven combina paixão por heróis com habilidade para encontrar as melhores referências e inovações, garantindo que o projeto esteja sempre à frente.'
-    },
-    {
       foto: '/img/about/tonho.jpg',
       nome: 'Antonio Rodrigues',
       funcao: 'Analista e Desenvolvedor de Sistemas',

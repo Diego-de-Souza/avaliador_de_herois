@@ -6,6 +6,7 @@ import { CartService } from '../../../core/service/shopping/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-plans',
@@ -15,9 +16,10 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
   styleUrl: './plans.component.css'
 })
 export class PlansComponent implements OnInit {
-  themeService = inject(ThemeService);
-  router = inject(Router);
-  cartService = inject(CartService);
+  private readonly themeService = inject(ThemeService);
+  private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
+  private readonly authService = inject(AuthService);
   
   _themePlans: string = 'dark';
     
@@ -74,10 +76,10 @@ export class PlansComponent implements OnInit {
     });
   }
 
-  addToCart(plan: Plan): void {
-    const token = sessionStorage.getItem('access_token');
+  async addToCart(plan: Plan): Promise<void> {
+    const user = await this.authService.getUser();
     
-    if (!token) {
+    if (!user) {
       this.router.navigate(['/login'], { 
         queryParams: { returnUrl: '/shopping/plans' } 
       });

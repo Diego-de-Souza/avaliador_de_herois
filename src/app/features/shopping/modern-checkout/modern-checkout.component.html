@@ -1,0 +1,235 @@
+<app-header></app-header>
+
+<div id="modern-checkout-container" [class]="currentTheme" class="container-fluid">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-4">
+          <h2 class="checkout-title">
+            <i class="fas fa-credit-card me-2"></i>
+            Finalizar Compra
+          </h2>
+          <p class="checkout-subtitle">Pagamento seguro e criptografado</p>
+        </div>
+
+        <!-- Loading Initial -->
+        <div *ngIf="isInitializing" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-3">Inicializando pagamento seguro...</p>
+        </div>
+
+        <!-- Error Global -->
+        <div *ngIf="error && !isInitializing" class="alert alert-danger" role="alert">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          {{ error }}
+        </div>
+
+        <!-- Main Content -->
+        <div *ngIf="!isInitializing" class="row">
+          
+          <!-- Form Section -->
+          <div class="col-lg-8">
+            <form [formGroup]="checkoutForm" (ngSubmit)="processPayment()">
+              
+              <!-- Customer Information -->
+              <div class="checkout-card mb-4">
+                <div class="checkout-card-header">
+                  <h5>
+                    <i class="fas fa-user me-2"></i>
+                    Informações do Cliente
+                  </h5>
+                </div>
+                <div class="checkout-card-body">
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="fullName" class="form-label">Nome Completo *</label>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        id="fullName"
+                        formControlName="fullName"
+                        placeholder="Seu nome completo"
+                        [class.is-invalid]="checkoutForm.get('fullName')?.invalid && checkoutForm.get('fullName')?.touched">
+                      <div class="invalid-feedback">
+                        {{ getFieldError('fullName') }}
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                      <label for="email" class="form-label">Email *</label>
+                      <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email"
+                        formControlName="email"
+                        placeholder="seu@email.com"
+                        [class.is-invalid]="checkoutForm.get('email')?.invalid && checkoutForm.get('email')?.touched">
+                      <div class="invalid-feedback">
+                        {{ getFieldError('email') }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="checkout-card mb-4">
+                <div class="checkout-card-header">
+                  <h5>
+                    <i class="fas fa-credit-card me-2"></i>
+                    Método de Pagamento
+                  </h5>
+                </div>
+                <div class="checkout-card-body">
+                  
+                  <!-- Payment Element Container -->
+                  <div class="payment-element-container mb-3">
+                    <div #paymentElement class="payment-element"></div>
+                  </div>
+
+                  <!-- Save Payment Method -->
+                  <div class="form-check mb-3" *ngIf="currentUser">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      id="savePaymentMethod"
+                      formControlName="savePaymentMethod">
+                    <label class="form-check-label" for="savePaymentMethod">
+                      <i class="fas fa-save me-1"></i>
+                      Salvar método de pagamento para compras futuras
+                    </label>
+                  </div>
+
+                  <!-- Terms Acceptance -->
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      id="acceptTerms"
+                      formControlName="acceptTerms"
+                      [class.is-invalid]="checkoutForm.get('acceptTerms')?.invalid && checkoutForm.get('acceptTerms')?.touched">
+                    <label class="form-check-label" for="acceptTerms">
+                      Eu concordo com os 
+                      <a href="/terms" target="_blank">Termos de Uso</a> e 
+                      <a href="/privacy" target="_blank">Política de Privacidade</a> *
+                    </label>
+                    <div class="invalid-feedback">
+                      Você deve aceitar os termos para continuar
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="d-flex gap-3 mb-4">
+                <button 
+                  type="button" 
+                  class="btn btn-outline-secondary"
+                  (click)="goBackToCart()"
+                  [disabled]="isProcessingPayment">
+                  <i class="fas fa-arrow-left me-2"></i>
+                  Voltar ao Carrinho
+                </button>
+                
+                <button 
+                  type="submit" 
+                  class="btn btn-success btn-lg flex-grow-1"
+                  [disabled]="!elementsReady || isProcessingPayment || checkoutForm.invalid">
+                  
+                  <span *ngIf="isProcessingPayment" class="spinner-border spinner-border-sm me-2"></span>
+                  <i *ngIf="!isProcessingPayment" class="fas fa-lock me-2"></i>
+                  
+                  <span *ngIf="isProcessingPayment">Processando Pagamento...</span>
+                  <span *ngIf="!isProcessingPayment">
+                    Pagar {{ formatPrice(cart.total) }}
+                  </span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+          
+          <!-- Order Summary -->
+          <div class="col-lg-4">
+            <div class="checkout-card sticky-summary">
+              <div class="checkout-card-header">
+                <h5>
+                  <i class="fas fa-receipt me-2"></i>
+                  Resumo do Pedido
+                </h5>
+              </div>
+              <div class="checkout-card-body">
+                
+                <!-- Cart Items -->
+                <div class="cart-items mb-3">
+                  <div *ngFor="let item of cart.items" class="cart-item mb-3">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div class="item-info">
+                        <h6 class="item-name mb-1">{{ item.plan.name }}</h6>
+                        <p class="item-description mb-0">{{ item.plan.description }}</p>
+                        <small class="item-features">
+                          <i class="fas fa-check-circle text-success me-1"></i>
+                          {{ item.plan.features.length || 0 }} funcionalidades
+                        </small>
+                      </div>
+                      <div class="item-price text-end">
+                        <strong>{{ formatPrice(item.plan.price) }}</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <hr>
+                
+                <!-- Totals -->
+                <div class="totals">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal:</span>
+                    <span>{{ formatPrice(cart.total) }}</span>
+                  </div>
+                  
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Taxas:</span>
+                    <span class="text-muted">Grátis</span>
+                  </div>
+                  
+                  <hr>
+                  
+                  <div class="d-flex justify-content-between total-amount">
+                    <strong>Total:</strong>
+                    <strong class="text-success">{{ formatPrice(cart.total) }}</strong>
+                  </div>
+                </div>
+                
+                <!-- Security Badge -->
+                <div class="security-info mt-3 text-center">
+                  <div class="security-badge">
+                    <i class="fas fa-shield-alt text-success me-1"></i>
+                    <small>Pagamento 100% Seguro</small>
+                  </div>
+                  <div class="payment-methods mt-2">
+                    <small class="text-muted">
+                      <i class="fab fa-cc-visa me-1"></i>
+                      <i class="fab fa-cc-mastercard me-1"></i>
+                      <i class="fas fa-mobile-alt me-1"></i>
+                      PIX
+                    </small>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,12 +1,11 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { CartService } from '../../../core/service/shopping/cart.service';
 import { StripeService } from '../../../core/service/shopping/stripe.service';
-import { PaymentService } from '../../../core/service/shopping/payment.service';
+import { PaymentService, CreatePaymentIntentRequest } from '../../../core/service/shopping/payment.service';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Cart } from '../../../core/interface/cart.interface';
-import { StripeCardElement } from '@stripe/stripe-js';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -34,8 +33,8 @@ export class CheckoutComponent {
   _themeCheckout: string = 'dark';
   
   loading = false;
-  cardElementReady = false;
-  card: StripeCardElement | null = null;
+  paymentElement: any = null;
+  paymentElementReady = false;
   
   private destroy$ = new Subject<void>();
 
@@ -60,12 +59,12 @@ export class CheckoutComponent {
       });
 
     // Aplicar tema
-    this.themeService.theme$.subscribe(theme => {
+    this.themeService.theme$.subscribe(async theme => {
       this._themeCheckout = theme;
-      this.applyTheme(theme);
+      await this.applyTheme(theme);
     });
 
-    // Inicializar Stripe
+    // Inicializar Stripe moderno
     await this.initializeStripe();
   }
 
@@ -76,13 +75,19 @@ export class CheckoutComponent {
 
   async initializeStripe(): Promise<void> {
     try {
-      await this.stripeService.initializeStripe();
-      this.card = this.stripeService.createCardElement();
-      
-      if (this.card) {
-        this.card.mount(this.cardElement.nativeElement);
-        this.card.on('ready', () => {
-          this.cardElementReady = true;
+      await this.stripeService.initializeStripe(this._themeCheckout as 'light' | 'dark');
+      // Criar PaymentIntent
+      const paymentIntent = await this.paymentService.createPaymentIntent({
+        amount: this.cart.total,
+        currency: 'brl'
+      }).toPromise();
+      if (!paymentIntent) throw new Error('Erro ao criar intenção de pagamento');
+      await this.stripeService.createElements(paymentIntent.clientSecret, this._themeCheckout as 'light' | 'dark');
+      this.paymentElement = this.stripeService.createPaymentElement();
+      if (this.paymentElement) {
+        this.paymentElement.mount(this.cardElement.nativeElement);
+        this.paymentElement.on('ready', () => {
+          this.paymentElementReady = true;
         });
       }
     } catch (error) {
@@ -91,55 +96,28 @@ export class CheckoutComponent {
   }
 
   async processPayment(): Promise<void> {
-    if (this.checkoutForm.invalid || !this.card || this.loading) {
+    if (this.checkoutForm.invalid || !this.paymentElement || this.loading) {
       this.markFormGroupTouched();
       return;
     }
-
     this.loading = true;
-
     try {
-      // Preparar dados de cobrança
-      const billingDetails = {
-        name: this.checkoutForm.get('fullName')?.value,
-        email: this.checkoutForm.get('email')?.value,
-        phone: this.checkoutForm.get('phone')?.value,
-        address: {
-          country: 'BR', // Brasil
-        }
-      };
-
-      // Criar Payment Intent
-      const paymentIntent = await this.paymentService.createPaymentIntent(
-        this.cart.total
-      ).toPromise();
-
-      if (!paymentIntent) {
-        throw new Error('Erro ao criar intenção de pagamento');
-      }
-
-      // Confirmar pagamento com Stripe incluindo billing details
-      const result = await this.stripeService.confirmPayment(
-        paymentIntent.clientSecret,
-        this.card,
-        billingDetails
-      );
-
-      if (result.error) {
-        throw new Error(result.error.message);
-      }
-
+      // Confirmar pagamento usando Payment Element
+      const result = await this.stripeService.confirmPayment();
+      if (result.error) throw new Error(result.error.message);
       // Confirmar pagamento no backend
       await this.paymentService.confirmPayment(
-        paymentIntent.paymentIntentId
+        result.paymentIntent?.id || '',
+        {
+          userEmail: this.checkoutForm.get('email')?.value,
+          userName: this.checkoutForm.get('fullName')?.value
+        }
       ).toPromise();
-
       // Limpar carrinho e redirecionar
       this.cartService.clearCart();
       this.router.navigate(['/features/shopping/payment-success'], {
-        queryParams: { paymentId: paymentIntent.paymentIntentId }
+        queryParams: { paymentId: result.paymentIntent?.id }
       });
-
     } catch (error: any) {
       console.error('Erro no pagamento:', error);
       this.handlePaymentError(error);
@@ -167,25 +145,16 @@ export class CheckoutComponent {
     });
   }
 
-  // Método para aplicar tema no Stripe Elements
-  async applyStripeTheme(theme: string): Promise<void> {
+  async applyTheme(theme: string) {
+    const el = document.getElementById('checkout_container');
     if (theme === 'dark') {
-      this.stripeService.setDarkTheme();
+      el?.classList.remove('light');
+      el?.classList.add('dark');
     } else {
-      this.stripeService.setLightTheme();
+      el?.classList.remove('dark');
+      el?.classList.add('light');
     }
-
-    // Recriar o card element com o novo tema
-    if (this.card) {
-      this.card.unmount();
-      this.card = this.stripeService.createCardElement();
-      if (this.card) {
-        this.card.mount(this.cardElement.nativeElement);
-        this.card.on('ready', () => {
-          this.cardElementReady = true;
-        });
-      }
-    }
+    await this.stripeService.updateTheme(theme as 'light' | 'dark');
   }
 
   formatPrice(price: number): string {
@@ -197,18 +166,5 @@ export class CheckoutComponent {
 
   goBackToCart(): void {
     this.router.navigate(['/features/shopping/cart']);
-  }
-
-  async applyTheme(theme: string) {
-    const el = document.getElementById('checkout_container');
-    if (theme === 'dark') {
-      el?.classList.remove('light');
-      el?.classList.add('dark');
-    } else {
-      el?.classList.remove('dark');
-      el?.classList.add('light');
-    }
-
-    await this.applyStripeTheme(theme);
   }
 }
