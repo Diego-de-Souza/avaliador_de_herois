@@ -39,7 +39,7 @@ export class PaymentSucessComponent {
   }
 
   goToPlans(): void {
-    this.router.navigate(['/features/shopping/plans']);
+    this.router.navigate(['/shopping/plans']);
   }
 
   applyTheme(theme: string) {
