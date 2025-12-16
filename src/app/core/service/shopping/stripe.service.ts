@@ -57,7 +57,6 @@ export class StripeService {
       }
 
       this.initialized$.next(true);
-      console.log('✅ Stripe inicializado com sucesso');
     } catch (error) {
       console.error('❌ Erro ao inicializar Stripe:', error);
       this.initialized$.next(false);
@@ -81,8 +80,6 @@ export class StripeService {
       clientSecret,
       appearance
     });
-
-    console.log('✅ Stripe Elements criados com sucesso');
   }
 
   /**
@@ -140,7 +137,6 @@ export class StripeService {
         // Removido fields.billingDetails.address.country: 'never' para deixar o Stripe coletar o país
       });
 
-      console.log('✅ Payment Element criado com sucesso');
       return paymentElement;
     } catch (error) {
       console.error('❌ Erro ao criar Payment Element:', error);
@@ -267,8 +263,6 @@ export class StripeService {
         clientSecret: this.currentClientSecret,
         appearance
       });
-
-      console.log(`✅ Tema atualizado para: ${theme}`);
     } catch (error) {
       console.error('❌ Erro ao atualizar tema:', error);
     }
@@ -281,7 +275,6 @@ export class StripeService {
     this.elements = null;
     this.currentClientSecret = null;
     this.initialized$.next(false);
-    console.log('🧹 Stripe resources cleaned up');
   }
 
   /**

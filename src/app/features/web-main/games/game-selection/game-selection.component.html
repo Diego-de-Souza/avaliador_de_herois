@@ -10,10 +10,23 @@
         <div class="game-info">
           <h2 class="game-name">{{ game.title }}</h2>
           <p class="game-desc">{{ game.description }}</p>
-          <a [routerLink]="game.link" routerLinkActive="active" class="play-btn">Jogar</a>
+          <a (click)="hasPermission(game.link)" class="play-btn">Jogar</a>
         </div>
       </div>
     </div>
   </section>
   <app-footer></app-footer>
+
+  @if(showModal){
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <h3>Área exclusiva para assinantes</h3>
+        <p>{{ modalMessage }}</p>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" (click)="closeModal()">Fechar</button>
+          <button class="btn btn-primary" (click)="goToPlans()">Ver Planos</button>
+        </div>
+      </div>
+    </div>
+  }
 </section>

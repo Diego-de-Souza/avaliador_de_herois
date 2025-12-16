@@ -24,6 +24,9 @@ export class QuizComponent implements OnInit{
   public themeAll: string = "dark";
 
   public _isLoading: boolean = false;
+  public hasSignature: boolean | undefined = false;
+  public showModal = false;
+  public modalMessage = 'Esta área é exclusiva para assinantes. Assine ou renove sua assinatura para acessar.';
 
   ngOnInit(): void {
     console.log("QuizComponent initialized");
@@ -56,5 +59,20 @@ export class QuizComponent implements OnInit{
 
   applyTheme(theme: string) {
     this.themeAll = theme;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  goToPlans(): void {
+    this.showModal = false;
+    this.router.navigate(['/shopping/plans']);
+  }
+
+  onPremiumStatus(isPremium: boolean) {
+    if (isPremium === false) {
+      this.showModal = true; // ou sua lógica para abrir a modal
+    }
   }
 }

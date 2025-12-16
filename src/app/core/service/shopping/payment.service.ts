@@ -70,11 +70,6 @@ export class PaymentService {
   }
 
 
-
-
-
-
-
   /**
    * Lista planos de assinatura disponíveis
    */
@@ -90,8 +85,22 @@ export class PaymentService {
   /**
    * Verifica status premium do usuário
    */
-  getPremiumStatus(): Observable<{ premium: boolean }> {
-    return this.http.get<{ premium: boolean }>(
+  getPremiumStatus(): Observable<{
+    hasPremium: boolean;
+    subscription: any;
+    daysRemaining: number;
+    planType: string;
+    expiresAt: string;
+    message: string;
+  }> {
+    return this.http.get<{
+      hasPremium: boolean;
+      subscription: any;
+      daysRemaining: number;
+      planType: string;
+      expiresAt: string;
+      message: string;
+    }>(
       `${this.apiUrl}/payment/premium-status`,
       { withCredentials: true }
     ).pipe(

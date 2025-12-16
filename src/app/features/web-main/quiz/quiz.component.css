@@ -54,3 +54,103 @@
   padding: 0 2em;
   margin-bottom: 3em;
 }
+
+/* Modal de permissão para assinantes */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background: var(--bg-card, #23272f);
+  color: var(--text-primary, #fff);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px var(--shadow-color-primary, #0008);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 95vw;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  animation: modalFadeIn 0.2s;
+}
+
+.modal-content h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-blue, #4fc3f7);
+}
+.modal-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.modal-actions .btn {
+  min-width: 110px;
+  padding: 0.7rem 1.2rem;
+  border-radius: 0.7rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-actions .btn-primary {
+  background: linear-gradient(90deg, var(--bg-blue, #1976d2), var(--bg-pink, #e040fb));
+  color: #fff;
+}
+.modal-actions .btn-primary:hover {
+  background: linear-gradient(90deg, var(--bg-gold, #ffd600), var(--bg-blue, #1976d2));
+  color: #23272f;
+}
+.modal-actions .btn-secondary {
+  background: #444c5e;
+  color: #fff;
+}
+.modal-actions .btn-secondary:hover {
+  background: #23272f;
+  color: #ffd600;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal para tema light */
+.light .modal-content {
+  background: #fff;
+  color: #212529;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+}
+.light .modal-content h3 {
+  color: #e62429;
+}
+.light .modal-actions .btn-primary {
+  background: #e62429;
+  color: #fff;
+}
+.light .modal-actions .btn-primary:hover {
+  background: #b71c1c;
+  color: #fff;
+}
+.light .modal-actions .btn-secondary {
+  background: #e0e0e0;
+  color: #212529;
+}
+.light .modal-actions .btn-secondary:hover {
+  background: #bdbdbd;
+  color: #e62429;
+}
