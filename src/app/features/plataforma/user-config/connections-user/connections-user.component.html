@@ -16,9 +16,9 @@
       </button>
     </div>
     <div class="mt-3">
-      <span *ngIf="conexoes.google" class="badge bg-success me-2">Google conectado</span>
-      <span *ngIf="conexoes.facebook" class="badge bg-success me-2">Facebook conectado</span>
-      <span *ngIf="conexoes.discord" class="badge bg-success">Discord conectado</span>
+      @if(conexoes.google){<span class="badge bg-success me-2">Google conectado</span>}
+      @if(conexoes.facebook){<span class="badge bg-success me-2">Facebook conectado</span>}
+      @if(conexoes.discord){<span class="badge bg-success">Discord conectado</span>}
     </div>
   </div>
 
@@ -32,7 +32,7 @@
         </span>
         <button class="btn btn-outline-danger btn-sm" (click)="desconectar(conta.id)">Desconectar</button>
       </li>
-      <li *ngIf="contasExternas.length === 0" class="list-group-item text-muted">Nenhuma conta vinculada.</li>
+      @if(contasExternas.length === 0){<li class="list-group-item text-muted">Nenhuma conta vinculada.</li>}
     </ul>
   </div>
 </div>

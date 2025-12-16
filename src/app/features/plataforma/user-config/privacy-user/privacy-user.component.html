@@ -29,10 +29,12 @@
     <button class="btn btn-outline-danger" type="button" (click)="confirmarExclusao()">
       Excluir minha conta
     </button>
-    <div *ngIf="exclusaoConfirmada" class="mt-3 alert alert-warning">
-      Tem certeza? Esta ação é irreversível.
-      <button class="btn btn-danger btn-sm ms-2" (click)="excluirConta()">Confirmar exclusão</button>
-      <button class="btn btn-secondary btn-sm ms-2" (click)="exclusaoConfirmada = false">Cancelar</button>
-    </div>
+    @if(exclusaoConfirmada){
+      <div class="mt-3 alert alert-warning">
+        Tem certeza? Esta ação é irreversível.
+        <button class="btn btn-danger btn-sm ms-2" (click)="excluirConta()">Confirmar exclusão</button>
+        <button class="btn btn-secondary btn-sm ms-2" (click)="exclusaoConfirmada = false">Cancelar</button>
+      </div>
+    }
   </div>
 </div>

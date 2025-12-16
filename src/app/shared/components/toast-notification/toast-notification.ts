@@ -14,15 +14,25 @@ export type ToastType = 'success' | 'error' | 'info' | 'warning';
         [@slideIn]>
         <div class="toast-content">
           <div class="toast-icon">
-            <span *ngIf="type === 'success'">✅</span>
-            <span *ngIf="type === 'error'">❌</span>
-            <span *ngIf="type === 'warning'">⚠️</span>
-            <span *ngIf="type === 'info'">ℹ️</span>
+            @if (type === 'success') {
+              <span>✅</span>
+            }
+            @if (type === 'error') {
+              <span>❌</span>
+            }
+            @if (type === 'warning') {
+              <span>⚠️</span>
+            }
+            @if (type === 'info') {
+              <span>ℹ️</span>
+            }
           </div>
           <div class="toast-message">
             {{ message }}
           </div>
-          <button *ngIf="closable" class="toast-close" (click)="close()">×</button>
+          @if (closable) {
+            <button class="toast-close" (click)="close()">×</button>
+          }
         </div>
         <div class="toast-progress" [class.animate]="autoClose"></div>
       </div>

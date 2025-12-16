@@ -15,7 +15,9 @@
             placeholder="Digite seu nome completo"
             required
           />
-          <div *ngIf="isFieldInvalid('fullname')" class="fieldInvalid">Nome é obrigatório e deve ter no mínimo 3 caracteres</div>
+          @if (isFieldInvalid('fullname')) {
+            <div class="fieldInvalid">Nome é obrigatório e deve ter no mínimo 3 caracteres</div>
+          }
         </div>
   
         <!-- Nickname -->
@@ -30,7 +32,9 @@
             placeholder="Digite seu apelido"
             required
           />
-          <div *ngIf="isFieldInvalid('nickname')" class="fieldInvalid">O nickName é obrigatório e deve conter no mínimo 3 caracteres</div>
+          @if (isFieldInvalid('nickname')) {
+            <div class="fieldInvalid">O nickName é obrigatório e deve conter no mínimo 3 caracteres</div>
+          }
         </div>
   
         <!-- Birthdate -->
@@ -44,7 +48,9 @@
             name="birthdate" 
             formControlName="birthdate"
           />
-          <div *ngIf="isFieldInvalid('birthdate')" class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
+          @if (isFieldInvalid('birthdate')) {
+            <div class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
+          }
         </div>
   
         <!-- Email -->
@@ -59,7 +65,9 @@
             name="firstemail" 
             formControlName="firstemail"
           />
-          <div *ngIf="isFieldInvalid('firstemail')" class="fieldInvalid">O email é obrigatório de ver conter um formato válido de email</div>
+          @if (isFieldInvalid('firstemail')) {
+            <div class="fieldInvalid">O email é obrigatório de ver conter um formato válido de email</div>
+          }
         </div>
   
         <!-- Second Email -->
@@ -73,7 +81,9 @@
             name="secondemail" 
             formControlName="secondemail"
           />
-          <div *ngIf="isFieldInvalid('secondemail')" class="fieldInvalid">O email deve conter um formato válido de email</div>
+          @if (isFieldInvalid('secondemail')) {
+            <div class="fieldInvalid">O email deve conter um formato válido de email</div>
+          }
         </div>
   
         <!-- CEP -->
@@ -88,7 +98,9 @@
             name="cep" 
             formControlName="cep"
           />
-          <div *ngIf="isFieldInvalid('cep')" class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
+          @if (isFieldInvalid('cep')) {
+            <div class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
+          }
         </div>
 
         <!-- City -->
@@ -103,7 +115,9 @@
             name="city" 
             formControlName="city"
           />
-          <div *ngIf="isFieldInvalid('city')" class="fieldInvalid">A cidade é obrigatória</div>
+          @if (isFieldInvalid('city')) {
+            <div class="fieldInvalid">A cidade é obrigatória</div>
+          }
         </div>
 
         <div class="col-md-3">
@@ -117,7 +131,9 @@
             name="state" 
             formControlName="state"
           />
-          <div *ngIf="isFieldInvalid('state')" class="fieldInvalid">O Estado é obrigatório e deve conter o formato válido</div>
+          @if (isFieldInvalid('state')) {
+            <div class="fieldInvalid">O Estado é obrigatório e deve conter o formato válido</div>
+          }
         </div>
           
         <!-- State (UF) -->
@@ -133,7 +149,9 @@
             name="uf" 
             formControlName="uf"
           />
-          <div *ngIf="isFieldInvalid('uf')" class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+          @if (isFieldInvalid('uf')) {
+            <div class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+          }
         </div>
   
         <!-- Address -->
@@ -148,7 +166,9 @@
             name="address" 
             formControlName="address"
           />
-          <div *ngIf="isFieldInvalid('address')" class="fieldInvalid">O endereço é obrigatório</div>
+          @if (isFieldInvalid('address')) {
+            <div class="fieldInvalid">O endereço é obrigatório</div>
+          }
         </div>
   
         <!-- Complement -->
@@ -176,7 +196,9 @@
             name="password" 
             formControlName="password"
           />
-          <div *ngIf="isFieldInvalid('password')" class="fieldInvalid">A senha é obrigatória</div>
+          @if (isFieldInvalid('password')) {
+            <div class="fieldInvalid">A senha é obrigatória</div>
+          }
         </div>
   
         <!-- Confirm Password -->
@@ -191,15 +213,19 @@
             name="confirmPassword" 
             formControlName="confirmPassword"
           />
-          <div *ngIf="isFieldInvalid('confirmPassword')" class="fieldInvalid">
-            A confirmação da senha é obrigatória
-          </div>
+          @if (isFieldInvalid('confirmPassword')) {
+            <div class="fieldInvalid">
+              A confirmação da senha é obrigatória
+            </div>
+          }
         </div>
       </div>
 
-      <div *ngIf="settingsForm.hasError('passwordsMismatch') && settingsForm.get('confirmPassword')?.touched">
-        <small class="text-danger">As senhas não coincidem.</small>
-      </div>
+      @if (settingsForm.hasError('passwordsMismatch') && settingsForm.get('confirmPassword')?.touched) {
+        <div>
+          <small class="text-danger">As senhas não coincidem.</small>
+        </div>
+      }
   
       <!-- Submit Button -->
       <div class="text-center mt-4">

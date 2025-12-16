@@ -1,192 +1,221 @@
-<div *ngIf="isOpen" class="modal-overlay" [class.dark]="_themeService === 'dark'" [class.light]="_themeService === 'light'">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>📖 Guia do Hero Battle</h2>
-      <button class="close-btn" (click)="close()">✕</button>
-    </div>
-
-    <div class="modal-content">
-      <!-- MENU LATERAL -->
-      <div class="sidebar">
-        <nav class="section-nav">
-          <button 
-            *ngFor="let section of sections" 
-            class="nav-item"
-            [class.active]="activeSection === section.id"
-            (click)="selectSection(section.id)">
-            <span class="nav-icon">{{ section.icon }}</span>
-            <span class="nav-text">{{ section.title }}</span>
-          </button>
-        </nav>
+@if (isOpen) {
+  <div class="modal-overlay" [class.dark]="_themeService === 'dark'" [class.light]="_themeService === 'light'">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>📖 Guia do Hero Battle</h2>
+        <button class="close-btn" (click)="close()">✕</button>
       </div>
 
-      <!-- CONTEÚDO PRINCIPAL -->
-      <div class="main-content">
-        <div *ngIf="getActiveSection() as section" class="section-content">
-          <!-- CABEÇALHO DA SEÇÃO -->
-          <div class="section-header">
-            <h3>{{ section.icon }} {{ section.title }}</h3>
-          </div>
+      <div class="modal-content">
+        <!-- MENU LATERAL -->
+        <div class="sidebar">
+          <nav class="section-nav">
+            @for (section of sections; track section.id) {
+              <button 
+                class="nav-item"
+                [class.active]="activeSection === section.id"
+                (click)="selectSection(section.id)">
+                <span class="nav-icon">{{ section.icon }}</span>
+                <span class="nav-text">{{ section.title }}</span>
+              </button>
+            }
+          </nav>
+        </div>
 
-          <!-- CONTEÚDO PRINCIPAL -->
-          <div class="section-body">
-            <div *ngFor="let paragraph of section.content" class="content-paragraph">
-              {{ paragraph }}
-            </div>
-
-            <!-- SUBSEÇÕES -->
-            <div *ngFor="let subsection of section.subsections" class="subsection">
-              <h4 class="subsection-title">{{ subsection.title }}</h4>
-              
-              <div *ngFor="let content of subsection.content" class="subsection-content">
-                {{ content }}
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="main-content">
+          @if (getActiveSection(); as section) {
+            <div class="section-content">
+              <!-- CABEÇALHO DA SEÇÃO -->
+              <div class="section-header">
+                <h3>{{ section.icon }} {{ section.title }}</h3>
               </div>
 
-              <!-- DICAS DA SUBSEÇÃO -->
-              <div *ngIf="subsection.tips && subsection.tips.length > 0" class="tips-container">
-                <h5 class="tips-title">💡 Dicas:</h5>
-                <ul class="tips-list">
-                  <li *ngFor="let tip of subsection.tips" class="tip-item">{{ tip }}</li>
-                </ul>
-              </div>
-            </div>
+              <!-- CONTEÚDO PRINCIPAL -->
+              <div class="section-body">
+                @for (paragraph of section.content; track paragraph) {
+                  <div class="content-paragraph">
+                    {{ paragraph }}
+                  </div>
+                }
 
-            <!-- SEÇÕES ESPECIAIS -->
-            
-            <!-- INFORMAÇÕES DAS CLASSES -->
-            <div *ngIf="section.id === 'getting-started'" class="special-section">
-              <h4 class="special-title">🎭 Guia Detalhado das Classes</h4>
-              <div class="classes-grid">
-                <div *ngFor="let classInfo of classesInfo" class="class-info-card">
-                  <div class="class-header">
-                    <span class="class-icon">{{ classInfo.icon }}</span>
-                    <h5>{{ classInfo.name }}</h5>
-                  </div>
-                  
-                  <p class="class-description">{{ classInfo.description }}</p>
-                  
-                  <div class="class-strengths">
-                    <h6>✅ Pontos Fortes:</h6>
-                    <ul>
-                      <li *ngFor="let strength of classInfo.strengths">{{ strength }}</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="class-weaknesses">
-                    <h6>❌ Fraquezas:</h6>
-                    <ul>
-                      <li *ngFor="let weakness of classInfo.weaknesses">{{ weakness }}</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="class-best-for">
-                    <h6>🎯 Ideal para:</h6>
-                    <p>{{ classInfo.bestFor }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <!-- SUBSEÇÕES -->
+                @for (subsection of section.subsections; track subsection.title) {
+                  <div class="subsection">
+                    <h4 class="subsection-title">{{ subsection.title }}</h4>
+                    
+                    @for (content of subsection.content; track content) {
+                      <div class="subsection-content">
+                        {{ content }}
+                      </div>
+                    }
 
-            <!-- TABELA ELEMENTAL -->
-            <div *ngIf="section.id === 'elemental-system'" class="special-section">
-              <h4 class="special-title">🌟 Tabela de Vantagens Elementais</h4>
-              <div class="elemental-table">
-                <div class="table-header">
-                  <div class="header-cell">Elemento</div>
-                  <div class="header-cell">Forte Contra</div>
-                  <div class="header-cell">Fraco Contra</div>
-                  <div class="header-cell">Descrição</div>
-                </div>
-                
-                <div *ngFor="let element of elementalInfo" class="table-row">
-                  <div class="cell element-cell">
-                    <span class="element-icon">{{ element.icon }}</span>
-                    {{ element.element }}
+                    <!-- DICAS DA SUBSEÇÃO -->
+                    @if (subsection.tips && subsection.tips.length > 0) {
+                      <div class="tips-container">
+                        <h5 class="tips-title">💡 Dicas:</h5>
+                        <ul class="tips-list">
+                          @for (tip of subsection.tips; track tip) {
+                            <li class="tip-item">{{ tip }}</li>
+                          }
+                        </ul>
+                      </div>
+                    }
                   </div>
-                  <div class="cell">{{ element.strongAgainst }}</div>
-                  <div class="cell">{{ element.weakAgainst }}</div>
-                  <div class="cell description">{{ element.description }}</div>
-                </div>
-              </div>
-            </div>
+                }
 
-            <!-- LISTA DE INIMIGOS -->
-            <div *ngIf="section.id === 'enemies-bosses'" class="special-section">
-              <h4 class="special-title">👹 Lista de Inimigos por Nível</h4>
-              <div class="enemies-list">
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 1</span>
-                  <span class="enemy-icon">🛡️</span>
-                  <span class="enemy-name">Cavaleiro de Bronze</span>
-                  <span class="enemy-desc">Inimigo básico e equilibrado</span>
-                </div>
+                <!-- SEÇÕES ESPECIAIS -->
                 
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 2</span>
-                  <span class="enemy-icon">🏹</span>
-                  <span class="enemy-name">Arqueiro Novato</span>
-                  <span class="enemy-desc">Ataques à distância rápidos</span>
-                </div>
-                
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 3</span>
-                  <span class="enemy-icon">🔥</span>
-                  <span class="enemy-name">Feiticeira das Chamas</span>
-                  <span class="enemy-desc">Magias de fogo em área</span>
-                </div>
-                
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 4</span>
-                  <span class="enemy-icon">🗡️</span>
-                  <span class="enemy-name">Espadachim Veterano</span>
-                  <span class="enemy-desc">Combatente experiente</span>
-                </div>
-                
-                <div class="enemy-item boss">
-                  <span class="enemy-level">Nível 5</span>
-                  <span class="enemy-icon">🐲</span>
-                  <span class="enemy-name">CHEFE: Dragão de Obsidiana</span>
-                  <span class="enemy-desc">Primeiro chefe com múltiplas habilidades</span>
-                </div>
-                
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 6-9</span>
-                  <span class="enemy-icon">⚔️</span>
-                  <span class="enemy-name">Heróis Intermediários</span>
-                  <span class="enemy-desc">Inimigos com habilidades avançadas</span>
-                </div>
-                
-                <div class="enemy-item boss">
-                  <span class="enemy-level">Nível 10</span>
-                  <span class="enemy-icon">💀</span>
-                  <span class="enemy-name">CHEFE: Lich Supremo</span>
-                  <span class="enemy-desc">Necromante poderoso que invoca aliados</span>
-                </div>
-                
-                <div class="enemy-item normal">
-                  <span class="enemy-level">Nível 11-12</span>
-                  <span class="enemy-icon">👑</span>
-                  <span class="enemy-name">Heróis Élite</span>
-                  <span class="enemy-desc">Os mais poderosos antes do chefe final</span>
-                </div>
-                
-                <div class="enemy-item boss final">
-                  <span class="enemy-level">Nível 13</span>
-                  <span class="enemy-icon">😈</span>
-                  <span class="enemy-name">CHEFE FINAL: ???</span>
-                  <span class="enemy-desc">O desafio supremo aguarda...</span>
-                </div>
+                <!-- INFORMAÇÕES DAS CLASSES -->
+                @if (section.id === 'getting-started') {
+                  <div class="special-section">
+                    <h4 class="special-title">🎭 Guia Detalhado das Classes</h4>
+                    <div class="classes-grid">
+                      @for (classInfo of classesInfo; track classInfo.name) {
+                        <div class="class-info-card">
+                          <div class="class-header">
+                            <span class="class-icon">{{ classInfo.icon }}</span>
+                            <h5>{{ classInfo.name }}</h5>
+                          </div>
+                          
+                          <p class="class-description">{{ classInfo.description }}</p>
+                          
+                          <div class="class-strengths">
+                            <h6>✅ Pontos Fortes:</h6>
+                            <ul>
+                              @for (strength of classInfo.strengths; track strength) {
+                                <li>{{ strength }}</li>
+                              }
+                            </ul>
+                          </div>
+                          
+                          <div class="class-weaknesses">
+                            <h6>❌ Fraquezas:</h6>
+                            <ul>
+                              @for (weakness of classInfo.weaknesses; track weakness) {
+                                <li>{{ weakness }}</li>
+                              }
+                            </ul>
+                          </div>
+                          
+                          <div class="class-best-for">
+                            <h6>🎯 Ideal para:</h6>
+                            <p>{{ classInfo.bestFor }}</p>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                <!-- TABELA ELEMENTAL -->
+                @if (section.id === 'elemental-system') {
+                  <div class="special-section">
+                    <h4 class="special-title">🌟 Tabela de Vantagens Elementais</h4>
+                    <div class="elemental-table">
+                      <div class="table-header">
+                        <div class="header-cell">Elemento</div>
+                        <div class="header-cell">Forte Contra</div>
+                        <div class="header-cell">Fraco Contra</div>
+                        <div class="header-cell">Descrição</div>
+                      </div>
+                      
+                      @for (element of elementalInfo; track element.element) {
+                        <div class="table-row">
+                          <div class="cell element-cell">
+                            <span class="element-icon">{{ element.icon }}</span>
+                            {{ element.element }}
+                          </div>
+                          <div class="cell">{{ element.strongAgainst }}</div>
+                          <div class="cell">{{ element.weakAgainst }}</div>
+                          <div class="cell description">{{ element.description }}</div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                <!-- LISTA DE INIMIGOS -->
+                @if (section.id === 'enemies-bosses') {
+                  <div class="special-section">
+                    <h4 class="special-title">👹 Lista de Inimigos por Nível</h4>
+                    <div class="enemies-list">
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 1</span>
+                        <span class="enemy-icon">🛡️</span>
+                        <span class="enemy-name">Cavaleiro de Bronze</span>
+                        <span class="enemy-desc">Inimigo básico e equilibrado</span>
+                      </div>
+                      
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 2</span>
+                        <span class="enemy-icon">🏹</span>
+                        <span class="enemy-name">Arqueiro Novato</span>
+                        <span class="enemy-desc">Ataques à distância rápidos</span>
+                      </div>
+                      
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 3</span>
+                        <span class="enemy-icon">🔥</span>
+                        <span class="enemy-name">Feiticeira das Chamas</span>
+                        <span class="enemy-desc">Magias de fogo em área</span>
+                      </div>
+                      
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 4</span>
+                        <span class="enemy-icon">🗡️</span>
+                        <span class="enemy-name">Espadachim Veterano</span>
+                        <span class="enemy-desc">Combatente experiente</span>
+                      </div>
+                      
+                      <div class="enemy-item boss">
+                        <span class="enemy-level">Nível 5</span>
+                        <span class="enemy-icon">🐲</span>
+                        <span class="enemy-name">CHEFE: Dragão de Obsidiana</span>
+                        <span class="enemy-desc">Primeiro chefe com múltiplas habilidades</span>
+                      </div>
+                      
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 6-9</span>
+                        <span class="enemy-icon">⚔️</span>
+                        <span class="enemy-name">Heróis Intermediários</span>
+                        <span class="enemy-desc">Inimigos com habilidades avançadas</span>
+                      </div>
+                      
+                      <div class="enemy-item boss">
+                        <span class="enemy-level">Nível 10</span>
+                        <span class="enemy-icon">💀</span>
+                        <span class="enemy-name">CHEFE: Lich Supremo</span>
+                        <span class="enemy-desc">Necromante poderoso que invoca aliados</span>
+                      </div>
+                      
+                      <div class="enemy-item normal">
+                        <span class="enemy-level">Nível 11-12</span>
+                        <span class="enemy-icon">👑</span>
+                        <span class="enemy-name">Heróis Élite</span>
+                        <span class="enemy-desc">Os mais poderosos antes do chefe final</span>
+                      </div>
+                      
+                      <div class="enemy-item boss final">
+                        <span class="enemy-level">Nível 13</span>
+                        <span class="enemy-icon">😈</span>
+                        <span class="enemy-name">CHEFE FINAL: ???</span>
+                        <span class="enemy-desc">O desafio supremo aguarda...</span>
+                      </div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
-    </div>
 
-    <div class="modal-footer">
-      <p class="footer-text">
-        🎮 Boa sorte na sua jornada, herói! Use essas informações para se tornar o campeão definitivo!
-      </p>
+      <div class="modal-footer">
+        <p class="footer-text">
+          🎮 Boa sorte na sua jornada, herói! Use essas informações para se tornar o campeão definitivo!
+        </p>
+      </div>
     </div>
   </div>
-</div>
+}

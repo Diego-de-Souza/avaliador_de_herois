@@ -13,9 +13,12 @@
       </select>
     </label>
     <button class="memory-btn" (click)="restart()">Reiniciar</button>
-    <span *ngIf="userProgress" class="progress-info">
-      Progresso: Nível {{userProgress.lvl_user}}, Tema: {{userProgress.metadata?.theme}}
-    </span>
+    @if(userProgress){
+      <span class="progress-info">
+        Progresso: Nível {{userProgress.lvl_user}}, Tema: {{userProgress.metadata?.theme}}
+      </span>
+    }
+    
   </div>
 
   <div class="memory-matrix">

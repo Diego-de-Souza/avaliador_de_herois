@@ -11,7 +11,9 @@
                     <fa-icon [icon]="faUser"></fa-icon>
                     <input type="text" name="fullname" formControlName="fullname" id="fullname" placeholder="Digite seu nome completo">
                 </div>
-                <div *ngIf="isFieldInvalid('fullname')" class="fieldInvalid">Nome é obrigatório e deve ter no mínimo 3 caracteres</div>
+                                @if(isFieldInvalid('fullname')){
+                                    <div class="fieldInvalid">Nome é obrigatório e deve ter no mínimo 3 caracteres</div>
+                                }
             </div>
             <div class="secao-cadastro__container-form__row">
                 <div class="secao-cadastro__container-form__row__space">
@@ -20,7 +22,9 @@
                         <fa-icon [icon]="faUserTag"></fa-icon>
                         <input type="text" name="nickname" formControlName="nickname" id="nickname" placeholder="Digite seu nick name">
                     </div>
-                    <div *ngIf="isFieldInvalid('nickname')" class="fieldInvalid">O nickName é obrigatório e deve conter no mínimo 3 caracteres</div>
+                                        @if(isFieldInvalid('nickname')){
+                                            <div class="fieldInvalid">O nickName é obrigatório e deve conter no mínimo 3 caracteres</div>
+                                        }
                 </div>
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="birthdate">Data de Nascimento</label>
@@ -28,7 +32,9 @@
                         <fa-icon [icon]="faCalendarDays"></fa-icon>
                         <input type="date" name="birthdate" formControlName="birthdate" id="birthdate" class=" custom-option">
                     </div>
-                    <div *ngIf="isFieldInvalid('birthdate')" class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
+                                        @if(isFieldInvalid('birthdate')){
+                                            <div class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
+                                        }
                 </div>
             </div>
             <div class="secao-cadastro__container-form__row">
@@ -38,7 +44,9 @@
                         <fa-icon [icon]="faEnvelope"></fa-icon>
                         <input type="email" name="firstemail" formControlName="firstemail" id="firstemail" placeholder="Digite seu email principal ">
                     </div>
-                    <div *ngIf="isFieldInvalid('firstemail')" class="fieldInvalid">O email é obrigatório de ver conter um formato válido de email</div>
+                                        @if(isFieldInvalid('firstemail')){
+                                            <div class="fieldInvalid">O email é obrigatório de ver conter um formato válido de email</div>
+                                        }
                 </div>
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="secondemail">Email Secundário</label>
@@ -46,7 +54,9 @@
                         <fa-icon [icon]="faEnvelope"></fa-icon>
                         <input type="email" name="secondemail" formControlName="secondemail" id="secondemail" placeholder="Digite seu email secundário">
                     </div>
-                    <div *ngIf="isFieldInvalid('secondemail')" class="fieldInvalid">O email deve conter um formato válido de email</div>
+                                        @if(isFieldInvalid('secondemail')){
+                                            <div class="fieldInvalid">O email deve conter um formato válido de email</div>
+                                        }
                 </div>
             </div>
             <div class="secao-cadastro__container-form__row">
@@ -56,7 +66,9 @@
                         <fa-icon [icon]="faSignsPost"></fa-icon>
                         <input type="text" name="cep" formControlName="cep" id="cep" placeholder="xxxxx-xxx" (blur)="buscarEndereco()">
                     </div>
-                    <div *ngIf="isFieldInvalid('cep')" class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
+                                        @if(isFieldInvalid('cep')){
+                                            <div class="fieldInvalid">O cep é obrigatório e deve conter o formato válido</div>
+                                        }
                 </div>
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="uf">UF</label>
@@ -64,7 +76,9 @@
                         <fa-icon [icon]="faSignsPost"></fa-icon>
                         <input type="text" name="uf" formControlName="uf" id="uf" placeholder="UF"/>
                     </div>
-                    <div *ngIf="isFieldInvalid('uf')" class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+                                        @if(isFieldInvalid('uf')){
+                                            <div class="fieldInvalid">O UF é obrigatório e deve conter o formato válido</div>
+                                        }
                 </div>
             </div>
             <div class="secao-cadastro__container-form__row">
@@ -74,7 +88,9 @@
                         <fa-icon [icon]="faMapLocationDot"></fa-icon>
                         <input type="text" name="address" formControlName="address" id="address" placeholder="Digite seu endereço">
                     </div>
-                    <div *ngIf="isFieldInvalid('address')" class="fieldInvalid">O endereço é obrigatório</div>
+                                        @if(isFieldInvalid('address')){
+                                            <div class="fieldInvalid">O endereço é obrigatório</div>
+                                        }
                 </div>
                 <div class="secao-cadastro__container-form__row__space">
                     <label for="complement">Complemento</label>
@@ -93,7 +109,9 @@
                     <fa-icon [icon]="faVihara"></fa-icon>
                     <input type="text" id="state" name="state" formControlName="state" placeholder="Digite o estado" />
                     </div>
-                    <div *ngIf="isFieldInvalid('state')" class="fieldInvalid">O estado é obrigatório</div>
+                                        @if(isFieldInvalid('state')){
+                                            <div class="fieldInvalid">O estado é obrigatório</div>
+                                        }
                 </div>
                 
                 <!-- Campo Cidade -->
@@ -103,7 +121,9 @@
                     <fa-icon [icon]="faCity"></fa-icon>
                     <input type="text" id="city" name="city" formControlName="city" placeholder="Digite a cidade" />
                     </div>
-                    <div *ngIf="isFieldInvalid('city')" class="fieldInvalid">A cidade é obrigatória</div>
+                                        @if(isFieldInvalid('city')){
+                                            <div class="fieldInvalid">A cidade é obrigatória</div>
+                                        }
                 </div>
             </div>
             @if(!isEditMode){
@@ -120,7 +140,9 @@
                           id="password" 
                           placeholder="**********">
                       </div>
-                      <div *ngIf="isFieldInvalid('password')" class="fieldInvalid">A senha é obrigatória</div>
+                                            @if(isFieldInvalid('password')){
+                                                <div class="fieldInvalid">A senha é obrigatória</div>
+                                            }
                     </div>
                   
                     <!-- Campo de Confirmação de Senha -->
@@ -135,12 +157,16 @@
                           id="confirmPassword" 
                           placeholder="***********">
                       </div>
-                      <div *ngIf="isFieldInvalid('confirmPassword')" class="fieldInvalid">
-                        A confirmação da senha é obrigatória
-                      </div>
-                      <div *ngIf="getPasswordError()" class="fieldInvalid">
-                        As senhas não coincidem
-                      </div>
+                                            @if(isFieldInvalid('confirmPassword')){
+                                                <div class="fieldInvalid">
+                                                    A confirmação da senha é obrigatória
+                                                </div>
+                                            }
+                                            @if(getPasswordError()){
+                                                <div class="fieldInvalid">
+                                                    As senhas não coincidem
+                                                </div>
+                                            }
                     </div>
                   </div>
                   

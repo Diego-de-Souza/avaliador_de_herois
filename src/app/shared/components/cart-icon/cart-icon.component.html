@@ -1,12 +1,13 @@
 <button 
-      class="btn btn-outline-light position-relative me-2"
-      (click)="goToCart()"
-      title="Ver Carrinho"
-      [ngClass]="_themeAll">
-      <i class="fas fa-shopping-cart"></i>
-      <span 
-        *ngIf="cartCount > 0" 
-        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        {{ cartCount }}
-      </span>
-    </button>
+  class="btn btn-outline-light position-relative me-2"
+  (click)="goToCart()"
+  title="Ver Carrinho"
+  [ngClass]="_themeAll">
+  <i class="fas fa-shopping-cart"></i>
+  @if(cartCount > 0){
+    <span 
+      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+      {{ cartCount }}
+    </span>
+  }
+</button>

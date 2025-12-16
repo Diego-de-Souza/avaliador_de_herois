@@ -7,12 +7,11 @@
     aria-expanded="false"
   >
     <i class="bi bi-person-circle"></i>
-    <ng-container *ngIf="authService.user$ | async as user; else loading">
+    @if (authService.user$ | async; as user) {
       {{ user?.nickname || 'Usuário' }}
-    </ng-container>
-    <ng-template #loading>
+    } @else {
       Usuário
-    </ng-template>
+    }
   </button>
 
   <!-- Conteúdo do menu -->

@@ -39,9 +39,12 @@
               }">{{ quiz.resultado }}</span>
             </td>
           </tr>
-          <tr *ngIf="quizzes.length === 0">
-            <td colspan="5" class="text-muted text-center">Nenhum quiz realizado.</td>
-          </tr>
+          @if(quizzes.length === 0){
+            <tr>
+              <td colspan="5" class="text-muted text-center">Nenhum quiz realizado.</td>
+            </tr>
+          }
+          
         </tbody>
       </table>
     </div>
@@ -60,7 +63,7 @@
           <i class="bi bi-award-fill text-warning" style="font-size:2em;"></i>
           <div>{{ badge.nome }}</div>
         </div>
-        <div *ngIf="badges.length === 0" class="text-muted">Nenhum badge conquistado.</div>
+        @if(badges.length === 0){<div class="text-muted">Nenhum badge conquistado.</div>}
       </div>
     </div>
 

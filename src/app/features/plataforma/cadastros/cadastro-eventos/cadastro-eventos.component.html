@@ -6,17 +6,24 @@
       <div class="form-group">
         <label for="title">Título</label>
         <input id="title" formControlName="title" type="text" [class.invalid]="isFieldInvalid('title')" />
-        <div *ngIf="isFieldInvalid('title')" class="error-msg">Título é obrigatório (mínimo 5 caracteres).</div>
+        
+        @if (isFieldInvalid('title')) {
+          <div class="error-msg">Título é obrigatório (mínimo 5 caracteres).</div>
+        }
       </div>
       <div class="form-group">
         <label for="description">Descrição</label>
         <textarea id="description" formControlName="description" rows="4" [class.invalid]="isFieldInvalid('description')"></textarea>
-        <div *ngIf="isFieldInvalid('description')" class="error-msg">Descrição é obrigatória (mínimo 10 caracteres).</div>
+        @if (isFieldInvalid('description')) {
+          <div class="error-msg">Descrição é obrigatória (mínimo 10 caracteres).</div>
+        }
       </div>
       <div class="form-group">
         <label for="date_event">Data do Evento</label>
         <input id="date_event" formControlName="date_event" type="date" [class.invalid]="isFieldInvalid('date_event')" />
-        <div *ngIf="isFieldInvalid('date_event')" class="error-msg">Data do evento é obrigatória.</div>
+        @if (isFieldInvalid('date_event')) {
+          <div class="error-msg">Data do evento é obrigatória.</div>
+        }
       </div>
       <div class="form-group">
         <label for="url_event">Link do Evento</label>
@@ -27,14 +34,18 @@
           [class.invalid]="isFieldInvalid('url_event')"
           placeholder="https://exemplo.com/evento"
         />
-        <div *ngIf="isFieldInvalid('url_event')" class="error-msg">
-          Insira uma URL válida para o evento.
-        </div>
+        @if (isFieldInvalid('url_event')) {
+          <div class="error-msg">
+            Insira uma URL válida para o evento.
+          </div>
+        }
       </div>
       <div class="form-group">
         <label for="location">Localização</label>
         <input id="location" formControlName="location" type="text" [class.invalid]="isFieldInvalid('location')" />
-        <div *ngIf="isFieldInvalid('location')" class="error-msg">Localização é obrigatória.</div>
+        @if (isFieldInvalid('location')) {
+          <div class="error-msg">Localização é obrigatória.</div>
+        }
       </div>
       <div class="form-group">
         <label for="image">Imagem (JPG, máx 400x400)</label>
@@ -45,8 +56,12 @@
           (change)="onImageChange($event)"
           class="form-control"
         />
-        <div *ngIf="imageError" class="error-msg">{{ imageError }}</div>
-        <img *ngIf="imagePreview" [src]="imagePreview" alt="Prévia da imagem" style="max-width:120px;max-height:120px;margin-top:8px;border-radius:8px;">
+        @if (imageError) {
+          <div class="error-msg">{{ imageError }}</div>
+        }
+        @if (imagePreview) {
+          <img [src]="imagePreview" alt="Prévia da imagem" style="max-width:120px;max-height:120px;margin-top:8px;border-radius:8px;">
+        }
       </div>
       <div class="form-actions">
         <button type="submit" [disabled]="eventosForm.invalid">Salvar</button>

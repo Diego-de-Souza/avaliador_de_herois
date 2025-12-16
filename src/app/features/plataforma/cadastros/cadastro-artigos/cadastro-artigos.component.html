@@ -46,9 +46,11 @@
           (change)="onImageSelected($event)"
           class="form-control"
         />
-        <div *ngIf="imagePreview || artigosForm.get('image')?.value" class="image-preview">
-          <img [src]="imagePreview || artigosForm.get('image')?.value" alt="Preview" style="max-width: 120px; max-height: 120px; margin-top: 8px;" />
-        </div>
+        @if(imagePreview || artigosForm.get('image')?.value){
+          <div class="image-preview">
+            <img [src]="imagePreview || artigosForm.get('image')?.value" alt="Preview" style="max-width: 120px; max-height: 120px; margin-top: 8px;" />
+          </div>
+        }
       </div>
       <div class="form-group">
         <label for="keyWords">Palavras-chave</label>

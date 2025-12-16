@@ -36,9 +36,11 @@
             </div>
           </div>
         </div>
-        <div *ngIf="conquistas.length === 0" class="col-12 text-muted text-center">
-          Nenhuma conquista desbloqueada.
-        </div>
+        @if(conquistas.length === 0){
+          <div class="col-12 text-muted text-center">
+            Nenhuma conquista desbloqueada.
+          </div>
+        }
       </div>
     </div>
 

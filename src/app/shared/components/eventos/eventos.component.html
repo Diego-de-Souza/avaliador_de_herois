@@ -11,10 +11,12 @@
         <div class="icon-title-group">
           <i [ngClass]="getIcon(i)"></i>
         </div>
-        <div class="info" *ngIf="i === activeIndex">
+        @if(i === activeIndex){
+          <div class="info">
           <div class="main">{{ evento.title }}</div>
           <div class="sub">{{ evento.description }}</div>
         </div>
+        }
       </div>
     </div>
   </div>

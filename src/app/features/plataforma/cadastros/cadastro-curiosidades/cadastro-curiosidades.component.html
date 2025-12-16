@@ -26,9 +26,11 @@
           <div class="form-group">
             <label for="content">Conteúdo do curiosidade</label>
             <textarea id="editor" formControlName="content" class="form-control"></textarea>
-            <div *ngIf="isFieldInvalid('content')" class="text-danger">
-              O conteúdo do curiosidade é obrigatório.
-            </div>
+            @if(isFieldInvalid('content')){
+              <div class="text-danger">
+                O conteúdo do curiosidade é obrigatório.
+              </div>
+            }
           </div>
           <div class="form-actions">
             <button type="submit" class="btn btn-primary" [disabled]="curiosidadeForm.invalid">Salvar Curiosidade</button>

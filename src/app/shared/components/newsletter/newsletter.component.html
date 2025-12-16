@@ -15,5 +15,5 @@
     </button>
   </form>
 
-  <div *ngIf="mensagem" class="mensagem">{{ mensagem }}</div>
+  @if(mensagem){<div class="mensagem">{{ mensagem }}</div>}
 </section>

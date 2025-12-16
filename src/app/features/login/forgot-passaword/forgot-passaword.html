@@ -2,78 +2,104 @@
   <h2>Recuperar Senha</h2>
 
   <!-- Escolha de método -->
-  <div *ngIf="step === 1">
-    <button class="btn btn-outline-primary w-100 mb-3" (click)="step = 2">Recuperar por dados pessoais</button>
-    <div class="text-center mb-2">ou</div>
-    <div class="d-flex flex-column gap-2">
-      <button class="btn btn-outline-info" (click)="showCodeForm(1)">Receber código por E-mail</button>
-      <button class="btn btn-outline-success" (click)="showCodeForm(2)">Receber código por SMS</button>
-      <button class="btn btn-outline-success" (click)="showCodeForm(3)">Receber código por WhatsApp</button>
+  @if (step === 1) {
+    <div>
+      <button class="btn btn-outline-primary w-100 mb-3" (click)="step = 2">Recuperar por dados pessoais</button>
+      <div class="text-center mb-2">ou</div>
+      <div class="d-flex flex-column gap-2">
+        <button class="btn btn-outline-info" (click)="showCodeForm(1)">Receber código por E-mail</button>
+        <button class="btn btn-outline-success" (click)="showCodeForm(2)">Receber código por SMS</button>
+        <button class="btn btn-outline-success" (click)="showCodeForm(3)">Receber código por WhatsApp</button>
+      </div>
+      @if (message) {
+        <div class="alert alert-info mt-2">{{ message }}</div>
+      }
     </div>
-    <div *ngIf="message" class="alert alert-info mt-2">{{ message }}</div>
-  </div>
+  }
 
   <!-- Formulário para inserir email/telefone antes de enviar código -->
-  <form *ngIf="step === 10" (ngSubmit)="enviarCodigo()" #formContato="ngForm" autocomplete="off">
-    <div class="form-group" *ngIf="canalSelecionado === 1">
-      <label for="emailRec">E-mail</label>
-      <input id="emailRec" name="emailRec" type="email" [(ngModel)]="emailRec" required class="form-control" />
-    </div>
-    <div class="form-group" *ngIf="canalSelecionado === 2 || canalSelecionado === 3">
-      <label for="telefoneRec">Telefone</label>
-      <input id="telefoneRec" name="telefoneRec" type="tel" [(ngModel)]="telefoneRec" required maxlength="15" class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit" [disabled]="loading">Enviar Código</button>
-    <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-    <div *ngIf="message" class="alert alert-info mt-2">{{ message }}</div>
-  </form>
+  @if (step === 10) {
+    <form (ngSubmit)="enviarCodigo()" #formContato="ngForm" autocomplete="off">
+      @if (canalSelecionado === 1) {
+        <div class="form-group">
+          <label for="emailRec">E-mail</label>
+          <input id="emailRec" name="emailRec" type="email" [(ngModel)]="emailRec" required class="form-control" />
+        </div>
+      }
+      @if (canalSelecionado === 2 || canalSelecionado === 3) {
+        <div class="form-group">
+          <label for="telefoneRec">Telefone</label>
+          <input id="telefoneRec" name="telefoneRec" type="tel" [(ngModel)]="telefoneRec" required maxlength="15" class="form-control" />
+        </div>
+      }
+      <button class="btn btn-primary" type="submit" [disabled]="loading">Enviar Código</button>
+      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
+      @if (message) {
+        <div class="alert alert-info mt-2">{{ message }}</div>
+      }
+    </form>
+  }
 
   <!-- Formulário de dados pessoais -->
-  <form *ngIf="step === 2" (ngSubmit)="onSubmitDados()" #formDados="ngForm" autocomplete="off">
-    <div class="form-group">
-      <label for="email">E-mail</label>
-      <input id="email" name="email" type="email" [(ngModel)]="email" required class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="cpf">CPF</label>
-      <input id="cpf" name="cpf" type="text" [(ngModel)]="cpf" required maxlength="14" class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="dob">Data de Nascimento</label>
-      <input id="dob" name="dob" type="date" [(ngModel)]="dob" required class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit" [disabled]="loading">Validar Dados</button>
-    <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-    <div *ngIf="message" class="alert alert-info mt-2">{{ message }}</div>
-  </form>
+  @if (step === 2) {
+    <form (ngSubmit)="onSubmitDados()" #formDados="ngForm" autocomplete="off">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" [(ngModel)]="email" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input id="cpf" name="cpf" type="text" [(ngModel)]="cpf" required maxlength="14" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="dob">Data de Nascimento</label>
+        <input id="dob" name="dob" type="date" [(ngModel)]="dob" required class="form-control" />
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="loading">Validar Dados</button>
+      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
+      @if (message) {
+        <div class="alert alert-info mt-2">{{ message }}</div>
+      }
+    </form>
+  }
 
   <!-- Formulário de código -->
-  <form *ngIf="step === 3" (ngSubmit)="onSubmitCode()" #formCodigo="ngForm" autocomplete="off">
-    <div class="form-group">
-      <label for="code">Digite o código recebido</label>
-      <input id="code" name="code" type="text" [(ngModel)]="code" maxlength="6" required class="form-control" />
-    </div>
-    <button class="btn btn-success" type="submit" [disabled]="loading">Validar Código</button>
-    <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-    <div *ngIf="message" class="alert alert-info mt-2">{{ message }}</div>
-  </form>
+  @if (step === 3) {
+    <form (ngSubmit)="onSubmitCode()" #formCodigo="ngForm" autocomplete="off">
+      <div class="form-group">
+        <label for="code">Digite o código recebido</label>
+        <input id="code" name="code" type="text" [(ngModel)]="code" maxlength="6" required class="form-control" />
+      </div>
+      <button class="btn btn-success" type="submit" [disabled]="loading">Validar Código</button>
+      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
+      @if (message) {
+        <div class="alert alert-info mt-2">{{ message }}</div>
+      }
+    </form>
+  }
 
   <!-- Redefinição de senha -->
-  <form *ngIf="step === 4" (ngSubmit)="onSubmitNovaSenha()" #formNovaSenha="ngForm" autocomplete="off">
-    <div class="form-group">
-      <label for="newPassword">Nova Senha</label>
-      <input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" required class="form-control" />
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirme a Nova Senha</label>
-      <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit" [disabled]="loading">Redefinir Senha</button>
-    <div *ngIf="message" class="alert alert-info mt-2">{{ message }}</div>
-  </form>
+  @if (step === 4) {
+    <form (ngSubmit)="onSubmitNovaSenha()" #formNovaSenha="ngForm" autocomplete="off">
+      <div class="form-group">
+        <label for="newPassword">Nova Senha</label>
+        <input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" required class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirme a Nova Senha</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required class="form-control" />
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="loading">Redefinir Senha</button>
+      @if (message) {
+        <div class="alert alert-info mt-2">{{ message }}</div>
+      }
+    </form>
+  }
 
-  <div *ngIf="step === 5" class="success-message">
-    <h4>Senha redefinida com sucesso!</h4>
-    <a routerLink="/login" class="btn btn-primary">Ir para o login</a>
-  </div>
+  @if (step === 5) {
+    <div class="success-message">
+      <h4>Senha redefinida com sucesso!</h4>
+      <a routerLink="/login" class="btn btn-primary">Ir para o login</a>
+    </div>
+  }
 </div>

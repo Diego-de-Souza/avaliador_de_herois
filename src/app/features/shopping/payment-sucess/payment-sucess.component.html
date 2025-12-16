@@ -16,16 +16,24 @@
               Parabéns! Sua assinatura foi ativada com sucesso.
             </p>
             
-            <div class="alert alert-info" *ngIf="paymentId">
-              <strong>ID do Pagamento:</strong> {{ paymentId }}
-            </div>
+            @if(paymentId){
+              <div class="alert alert-info">
+                <strong>ID do Pagamento:</strong> {{ paymentId }}
+              </div>
+            }
             
             <div class="mb-4">
               <h5>O que acontece agora?</h5>
               <ul class="list-unstyled text-start">
+                <!--
                 <li class="mb-2">
                   <i class="fas fa-envelope text-primary me-2"></i>
                   Você receberá um email de confirmação
+                </li>
+                -->
+                <li class="mb-2">
+                  <i class="fas fa-info-circle text-primary me-2"></i>
+                  A confirmação e o prazo de vencimento do seu plano podem ser encontrados nas configurações do usuário.
                 </li>
                 <li class="mb-2">
                   <i class="fas fa-key text-primary me-2"></i>

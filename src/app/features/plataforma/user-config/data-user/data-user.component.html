@@ -13,9 +13,11 @@
             formControlName="fullname"
             placeholder="Seu nome completo"
           />
-          <div *ngIf="isFieldInvalid('fullname')" class="fieldInvalid">
-            Nome é obrigatório e deve ter no mínimo 3 caracteres
-          </div>
+          @if (isFieldInvalid('fullname')) {
+            <div class="fieldInvalid">
+              Nome é obrigatório e deve ter no mínimo 3 caracteres
+            </div>
+          }
         </div>
 
         <!-- Nickname -->
@@ -28,9 +30,11 @@
             formControlName="nickname"
             placeholder="Apelido"
           />
-          <div *ngIf="isFieldInvalid('nickname')" class="fieldInvalid">
-            O apelido é obrigatório e deve conter no mínimo 3 caracteres
-          </div>
+          @if (isFieldInvalid('nickname')) {
+            <div class="fieldInvalid">
+              O apelido é obrigatório e deve conter no mínimo 3 caracteres
+            </div>
+          }
         </div>
 
         <!-- Email -->
@@ -43,9 +47,11 @@
             formControlName="email"
             placeholder="E-mail principal"
           />
-          <div *ngIf="isFieldInvalid('email')" class="fieldInvalid">
-            E-mail obrigatório e com formato válido
-          </div>
+          @if (isFieldInvalid('email')) {
+            <div class="fieldInvalid">
+              E-mail obrigatório e com formato válido
+            </div>
+          }
         </div>
 
         <!-- Email Secundário -->
@@ -69,9 +75,11 @@
             id="birthdate"
             formControlName="birthdate"
           />
-          <div *ngIf="isFieldInvalid('birthdate')" class="fieldInvalid">
-            Data de nascimento obrigatória
-          </div>
+          @if (isFieldInvalid('birthdate')) {
+            <div class="fieldInvalid">
+              Data de nascimento obrigatória
+            </div>
+          }
         </div>
 
         <!-- Endereço Completo -->
