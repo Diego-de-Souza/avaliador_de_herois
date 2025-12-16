@@ -12,6 +12,11 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 import { AuthService } from '../../../core/service/auth/auth.service';
 import { ToastService } from '../../../core/service/toast/toast.service';
 
+// Components
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
+
+// Interfaces
 import { Cart } from '../../../core/interface/cart.interface';
 import { StripePaymentElement } from '@stripe/stripe-js';
 
@@ -21,6 +26,8 @@ import { StripePaymentElement } from '@stripe/stripe-js';
   imports: [
     CommonModule, 
     ReactiveFormsModule, 
+    HeaderComponent, 
+    FooterComponent
   ],
   templateUrl: './modern-checkout.component.html',
   styleUrls: ['./modern-checkout.component.css']
