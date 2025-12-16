@@ -136,14 +136,8 @@ export class StripeService {
             }
           }
         },
-        paymentMethodOrder: ['card', 'pix'],
-        fields: {
-          billingDetails: {
-            address: {
-              country: 'never'
-            }
-          }
-        }
+        paymentMethodOrder: ['card', 'pix']
+        // Removido fields.billingDetails.address.country: 'never' para deixar o Stripe coletar o país
       });
 
       console.log('✅ Payment Element criado com sucesso');
