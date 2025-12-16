@@ -20,23 +20,16 @@ export class PaymentSucessComponent {
   paymentId: string | null = null;
   _themeSuccess: string = 'dark';
 
+
   ngOnInit(): void {
     this.paymentId = this.route.snapshot.queryParams['paymentId'];
-    
     this.themeService.theme$.subscribe(theme => {
       this._themeSuccess = theme;
       this.applyTheme(theme);
     });
-
-    // Auto-redirect após 10 segundos
-    setTimeout(() => {
-      this.goToDashboard();
-    }, 10000);
   }
 
-  goToDashboard(): void {
-    this.router.navigate(['/dashboard']);
-  }
+
 
   goToPlans(): void {
     this.router.navigate(['/shopping/plans']);
