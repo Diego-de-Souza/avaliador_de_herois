@@ -78,8 +78,8 @@ export class CheckoutComponent {
       await this.stripeService.initializeStripe(this._themeCheckout as 'light' | 'dark');
       // Criar PaymentIntent
       const paymentIntent = await this.paymentService.createPaymentIntent({
-        amount: this.cart.total,
-        currency: 'brl'
+        planType: 'mensal', // ou obtenha do carrinho/plano selecionado
+        amount: this.cart.total
       }).toPromise();
       if (!paymentIntent) throw new Error('Erro ao criar intenção de pagamento');
       await this.stripeService.createElements(paymentIntent.clientSecret, this._themeCheckout as 'light' | 'dark');
@@ -105,14 +105,6 @@ export class CheckoutComponent {
       // Confirmar pagamento usando Payment Element
       const result = await this.stripeService.confirmPayment();
       if (result.error) throw new Error(result.error.message);
-      // Confirmar pagamento no backend
-      await this.paymentService.confirmPayment(
-        result.paymentIntent?.id || '',
-        {
-          userEmail: this.checkoutForm.get('email')?.value,
-          userName: this.checkoutForm.get('fullName')?.value
-        }
-      ).toPromise();
       // Limpar carrinho e redirecionar
       this.cartService.clearCart();
       this.router.navigate(['/features/shopping/payment-success'], {

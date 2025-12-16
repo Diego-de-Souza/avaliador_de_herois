@@ -6,11 +6,8 @@ import { PaymentIntent, SubscriptionData } from '../../interface/subscriptionDat
 import { environment } from '../../../../environments/environment';
 
 export interface CreatePaymentIntentRequest {
-  amount: number;
-  currency: string;
-  payment_method_types?: string[];
-  metadata?: Record<string, string>;
-  setup_future_usage?: 'on_session' | 'off_session';
+  planType: 'mensal' | 'trimestral' | 'semestral' | 'anual';
+  amount: number; // em reais, ex: 29.9
 }
 
 export interface PaymentIntentResponse {
@@ -40,98 +37,13 @@ export class PaymentService {
   /**
    * Cria Payment Intent para pagamentos únicos (versão moderna)
    */
-  createPaymentIntent(request: CreatePaymentIntentRequest): Observable<PaymentIntentResponse>;
-  /**
-   * Cria Payment Intent (versão legacy para compatibilidade)
-   * @deprecated Use the version with CreatePaymentIntentRequest
-   */
-  createPaymentIntent(amount: number, currency?: string): Observable<PaymentIntent>;
-  createPaymentIntent(requestOrAmount: CreatePaymentIntentRequest | number, currency?: string): Observable<PaymentIntentResponse | PaymentIntent> {
-    // Verificar se é a chamada legacy
-    if (typeof requestOrAmount === 'number') {
-      const amount = requestOrAmount;
-      const curr = currency || 'brl';
-      
-      this.setLoading(true);
-      
-      return this.http.post<PaymentIntent>(
-        `${this.apiUrl}/payment/create-payment-intent`,
-        {
-          amount: amount * 100,
-          currency: curr
-        },
-        { withCredentials: true }
-      ).pipe(
-        tap(() => this.setLoading(false)),
-        catchError(this.handleError.bind(this))
-      );
-    }
-
-    // Versão moderna
-    const request = requestOrAmount as CreatePaymentIntentRequest;
+  createPaymentIntent(request: CreatePaymentIntentRequest): Observable<PaymentIntentResponse> {
     this.setLoading(true);
-    
-    const payload = {
-      amount: request.amount * 100, // Converter para centavos
-      currency: request.currency.toLowerCase(),
-      payment_method_types: request.payment_method_types || ['card', 'pix'],
-      metadata: request.metadata || {},
-      setup_future_usage: request.setup_future_usage
-    };
-
     return this.http.post<PaymentIntentResponse>(
       `${this.apiUrl}/payment/create-payment-intent`,
-      payload,
-      { withCredentials: true }
-    ).pipe(
-      tap(() => this.setLoading(false)),
-      catchError(this.handleError.bind(this))
-    );
-  }
-
-  /**
-   * Cria Setup Intent para salvar métodos de pagamento
-   */
-  createSetupIntent(customerId?: string): Observable<SetupIntentResponse> {
-    this.setLoading(true);
-    
-    return this.http.post<SetupIntentResponse>(
-      `${this.apiUrl}/payment/create-setup-intent`,
-      { customer_id: customerId },
-      { withCredentials: true }
-    ).pipe(
-      tap(() => this.setLoading(false)),
-      catchError(this.handleError.bind(this))
-    );
-  }
-
-  /**
-   * Cria assinatura com Payment Element
-   */
-  createSubscription(subscriptionData: SubscriptionData): Observable<any> {
-    this.setLoading(true);
-    
-    return this.http.post(
-      `${this.apiUrl}/subscription/create`,
-      subscriptionData,
-      { withCredentials: true }
-    ).pipe(
-      tap(() => this.setLoading(false)),
-      catchError(this.handleError.bind(this))
-    );
-  }
-
-  /**
-   * Confirma pagamento no backend
-   */
-  confirmPayment(paymentIntentId: string, metadata?: Record<string, any>): Observable<any> {
-    this.setLoading(true);
-    
-    return this.http.post(
-      `${this.apiUrl}/payment/confirm`,
-      { 
-        paymentIntentId,
-        metadata: metadata || {}
+      {
+        planType: request.planType,
+        amount: request.amount
       },
       { withCredentials: true }
     ).pipe(
@@ -140,30 +52,28 @@ export class PaymentService {
     );
   }
 
+
+
   /**
-   * Obtém histórico de pagamentos
+   * Cria assinatura recorrente (se usar)
    */
-  getPaymentHistory(): Observable<any[]> {
-    return this.http.get<any[]>(
-      `${this.apiUrl}/payment/history`,
+  createSubscription(planType: 'mensal' | 'trimestral' | 'semestral' | 'anual'): Observable<any> {
+    this.setLoading(true);
+    return this.http.post(
+      `${this.apiUrl}/payment/create-subscription`,
+      { planType },
       { withCredentials: true }
     ).pipe(
+      tap(() => this.setLoading(false)),
       catchError(this.handleError.bind(this))
     );
   }
 
-  /**
-   * Cancela Payment Intent
-   */
-  cancelPaymentIntent(paymentIntentId: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/payment/cancel`,
-      { paymentIntentId },
-      { withCredentials: true }
-    ).pipe(
-      catchError(this.handleError.bind(this))
-    );
-  }
+
+
+
+
+
 
   /**
    * Lista planos de assinatura disponíveis
@@ -189,17 +99,7 @@ export class PaymentService {
     );
   }
 
-  /**
-   * Obtém assinatura ativa do usuário
-   */
-  getActiveSubscription(): Observable<any> {
-    return this.http.get<any>(
-      `${this.apiUrl}/payment/subscription`,
-      { withCredentials: true }
-    ).pipe(
-      catchError(this.handleError.bind(this))
-    );
-  }
+
 
   /**
    * Cancela assinatura premium do usuário

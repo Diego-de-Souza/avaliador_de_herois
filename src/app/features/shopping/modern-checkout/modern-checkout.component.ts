@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -32,8 +32,28 @@ import { StripePaymentElement } from '@stripe/stripe-js';
   templateUrl: './modern-checkout.component.html',
   styleUrls: ['./modern-checkout.component.css']
 })
-export class ModernCheckoutComponent implements OnInit, OnDestroy {
-  @ViewChild('paymentElement', { static: true }) paymentElementRef!: ElementRef;
+export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
+  @ViewChild('paymentElement', { static: false }) paymentElementRef!: ElementRef;
+  private paymentElementMounted = false;
+  ngAfterViewInit(): void {
+    console.log('[Stripe Debug] ngAfterViewInit chamado', {
+      paymentElement: this.paymentElement,
+      paymentElementRef: this.paymentElementRef?.nativeElement
+    });
+    // Apenas log para debug, montagem garantida no ngAfterViewChecked
+  }
+
+  ngAfterViewChecked(): void {
+    if (this.paymentElement && this.paymentElementRef?.nativeElement && !this.paymentElementMounted) {
+      try {
+        this.paymentElement.mount(this.paymentElementRef.nativeElement);
+        this.paymentElementMounted = true;
+        console.debug('[Stripe Debug] mount chamado via ngAfterViewChecked');
+      } catch (e) {
+        console.error('[Stripe Debug] Erro ao montar Payment Element em ngAfterViewChecked:', e);
+      }
+    }
+  }
   @ViewChild('addressElement', { static: false }) addressElementRef?: ElementRef;
 
   // Services
@@ -144,17 +164,16 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy {
 
       // 2. Criar Payment Intent
       const paymentIntentData = await this.createPaymentIntent();
-
+      console.debug('[Stripe Debug] paymentIntentData:', paymentIntentData);
       // 3. Criar Elements
       if (paymentIntentData?.clientSecret) {
+        console.debug('[Stripe Debug] clientSecret:', paymentIntentData.clientSecret);
         await this.stripeService.createElements(paymentIntentData.clientSecret, this.currentTheme);
       } else {
         throw new Error('Client secret não recebido');
       }
-
       // 4. Criar e montar Payment Element
       await this.createAndMountElements();
-
       this.isInitializing = false;
       console.log('✅ Checkout inicializado com sucesso');
 
@@ -170,20 +189,9 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy {
    */
   private async createPaymentIntent() {
     const request: CreatePaymentIntentRequest = {
-      amount: this.cart.total,
-      currency: 'brl',
-      payment_method_types: ['card', 'pix'],
-      metadata: {
-        cartItems: JSON.stringify(this.cart.items.map(item => ({
-          planId: item.plan.id,
-          name: item.plan.name,
-          price: item.plan.price
-        }))),
-        userEmail: this.currentUser?.email || 'guest'
-      },
-      setup_future_usage: this.checkoutForm.get('savePaymentMethod')?.value ? 'off_session' : undefined
+      planType: 'mensal', // ou obtenha do carrinho/plano selecionado
+      amount: this.cart.total
     };
-
     return this.paymentService.createPaymentIntent(request).toPromise();
   }
 
@@ -193,24 +201,36 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy {
   private async createAndMountElements(): Promise<void> {
     // Criar Payment Element
     this.paymentElement = this.stripeService.createPaymentElement();
-    
-    if (this.paymentElement && this.paymentElementRef?.nativeElement) {
-      this.paymentElement.mount(this.paymentElementRef.nativeElement);
-      
-      // Listeners
-      this.paymentElement.on('ready', () => {
-        this.elementsReady = true;
-        console.log('✅ Payment Element ready');
-      });
-
-      this.paymentElement.on('change', (event: any) => {
-        if (event.error) {
-          this.error = event.error.message;
-        } else {
-          this.error = null;
-        }
-      });
+    console.debug('[Stripe Debug] paymentElement:', this.paymentElement);
+    console.debug('[Stripe Debug] paymentElementRef:', this.paymentElementRef?.nativeElement);
+    if (!this.paymentElement) {
+      console.error('[Stripe Debug] Payment Element não foi criado! Verifique se o clientSecret é válido e se o Stripe Elements foi inicializado.');
+      return;
     }
+    // Only mount if nativeElement is available, else wait for ngAfterViewInit
+    if (this.paymentElementRef?.nativeElement) {
+      try {
+        this.paymentElement.mount(this.paymentElementRef.nativeElement);
+        this.paymentElementMounted = true;
+        console.debug('[Stripe Debug] mount chamado com sucesso');
+      } catch (e) {
+        console.error('[Stripe Debug] Erro ao montar Payment Element:', e);
+      }
+    } else {
+      console.warn('[Stripe Debug] paymentElementRef.nativeElement não está disponível, aguardando ngAfterViewInit');
+    }
+    // Listeners
+    this.paymentElement.on('ready', () => {
+      this.elementsReady = true;
+      console.log('✅ Payment Element ready');
+    });
+    this.paymentElement.on('change', (event: any) => {
+      if (event.error) {
+        this.error = event.error.message;
+      } else {
+        this.error = null;
+      }
+    });
 
     // Criar Address Element (opcional)
     if (this.addressElementRef?.nativeElement) {
@@ -253,16 +273,6 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy {
       }
 
       if (result.paymentIntent?.status === 'succeeded') {
-        // Confirmar no backend
-        await this.paymentService.confirmPayment(
-          result.paymentIntent.id,
-          {
-            userEmail: formData.email,
-            userName: formData.fullName,
-            cartTotal: this.cart.total
-          }
-        ).toPromise();
-
         // Exibir toast de sucesso
         this.toastService.paymentSuccess(this.cart.total, result.paymentIntent.id);
 
