@@ -265,7 +265,8 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
       // Confirmar pagamento com Stripe
       const result = await this.stripeService.confirmPayment({
         confirmParams,
-        return_url: `${window.location.origin}/features/shopping/payment-success`
+        // Usar URL relativa para evitar sobrescrever domínio
+        return_url: '/features/shopping/payment-success'
       });
 
       if (result.error) {
@@ -281,7 +282,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
 
         // Pequeno delay para garantir exibição do toast antes do redirect
         setTimeout(() => {
-          this.router.navigate(['/features/shopping/payment-success'], {
+          this.router.navigate(['features/shopping/payment-success'], {
             queryParams: {
               payment_intent: result.paymentIntent?.id,
               status: 'success'
