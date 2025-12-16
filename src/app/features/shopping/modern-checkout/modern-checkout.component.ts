@@ -273,6 +273,8 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         throw new Error(result.error.message);
       }
 
+      console.log('status do pagamento:', result.paymentIntent?.status);
+
       if (result.paymentIntent?.status === 'succeeded') {
         // Exibir toast de sucesso
         this.toastService.paymentSuccess(this.cart.total, result.paymentIntent.id);
@@ -280,15 +282,16 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         // Limpar carrinho
         this.cartService.clearCart();
 
-        // Pequeno delay para garantir exibição do toast antes do redirect
-        setTimeout(() => {
-          this.router.navigate(['features/shopping/payment-success'], {
-            queryParams: {
-              payment_intent: result.paymentIntent?.id,
-              status: 'success'
-            }
-          });
-        }, 800);
+        // // Pequeno delay para garantir exibição do toast antes do redirect
+        // setTimeout(() => {
+        //   this.router.navigate(['features/shopping/payment-success'], {
+        //     queryParams: {
+        //       payment_intent: result.paymentIntent?.id,
+        //       status: 'success'
+        //     }
+        //   });
+        // }, 800);
+        console.log('Redirecionando para página de sucesso de pagamento...');
         return;
       }
 
