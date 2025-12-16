@@ -252,7 +252,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
 
     try {
       const formData = this.checkoutForm.value;
-      
+
       const confirmParams = {
         payment_method_data: {
           billing_details: {
@@ -279,14 +279,20 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         // Limpar carrinho
         this.cartService.clearCart();
 
-        // Redirecionar para sucesso
-        this.router.navigate(['/features/shopping/payment-success'], {
-          queryParams: { 
-            payment_intent: result.paymentIntent.id,
-            status: 'success'
-          }
-        });
+        // Pequeno delay para garantir exibição do toast antes do redirect
+        setTimeout(() => {
+          this.router.navigate(['/features/shopping/payment-success'], {
+            queryParams: {
+              payment_intent: result.paymentIntent?.id,
+              status: 'success'
+            }
+          });
+        }, 800);
+        return;
       }
+
+      // Se não for succeeded, exibe info e não redireciona
+      this.toastService.info('Pagamento em processamento. Aguarde a confirmação.');
 
     } catch (error: any) {
       this.error = error.message || 'Erro ao processar pagamento';
