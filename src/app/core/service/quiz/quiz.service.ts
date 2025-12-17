@@ -181,8 +181,8 @@ export class QuizService {
         });
     }
 
-    updateQuiz(id: number, id_quiz_level:number , data: any): Observable<any> {
-        return this.http.put<any>(`${this.apiUrl}/quiz/${id}/level/${id_quiz_level}`, data, {
+    updateQuiz(id: number , data: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/quiz/${id}`, data, {
             headers: {
                 'Content-Type': 'application/json'
             }

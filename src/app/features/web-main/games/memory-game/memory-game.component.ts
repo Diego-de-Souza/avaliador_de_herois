@@ -62,19 +62,19 @@ export class MemoryGameComponent implements OnInit {
       this.userId = this.authService.getUserId();
       console.log('Usuário logado:', this.userId);
       if (this.userId !== null) {
-         this.progressService.getUserGameProgress(this.userId, this.gameId).subscribe(progress => {
-            console.log('Progresso recebido:', progress);  
+        this.progressService.getUserGameProgress(this.userId, this.gameId).subscribe(progress => {
+          console.log('Progresso recebido:', progress);
+
+          if (progress && progress.dataUnit && progress.dataUnit.metadata) {
             console.log('dados iguais?:', progress.dataUnit.metadata.theme == this.selectedTheme);
-            
-            if (progress) {
-              this.userProgress = progress;
-              this.selectedTheme = progress.metadata?.theme || this.selectedTheme;
-              if(progress.dataUnit.metadata.theme == this.selectedTheme){
-                this.selectedLevel = progress.dataUnit.lvl_user + 1 || this.selectedLevel;
-              }
+            this.userProgress = progress;
+            this.selectedTheme = progress.metadata?.theme || this.selectedTheme;
+            if (progress.dataUnit.metadata.theme == this.selectedTheme) {
+              this.selectedLevel = progress.dataUnit.lvl_user + 1 || this.selectedLevel;
             }
-            this.startGame();
-          });
+          }
+          this.startGame();
+        });
       }
      
     } else {

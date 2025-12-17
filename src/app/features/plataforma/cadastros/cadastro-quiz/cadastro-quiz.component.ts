@@ -77,7 +77,9 @@ export class CadastroQuizComponent implements OnInit {
       name_quiz_level: ['', Validators.required],
       questions_count: [0, [Validators.required, Validators.min(1)]],
       xp_reward: [0, [Validators.required, Validators.min(100)]],
-      difficulty: ['', Validators.required]
+      difficulty: ['', Validators.required],
+      id: [null],
+      unlocked: [false]
     }));
   }
 
@@ -90,10 +92,12 @@ export class CadastroQuizComponent implements OnInit {
         });
         const levelsArray = new FormArray<FormGroup<any>>([
           this.fb.group({
+            id: [quiz.dataUnit.quiz_level.id],
             name_quiz_level: [quiz.dataUnit.quiz_level.name, Validators.required],
             questions_count: [quiz.dataUnit.quiz_level.questions, [Validators.required, Validators.min(1)]],
             xp_reward: [quiz.dataUnit.quiz_level.xp_reward, [Validators.required, Validators.min(100)]],
-            difficulty: [quiz.dataUnit.quiz_level.difficulty, Validators.required]
+            difficulty: [quiz.dataUnit.quiz_level.difficulty, Validators.required],
+            unlocked: [quiz.dataUnit.quiz_level.unlocked]
           })
         ]);
         this._quizForm.setControl('quiz_levels', levelsArray);
@@ -131,7 +135,7 @@ export class CadastroQuizComponent implements OnInit {
       const payload = this._quizForm.value;
       if (this.editingQuizId && this.editingQuizLevelId) {
         // Atualiza quiz e quiz_levels juntos
-        this.quizService.updateQuiz(this.editingQuizId, this.editingQuizLevelId, payload)
+        this.quizService.updateQuiz(this.editingQuizId, payload)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (response) => {
