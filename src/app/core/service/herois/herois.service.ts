@@ -157,23 +157,35 @@ export class HeroisService {
   }
 
   searchHeroesTeam(team: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('team',team);
-    return this.http.get<HeroisModel[]>(this.apiUrl, {params})
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/team/` + team, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   searchHeroesReleaseDate(anoLancamento: Number): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('year', anoLancamento.toString());
-    return this.http.get<HeroisModel[]>(this.apiUrl, { params });
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/ano_lancamento/` + anoLancamento, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   searchHeroesMorality(morality: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('morality',morality);
-    return this.http.get<HeroisModel[]>(this.apiUrl, {params});
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/morality/` + morality, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   searchHeroesGenre(genre: string): Observable<HeroisModel[]> {
-    const params = new HttpParams().set('genre', genre);
-    return this.http.get<HeroisModel[]>(this.apiUrl,{params});
+    return this.http.get<HeroisModel[]>(`${this.apiUrl}/herois/genre/` + genre, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 
   getDataHero(id: number): Observable<any>{

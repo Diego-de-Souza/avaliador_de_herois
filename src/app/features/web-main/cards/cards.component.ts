@@ -157,7 +157,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.searchHeroes.searchHeroesTeam(team)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => this.handleSuccess(data, 'Team'),
+        next: (resp: any) => this.handleSuccess(resp.data, 'Team'),
         error: (error) => this.handleError(error, 'Team')
       });
   }
@@ -166,7 +166,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.searchHeroes.searchHeroesMorality(morality)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => this.handleSuccess(data, 'Morality'),
+        next: (resp: any) => this.handleSuccess(resp.data, 'Morality'),
         error: (error) => this.handleError(error, 'Morality')
       });
   }
@@ -175,7 +175,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.searchHeroes.searchHeroesGenre(genre)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => this.handleSuccess(data, 'Genre'),
+        next: (resp: any) => this.handleSuccess(resp.data, 'Genre'),
         error: (error) => this.handleError(error, 'Genre')
       });
   }
@@ -184,7 +184,7 @@ export class CardsComponent implements OnInit, OnDestroy {
     this.searchHeroes.searchHeroesReleaseDate(anoLancamento)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (data) => this.handleSuccess(data, 'Release Date'),
+        next: (resp: any) => this.handleSuccess(resp.data, 'Release Date'),
         error: (error) => this.handleError(error, 'Release Date')
       });
   }

@@ -18,17 +18,14 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './busca-heroes.component.css'
 })
 export class BuscaHeroesComponent implements OnInit, OnDestroy {
-  // ===== INJEÇÕES COM inject() (MODERNO) =====
   private themeService = inject(ThemeService);
   private router = inject(Router);
   private el = inject(ElementRef);
   private renderer = inject(Renderer2);
   private searchHerois = inject(HeroisService);
   
-  // ===== CLEANUP =====
   private destroy$ = new Subject<void>();
   
-  // ===== PROPRIEDADES EXISTENTES =====
   _themeSearch: string = 'dark';
   anoLancamento: string = '';
 
@@ -39,7 +36,6 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
   heroisMenuOrigem: any[] = [];
   heroisMenuSexo: any[] = [];
 
-  // ===== SISTEMA DE ACCORDION MELHORADO =====
   private accordionStates = {
     editora: false,
     equipe: false,
@@ -57,7 +53,6 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
   get statusMoralidade(): number { return this.accordionStates.moralidade ? 1 : 0; }
   get statusSexo(): number { return this.accordionStates.sexo ? 1 : 0; }
 
-  // ===== CONSTRUTOR VAZIO (MODERNO) =====
   constructor() {}
 
   ngOnInit(): void {
@@ -152,8 +147,9 @@ export class BuscaHeroesComponent implements OnInit, OnDestroy {
   }
 
   buscaPorAno() {
-    if (this.anoLancamento && this.anoLancamento.trim() !== '') {
-      this.router.navigate(['/webmain/cards'], { queryParams: { anoLancamento: this.anoLancamento } });
+    const ano = String(this.anoLancamento || '').trim();
+    if (ano !== '') {
+      this.router.navigate(['/webmain/cards'], { queryParams: { anoLancamento: ano } });
     }
   }
 

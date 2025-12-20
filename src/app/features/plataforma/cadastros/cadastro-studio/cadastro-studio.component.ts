@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 
@@ -24,7 +24,8 @@ export class CadastroStudioComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService
+    private heroisService: HeroisService,
+    private readonly router: Router
   ) {
     this.studioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(5)]],
@@ -90,6 +91,7 @@ export class CadastroStudioComponent implements OnInit {
               this.modalTitle = 'Cadastro de Studio';
               this.modalMessage = 'Studio cadastrado com sucesso!';
               this.showModal = true;
+              this.router.navigate(['/plataforma/view/view-studio']);
             }
           },
           (error: any) => {

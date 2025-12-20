@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
 
 
@@ -29,7 +29,8 @@ export class CadastroTeamComponent implements OnInit{
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService
+    private heroisService: HeroisService,
+    private readonly router: Router
   ){
     this.dadosTeam = this.fb.group({
       name: ['', Validators.required],
@@ -84,6 +85,7 @@ export class CadastroTeamComponent implements OnInit{
             this.modalTitle = 'Cadastro de Equipe';
             this.modalMessage = 'Studio cadastrado com sucesso!';
             this.showModal = true;
+            this.router.navigate(['/plataforma/view/view-team']);
           }
         },(error)=>{
           console.log("erro ao cadastrar:",error);

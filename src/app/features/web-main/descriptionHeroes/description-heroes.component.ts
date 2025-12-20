@@ -44,21 +44,22 @@ export class DescriptionHeroesComponent implements OnInit {
         this.isLoading = true;
         this.heroService.getDataHero(this.heroId).subscribe(
           (response) => {
+            const data = response.dataUnit || response;
             const userFromDB = {
-              name: response.dataUnit.name,
-              morality: response.dataUnit.morality,
-              studio: response.dataUnit.studio,
-              power_type: response.dataUnit.power_type,
-              release_date: response.dataUnit.release_date,
-              first_appearance: response.dataUnit.first_appearance,
-              creator: response.dataUnit.creator,
-              weak_point: response.dataUnit.weak_point,
-              imagem: response.dataUnit.image1,
-              imagem_cover: response.dataUnit.image2,
-              team: response.dataUnit.team,
-              affiliation: response.dataUnit.affiliation,
-              history: response.dataUnit.story,
-              genre: response.dataUnit.genre
+              name: data.name,
+              morality: data.morality,
+              studio: data.studio?.name || data.studio || (data.studio_id ? `Studio ID: ${data.studio_id}` : 'N/A'),
+              power_type: data.power_type,
+              release_date: data.release_date,
+              first_appearance: data.first_appearance,
+              creator: data.creator,
+              weak_point: data.weak_point,
+              imagem: data.image1,
+              imagem_cover: data.image2,
+              team: data.team?.name || data.team || data.affiliation || (data.team_id ? `Team ID: ${data.team_id}` : 'N/A'),
+              affiliation: data.affiliation,
+              history: data.story,
+              genre: data.genre
             };
 
             userFromDB.imagem = this.imageService.processImageField(userFromDB.imagem, 'image/jpeg');

@@ -140,8 +140,8 @@
               <div class="options-list">
                 @if (heroisMenuMoralidade && heroisMenuMoralidade.length > 0) {
                   @for(morality of heroisMenuMoralidade; track morality) {
-                    <div class="option-item" (click)="openForMorality(morality.moralityName)">
-                      <span class="option-text">{{ morality.moralityName }}</span>
+                    <div class="option-item" (click)="openForMorality(morality.morality)">
+                      <span class="option-text">{{ morality.morality }}</span>
                       <i class="fas fa-arrow-right"></i>
                     </div>
                   }
@@ -170,8 +170,8 @@
               <div class="options-list">
                 @if (heroisMenuSexo && heroisMenuSexo.length > 0) {
                   @for(genre of heroisMenuSexo; track genre) {
-                    <div class="option-item" (click)="openForSexy(genre.genreName)">
-                      <span class="option-text">{{ genre.genreName }}</span>
+                    <div class="option-item" (click)="openForSexy(genre.genre)">
+                      <span class="option-text">{{ genre.genre }}</span>
                       <i class="fas fa-arrow-right"></i>
                     </div>
                   }
