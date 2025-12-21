@@ -1,6 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import { ToastNotification } from './shared/components/toast-notification/toast-notification';
+import { CommonModule } from '@angular/common';
 import { MessageService } from './core/service/message/message.service';
 import { AuthService } from './core/service/auth/auth.service';
 import { ToastService } from './core/service/toast/toast.service';
@@ -8,7 +10,7 @@ import { ToastService } from './core/service/toast/toast.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FontAwesomeModule],
+  imports: [RouterOutlet, FontAwesomeModule, ToastNotification, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
