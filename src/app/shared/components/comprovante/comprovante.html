@@ -11,10 +11,12 @@
       <span class="label">ID do Pagamento:</span>
       <span class="value">{{ data.paymentId }}</span>
     </div>
-    <div class="comprovante-row" *ngIf="data.userName">
-      <span class="label">Usuário:</span>
-      <span class="value">{{ data.userName }}</span>
-    </div>
+    @if(data.userName){
+      <div class="comprovante-row">
+        <span class="label">Usuário:</span>
+        <span class="value">{{ data.userName }}</span>
+      </div>
+    }
     <div class="comprovante-row">
       <span class="label">Data:</span>
       <span class="value">{{ now | date:'dd/MM/yyyy HH:mm' }}</span>

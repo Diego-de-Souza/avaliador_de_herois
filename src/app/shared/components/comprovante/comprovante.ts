@@ -1,6 +1,7 @@
 import { DatePipe, CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-comprovante',
@@ -8,17 +9,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './comprovante.html',
   styleUrl: './comprovante.css'
 })
-export class Comprovante {
-  now: Date = new Date();
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      paymentId: string,
-      userName?: string,
-      items?: Array<{ plan?: { name: string, price: number, currency: string }, name?: string, price?: number, currency?: string, quantity?: number }>
-    },
-    private dialogRef: MatDialogRef<Comprovante>
-  ) {}
+export class Comprovante implements OnInit{
+  private readonly authService = inject(AuthService);
 
+  now: Date = new Date();
+  data = inject(MAT_DIALOG_DATA) as {
+    paymentId: string,
+    userName?: string,
+    items?: Array<{ plan?: { name: string, price: number, currency: string }, name?: string, price?: number, currency?: string, quantity?: number }>
+  };
+  dialogRef = inject(MatDialogRef<Comprovante>);
+
+  ngOnInit(): void {
+    this.data.userName = this.authService.getUser()?.name || 'Usuário Desconhecido'; 
+  }
+  
   imprimir() {
     window.print();
   }

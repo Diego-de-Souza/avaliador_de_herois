@@ -283,7 +283,10 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         const dialogRef = this.toastService['dialog'].open(
           (window as any).ComprovanteComponent || (await import('../../../shared/components/comprovante/comprovante')).Comprovante,
           {
-            data: { paymentId: result.paymentIntent.id },
+            data: {
+              paymentId: result.paymentIntent.id,
+              items: this.cart.items
+            },
             width: '500px',
             maxWidth: '95vw',
             disableClose: false
