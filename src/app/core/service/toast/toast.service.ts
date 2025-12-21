@@ -63,7 +63,7 @@ export class ToastService {
       `Pagamento de ${this.formatCurrency(amount)} processado com sucesso!`,
       'Pagamento Aprovado',
       {
-        persistent: true,
+        persistent: false,
         actions: [
           {
             label: 'Ver Comprovante',
