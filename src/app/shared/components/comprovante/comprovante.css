@@ -1,4 +1,5 @@
 
+/* comprovante.component.css */
 .comprovante-modal.geek-theme {
   background: var(--comprovante-bg, #181c24);
   color: var(--comprovante-fg, #fff);
@@ -47,6 +48,7 @@
 
 .comprovante-body {
   margin-bottom: 18px;
+
 }
 .comprovante-row {
   display: flex;
@@ -56,6 +58,11 @@
   font-size: 1.01rem;
   border-bottom: 1px dotted rgba(0,255,231,0.13);
 }
+.comprovante-list-row {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
 .label {
   font-weight: bold;
   color: var(--comprovante-accent, #00ffe7);
@@ -64,6 +71,35 @@
 .value {
   font-family: inherit;
   letter-spacing: 0.5px;
+}
+.comprovante-list {
+  list-style: none;
+  margin: 0 0 0 0.5em;
+  padding: 0;
+}
+.comprovante-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.98rem;
+  border-bottom: 1px dashed rgba(0,255,231,0.09);
+}
+.item-name {
+  font-family: inherit;
+  color: #ffea00;
+  font-weight: bold;
+  margin-right: 8px;
+}
+.item-qty {
+  font-family: inherit;
+  color: var(--comprovante-accent, #00ffe7);
+  margin-right: 8px;
+}
+.item-price {
+  font-family: inherit;
+  color: #00ff88;
+  font-weight: bold;
 }
 .status.aprovado {
   color: #00ff88;

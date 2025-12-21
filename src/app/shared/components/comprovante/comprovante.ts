@@ -1,17 +1,21 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, CurrencyPipe, CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comprovante',
-  imports: [DatePipe],
-  templateUrl: './comprovante.html',
-  styleUrl: './comprovante.css'
+  imports: [CommonModule, DatePipe, CurrencyPipe],
+  templateUrl: './comprovante.component.html',
+  styleUrl: './comprovante.component.css'
 })
 export class Comprovante {
   now: Date = new Date();
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { paymentId: string },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      paymentId: string,
+      userName?: string,
+      items?: Array<{ plan?: { name: string, price: number, currency: string }, name?: string, price?: number, currency?: string, quantity?: number }>
+    },
     private dialogRef: MatDialogRef<Comprovante>
   ) {}
 

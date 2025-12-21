@@ -1,4 +1,6 @@
 
+
+<!-- comprovante.component.html -->
 <div class="comprovante-modal geek-theme">
   <div class="comprovante-header">
     <span class="icon-receipt">🦸‍♂️</span>
@@ -9,6 +11,10 @@
       <span class="label">ID do Pagamento:</span>
       <span class="value">{{ data.paymentId }}</span>
     </div>
+    <div class="comprovante-row" *ngIf="data.userName">
+      <span class="label">Usuário:</span>
+      <span class="value">{{ data.userName }}</span>
+    </div>
     <div class="comprovante-row">
       <span class="label">Data:</span>
       <span class="value">{{ now | date:'dd/MM/yyyy HH:mm' }}</span>
@@ -17,7 +23,27 @@
       <span class="label">Status:</span>
       <span class="value status aprovado"><span class="icon-status">✔️</span> Aprovado</span>
     </div>
-    <!-- Adicione mais dados conforme necessário -->
+    <div class="comprovante-row comprovante-list-row">
+      <span class="label">Itens da compra:</span>
+    </div>
+    <ul class="comprovante-list">
+      @for (item of data.items ?? []) {
+        <li class="comprovante-list-item">
+          <span class="item-name">{{ item.plan?.name ?? item.name ?? '-' }}</span>
+          <span class="item-qty">x{{ item.quantity ?? 1 }}</span>
+          <span class="item-price">
+            @if (item.plan?.price && item.plan?.currency) {
+              {{ item.plan?.price | currency:item.plan?.currency:'symbol':'1.2-2' }}
+            } @else if (item.price && item.currency) {
+              {{ item.price | currency:item.currency:'symbol':'1.2-2' }}
+            } @else {
+              -
+            }
+          </span>
+        </li>
+      }
+      </li>
+    </ul>
   </div>
   <div class="comprovante-actions">
     <button mat-raised-button color="primary" (click)="imprimir()"><span class="icon-action">🖨️</span> Imprimir</button>
