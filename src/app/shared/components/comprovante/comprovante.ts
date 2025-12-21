@@ -11,7 +11,7 @@ import { AuthService } from '../../../core/service/auth/auth.service';
 })
 export class Comprovante implements OnInit{
   private readonly authService = inject(AuthService);
-
+  
   now: Date = new Date();
   data = inject(MAT_DIALOG_DATA) as {
     paymentId: string,
@@ -21,9 +21,12 @@ export class Comprovante implements OnInit{
   dialogRef = inject(MatDialogRef<Comprovante>);
 
   ngOnInit(): void {
-    this.data.userName = this.authService.getUser()?.name || 'Usuário Desconhecido'; 
+    const user = this.authService.getUser();
+    console.log('Dados do comprovante: ', user);
+    this.data.userName = user?.name || 'Usuário Desconhecido'; 
+    
   }
-  
+
   imprimir() {
     window.print();
   }
