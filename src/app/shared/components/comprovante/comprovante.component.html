@@ -1,0 +1,14 @@
+<div class="comprovante-modal">
+  <h2>Comprovante de Pagamento</h2>
+  <div class="comprovante-dados">
+    <p><strong>ID do Pagamento:</strong> {{ data.paymentId }}</p>
+    <p><strong>Data:</strong> {{ now | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Status:</strong> <span class="aprovado">Aprovado</span></p>
+    <!-- Adicione mais dados conforme necessário -->
+  </div>
+  <div class="comprovante-actions">
+    <button mat-raised-button color="primary" (click)="imprimir()">Imprimir</button>
+    <button mat-raised-button color="accent" (click)="salvarPDF()">Salvar PDF</button>
+    <button mat-button (click)="fechar()">Fechar</button>
+  </div>
+</div>

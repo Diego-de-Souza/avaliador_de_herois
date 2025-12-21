@@ -24,13 +24,13 @@ export class MessageService {
           vapidKey: 'BHCFudQpErY_P4n6Jn1jrecHCccGKNgXz5bd7Ajy6bkhyY-Gj30t8S5IrhtVEAD5pGM0VLrO_D8fGNvTUJHc6Zg' 
         });
         if (token) {
-          console.log('Token recebido:', token);
+          // console.log('Token recebido:', token);
           // Envie o token para seu backend para usar nas notificações
         } else {
-          console.log('Token não disponível mesmo com permissão concedida.');
+          // console.log('Token não disponível mesmo com permissão concedida.');
         }
       } else {
-        console.log('Permissão para notificações negada pelo usuário.');
+        // console.log('Permissão para notificações negada pelo usuário.');
       }
     } catch (err) {
       console.error('Erro ao obter token', err);
@@ -39,7 +39,6 @@ export class MessageService {
 
   receiveMessage() {
     onMessage(this.messaging, (payload) => {
-      console.log('Mensagem recebida:', payload);
       this.currentMessage.next(payload);
     });
   }
@@ -71,17 +70,15 @@ export class MessageService {
 
     this.http.post<{ message: string }>(`${this.apiUrl}/fcm-token/register`, { userId, token })
       .subscribe(
-        response => console.log('Token enviado para o servidor:', response),
+        response => console.log('Token enviado para o servidor:'),
         error => console.error('Erro ao enviar token para o servidor:', error)
       );
   }
 
   public sendMessage(data: any):void{
-    console.log("mensagem na service")
     this.http.post<any>(`${this.apiUrl}/fcm-token/single`, data)
       .subscribe({
         next: (response) => {
-          console.log('Resposta da API:', response);
         },
         error: (error) => {
           console.error('Erro ao enviar a mensagem:', error);

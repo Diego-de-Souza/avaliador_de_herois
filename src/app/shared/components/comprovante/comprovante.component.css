@@ -1,0 +1,16 @@
+.comprovante-modal {
+  padding: 24px;
+  max-width: 500px;
+}
+.comprovante-dados {
+  margin-bottom: 16px;
+}
+.comprovante-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.aprovado {
+  color: green;
+  font-weight: bold;
+}

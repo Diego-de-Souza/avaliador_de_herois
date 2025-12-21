@@ -192,8 +192,6 @@ export class StripeService {
 
       if (result.error) {
         console.error('❌ Erro na confirmação:', result.error);
-      } else {
-        console.log('✅ Pagamento confirmado:', result.paymentIntent);
       }
 
       return result;

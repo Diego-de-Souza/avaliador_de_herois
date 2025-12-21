@@ -1,27 +1,14 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ComprovanteComponent } from '../../../shared/components/comprovante/comprovante.component';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface ToastData {
-  id: string;
-  title?: string;
-  message: string;
-  type: 'success' | 'error' | 'info' | 'warning';
-  duration?: number;
-  closable?: boolean;
-  persistent?: boolean;
-  actions?: ToastAction[];
-}
-
-export interface ToastAction {
-  label: string;
-  action: () => void;
-  style?: 'primary' | 'secondary' | 'danger';
-}
+import { ToastData } from '../../interface/toast-data.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastService {
+  constructor(private dialog: MatDialog) {}
   private toastsSubject = new BehaviorSubject<ToastData[]>([]);
   public toasts$ = this.toastsSubject.asObservable();
 
@@ -127,7 +114,11 @@ export class ToastService {
   }
 
   private navigateToReceipt(paymentId: string): void {
-    // Implementar navegação para comprovante
-    console.log('Navigate to receipt:', paymentId);
+    this.dialog.open(ComprovanteComponent, {
+      data: { paymentId },
+      width: '500px',
+      maxWidth: '95vw',
+      disableClose: false
+    });
   }
 }

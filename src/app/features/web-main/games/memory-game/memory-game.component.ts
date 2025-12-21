@@ -60,7 +60,6 @@ export class MemoryGameComponent implements OnInit {
     console.log(this.authService.isLoggedIn())
     if (this.authService.isLoggedIn()) {
       this.userId = this.authService.getUserId();
-      console.log('Usuário logado:', this.userId);
       if (this.userId !== null) {
         this.progressService.getUserGameProgress(this.userId, this.gameId).subscribe(progress => {
           console.log('Progresso recebido:', progress);
