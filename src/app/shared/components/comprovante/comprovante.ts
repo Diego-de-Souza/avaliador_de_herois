@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comprovante',
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule],
   templateUrl: './comprovante.html',
   styleUrl: './comprovante.css'
 })

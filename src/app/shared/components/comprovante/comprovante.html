@@ -27,7 +27,7 @@
       <span class="label">Itens da compra:</span>
     </div>
     <ul class="comprovante-list">
-      @for (item of data.items ?? []) {
+      @for (item of data.items ?? []; track item) {
         <li class="comprovante-list-item">
           <span class="item-name">{{ item.plan?.name ?? item.name ?? '-' }}</span>
           <span class="item-qty">x{{ item.quantity ?? 1 }}</span>
@@ -42,7 +42,6 @@
           </span>
         </li>
       }
-      </li>
     </ul>
   </div>
   <div class="comprovante-actions">
