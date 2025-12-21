@@ -15,7 +15,7 @@ export class ToastService {
   show(message: string, type: 'success' | 'error' | 'info' | 'warning' = 'success', options?: Partial<ToastData>) {
     const id = Math.random().toString(36).substr(2, 9);
     const duration = options?.duration || (type === 'error' ? 6000 : 4000);
-    
+    console.log('mostrar duração: ', duration);
     const toast: ToastData = {
       id,
       message,
@@ -25,7 +25,7 @@ export class ToastService {
       persistent: false,
       ...options
     };
-
+    console.log('Toast criado: ', toast);
     const currentToasts = this.toastsSubject.value;
     this.toastsSubject.next([...currentToasts, toast]);
 
@@ -44,7 +44,7 @@ export class ToastService {
   }
 
   error(message: string, title?: string, options?: Partial<ToastData>) {
-    return this.show(message, 'error', { title, persistent: true, ...options });
+    return this.show(message, 'error', { title, ...options });
   }
 
   warning(message: string, title?: string, options?: Partial<ToastData>) {

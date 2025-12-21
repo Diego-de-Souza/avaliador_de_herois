@@ -1,4 +1,5 @@
 import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { ToastService } from '../../../core/service/toast/toast.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuUserComponent } from '../menu-user/menu-user.component';
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   private router: Router = inject(Router);
   private themeService: ThemeService = inject(ThemeService);
   private authService: AuthService = inject(AuthService);
+  private toastService: ToastService = inject(ToastService);
 
   public _themeAll: string = 'dark';
   public isLoggedIn: boolean = false;

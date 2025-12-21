@@ -1,11 +1,13 @@
-
-<app-toast-notification 
-	*ngFor="let toast of toastService.toasts$ | async"
-	[message]="toast.message"
-	[type]="toast.type"
-	[duration]="toast.duration ?? 3000"
-	[closable]="toast.closable ?? true"
-	[autoClose]="!toast.persistent"
-	(onClose)="toastService.remove(toast.id)"
-></app-toast-notification>
+<div class="toast-global-container">
+	<app-toast-notification 
+		*ngFor="let toast of toastService.toasts$ | async"
+		[message]="toast.message"
+		[type]="toast.type"
+		[duration]="toast.duration ?? 3000"
+		[closable]="toast.closable ?? true"
+		[autoClose]="!toast.persistent"
+		(onClose)="toastService.remove(toast.id)"
+	></app-toast-notification>
+</div>
+<router-outlet></router-outlet>
 <router-outlet></router-outlet>

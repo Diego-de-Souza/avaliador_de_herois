@@ -1,1 +1,18 @@
-<p>toast-notification works!</p>
+<!-- @if (isVisible) { -->
+  <div class="toast-container" [class]="'toast-' + type">
+    <div class="toast-content">
+      <div class="toast-icon">
+        @switch (type) {
+          @case ('success') { <span>✅</span> }
+          @case ('error') { <span>❌</span> }
+          @case ('warning') { <span>⚠️</span> }
+          @case ('info') { <span>ℹ️</span> }
+        }
+      </div>
+      <div class="toast-message">
+        {{ message }}
+      </div>
+    </div>
+    <div class="toast-progress" [class.animate]="autoClose"></div>
+  </div>
+<!-- } -->

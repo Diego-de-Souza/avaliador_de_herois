@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
   }
 
   private initializeGoogleSignIn(): void {
-    // Limpar estado anterior
     this.clearGoogleState();
 
     // Aguardar o Google carregar completamente
@@ -182,7 +181,7 @@ export class LoginComponent implements OnInit {
         
       }
     } catch (error) {
-      this.toastService.error('Houve um erro ao efetuar o login. Verifique suas credenciais e tente novamente.');
+      this.toastService.error('Houve um erro ao efetuar o login. Verifique suas credenciais e tente novamente.', 'error');
     }
   }
 
