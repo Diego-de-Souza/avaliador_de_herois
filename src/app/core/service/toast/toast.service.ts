@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ComprovanteComponent } from '../../../shared/components/comprovante/comprovante.component';
+import { Comprovante } from '../../../shared/components/comprovante/comprovante';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastData } from '../../interface/toast-data.interface';
 
@@ -114,7 +114,7 @@ export class ToastService {
   }
 
   private navigateToReceipt(paymentId: string): void {
-    this.dialog.open(ComprovanteComponent, {
+    this.dialog.open(Comprovante, {
       data: { paymentId },
       width: '500px',
       maxWidth: '95vw',

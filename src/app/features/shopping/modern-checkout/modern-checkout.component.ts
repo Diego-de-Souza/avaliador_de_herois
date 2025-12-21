@@ -281,7 +281,7 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
 
         // Abrir modal do comprovante e redirecionar após fechar
         const dialogRef = this.toastService['dialog'].open(
-          (window as any).ComprovanteComponent || (await import('../../../shared/components/comprovante/comprovante.component')).ComprovanteComponent,
+          (window as any).ComprovanteComponent || (await import('../../../shared/components/comprovante/comprovante')).Comprovante,
           {
             data: { paymentId: result.paymentIntent.id },
             width: '500px',

@@ -1,1 +1,30 @@
-<p>comprovante works!</p>
+
+<div class="comprovante-modal geek-theme">
+  <div class="comprovante-header">
+    <span class="icon-receipt">🦸‍♂️</span>
+    <h2>Comprovante de Pagamento</h2>
+  </div>
+  <div class="comprovante-body">
+    <div class="comprovante-row">
+      <span class="label">ID do Pagamento:</span>
+      <span class="value">{{ data.paymentId }}</span>
+    </div>
+    <div class="comprovante-row">
+      <span class="label">Data:</span>
+      <span class="value">{{ now | date:'dd/MM/yyyy HH:mm' }}</span>
+    </div>
+    <div class="comprovante-row">
+      <span class="label">Status:</span>
+      <span class="value status aprovado"><span class="icon-status">✔️</span> Aprovado</span>
+    </div>
+    <!-- Adicione mais dados conforme necessário -->
+  </div>
+  <div class="comprovante-actions">
+    <button mat-raised-button color="primary" (click)="imprimir()"><span class="icon-action">🖨️</span> Imprimir</button>
+    <button mat-raised-button color="accent" (click)="salvarPDF()"><span class="icon-action">💾</span> Salvar PDF</button>
+    <button mat-button (click)="fechar()"><span class="icon-action">❌</span> Fechar</button>
+  </div>
+  <div class="comprovante-footer">
+    <span class="geek-footer-text">Powered by <span class="heroes-logo">HEROES</span> • {{ now | date:'yyyy' }}</span>
+  </div>
+</div>

@@ -1,11 +1,29 @@
-import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comprovante',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './comprovante.html',
   styleUrl: './comprovante.css'
 })
 export class Comprovante {
+  now: Date = new Date();
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { paymentId: string },
+    private dialogRef: MatDialogRef<Comprovante>
+  ) {}
 
+  imprimir() {
+    window.print();
+  }
+
+  salvarPDF() {
+    window.print();
+  }
+
+  fechar() {
+    this.dialogRef.close();
+  }
 }
