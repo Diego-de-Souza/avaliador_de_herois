@@ -222,7 +222,6 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
     // Listeners
     this.paymentElement.on('ready', () => {
       this.elementsReady = true;
-      console.log('✅ Payment Element ready');
     });
     this.paymentElement.on('change', (event: any) => {
       if (event.error) {
@@ -273,8 +272,6 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         throw new Error(result.error.message);
       }
 
-      console.log('status do pagamento:', result.paymentIntent?.status);
-
       if (result.paymentIntent?.status === 'succeeded') {
         // Exibir toast de sucesso
         this.toastService.paymentSuccess(this.cart.total, result.paymentIntent.id);
@@ -282,16 +279,24 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         // Limpar carrinho
         this.cartService.clearCart();
 
-        // Pequeno delay para garantir exibição do toast antes do redirect
-        setTimeout(() => {
+        // Abrir modal do comprovante e redirecionar após fechar
+        const dialogRef = this.toastService['dialog'].open(
+          (window as any).ComprovanteComponent || (await import('../../../shared/components/comprovante/comprovante.component')).ComprovanteComponent,
+          {
+            data: { paymentId: result.paymentIntent.id },
+            width: '500px',
+            maxWidth: '95vw',
+            disableClose: false
+          }
+        );
+        dialogRef.afterClosed().subscribe(() => {
           this.router.navigate(['shopping/payment-success'], {
             queryParams: {
               payment_intent: result.paymentIntent?.id,
               status: 'success'
             }
           });
-        }, 800);
-        console.log('Redirecionando para página de sucesso de pagamento...');
+        });
         return;
       }
 
