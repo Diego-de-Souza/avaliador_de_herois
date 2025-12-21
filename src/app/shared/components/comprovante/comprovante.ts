@@ -1,12 +1,12 @@
-import { DatePipe, CurrencyPipe, CommonModule } from '@angular/common';
+import { DatePipe, CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-comprovante',
-  imports: [CommonModule, DatePipe, CurrencyPipe],
-  templateUrl: './comprovante.component.html',
-  styleUrl: './comprovante.component.css'
+  imports: [CommonModule, DatePipe],
+  templateUrl: './comprovante.html',
+  styleUrl: './comprovante.css'
 })
 export class Comprovante {
   now: Date = new Date();
