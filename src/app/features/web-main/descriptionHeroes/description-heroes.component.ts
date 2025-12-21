@@ -50,7 +50,7 @@ export class DescriptionHeroesComponent implements OnInit {
               morality: data.morality,
               studio: data.studio?.name || data.studio || (data.studio_id ? `Studio ID: ${data.studio_id}` : 'N/A'),
               power_type: data.power_type,
-              release_date: data.release_date,
+              release_date: data.release_data              ,
               first_appearance: data.first_appearance,
               creator: data.creator,
               weak_point: data.weak_point,

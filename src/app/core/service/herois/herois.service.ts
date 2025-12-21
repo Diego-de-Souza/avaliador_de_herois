@@ -123,14 +123,6 @@ export class HeroisService {
     })
   }
 
-  getOneHero(id: number): Observable<any>{
-    return this.http.get<any>(`${this.apiUrl}/heores/find-one-hero/${id}`,{
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-
   putUpdateHero(id:number, heroData: any): Observable<any>{
     const data = {data: heroData};
     return this.http.put<any>(`${this.apiUrl}/heroes/update/${id}`, data, {
