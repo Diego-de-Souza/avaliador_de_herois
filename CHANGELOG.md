@@ -32,6 +32,36 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+
+
+# **[1.1.3]- 2026-01-03**
+
+### **✨ Added**
+
+-
+
+### **🛠️ Changed**
+
+- Adicionado botão "Ver Todos" no componente de eventos para navegação à página completa de eventos, incluindo estilos e integração com rotas do Angular.
+
+### **🐛 Fixed**
+
+-
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+-
+
+### **🛑 Security**
+
+-
+
+---
+
 # **[1.1.2]- 2026-01-03**
 
 ### **✨ Added**
@@ -59,4 +89,3 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 -
 
 ---
-
