@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { EventosService } from '../../../core/service/events/eventos.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './eventos.component.html',
   styleUrl: './eventos.component.css',
 })
