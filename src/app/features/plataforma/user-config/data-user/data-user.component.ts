@@ -45,7 +45,8 @@ export class DataUserComponent implements OnInit {
   getDataUser() {
     const token = sessionStorage.getItem('access_token');
     const userData = this.authService.getUser()
-    this.userService.getFindOneUser(userData.sub).subscribe({
+    
+    this.userService.getFindOneUser(userData.id).subscribe({
     next: (user: any) => {
       const data = user.dataUnit;
       this.userSettingsForm.patchValue({

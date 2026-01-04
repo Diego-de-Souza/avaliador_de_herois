@@ -1,21 +1,23 @@
 import { CanActivateFn, Router } from "@angular/router";
 import { AuthService } from "../core/service/auth/auth.service";
 import { inject } from "@angular/core";
+import { ToastService } from "../core/service/toast/toast.service";
 
 export const plansGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
-      
+    const toastService = inject(ToastService);
     
     
     try {
         const user_is_logged_in = authService.getUser()
         if (!user_is_logged_in) {
             console.error('Acesso negado: Usuário não logado para acessar o conteúdo.');
+            toastService.error('Acesso negado: Usuário não logado para acessar o conteúdo. Faça login para continuar.', 'Erro no Acesso', {duration: 8000});
+            // showSubscriptionAlert();
             
-            showSubscriptionAlert();
-            
-            router.navigate(['/shopping/plans'], { queryParams: { returnUrl: state.url } });
+            // router.navigate(['/shopping/plans'], { queryParams: { returnUrl: state.url } });
+            router.navigate(['/login']);
             return false;
         }
         
