@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
@@ -7,10 +7,8 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-
-  private apiUrl = environment.apiURL;
-
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiURL;
 
   getAllUsers(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/user/find-all-user`, {

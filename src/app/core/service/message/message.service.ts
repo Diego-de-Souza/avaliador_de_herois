@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Messaging, getToken, onMessage } from '@angular/fire/messaging';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -8,10 +8,13 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class MessageService {
+  private readonly messaging = inject(Messaging);
+  private readonly http = inject(HttpClient);
+  
   currentMessage = new BehaviorSubject<any>(null);
-  private apiUrl = environment.apiURL;
+  private readonly apiUrl = environment.apiURL;
 
-  constructor(private messaging: Messaging, private http: HttpClient) {
+  constructor() {
     this.requestPermission();
     this.receiveMessage();
   }

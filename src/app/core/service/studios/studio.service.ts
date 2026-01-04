@@ -9,9 +9,7 @@ import { Observable } from 'rxjs';
 export class StudioService {
 
   private readonly http = inject(HttpClient);
-  private apiUrl = environment.apiURL;
-  
-  constructor() { }
+  private readonly apiUrl = environment.apiURL;
 
   getAllStudios(): Observable<any>{
       return this.http.get<any>(`${this.apiUrl}/studio/find-all-studio`, {

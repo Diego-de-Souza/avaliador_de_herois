@@ -1,38 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { PaymentIntent, SubscriptionData } from '../../interface/subscriptionData.interface';
+import { CreatePaymentIntentRequest, PaymentIntentResponse, SetupIntentResponse } from '../../interface/payment.interface';
 import { environment } from '../../../../environments/environment';
-
-export interface CreatePaymentIntentRequest {
-  planType: 'mensal' | 'trimestral' | 'semestral' | 'anual';
-  amount: number; // em reais, ex: 29.9
-}
-
-export interface PaymentIntentResponse {
-  clientSecret: string;
-  paymentIntentId: string;
-  amount: number;
-  currency: string;
-  status: string;
-}
-
-export interface SetupIntentResponse {
-  clientSecret: string;
-  setupIntentId: string;
-  status: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = environment.apiURL;
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiURL;
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   /**
    * Cria Payment Intent para pagamentos únicos (versão moderna)

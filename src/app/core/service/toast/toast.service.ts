@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Comprovante } from '../../../shared/components/comprovante/comprovante';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,7 +8,7 @@ import { ToastData } from '../../interface/toast-data.interface';
   providedIn: 'root'
 })
 export class ToastService {
-  constructor(private dialog: MatDialog) {}
+  private readonly dialog = inject(MatDialog);
   private toastsSubject = new BehaviorSubject<ToastData[]>([]);
   public toasts$ = this.toastsSubject.asObservable();
 

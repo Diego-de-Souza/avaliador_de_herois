@@ -9,9 +9,7 @@ import { environment } from '../../../../environments/environment';
 export class TeamService {
 
   private readonly http = inject(HttpClient);
-  private apiUrl = environment.apiURL;
-    
-  constructor() { }
+  private readonly apiUrl = environment.apiURL;
 
   getAllTeams(): Observable<any>{
       return this.http.get<any>(`${this.apiUrl}/team/find-all-team`, {

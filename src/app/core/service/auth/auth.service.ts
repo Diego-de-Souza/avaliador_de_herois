@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService{
+  private readonly userService = inject(UserService);
+  private readonly http = inject(HttpClient);
+  
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   public user$ = this.userSubject.asObservable();
   private readonly router = inject(Router);
-
-  constructor(private userService: UserService, private http: HttpClient) { }
 
   private getUserFromStorage(): any {
     try {

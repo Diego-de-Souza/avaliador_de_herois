@@ -32,7 +32,34 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+# **[1.1.4]- 2026-01-04**
+### **✨ Added**
 
+- Criados arquivos de interface dedicados: `stripe.interface.ts` e `payment.interface.ts` para centralizar definições de tipos.
+
+### **🛠️ Changed**
+
+- Refatoração de services: migração de constructor injection para `inject()` function em todos os services (ToastService, MessageService, HeroisService, AuthService, UserService, ProgressService, CepService, PaymentService).
+- Templates modernizados: substituição de `ngStyle` e `ngClass` por style e class bindings nativos em componentes carousel e flash-loading.
+
+### **🐛 Fixed**
+
+-
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+- Removidos construtores vazios desnecessários dos services (TeamService, StudioService, CuriosityService).
+- Interfaces removidas de services e movidas para arquivos `.interface.ts` dedicados (StripeConfig, CreatePaymentIntentRequest, PaymentIntentResponse, SetupIntentResponse).
+
+### **🛑 Security**
+
+-
+
+---
 
 # **[1.1.3]- 2026-01-03**
 

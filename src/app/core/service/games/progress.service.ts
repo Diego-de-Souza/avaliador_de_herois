@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from "../../../../environments/environment";
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ProgressService {
-    private readonly apiUrl = environment.apiURL;
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiURL;
 
   // Busca o progresso do usuário para um jogo específico
   getUserGameProgress(userId: number, gameId: number): Observable<any> {

@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 export class CuriosityService {
 
   private readonly http = inject(HttpClient);
-  constructor() { }
 
   getCuriositiesList(): Observable<any> {
     return this.http.get('${environment.apiURL}/curiosities/find-all-curiosities');

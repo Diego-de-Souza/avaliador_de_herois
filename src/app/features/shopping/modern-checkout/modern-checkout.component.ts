@@ -7,7 +7,8 @@ import { Subject, takeUntil, combineLatest } from 'rxjs';
 // Services
 import { CartService } from '../../../core/service/shopping/cart.service';
 import { StripeService } from '../../../core/service/shopping/stripe.service';
-import { PaymentService, CreatePaymentIntentRequest } from '../../../core/service/shopping/payment.service';
+import { PaymentService } from '../../../core/service/shopping/payment.service';
+import { CreatePaymentIntentRequest } from '../../../core/interface/payment.interface';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { AuthService } from '../../../core/service/auth/auth.service';
 import { ToastService } from '../../../core/service/toast/toast.service';

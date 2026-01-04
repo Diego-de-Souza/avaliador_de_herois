@@ -10,21 +10,7 @@ import {
 } from '@stripe/stripe-js';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-export interface StripeConfig {
-  theme: 'stripe' | 'night' | 'flat';
-  appearance: {
-    variables: {
-      colorPrimary: string;
-      colorBackground: string;
-      colorText: string;
-      colorDanger: string;
-      fontFamily: string;
-      spacingUnit: string;
-      borderRadius: string;
-    }
-  }
-}
+import { StripeConfig } from '../../interface/stripe.interface';
 
 @Injectable({
   providedIn: 'root'

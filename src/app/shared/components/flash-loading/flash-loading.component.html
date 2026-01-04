@@ -1,4 +1,4 @@
-<div class="flash-loading-overlay" [ngClass]="currentTheme" [class.show]="isVisible">
+<div class="flash-loading-overlay" [class.dark]="currentTheme === 'dark'" [class.light]="currentTheme === 'light'" [class.show]="isVisible">
       <div class="loading-container">
         
         <!-- Flash GIF Runner -->

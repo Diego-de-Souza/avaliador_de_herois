@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HeroisModel } from '../../Model/herois.model';
@@ -8,10 +8,8 @@ import {environment} from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class HeroisService {
-
-  private apiUrl = environment.apiURL;
-
-  constructor(private http: HttpClient) { }
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiURL;
 
   //rotas do heroes
   heroRecord(data: FormData): Observable<ArrayBuffer> {

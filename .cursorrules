@@ -1,0 +1,129 @@
+## TypeScript Best Practices
+- Use strict type checking
+- Prefer type inference when the type is obvious
+- Avoid the `any` type; use `unknown` when type is uncertain
+- Use `type` for unions, intersections, and aliases; use `interface` for object shapes that may be extended
+- Define all interfaces in dedicated `.interface.ts` files, NOT in services, use cases, components, or any other files
+- Import interfaces from `.interface.ts` files when needed
+- Use readonly for immutable properties
+- Prefer const assertions for literal types
+
+## Angular Best Practices
+- Always use standalone components over NgModules
+- Must NOT set `standalone: true` inside Angular decorators. It's the default in Angular v20+
+- Use signals for state management
+- Implement lazy loading for feature routes
+- Do NOT use the `@HostBinding` and `@HostListener` decorators. Put host bindings inside the `host` object of the `@Component` or `@Directive` decorator instead
+- Use `NgOptimizedImage` for all static images
+  - `NgOptimizedImage` does not work for inline base64 images
+- Use `inject()` function for dependency injection instead of constructor injection
+- Use `providedIn: 'root'` for singleton services
+- Prefer `OnPush` change detection strategy for better performance
+- Use `computed()` signals for derived state instead of methods
+- Use `effect()` for side effects instead of lifecycle hooks when possible
+
+## Accessibility Requirements
+- It MUST pass all AXE checks
+- It MUST follow all WCAG AA minimums, including focus management, color contrast, and ARIA attributes
+- Use semantic HTML elements
+- Provide alt text for all images
+- Ensure keyboard navigation works for all interactive elements
+
+## Components
+- Keep components small and focused on a single responsibility
+- Use `input()` and `output()` functions instead of decorators (`@Input()`, `@Output()`)
+- Use `computed()` for derived state
+- Set `changeDetection: ChangeDetectionStrategy.OnPush` in `@Component` decorator
+- Prefer inline templates for small components
+- Prefer Reactive forms instead of Template-driven ones
+- Do NOT use `ngClass`, use `class` bindings instead: `[class.className]="condition"`
+- Do NOT use `ngStyle`, use `style` bindings instead: `[style.property]="value"`
+- When using external templates/styles, use paths relative to the component TS file
+- Use `effect()` instead of `ngOnInit` for side effects when using signals
+- Use `DestroyRef` with `takeUntilDestroyed()` instead of manual subscription management
+
+## State Management
+- Use signals for local component state: `signal<T>()`
+- Use `computed()` for derived state
+- Keep state transformations pure and predictable
+- Do NOT use `mutate` on signals, use `update` or `set` instead
+- Use `effect()` for side effects that depend on signals
+- Prefer signal-based state over observables for component state
+
+## Templates
+- Keep templates simple and avoid complex logic
+- Use native control flow (`@if`, `@for`, `@switch`) instead of `*ngIf`, `*ngFor`, `*ngSwitch`
+- Use `@if` with `@else` blocks instead of `*ngIf` with `[hidden]`
+- Use `@for` with `track` function for better performance: `@for (item of items; track item.id)`
+- Use `@switch` with `@case` and `@default` blocks
+- Use the async pipe to handle observables
+- Do not assume globals like `new Date()` are available in templates
+- Do not write arrow functions in templates (they are not supported)
+- Use signals directly in templates: `{{ signalName() }}`
+- Use `@defer` for lazy loading template blocks when appropriate
+- Use `@loading`, `@error`, and `@placeholder` blocks with `@defer`
+
+## Services
+- Design services around a single responsibility
+- Use the `providedIn: 'root'` option for singleton services
+- Use the `inject()` function instead of constructor injection
+- Do NOT define interfaces inside service files; import them from `.interface.ts` files
+- Use readonly for injected dependencies: `private readonly service = inject(Service)`
+- Prefer returning signals or observables over direct values
+- Use `DestroyRef` for cleanup in services when needed
+- Keep services focused on business logic, not presentation logic
+
+## Forms
+- Prefer Reactive Forms over Template-driven Forms
+- Use `FormBuilder` with `inject()` function
+- Use `Validators` from `@angular/forms` for validation
+- Create custom validators as standalone functions
+- Use `control()` and `group()` from `@angular/forms` for type-safe forms (Angular 18+)
+- Validate forms before submission
+- Provide clear error messages to users
+
+## Performance
+- Use `OnPush` change detection strategy
+- Use `trackBy` functions in `@for` loops
+- Use `@defer` for lazy loading components and template blocks
+- Use signals instead of observables when possible (signals are more performant)
+- Avoid creating new objects/arrays in templates
+- Use `NgOptimizedImage` for all images
+- Implement virtual scrolling for long lists
+- Use `runInInjectionContext()` when needed for async operations
+
+## Code Organization
+- All interfaces MUST be in `.interface.ts` files
+- Group related functionality in feature modules/folders
+- Use barrel exports (index.ts) for cleaner imports
+- Keep component files co-located (`.ts`, `.html`, `.css` together)
+- Use consistent naming conventions:
+  - Components: PascalCase with `.component.ts` suffix
+  - Services: PascalCase with `.service.ts` suffix
+  - Interfaces: PascalCase with `.interface.ts` suffix
+  - Types: PascalCase with `.type.ts` suffix
+  - Constants: UPPER_SNAKE_CASE
+  - Variables/functions: camelCase
+
+## Error Handling
+- Use try-catch blocks for synchronous code
+- Use RxJS operators like `catchError` for observables
+- Provide meaningful error messages
+- Log errors appropriately (console.error, error service, etc.)
+- Never expose internal error details to users
+
+## Testing
+- Write unit tests for services and components
+- Test user interactions, not implementation details
+- Use Angular Testing Library when possible
+- Mock external dependencies
+- Test error scenarios
+
+## Security
+- Never commit API keys, secrets, or credentials
+- Use environment variables for configuration
+- Sanitize user inputs
+- Use HTTPS for all API calls
+- Validate and sanitize data from external sources
+- Use Content Security Policy headers when possible
+

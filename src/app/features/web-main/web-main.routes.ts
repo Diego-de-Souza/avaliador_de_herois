@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { plansGuard } from "../../guard/plans.guard";
-
+import { GameGuard } from "../../guard/game-guard.guard";
 
 export const routesWebMain: Routes = [
     {
@@ -44,6 +44,7 @@ export const routesWebMain: Routes = [
     },
     {
         path: 'games',
+        canActivate: [GameGuard],
         loadChildren: () => import('./games/games.routes').then(m => m.routesGames)
     }
 ]
