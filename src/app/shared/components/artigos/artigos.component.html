@@ -14,7 +14,9 @@
         <div class="artigo-content">
           <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
           <h3 class="artigo-title">{{ artigo.title }}</h3>
-          <p class="artigo-summary">{{ artigo.summary }}</p>
+          @for(summary of artigo.summary; track summary.level) {
+            <p class="artigo-summary">{{ summary.text }}</p>
+          }
           <button class="artigo-btn" [routerLink]="['/webmain/artigos', artigo.id]">Ler mais</button>
         </div>
       </div>
@@ -32,7 +34,9 @@
         <div class="artigo-content">
           <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
           <h3 class="artigo-title">{{ artigo.title }}</h3>
-          <p class="artigo-summary">{{ artigo.summary }}</p>
+          @for(summary of artigo.summary; track summary.level) {
+            <p class="artigo-summary">{{ summary.text }}</p>
+          }
           <button class="artigo-btn" [routerLink]="['/webmain/artigos', artigo.id]">Ler mais</button>
         </div>
       </div>
@@ -53,7 +57,9 @@
               <div class="artigo-content">
                 <span class="artigo-theme" [style.background]="article.themeColor">{{ article.theme }}</span>
                 <h3 class="artigo-title">{{ article.title }}</h3>
-                <p class="artigo-summary">{{ article.summary }}</p>
+                @for(summary of article.summary; track summary.level) {
+                  <p class="artigo-summary">{{ summary.text }}</p>
+                }
                 <button class="artigo-btn" [routerLink]="['/webmain/artigos', article.id]">Ler mais</button>
               </div>
             </div>

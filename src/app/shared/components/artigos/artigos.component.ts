@@ -59,6 +59,8 @@ export class ArtigosComponent implements OnInit {
       this.mostViewed = resp.data.featuredArticles;
       this.getRecentArticles = resp.data.latestArticles;
       this.articles = resp.data.categories;
+
+      console.log(this.mostViewed);
     });
     this.themeService.theme$.subscribe(theme => {
       this.themeArtigos = theme;
