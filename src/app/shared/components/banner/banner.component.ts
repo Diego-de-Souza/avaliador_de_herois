@@ -1,7 +1,6 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-// Removido ng-bootstrap
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
 
