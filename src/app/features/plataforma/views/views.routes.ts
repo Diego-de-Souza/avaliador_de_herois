@@ -18,7 +18,7 @@ export const routesViews: Routes = [
         loadComponent: () => import('./view-heroes/view-heroes.component').then(m => m.ViewHeroesComponent)
     },
     {
-        path: 'view-Studio',
+        path: 'view-studio',
         title: 'Lista de Studios',
         loadComponent: () => import('./view-studio/view-studio.component').then(m => m.ViewStudioComponent)
     },
