@@ -41,7 +41,7 @@ export class EventosPageComponent implements OnInit{
           type: this.typeUrl,
           title: evento.title,
           description: evento.description,
-          rota: evento.url_event
+          rota_externa: evento.url_event
         }))); 
       }
     })

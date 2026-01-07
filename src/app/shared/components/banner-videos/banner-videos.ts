@@ -125,7 +125,12 @@ export class BannerVideos implements  OnInit {
     if(dataMedia.type === 'video' && this.isYouTube(dataMedia.url)) {
       window.open(dataMedia.url, '_blank');
     }else{
-      this.router.navigate([dataMedia.rota || '/']);
+      if(dataMedia.rota_externa && dataMedia.rota_externa != ''){
+        window.open(dataMedia.rota_externa, '_blank');
+        return;
+      }else{
+        this.router.navigate([dataMedia.rota || '/']);
+      }
     }
   }
 }

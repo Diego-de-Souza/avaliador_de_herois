@@ -7,4 +7,5 @@ export interface DataEvents {
     rota?: string;
     date?: string;
     menuDesc?: string;
+    rota_externa?: string;
 }
