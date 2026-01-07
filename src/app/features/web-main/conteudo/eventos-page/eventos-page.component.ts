@@ -37,7 +37,7 @@ export class EventosPageComponent implements OnInit{
         );
 
         this.dataEvents.push(...this.eventos.slice(0, 4).map(evento => ({
-          url: evento.url_event,
+          url: evento.url_image,
           type: this.typeUrl,
           title: evento.title,
           description: evento.description,
