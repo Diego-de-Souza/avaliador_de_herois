@@ -43,6 +43,7 @@ export class BannerVideos implements  OnInit {
   ngOnInit() {
     this.startAutoTransition();
 
+    console.log('dataEvents input on init:', this.dataEvents);
     if (!this.medias.length && this.dataEvents && this.dataEvents.length) {
       this.medias = this.dataEvents;
       this.activeIndex = 0;
