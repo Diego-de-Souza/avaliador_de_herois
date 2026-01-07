@@ -43,7 +43,6 @@ export class BannerVideos implements  OnInit {
   ngOnInit() {
     this.startAutoTransition();
 
-    console.log('dataEvents input on init:', this.dataEvents);
     if (!this.medias.length && this.dataEvents && this.dataEvents.length) {
       this.medias = this.dataEvents;
       this.activeIndex = 0;
@@ -120,7 +119,6 @@ export class BannerVideos implements  OnInit {
   }
 
   readMore() {
-    console.log('Read more clicked for', this.medias[this.activeIndex]);
     const dataMedia = this.medias[this.activeIndex];
     if(dataMedia.type === 'video' && this.isYouTube(dataMedia.url)) {
       window.open(dataMedia.url, '_blank');

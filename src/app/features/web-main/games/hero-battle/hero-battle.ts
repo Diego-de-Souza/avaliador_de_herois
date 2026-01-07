@@ -129,7 +129,6 @@ export class HeroBattle implements OnInit {
       metadata
     ).subscribe({
       next: (response) => {
-        console.log('Progresso salvo na API:', response);
         this.progressSaving = false;
         this.progressMessage = '💾 Progresso salvo com sucesso!'
         if (this.gameState) {
@@ -159,7 +158,6 @@ export class HeroBattle implements OnInit {
         const progress = JSON.parse(saved);
         this.gameStats.score = progress.score || 0;
         this.gameStats.attempts = progress.attempts || 1;
-        console.log('📁 Progresso anterior carregado:', progress);
       }
     } catch (error) {
       console.error('Erro ao carregar progresso:', error);

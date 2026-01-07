@@ -52,8 +52,6 @@ export class CardQuizLevelComponent implements OnInit {
         }
       );
     }else {
-      console.log("emitindo evento de premiumStatus como false");
-      console.log("hasPermission:", this.hasPermission);
       this.premiumStatus.emit(this.hasPermission); 
     }
   }

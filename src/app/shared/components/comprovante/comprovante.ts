@@ -22,7 +22,6 @@ export class Comprovante implements OnInit{
 
   ngOnInit(): void {
     const user = this.authService.getUser();
-    console.log('Dados do comprovante: ', user);
     this.data.userName = user?.email || 'Usuário Desconhecido'; 
     
   }

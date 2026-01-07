@@ -96,7 +96,6 @@ export class CadastroEventosComponent implements OnInit {
 
       this.eventsService.saveEvent(this.eventosForm.value).subscribe({
         next: (response) => {
-          console.log('Evento salvo com sucesso:', response);
           this.clearForm();
           this.router.navigate(['/plataforma/view/view-events']);
         },

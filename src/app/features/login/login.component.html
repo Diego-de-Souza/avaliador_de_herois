@@ -31,27 +31,25 @@
           />
         </div>
       </div>
-      <p class="forgot-password"
+      
+
+      <div class="login-actions-row">
+        <button type="submit" class="btn btn-register">Acessar</button>
+        <button type="button" class="btn btn-register" [routerLink]="['/cadastro-usuario']" [queryParams]="{ inicio: true }">Cadastre-se</button>
+      </div>
+    </form>
+    <div class="login-social-row">
+      <button type="button" class="btn btn-google" (click)="signInWithGoogle()">
+        <i class="bi bi-google"></i> Entrar com Google
+      </button>
+    </div>
+    <p class="forgot-password"
         [routerLink]="['/login/forgot-password']"
         [queryParams]="{ inicio: true }"
         routerLinkActive="active"
       >
         Esqueci minha senha
       </p>
-      <button type="submit" class="btn btn-acessar">Acessar</button>
-    </form>
-    <button type="button" class="btn btn-google" (click)="signInWithGoogle()">
-      <i class="bi bi-google"></i> Entrar com Google
-    </button>
-    <div class="login-for-register">
-      <p
-        [routerLink]="['/cadastro-usuario']"
-        [queryParams]="{ inicio: true }"
-        routerLinkActive="active"
-      >
-        Cadastre-se
-      </p>
-    </div>
   </div>
 </section>
 

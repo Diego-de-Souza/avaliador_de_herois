@@ -157,19 +157,14 @@ export class LoginComponent implements OnInit {
       if (login.status) {
         this.toastService.success('Login efetuado com sucesso!');
 
-        console.log('login efetuado')
-
         const data = await this.authService.getUser()
 
         if (login.has_totp) {
           sessionStorage.setItem('role', data.role);
           this.router.navigate(['/validate-two-fa'], { state: { role: data.role } });
         }else{
-          console.log('Usuario logado:', data);
           if (data) {
-            console.log('Role do usuario:', data.role);
             if (data.role === 'admin' || data.role === 'root') {
-              console.log('Redirecionando para plataforma');
               this.router.navigate(['/plataforma']);
             } else {
               this.router.navigate(['/']);

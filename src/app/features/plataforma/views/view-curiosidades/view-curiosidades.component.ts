@@ -23,7 +23,6 @@ export class ViewCuriosidadesComponent {
         next: (response) => {
           if (response && response.length > 0) {
             this.curiosities = response.curiosities;
-            console.log('Curiosidades carregadas com sucesso:', response);
           }
         },
         error: (error) => {

@@ -1,3 +1,61 @@
+.login-actions-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+    justify-content: center;
+    margin-top: 2em;
+}
+.btn-register {
+    flex: 1;
+    min-width: 120px;
+    max-width: 320px;
+    padding: 0.75em 0;
+    border-radius: 0.5em;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 2px solid #00d2ff;
+    background: #00d2ff;
+    color: #101522;
+    box-shadow: 0px 0px 6px #3db6d1e7;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 0;
+    cursor: pointer;
+}
+.btn-register:hover {
+    background: #101522;
+    color: #00d2ff;
+    border-color: #00d2ff;
+}
+.login-social-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2em;
+}
+.login-actions-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    width: 100%;
+    justify-content: center;
+    margin-top: 2em;
+}
+.login-actions-row .btn-acessar {
+    flex: 1;
+    margin-top: 0;
+}
+.login-actions-row .login-for-register {
+    flex: 1;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #login-plataforma {
     display: flex;
     width: 100vw;
@@ -55,10 +113,10 @@ input::placeholder {
     color: #00d2ff;
 }
 
-.btn-acessar,
 .btn-google {
     width: 100%;
-    margin-top: 2em;
+    min-width: 160px;
+    max-width: 320px;
     padding: 0.75em 0;
     border-radius: 0.5em;
     font-size: 1.1em;
@@ -133,14 +191,14 @@ input::placeholder {
 }
 
 .forgot-password {
+    width: 100%;
+    text-align: center;
     color: #00d2ff;
     cursor: pointer;
-    text-align: end;
-    margin-top: -1em;
+    margin-top: 1em;
     padding: 0.5em 0.5em;
     border-radius: 6px;
     transition: box-shadow 0.2s;
-    width: fit-content;
     float: right;
 }
 
@@ -153,10 +211,20 @@ input::placeholder {
         min-height: 350px;
         padding: 1em 0.5em;
     }
-    .btn-acessar,
+    .btn-register,
     .btn-google {
         font-size: 1em;
         padding: 0.6em 0;
+        min-width: 120px;
+        max-width: 100%;
+    }
+    .login-actions-row {
+        flex-direction: column;
+        gap: 0.7em;
+        margin-top: 1.2em;
+    }
+    .login-social-row {
+        margin-top: 1.2em;
     }
 }
 

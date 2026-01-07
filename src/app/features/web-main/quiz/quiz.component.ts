@@ -29,7 +29,6 @@ export class QuizComponent implements OnInit{
   public modalMessage = 'Esta área é exclusiva para assinantes. Assine ou renove sua assinatura para acessar.';
 
   ngOnInit(): void {
-    console.log("QuizComponent initialized");
     this.handlerQuizProgress();
 
     this.themeService.theme$.subscribe(theme => {

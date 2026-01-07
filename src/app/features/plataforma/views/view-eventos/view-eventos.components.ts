@@ -30,7 +30,6 @@ export class ViewEventosComponent implements  OnInit{
           if (response.data && response.data.length > 0) {
             this.eventos = response.data;
             this.isList = true;
-            console.log('Eventos carregados com sucesso:', response);
           }
         },
         error: (error) => {
@@ -48,7 +47,6 @@ export class ViewEventosComponent implements  OnInit{
     deleteArtigos(event_id: number) {
         this.eventosService.deleteEvent(event_id).subscribe({
           next: (response) => {
-            console.log('Evento deletado com sucesso:', response);
             this.eventos = this.eventos.filter(evento => evento.id !== event_id);
           },
           error: (error) => {

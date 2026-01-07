@@ -42,8 +42,7 @@ export class ViewArtigosComponent implements OnInit {
 
   deleteArtigos(article_id: number) {
     this.articlesService.deleteArticle(article_id).subscribe({
-      next: (response) => {
-        console.log('Artigo excluído com sucesso:', response);  
+      next: (response) => { 
         this.articles.set(this.articles().filter(article => article.id !== article_id));
       },
       error: (error) => {

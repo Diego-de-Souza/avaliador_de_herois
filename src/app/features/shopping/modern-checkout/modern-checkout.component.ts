@@ -277,7 +277,6 @@ export class ModernCheckoutComponent implements OnInit, OnDestroy, AfterViewInit
         // Exibir toast de sucesso
         this.toastService.paymentSuccess(this.cart.total, result.paymentIntent.id);
         const itens_cart = this.cart.items;
-        console.log('Itens do carrinho no comprovante: ', itens_cart);
         // Limpar carrinho
         this.cartService.clearCart();
 
