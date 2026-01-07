@@ -1,0 +1,47 @@
+<div class="banner" id="bannerVideos">
+	<div class="banner-bg"></div>
+	<div class="banner-main">
+		<div class="banner-image-wrapper">
+			@if (medias[activeIndex].type === 'image') {
+				<img [src]="medias[activeIndex].url" alt="Banner image" class="banner-image"/>
+			} @else {
+				@if (isYouTube(medias[activeIndex].url)) {
+					<iframe class="banner-image" [src]="getSafeYouTubeUrl(medias[activeIndex].url)" frameborder="0" allowfullscreen></iframe>
+				} @else {
+					<video #videoPlayer class="banner-image" [src]="medias[activeIndex].url" autoplay muted (ended)="onVideoEnded()"></video>
+				}
+			}
+			<div class="banner-overlay"></div>
+		</div>
+		<div class="banner-content">
+			<span class="banner-date">ON {{medias[activeIndex].date}}</span>
+			<h1 class="banner-title">{{medias[activeIndex].title}}</h1>
+			<p class="banner-desc">{{medias[activeIndex].description}}</p>
+			   @if (medias[activeIndex].rota) {
+				   <button class="banner-btn" (click)="readMore()">READ MORE</button>
+			   }
+		</div>
+		<div class="banner-social">
+			<a href="https://www.facebook.com/share/1QBoFGtzDw/" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+			<a href="https://www.instagram.com/platformheroes?igsh=aWcxbHBza3MwNWZw" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+			<a href="https://discord.gg/zqjxrBf6" target="_blank" aria-label="TikTok"><i class="fa-brands fa-discord"></i></a>
+			<a href="https://www.youtube.com/@Plataformaheroes" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+		</div>
+		<div class="banner-menu">
+			   @for (media of medias; let i = $index; track i) {
+				   <div class="banner-tab" [class.active]="i === activeIndex" (click)="setActive(i)">
+					   <span class="banner-tab-title">{{media.title}}</span>
+					   <span class="banner-tab-desc">{{media.menuDesc}}</span>
+				   </div>
+			   }
+		</div>
+		<div class="banner-progress">
+			<div class="banner-progress-bar" [style.width]="progress + '%'">
+			</div>
+		</div>
+		<div class="banner-arrows">
+			<button (click)="prev()" aria-label="Anterior">&#8592;</button>
+			<button (click)="next()" aria-label="Próximo">&#8594;</button>
+		</div>
+	</div>
+</div>

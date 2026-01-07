@@ -1,6 +1,10 @@
 <section [ngClass]="_themeService">
     <app-header></app-header>
     <section class="eventos-container">
+        <section>
+            <app-banner-videos [dataEvents]="dataEvents"></app-banner-videos>
+        </section>
+        
         <h2 class="eventos-title">Linha do Tempo dos Eventos Geek</h2>
         <div class="timeline">
             <div class="timeline-event" *ngFor="let evento of eventos; let i = index" [ngClass]="{ 'right': i % 2 === 0, 'left': i % 2 !== 0 }">

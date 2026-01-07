@@ -1,5 +1,4 @@
 import { Component, OnInit} from '@angular/core';
-import { BannerComponent } from '../../../shared/components/banner/banner.component';
 import { ArtigosComponent } from '../../../shared/components/artigos/artigos.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { CuriosidadesComponent } from '../../../shared/components/curiosidades/curiosidades.component';
@@ -10,12 +9,15 @@ import { NewsletterComponent } from "../../../shared/components/newsletter/newsl
 import { EventosComponent } from '../../../shared/components/eventos/eventos.component';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { NovidadesComponent } from '../../../shared/components/novidades/novidades.component';
+import { BannerVideos } from '../../../shared/components/banner-videos/banner-videos';
+import { DataEvents } from '../../../core/interface/data-events.interface';
+import { bannerInit } from '../../../data/banner_init';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    BannerComponent,
+    BannerVideos,
     ReviewComponent,
     ArtigosComponent,
     FooterComponent,
@@ -31,6 +33,8 @@ import { NovidadesComponent } from '../../../shared/components/novidades/novidad
 })
 export class HomeComponent implements OnInit{
   public themeHome: string | null = 'dark';
+
+  public dataBanner: DataEvents[] = bannerInit;
 
   constructor(private themeService: ThemeService){}
 
