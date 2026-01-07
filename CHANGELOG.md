@@ -32,6 +32,35 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+# **[1.1.5]- 2026-01-07**
+### **✨ Added**
+
+- Novo componente `banner-videos` para exibir banners com imagens e vídeos (YouTube), incluindo transição automática e navegação manual.
+- Arquivo de interface dedicado: `data-events.interface.ts` para tipagem dos dados do banner e eventos.
+- Arquivos de dados: `banner_init.ts` e `events.ts` para inicialização dos banners e eventos.
+
+### **🛠️ Changed**
+
+- Integração do novo banner em eventos (`eventos-page`) e na home (`home.component`).
+- Ajuste dos componentes para consumir os novos dados tipados e estrutura de eventos.
+
+### **🐛 Fixed**
+
+-
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+- Removido o componente antigo `banner` e seus arquivos (`banner.component.ts`, `banner.component.html`, `banner.component.css`).
+
+### **🛑 Security**
+
+-
+
+---
 # **[1.1.4]- 2026-01-04**
 ### **✨ Added**
 
