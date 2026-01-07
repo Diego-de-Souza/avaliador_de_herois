@@ -17,7 +17,7 @@
 			<span class="banner-date">ON {{medias[activeIndex].date}}</span>
 			<h1 class="banner-title">{{medias[activeIndex].title}}</h1>
 			<p class="banner-desc">{{medias[activeIndex].description}}</p>
-			   @if (medias[activeIndex].rota) {
+			   @if (medias[activeIndex].rota && medias[activeIndex].rota != '') {
 				   <button class="banner-btn" (click)="readMore()">READ MORE</button>
 			   }
 		</div>

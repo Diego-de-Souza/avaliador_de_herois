@@ -125,7 +125,6 @@ export class BannerVideos implements  OnInit {
       window.open(dataMedia.url, '_blank');
     }else{
       this.router.navigate([dataMedia.rota || '/']);
-      console.log('Navigating to', dataMedia.rota);
     }
   }
 }
