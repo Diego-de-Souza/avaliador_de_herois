@@ -1,32 +1,50 @@
 <section class="dashboard-container ">
     <app-header-platform></app-header-platform>
   <section class="container py-4">
-      div<div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-white">Dashboard</h1>
         <button class="btn btn-outline-light" (click)="toggleTheme()">Alternar Tema</button>
       </div>
       <div class="row g-3">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card text-center text-bg-primary shadow">
             <div class="card-body">
-              <h5 class="card-title">Usuários</h5>
-              <p class="display-6">{{ totalUsuarios }}</p>
+              <h5 class="card-title">Usuários Registrados</h5>
+              <p class="display-6">{{ totalUsuariosRegistrados }}</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="card text-center text-bg-success shadow">
             <div class="card-body">
-              <h5 class="card-title">Acessos</h5>
-              <p class="display-6">{{ totalAcessos }}</p>
+              <h5 class="card-title">Acessos ao Site</h5>
+              <p class="display-6">{{ totalAcessosSite }}</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <div class="card text-center text-bg-info shadow">
+            <div class="card-body">
+              <h5 class="card-title">Acessos à Plataforma</h5>
+              <p class="display-6">{{ totalAcessosPlataforma }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
           <div class="card text-center text-bg-warning shadow">
             <div class="card-body">
               <h5 class="card-title">Artigos</h5>
               <p class="display-6">{{ totalArtigos }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3 mt-2">
+        <div class="col-md-4">
+          <div class="card text-center text-bg-secondary shadow">
+            <div class="card-body">
+              <h5 class="card-title">Eventos</h5>
+              <p class="display-6">{{ totalEventos }}</p>
             </div>
           </div>
         </div>

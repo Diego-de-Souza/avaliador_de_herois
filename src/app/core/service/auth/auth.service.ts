@@ -4,6 +4,7 @@ import { EncryptionUtil } from '../../../shared/utils/encryption.utils';
 import { BehaviorSubject, lastValueFrom, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AuthHttpService } from '../http/auth-http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 export class AuthService{
   private readonly userService = inject(UserService);
   private readonly http = inject(HttpClient);
+  private readonly authHttpService = inject(AuthHttpService);
   
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   public user$ = this.userSubject.asObservable();
@@ -240,6 +242,15 @@ export class AuthService{
     } catch (error) {
       console.error('Erro ao buscar sessões ativas:', error);
       throw new Error('Erro ao buscar sessões ativas. Tente novamente.');
+    }
+  }
+
+  async registerAcessoUser(): Promise<void>{
+    try{
+      await lastValueFrom(this.authHttpService.registerAcessoUser());
+    } catch (error: any) {
+      console.error('Erro ao registrar acesso do usuário:', error);
+      throw new Error('Erro ao registrar acesso do usuário. Tente novamente.');
     }
   }
 }

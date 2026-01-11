@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import ApexCharts from 'apexcharts'
 import { HeaderPlatformComponent } from '../../../shared/components/header-platform/header-platform.component';
+import { DashboardHttpService } from '../../../core/service/http/dashboard-http.service';
 
 @Component({
   selector: 'app-dashbord',
@@ -10,19 +11,41 @@ import { HeaderPlatformComponent } from '../../../shared/components/header-platf
   styleUrl: './dashbord.component.css'
 })
 export class DashbordComponent {
-  totalUsuarios = 1240;
-  totalAcessos = 8930;
+  private readonly dashBoardService = inject(DashboardHttpService)
+  
+  totalUsuariosRegistrados = 0;
+  totalAcessos = 0;
+  totalAcessosSite = 0;
+  totalAcessosPlataforma = 0;
+  acessosPorMes: any = {};
   totalArtigos = 348;
+  totalEventos = 0;
+  acessosUsuariosPorMes: any = {};
 
   ngOnInit() {
-    this.renderCharts();
+    this.getDataDashboard();
   }
 
   renderCharts() {
-    const options: ApexCharts.ApexOptions = {
+    // Converter acessosUsuariosPorMes (objeto) para array ordenado
+    const usuariosData = this.convertMonthsObjectToArray(this.acessosUsuariosPorMes);
+    
+    // Converter acessosPorMes (objeto) para array ordenado
+    const acessosData = this.convertMonthsObjectToArray(this.acessosPorMes);
+    
+    // Configuração do gráfico de Usuários
+    const optionsUsers: ApexCharts.ApexOptions = {
       chart: { type: 'area' },
-      series: [{ name: 'Usuários', data: [10, 20, 15, 30, 45, 60, 80] }],
-      xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'] },
+      series: [{ name: 'Usuários', data: usuariosData }],
+      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'] },
+      theme: { mode: this.isDarkTheme ? 'dark' : 'light' }
+    };
+
+    // Configuração do gráfico de Acessos
+    const optionsAccess: ApexCharts.ApexOptions = {
+      chart: { type: 'area' },
+      series: [{ name: 'Acessos', data: acessosData }],
+      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'] },
       theme: { mode: this.isDarkTheme ? 'dark' : 'light' }
     };
 
@@ -140,9 +163,26 @@ export class DashbordComponent {
         },
     };
 
-    this.renderChart('#chart-users', options);
-    this.renderChart('#chart-access', options);
+    this.renderChart('#chart-users', optionsUsers);
+    this.renderChart('#chart-access', optionsAccess);
     this.renderChart('#chart-posts', options_posts);
+  }
+
+  /**
+   * Converte objeto de meses para array ordenado (janeiro a dezembro)
+   * Exemplo: { janeiro: 4, fevereiro: 0, ... } -> [4, 0, ...]
+   */
+  private convertMonthsObjectToArray(monthsObject: any): number[] {
+    if (!monthsObject || typeof monthsObject !== 'object') {
+      return [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    }
+
+    const monthOrder = [
+      'janeiro', 'fevereiro', 'marco', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+
+    return monthOrder.map(month => monthsObject[month] || 0);
   }
 
   private renderChart(selector: string, options: ApexCharts.ApexOptions) {
@@ -169,4 +209,38 @@ export class DashbordComponent {
     }));
   }
   
+  getDataDashboard() {
+    this.dashBoardService.getDashboardData().subscribe((response:any) => {
+      console.log(response.data[0]);
+      const data = response.data[0];
+      
+      this.totalArtigos = data.numberArticlesRegistered;
+      this.totalUsuariosRegistrados = data.numberUsersRegistered;
+      this.totalEventos = data.numberEventsRegistered;
+      
+      // Filtrar acessos por actionType: 'page_view' para acessos ao site
+      if (data.numberAcessesRegistered && Array.isArray(data.numberAcessesRegistered)) {
+        this.totalAcessosSite = data.numberAcessesRegistered.filter(
+          (access: any) => access.actionType === 'page_view'
+        ).length;
+      } else {
+        this.totalAcessosSite = 0;
+      }
+      
+      // Filtrar acessos por actionType: 'login' para acessos à plataforma
+      if (data.numberAcessesRegistered && Array.isArray(data.numberAcessesRegistered)) {
+        this.totalAcessosPlataforma = data.numberAcessesRegistered.filter(
+          (access: any) => access.actionType === 'login'
+        ).length;
+      } else {
+        this.totalAcessosPlataforma = 0;
+      }
+      
+      this.acessosPorMes = data.numberAcessesByMonth || {};
+      this.acessosUsuariosPorMes = data.numberAcessesByMonthUsers || {};
+      
+      // Renderizar gráficos após receber os dados
+      this.renderCharts();
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, inject, OnInit} from '@angular/core';
 import { ArtigosComponent } from '../../../shared/components/artigos/artigos.component';
 import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { CuriosidadesComponent } from '../../../shared/components/curiosidades/curiosidades.component';
@@ -12,6 +12,7 @@ import { NovidadesComponent } from '../../../shared/components/novidades/novidad
 import { BannerVideos } from '../../../shared/components/banner-videos/banner-videos';
 import { DataEvents } from '../../../core/interface/data-events.interface';
 import { bannerInit } from '../../../data/banner_init';
+import { AuthService } from '../../../core/service/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -32,6 +33,8 @@ import { bannerInit } from '../../../data/banner_init';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
+  private readonly authService = inject(AuthService)
+  
   public themeHome: string | null = 'dark';
 
   public dataBanner: DataEvents[] = bannerInit;
@@ -43,6 +46,8 @@ export class HomeComponent implements OnInit{
       this.themeHome = theme;
       this.applyTheme(theme);
     })
+
+    this.authService.registerAcessoUser();
   }
 
 
