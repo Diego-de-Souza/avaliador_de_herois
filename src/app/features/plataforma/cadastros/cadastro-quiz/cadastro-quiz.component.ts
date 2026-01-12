@@ -132,9 +132,10 @@ export class CadastroQuizComponent implements OnInit {
       this._quizForm.patchValue({
         url_logo: 'https://img.freepik.com/vetores-premium/modelo-de-design-plano-de-icone-de-pessoa-ilustracao-vetorial-de-sinal-de-avatar-isolado_109161-1680.jpg?semt=ais_se_enriched&w=740&q=80'
       });
-      const payload = this._quizForm.value;
+      
       if (this.editingQuizId && this.editingQuizLevelId) {
-        // Atualiza quiz e quiz_levels juntos
+        // Modo edição - mantém todos os campos
+        const payload = this._quizForm.value;
         this.quizService.updateQuiz(this.editingQuizId, payload)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -154,6 +155,16 @@ export class CadastroQuizComponent implements OnInit {
             }
           });
       } else {
+        // Modo criação - remove campos id e unlocked dos níveis
+        const formValue = this._quizForm.value;
+        const payload = {
+          ...formValue,
+          quiz_levels: formValue.quiz_levels.map((level: any) => {
+            const { id, unlocked, ...levelWithoutId } = level;
+            return levelWithoutId;
+          })
+        };
+        
         this.quizService.createQuiz(payload)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
@@ -174,9 +185,9 @@ export class CadastroQuizComponent implements OnInit {
           });
       }
     } else {
-  this.modalTitle = 'Erro';
-  this.modalMessage = 'Por favor, preencha todos os campos obrigatórios corretamente.';
-  this.showSuccessModal = true;
+      this.modalTitle = 'Erro';
+      this.modalMessage = 'Por favor, preencha todos os campos obrigatórios corretamente.';
+      this.showSuccessModal = true;
     }
   }
 
