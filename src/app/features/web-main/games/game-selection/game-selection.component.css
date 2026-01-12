@@ -164,9 +164,19 @@
   justify-content: center;
   margin-right: 2rem;
   box-shadow: 0 4px 24px var(--shadow-color);
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.game-icon {
+.game-icon-image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.game-icon-placeholder {
   font-size: 2.8rem;
   color: var(--text-yellow);
   text-shadow: 0 2px 8px var(--shadow-color-primary);
@@ -263,7 +273,12 @@
 .light .game-icon-bg {
   background: #e62429;
 }
-.light .game-icon {
+.light .game-icon-image {
+  background: #fff;
+  padding: 4px;
+}
+
+.light .game-icon-placeholder {
   color: #fff;
   text-shadow: none;
 }

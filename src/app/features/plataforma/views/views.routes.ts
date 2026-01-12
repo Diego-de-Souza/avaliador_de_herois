@@ -41,5 +41,10 @@ export const routesViews: Routes = [
         path: 'view-events',
         title: 'Lista de Eventos',
         loadComponent: () => import('./view-eventos/view-eventos.components').then(m => m.ViewEventosComponent)
+    },
+    {
+        path: 'view-games',
+        title: 'Lista de Games',
+        loadComponent: () => import('./games/games').then(m => m.Games)
     }
 ]

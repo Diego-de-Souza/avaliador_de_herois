@@ -30,6 +30,7 @@ export class HeroBattle implements OnInit {
 
   public progressSaving = false;
   public progressMessage = '';
+  private autoSaveTriggered = false;
   public gameStats = {
     score: 0,
     attempts: 1,
@@ -43,6 +44,15 @@ export class HeroBattle implements OnInit {
 
     this.gameService.gameState$.subscribe(state => {
       this.gameState = state;
+      
+      // Verificar auto-save apenas quando a fase mudar para 'vitoria'
+      if (state.fase === 'vitoria' && !this.autoSaveTriggered) {
+        this.autoSaveTriggered = true;
+        setTimeout(() => this.checkAutoSave(), 100);
+      } else if (state.fase !== 'vitoria') {
+        // Resetar flag quando sair da fase de vitória
+        this.autoSaveTriggered = false;
+      }
     });
 
     this.loadSavedProgress();
@@ -208,11 +218,7 @@ export class HeroBattle implements OnInit {
   }
 
   get fase() {
-    const currentFase = this.gameState?.fase || 'selecao-classe';
-    if (currentFase === 'vitoria') {
-      setTimeout(() => this.checkAutoSave(), 100);
-    }
-    return currentFase;
+    return this.gameState?.fase || 'selecao-classe';
   }
 
   get log() {

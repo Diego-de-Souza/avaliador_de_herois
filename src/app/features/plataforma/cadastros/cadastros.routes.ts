@@ -72,5 +72,15 @@ export const routesCadastros: Routes = [
         path: 'events-cadastro',
         title: 'Cadastro de Eventos',
         loadComponent: () => import('./cadastro-eventos/cadastro-eventos.component').then(m => m.CadastroEventosComponent)
+    },
+    {
+        path: 'games-cadastro',
+        title: 'Cadastro de Games',
+        loadComponent: () => import('./cadastro-games/cadastro-games').then(m => m.Games)
+    },
+    {
+        path: 'games-cadastro/:id',
+        title: 'Atualizacao de Games',
+        loadComponent: () => import('./cadastro-games/cadastro-games').then(m => m.Games)
     }
 ]

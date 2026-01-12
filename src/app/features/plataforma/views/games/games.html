@@ -1,0 +1,59 @@
+<section class="games-container">
+  <app-header-platform></app-header-platform>
+  <section class="table-container">
+    <h2>Lista de Games</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Ícone</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Link</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (games.length > 0) {
+          @for (game of games; track game.id) {
+            <tr class="tr-viewGame">
+              <td>
+                @if (game.url_icon && game.url_icon.trim() !== '') {
+                  <img 
+                    [src]="game.url_icon" 
+                    [alt]="game.name" 
+                    style="width: 64px; height: 64px; object-fit: cover; border-radius: 4px;"
+                  />
+                } @else {
+                  <span style="color: #999;">Sem ícone</span>
+                }
+              </td>
+              <td>{{ game.name }}</td>
+              <td>
+                @if (game.description && game.description.length > 50) {
+                  {{ game.description.substring(0, 50) }}...
+                } @else {
+                  {{ game.description || '-' }}
+                }
+              </td>
+              <td>
+                <a [href]="game.link" target="_blank" style="color: #0056b3; text-decoration: none;">
+                  {{ game.link }}
+                </a>
+              </td>
+              <td class="td-acoes-game">
+                <button class="btn btn-primary" (click)="editGame(game.id)">Editar</button>
+                <button class="btn btn-danger" (click)="deleteGame(game.id)">Deletar</button>
+              </td>
+            </tr>
+          }
+        } @else {
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 20px; color: #999;">
+              Nenhum game encontrado.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</section>

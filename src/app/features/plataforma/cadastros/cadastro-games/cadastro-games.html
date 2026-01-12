@@ -1,0 +1,123 @@
+<section class="games-container">
+  <app-header-platform></app-header-platform>
+  <section class="cadastro-games-container">
+    <h1>{{ isEditMode ? 'Editar Game' : 'Cadastro de Game' }}</h1>
+    <form (ngSubmit)="onSubmit()" [formGroup]="gamesForm">
+      <!-- Nome do Game -->
+      <div class="form-group">
+        <label for="name">Nome do Game</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          formControlName="name"
+          required
+          placeholder="Digite o nome do jogo"
+          [class.invalid]="isFieldInvalid('name')"
+        />
+        @if (isFieldInvalid('name')) {
+          <div class="error-msg">Nome é obrigatório e deve ter no mínimo 3 caracteres.</div>
+        }
+      </div>
+
+      <!-- Descrição -->
+      <div class="form-group">
+        <label for="description">Descrição</label>
+        <textarea
+          id="description"
+          name="description"
+          formControlName="description"
+          rows="5"
+          required
+          placeholder="Descreva o jogo"
+          [class.invalid]="isFieldInvalid('description')"
+        ></textarea>
+        @if (isFieldInvalid('description')) {
+          <div class="error-msg">Descrição é obrigatória e deve ter no mínimo 10 caracteres.</div>
+        }
+      </div>
+
+      <!-- Link -->
+      <div class="form-group">
+        <label for="link">Link (Rota)</label>
+        <input
+          type="text"
+          id="link"
+          name="link"
+          formControlName="link"
+          required
+          placeholder="/webmain/games/hero-battle"
+          [class.invalid]="isFieldInvalid('link')"
+        />
+        @if (isFieldInvalid('link')) {
+          <div class="error-msg">Link é obrigatório e deve começar com / (ex: /webmain/games/nome-do-jogo).</div>
+        }
+      </div>
+
+      <!-- Type -->
+      <div class="form-group">
+        <label for="type">Tipo</label>
+        <input
+          type="text"
+          id="type"
+          name="type"
+          formControlName="type"
+          required
+          placeholder="Digite o tipo do jogo"
+          [class.invalid]="isFieldInvalid('type')"
+        />
+        @if (isFieldInvalid('type')) {
+          <div class="error-msg">Tipo é obrigatório.</div>
+        }
+      </div>
+
+      <!-- Ícone (Imagem) -->
+      <div class="form-group">
+        <label for="icon">Ícone do Game (64x64 pixels)</label>
+        <input
+          type="file"
+          id="icon"
+          accept="image/jpeg, image/jpg, image/png, image/gif"
+          (change)="onImageSelected($event)"
+          class="form-control"
+        />
+        @if (imageError) {
+          <div class="error-msg">{{ imageError }}</div>
+        }
+        @if (imagePreview || gamesForm.get('icon')?.value) {
+          <div class="image-preview">
+            <img 
+              [src]="imagePreview || gamesForm.get('icon')?.value" 
+              alt="Preview do ícone" 
+              style="max-width: 64px; max-height: 64px; margin-top: 8px; border-radius: 8px; border: 2px solid #ddd;"
+            />
+            <p style="font-size: 0.85rem; color: #666; margin-top: 4px;">Dimensões: 64x64 pixels</p>
+          </div>
+        }
+      </div>
+
+      <!-- Botões -->
+      <div class="form-actions">
+        <button type="submit" [disabled]="gamesForm.invalid">{{ isEditMode ? 'Atualizar' : 'Salvar' }}</button>
+        <button type="button" (click)="onCancel()">Cancelar</button>
+      </div>
+    </form>
+  </section>
+</section>
+
+@if (showModal) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <app-modal-sucesso-cadastro
+          [modalTitle]="modalTitle"
+          [modalMessage]="modalMessage"
+          (closeModalEvent)="closeModal()">
+        </app-modal-sucesso-cadastro>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
