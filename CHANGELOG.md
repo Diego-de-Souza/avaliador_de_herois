@@ -32,6 +32,60 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+
+
+# **[1.1.6]- 2026-01-13**
+
+### **✨ Added**
+
+- Sistema completo de comentários em artigos com componente `article-comments` e `comment-item`, permitindo comentários aninhados, likes/dislikes e edição.
+- Componente de busca avançada (`advanced-search`) para filtros avançados de artigos com múltiplos critérios.
+- Serviço de SEO (`SeoService`) para gerenciamento dinâmico de meta tags, Open Graph e Twitter Cards.
+- Componente de dados estruturados (`structured-data`) para JSON-LD (Schema.org) visando melhor indexação.
+- Serviço de sanitização (`SanitizationService`) para segurança na renderização de conteúdo HTML.
+- Serviço HTTP de comentários (`CommentHttpService`) para comunicação com API de comentários.
+- Serviço de busca (`SearchService`) para funcionalidades de busca avançada.
+- Utilitário de validação de imagens (`ImageValidationUtil`) para validação de tipo, tamanho e dimensões.
+- Nova página de detalhes de artigos (`ArticleDetailComponent`) com visualização completa e seção de comentários.
+- Componentes da home page: `hero-section` e `why-choose` para melhor apresentação inicial.
+- Arquivo `manifest.json` para suporte PWA (Progressive Web App).
+- Arquivo `robots.txt` para controle de indexação por buscadores.
+- Integração de meta tags SEO em componentes principais (home, about, artigos).
+- Suporte a incremento de visualizações de artigos via API.
+
+### **🛠️ Changed**
+
+- Página de artigos (`article-page`) refatorada para usar busca avançada e redirecionar para página de detalhes ao invés de modal.
+- Design do login atualizado com novo layout moderno e responsivo.
+- Design da tela de recuperação de senha atualizado para seguir padrão do site.
+- Home page integrada com `SeoService` para meta tags dinâmicas.
+- Página "Sobre" (`about`) integrada com SEO e dados estruturados.
+- Rotas de artigos atualizadas para suportar página de detalhes (`/webmain/artigos/:id`).
+- Serviço de usuário (`UserService`) atualizado para incluir header `X-Session-Token` no logout.
+- Serviço de artigos (`ArticleService`) atualizado com método `incrementViews` para contagem de visualizações.
+
+### **🐛 Fixed**
+
+- Corrigido problema onde o header `x-session-token` não era enviado durante o logout, causando erro 401 Unauthorized.
+- Corrigido layout da seção de comentários que estava sobrepondo o conteúdo do artigo.
+- Corrigido problema de performance onde `checkAutoSave()` era chamado repetidamente no componente Hero Battle.
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+- Removido uso de modal para exibição de detalhes de artigos, substituído por página dedicada.
+
+### **🛑 Security**
+
+- Implementada sanitização de HTML em comentários e conteúdo de artigos para prevenir XSS.
+- Validação de URLs e conteúdo de usuário através do `SanitizationService`.
+- Validação de imagens com restrições de tipo, tamanho e dimensões.
+
+---
+
 # **[1.1.5]- 2026-01-07**
 ### **✨ Added**
 
