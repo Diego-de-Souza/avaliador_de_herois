@@ -16,6 +16,7 @@ import { PaymentService } from '../../../core/service/shopping/payment.service';
 export class CardQuizLevelComponent implements OnInit {
   @Input() level!: Quiz_Level;
   @Input() logo: string= '';
+  @Input() theme: string = '';
   @Output() premiumStatus = new EventEmitter<boolean>();
   
   private readonly router = inject(Router);
@@ -70,5 +71,22 @@ export class CardQuizLevelComponent implements OnInit {
 
   applyTheme(theme: string) {
     this._themeAll = theme;
+  }
+
+  getCardImage(): string {
+    const themeMap: { [key: string]: string } = {
+      'Marvel': '/img/cards_quiz/marvel-basic.jpg',
+      'DC Comics': '/img/cards_quiz/dc-comic.jpg',
+      'Toei': '/img/cards_quiz/toei.jpg',
+      'MAPPA': '/img/cards_quiz/mappa.jpg'
+    };
+
+    // Normaliza o tema para encontrar a correspondência (case-insensitive)
+    const normalizedTheme = this.theme?.trim() || '';
+    const matchedKey = Object.keys(themeMap).find(
+      key => key.toLowerCase() === normalizedTheme.toLowerCase()
+    );
+
+    return matchedKey ? themeMap[matchedKey] : '/img/cards_quiz/marvel-basic.jpg'; // Fallback para Marvel
   }
 }
