@@ -1,0 +1,39 @@
+<section class="hero-section" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="hero-background"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">
+        Seu Universo de <span class="hero-highlight">Heróis</span>
+      </h1>
+      <p class="hero-subtitle">
+        O único portal brasileiro que combina análises profundas de heróis, 
+        jogos interativos exclusivos e quizzes gamificados.
+      </p>
+      <p class="hero-description">
+        Sua jornada no universo geek começa aqui!
+      </p>
+      <div class="hero-cta">
+        <a routerLink="/webmain/artigos" class="btn btn-primary btn-hero">
+          Explorar Artigos
+        </a>
+        <a routerLink="/webmain/quiz" class="btn btn-secondary btn-hero">
+          Fazer Quiz
+        </a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Artigos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Quizzes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10K+</div>
+        <div class="stat-label">Fãs</div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { articlesProps } from '../../../core/interface/articles.interface';
 import { ArticleService } from '../../../core/service/articles/articles.service';
 import { HeaderComponent } from '../../../shared/components/header/header.component';
@@ -9,6 +9,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { NewsletterComponent } from '../../../shared/components/newsletter/newsletter.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { AdvancedSearchComponent } from '../../../shared/components/advanced-search/advanced-search.component';
+import { SearchService, SearchFilters } from '../../../core/service/search/search.service';
 
 interface CarouselImage {
   url: string;
@@ -33,7 +35,8 @@ interface imagesProps {
     FooterComponent,
     MarkdownModule, 
     NewsletterComponent,
-    CarouselComponent
+    CarouselComponent,
+    AdvancedSearchComponent
   ],
   templateUrl: './article-page.component.html',
   styleUrls: ['./article-page.component.css']
@@ -41,7 +44,9 @@ interface imagesProps {
 export class ArticlePageComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly articleService = inject(ArticleService);
+  private readonly searchService = inject(SearchService);
 
   public themeHome: string | null = 'dark';
 
@@ -61,23 +66,10 @@ export class ArticlePageComponent implements OnInit {
   page: number = 1;
   pageSize: number = 8;
   totalPages: number = 1;
-  selectedArticle: articlesProps | null = null;
 
   ngOnInit(): void {
     this.themeService.theme$.subscribe(theme => {
       this.themeHome = theme;
-    });
-
-    let routeId: string | null = null;
-
-    this.route.paramMap.subscribe(params => {
-      const routeId = params.get('id');
-      if (routeId && this.articles.length) {
-        const artigo = this.articles.find(a => a.id === +routeId);
-        if (artigo) {
-          this.openModal(artigo);
-        }
-      }
     });
 
     this.articleService.getArticlesList().subscribe((response) => {
@@ -92,16 +84,6 @@ export class ArticlePageComponent implements OnInit {
       this.getRecentArticles = this.articleService.getRecentArticles(5);
       this.images = this.getImages();
       this.applyFilter();
-
-      this.route.paramMap.subscribe(params => {
-        const routeId = params.get('id');
-        if (routeId) {
-          const artigo = this.articles.find(a => a.id === +routeId);
-          if (artigo) {
-            this.openModal(artigo);
-          }
-        }
-      });
     });
   }
 
@@ -192,11 +174,32 @@ export class ArticlePageComponent implements OnInit {
     }
   }
 
-  openModal(article: articlesProps) {
-    this.selectedArticle = article;
+  openArticle(article: articlesProps) {
+    // Redirecionar para página de detalhes
+    this.router.navigate(['/webmain/artigos', article.id]);
   }
 
-  closeModal() {
-    this.selectedArticle = null;
+  onSearchPerformed(filters: SearchFilters) {
+    // Aplicar filtros da busca avançada
+    if (filters.query) {
+      this.keywordFilter = filters.query;
+    }
+    if (filters.category) {
+      this.categoryFilter = filters.category;
+    }
+    if (filters.author) {
+      this.authorFilter = filters.author;
+    }
+    if (filters.tags && filters.tags.length > 0) {
+      // Se houver tags, pode adicionar lógica específica
+    }
+    if (filters.dateFrom) {
+      this.dateFilter = filters.dateFrom;
+    }
+    if (filters.sortBy) {
+      // Aplicar ordenação se necessário
+    }
+    
+    this.applyFilter();
   }
 }

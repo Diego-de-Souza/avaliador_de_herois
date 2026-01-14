@@ -13,6 +13,9 @@ import { BannerVideos } from '../../../shared/components/banner-videos/banner-vi
 import { DataEvents } from '../../../core/interface/data-events.interface';
 import { bannerInit } from '../../../data/banner_init';
 import { AuthService } from '../../../core/service/auth/auth.service';
+import { SeoService } from '../../../core/service/seo/seo.service';
+import { HeroSectionComponent } from '../../../shared/components/hero-section/hero-section.component';
+import { WhyChooseComponent } from '../../../shared/components/why-choose/why-choose.component';
 
 @Component({
   selector: 'app-home',
@@ -27,13 +30,16 @@ import { AuthService } from '../../../core/service/auth/auth.service';
     HeaderComponent,
     NewsletterComponent,
     NovidadesComponent,
-    DestaqueComponent
+    DestaqueComponent,
+    HeroSectionComponent,
+    WhyChooseComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
-  private readonly authService = inject(AuthService)
+  private readonly authService = inject(AuthService);
+  private readonly seoService = inject(SeoService);
   
   public themeHome: string | null = 'dark';
 
@@ -42,6 +48,14 @@ export class HomeComponent implements OnInit{
   constructor(private themeService: ThemeService){}
 
   ngOnInit() {
+    // Configurar SEO para a home
+    this.seoService.updateMetaTags({
+      title: 'Heroes Platform - Seu Universo de Heróis',
+      description: 'A maior plataforma brasileira sobre heróis, cultura geek, jogos interativos e quizzes. Explore artigos exclusivos, jogue games únicos e teste seus conhecimentos sobre Marvel, DC, Anime e muito mais!',
+      keywords: 'heróis, super-heróis, marvel, dc comics, anime, cultura geek, jogos, quizzes, artigos, notícias, eventos geek',
+      type: 'website'
+    });
+
     this.themeService.theme$.subscribe(theme =>{
       this.themeHome = theme;
       this.applyTheme(theme);

@@ -1,105 +1,174 @@
-<div class="forgot-password-container">
-  <h2>Recuperar Senha</h2>
+<section id="forgot-password-plataforma">
+  <div id="container-forgot-password">
+    <h2>Recuperar Senha</h2>
 
-  <!-- Escolha de método -->
-  @if (step === 1) {
-    <div>
-      <button class="btn btn-outline-primary w-100 mb-3" (click)="step = 2">Recuperar por dados pessoais</button>
-      <div class="text-center mb-2">ou</div>
-      <div class="d-flex flex-column gap-2">
-        <button class="btn btn-outline-info" (click)="showCodeForm(1)">Receber código por E-mail</button>
-        <button class="btn btn-outline-success" (click)="showCodeForm(2)">Receber código por SMS</button>
-        <button class="btn btn-outline-success" (click)="showCodeForm(3)">Receber código por WhatsApp</button>
-      </div>
-      @if (message) {
-        <div class="alert alert-info mt-2">{{ message }}</div>
-      }
-    </div>
-  }
-
-  <!-- Formulário para inserir email/telefone antes de enviar código -->
-  @if (step === 10) {
-    <form (ngSubmit)="enviarCodigo()" #formContato="ngForm" autocomplete="off">
-      @if (canalSelecionado === 1) {
-        <div class="form-group">
-          <label for="emailRec">E-mail</label>
-          <input id="emailRec" name="emailRec" type="email" [(ngModel)]="emailRec" required class="form-control" />
+    <!-- Escolha de método -->
+    @if (step === 1) {
+      <div class="forgot-password-options">
+        <button class="btn-option btn-option-primary" (click)="step = 2">
+          <i class="bi bi-person-vcard"></i>
+          Recuperar por dados pessoais
+        </button>
+        <div class="divider">
+          <span>ou</span>
         </div>
-      }
-      @if (canalSelecionado === 2 || canalSelecionado === 3) {
-        <div class="form-group">
-          <label for="telefoneRec">Telefone</label>
-          <input id="telefoneRec" name="telefoneRec" type="tel" [(ngModel)]="telefoneRec" required maxlength="15" class="form-control" />
+        <div class="channel-options">
+          <button class="btn-option btn-option-email" (click)="showCodeForm(1)">
+            <i class="bi bi-envelope"></i>
+            Receber código por E-mail
+          </button>
+          <button class="btn-option btn-option-sms" (click)="showCodeForm(2)">
+            <i class="bi bi-chat-text"></i>
+            Receber código por SMS
+          </button>
+          <button class="btn-option btn-option-whatsapp" (click)="showCodeForm(3)">
+            <i class="bi bi-whatsapp"></i>
+            Receber código por WhatsApp
+          </button>
         </div>
-      }
-      <button class="btn btn-primary" type="submit" [disabled]="loading">Enviar Código</button>
-      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-      @if (message) {
-        <div class="alert alert-info mt-2">{{ message }}</div>
-      }
-    </form>
-  }
+        @if (message) {
+          <div class="message-info">{{ message }}</div>
+        }
+      </div>
+    }
 
-  <!-- Formulário de dados pessoais -->
-  @if (step === 2) {
-    <form (ngSubmit)="onSubmitDados()" #formDados="ngForm" autocomplete="off">
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input id="email" name="email" type="email" [(ngModel)]="email" required class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="cpf">CPF</label>
-        <input id="cpf" name="cpf" type="text" [(ngModel)]="cpf" required maxlength="14" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="dob">Data de Nascimento</label>
-        <input id="dob" name="dob" type="date" [(ngModel)]="dob" required class="form-control" />
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="loading">Validar Dados</button>
-      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-      @if (message) {
-        <div class="alert alert-info mt-2">{{ message }}</div>
-      }
-    </form>
-  }
+    <!-- Formulário para inserir email/telefone antes de enviar código -->
+    @if (step === 10) {
+      <form (ngSubmit)="enviarCodigo()" #formContato="ngForm" autocomplete="off" class="forgot-password-form">
+        @if (canalSelecionado === 1) {
+          <div class="form-group">
+            <label for="emailRec">E-mail</label>
+            <div class="input-wrapper">
+              <i class="bi bi-envelope icon-input"></i>
+              <input id="emailRec" name="emailRec" type="email" [(ngModel)]="emailRec" required class="form-control" placeholder="Digite seu e-mail" />
+            </div>
+          </div>
+        }
+        @if (canalSelecionado === 2 || canalSelecionado === 3) {
+          <div class="form-group">
+            <label for="telefoneRec">Telefone</label>
+            <div class="input-wrapper">
+              <i class="bi bi-telephone icon-input"></i>
+              <input id="telefoneRec" name="telefoneRec" type="tel" [(ngModel)]="telefoneRec" required maxlength="15" class="form-control" placeholder="Digite seu telefone" />
+            </div>
+          </div>
+        }
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" [disabled]="loading">
+            @if (loading) {
+              <span class="spinner"></span>
+            }
+            Enviar Código
+          </button>
+          <button class="btn-back" type="button" (click)="step = 1">Voltar</button>
+        </div>
+        @if (message) {
+          <div class="message-info">{{ message }}</div>
+        }
+      </form>
+    }
 
-  <!-- Formulário de código -->
-  @if (step === 3) {
-    <form (ngSubmit)="onSubmitCode()" #formCodigo="ngForm" autocomplete="off">
-      <div class="form-group">
-        <label for="code">Digite o código recebido</label>
-        <input id="code" name="code" type="text" [(ngModel)]="code" maxlength="6" required class="form-control" />
-      </div>
-      <button class="btn btn-success" type="submit" [disabled]="loading">Validar Código</button>
-      <button class="btn btn-link" type="button" (click)="step = 1">Voltar</button>
-      @if (message) {
-        <div class="alert alert-info mt-2">{{ message }}</div>
-      }
-    </form>
-  }
+    <!-- Formulário de dados pessoais -->
+    @if (step === 2) {
+      <form (ngSubmit)="onSubmitDados()" #formDados="ngForm" autocomplete="off" class="forgot-password-form">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <div class="input-wrapper">
+            <i class="bi bi-envelope icon-input"></i>
+            <input id="email" name="email" type="email" [(ngModel)]="email" required class="form-control" placeholder="Digite seu e-mail" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person-vcard icon-input"></i>
+            <input id="cpf" name="cpf" type="text" [(ngModel)]="cpf" required maxlength="14" class="form-control" placeholder="000.000.000-00" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dob">Data de Nascimento</label>
+          <div class="input-wrapper">
+            <i class="bi bi-calendar icon-input"></i>
+            <input id="dob" name="dob" type="date" [(ngModel)]="dob" required class="form-control" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" [disabled]="loading">
+            @if (loading) {
+              <span class="spinner"></span>
+            }
+            Validar Dados
+          </button>
+          <button class="btn-back" type="button" (click)="step = 1">Voltar</button>
+        </div>
+        @if (message) {
+          <div class="message-info">{{ message }}</div>
+        }
+      </form>
+    }
 
-  <!-- Redefinição de senha -->
-  @if (step === 4) {
-    <form (ngSubmit)="onSubmitNovaSenha()" #formNovaSenha="ngForm" autocomplete="off">
-      <div class="form-group">
-        <label for="newPassword">Nova Senha</label>
-        <input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" required class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirme a Nova Senha</label>
-        <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required class="form-control" />
-      </div>
-      <button class="btn btn-primary" type="submit" [disabled]="loading">Redefinir Senha</button>
-      @if (message) {
-        <div class="alert alert-info mt-2">{{ message }}</div>
-      }
-    </form>
-  }
+    <!-- Formulário de código -->
+    @if (step === 3) {
+      <form (ngSubmit)="onSubmitCode()" #formCodigo="ngForm" autocomplete="off" class="forgot-password-form">
+        <div class="form-group">
+          <label for="code">Digite o código recebido</label>
+          <div class="input-wrapper">
+            <i class="bi bi-key icon-input"></i>
+            <input id="code" name="code" type="text" [(ngModel)]="code" maxlength="6" required class="form-control code-input" placeholder="000000" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" [disabled]="loading">
+            @if (loading) {
+              <span class="spinner"></span>
+            }
+            Validar Código
+          </button>
+          <button class="btn-back" type="button" (click)="step = 1">Voltar</button>
+        </div>
+        @if (message) {
+          <div class="message-info">{{ message }}</div>
+        }
+      </form>
+    }
 
-  @if (step === 5) {
-    <div class="success-message">
-      <h4>Senha redefinida com sucesso!</h4>
-      <a routerLink="/login" class="btn btn-primary">Ir para o login</a>
-    </div>
-  }
-</div>
+    <!-- Redefinição de senha -->
+    @if (step === 4) {
+      <form (ngSubmit)="onSubmitNovaSenha()" #formNovaSenha="ngForm" autocomplete="off" class="forgot-password-form">
+        <div class="form-group">
+          <label for="newPassword">Nova Senha</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock icon-input"></i>
+            <input id="newPassword" name="newPassword" type="password" [(ngModel)]="newPassword" required class="form-control" placeholder="Digite sua nova senha" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirme a Nova Senha</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock-fill icon-input"></i>
+            <input id="confirmPassword" name="confirmPassword" type="password" [(ngModel)]="confirmPassword" required class="form-control" placeholder="Confirme sua nova senha" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-submit" type="submit" [disabled]="loading">
+            @if (loading) {
+              <span class="spinner"></span>
+            }
+            Redefinir Senha
+          </button>
+        </div>
+        @if (message) {
+          <div class="message-info">{{ message }}</div>
+        }
+      </form>
+    }
+
+    @if (step === 5) {
+      <div class="success-message">
+        <i class="bi bi-check-circle success-icon"></i>
+        <h4>Senha redefinida com sucesso!</h4>
+        <a routerLink="/login" class="btn-login-link">Ir para o login</a>
+      </div>
+    }
+  </div>
+</section>

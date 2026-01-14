@@ -107,7 +107,6 @@ export class AuthService{
       this.userSubject.next(null);
       return false;
     } catch (error) {
-      console.log(' Erro no checkSession:', error);
       localStorage.removeItem('user');
       this.userSubject.next(null);
       return false;

@@ -1,0 +1,22 @@
+<section class="why-choose-section" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="why-choose-container">
+    <div class="why-choose-header">
+      <h2 class="section-title">Por que escolher a <span class="highlight">Heroes Platform</span>?</h2>
+      <p class="section-subtitle">
+        Somos mais que uma plataforma. Somos sua porta de entrada para o universo geek brasileiro.
+      </p>
+    </div>
+    
+    <div class="features-grid">
+      @for (feature of features; track feature.title) {
+        <div class="feature-card">
+          <div class="feature-icon" [style.background]="'linear-gradient(135deg, ' + feature.color + '20, ' + feature.color + '40)'">
+            <span class="icon-emoji">{{ feature.icon }}</span>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

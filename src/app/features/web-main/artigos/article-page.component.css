@@ -26,6 +26,12 @@
   color: #101522;
 }
 
+#container-articles-page.dark .quick-filters li.active,
+#container-articles-page.dark .quick-filters li:hover {
+  background: #00d2ff;
+  color: #101522;
+}
+
 #container-articles-page.dark .article-card {
   background: #232b3e;
   color: #f4f4f9;
@@ -49,6 +55,12 @@
 
 #container-articles-page.light .articles-sidebar li.active,
 #container-articles-page.light .articles-sidebar li:hover {
+  background: #0056b3;
+  color: #fff;
+}
+
+#container-articles-page.light .quick-filters li.active,
+#container-articles-page.light .quick-filters li:hover {
   background: #0056b3;
   color: #fff;
 }
@@ -155,13 +167,71 @@
 }
 
 .articles-sidebar {
-  width: 240px;
-  min-width: 220px;
+  width: 340px;
+  min-width: 300px;
   border-radius: 0;
   padding: 2rem 1rem 2rem 2rem;
   min-height: 80vh;
   box-sizing: border-box;
   transition: background 0.3s, color 0.3s;
+}
+
+.quick-filters {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid;
+}
+
+#container-articles-page.dark .quick-filters {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+#container-articles-page.light .quick-filters {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.quick-filters h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.quick-filters ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quick-filters li {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+#container-articles-page.light .quick-filters li {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.quick-filters li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#container-articles-page.light .quick-filters li:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.quick-filters li.active {
+  background: #00d2ff;
+  color: #101522;
+  font-weight: 600;
+}
+
+#container-articles-page.light .quick-filters li.active {
+  background: #0056b3;
+  color: #fff;
 }
 
 .articles-sidebar h3 {
@@ -321,8 +391,10 @@
 .modal-content {
   border-radius: 10px;
   padding: 2rem 2rem 2rem 2rem;
-  max-width: 600px;
+  max-width: 900px;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18);
   display: flex;
@@ -330,6 +402,21 @@
   align-items: flex-start;
   background: #232b3e;
   color: #f4f4f9;
+  scrollbar-width: thin;
+  scrollbar-color: #007bff #232b3e;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #007bff;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #232b3e;
 }
 
 .modal-content img {

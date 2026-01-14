@@ -1,0 +1,85 @@
+<section class="article-comments" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="comments-header">
+    <h3 class="comments-title">
+      <i class="fa-solid fa-comments"></i>
+      Comentários
+      <span class="comments-count">({{ comments().length }})</span>
+    </h3>
+  </div>
+
+  <!-- Formulário de comentário -->
+  @if (isLoggedIn()) {
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="comment-form">
+      <div class="form-group">
+        <textarea
+          formControlName="content"
+          placeholder="Escreva seu comentário..."
+          class="comment-input"
+          rows="4"
+          [class.invalid]="commentForm.get('content')?.invalid && commentForm.get('content')?.touched"
+        ></textarea>
+        @if (commentForm.get('content')?.invalid && commentForm.get('content')?.touched) {
+          <div class="error-message">
+            @if (commentForm.get('content')?.errors?.['required']) {
+              O comentário é obrigatório.
+            }
+            @if (commentForm.get('content')?.errors?.['minlength']) {
+              O comentário deve ter no mínimo 3 caracteres.
+            }
+            @if (commentForm.get('content')?.errors?.['maxlength']) {
+              O comentário deve ter no máximo 1000 caracteres.
+            }
+          </div>
+        }
+      </div>
+      <div class="form-actions">
+        @if (replyingToCommentId()) {
+          <button type="button" class="btn btn-cancel" (click)="cancelReply()">
+            Cancelar
+          </button>
+        }
+        <button type="submit" class="btn btn-submit" [disabled]="commentForm.invalid || submitting()">
+          @if (submitting()) {
+            <i class="fa-solid fa-spinner fa-spin"></i> Enviando...
+          } @else {
+            <i class="fa-solid fa-paper-plane"></i> Comentar
+          }
+        </button>
+      </div>
+    </form>
+  } @else {
+    <div class="login-prompt">
+      <p>
+        <a routerLink="/login" class="login-link">Faça login</a> para comentar
+      </p>
+    </div>
+  }
+
+  <!-- Lista de comentários -->
+  @if (loading()) {
+    <div class="loading">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <span>Carregando comentários...</span>
+    </div>
+  } @else if (comments().length === 0) {
+    <div class="no-comments">
+      <i class="fa-solid fa-comment-slash"></i>
+      <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
+    </div>
+  } @else {
+    <div class="comments-list">
+      @for (comment of comments(); track comment.id) {
+        <app-comment-item
+          [comment]="comment"
+          [theme]="theme()"
+          [isLoggedIn]="isLoggedIn()"
+          (reply)="startReply($event)"
+          (like)="likeComment($event)"
+          (dislike)="dislikeComment($event)"
+          (edit)="editComment($event)"
+          (delete)="deleteComment($event)"
+        />
+      }
+    </div>
+  }
+</section>

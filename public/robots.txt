@@ -1,0 +1,16 @@
+# robots.txt para Heroes Platform
+
+User-agent: *
+Allow: /
+Disallow: /plataforma/
+Disallow: /login
+Disallow: /cadastro-usuario
+Disallow: /validate-two-fa
+Disallow: /login/forgot-password
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://seusite.com/sitemap.xml
+
+# Crawl-delay (opcional)
+Crawl-delay: 1

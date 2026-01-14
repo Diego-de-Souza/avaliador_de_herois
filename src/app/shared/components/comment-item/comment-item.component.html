@@ -1,0 +1,55 @@
+<div class="comment-item" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="comment-header">
+    <div class="comment-author">
+      @if (comment().userAvatar) {
+        <img [src]="comment().userAvatar" [alt]="comment().userName" class="comment-avatar" />
+      } @else {
+        <div class="comment-avatar-placeholder">
+          {{ comment().userName.charAt(0).toUpperCase() }}
+        </div>
+      }
+      <div class="comment-author-info">
+        <span class="comment-author-name">{{ comment().userName }}</span>
+        <span class="comment-date">{{ formatDate(comment().createdAt) }}</span>
+        @if (comment().isEdited) {
+          <span class="comment-edited">(editado)</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="comment-content">
+    <p>{{ comment().content }}</p>
+  </div>
+
+  <div class="comment-actions">
+    <button class="comment-action-btn" (click)="onLike()" [class.active]="comment().userLiked">
+      <i class="fa-solid fa-thumbs-up"></i>
+      <span>{{ comment().likes || 0 }}</span>
+    </button>
+    @if (isLoggedIn()) {
+      <button class="comment-action-btn" (click)="onReply()">
+        <i class="fa-solid fa-reply"></i>
+        <span>Responder</span>
+      </button>
+    }
+  </div>
+
+  <!-- Respostas -->
+  @if (getReplies().length > 0) {
+    <div class="comment-replies">
+      @for (replyItem of getReplies(); track replyItem.id) {
+        <app-comment-item
+          [comment]="replyItem"
+          [theme]="theme()"
+          [isLoggedIn]="isLoggedIn()"
+          (reply)="reply.emit($event)"
+          (like)="like.emit($event)"
+          (dislike)="dislike.emit($event)"
+          (edit)="edit.emit($event)"
+          (delete)="delete.emit($event)"
+        ></app-comment-item>
+      }
+    </div>
+  }
+</div>

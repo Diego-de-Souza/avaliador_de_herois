@@ -15,8 +15,8 @@ export const routesWebMain: Routes = [
     },
     {
         path: 'artigos/:id',
-        title: 'Artigos',
-        loadComponent: () => import('./artigos/article-page.component').then(m => m.ArticlePageComponent)
+        title: 'Artigo',
+        loadComponent: () => import('./artigos/article-detail.component').then(m => m.ArticleDetailComponent)
     },
     {
         path: 'busca_heroes',

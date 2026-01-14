@@ -1,7 +1,14 @@
 <section id="container-home">
     <app-header></app-header>
+    
+    <!-- Hero Section -->
+    <app-hero-section [theme]="themeHome || 'dark'"></app-hero-section>
+
     <!-- Banner -->
     <app-banner-videos [dataEvents]="dataBanner"></app-banner-videos>
+
+    <!-- Por que escolher -->
+    <app-why-choose [theme]="themeHome || 'dark'"></app-why-choose>
 
     <div class="home-main-layout">
       <div class="home-main-left">

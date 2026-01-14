@@ -10,42 +10,25 @@
   ></app-carousel>
   <div class="articles-layout">
     <aside class="articles-sidebar">
-      <h3>Filtrar por</h3>
-      <ul>
-        <li>
-          <label for="dateFilter">Por data</label>
-          <input id="dateFilter" type="date" (change)="setDateFilter(getValue($event))" />
-        </li>
-        <li>
-          <label for="categoryFilter">Por categoria</label>
-          <select id="categoryFilter" (change)="setCategoryFilter(getValue($event))">
-            <option value="">Todas</option>
-            <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
-          </select>
-        </li>
-        <li>
-          <label for="keywordFilter">Palavra-chave</label>
-          <input id="keywordFilter" type="text" placeholder="Digite a palavra" (input)="setKeywordFilter(getValue($event))" />
-        </li>
-        <li>
-          <label for="themeFilter">Tema</label>
-          <select id="themeFilter" (change)="setThemeFilter(getValue($event))">
-            <option value="">Todos</option>
-            <option *ngFor="let theme of themes" [value]="theme">{{theme}}</option>
-          </select>
-        </li>
-        <li>
-          <label for="authorFilter">Autor</label>
-          <input id="authorFilter" type="text" placeholder="Digite o autor" (input)="setAuthorFilter(getValue($event))" />
-        </li>
-        <li (click)="setFilter('destaques')" [class.active]="filter === 'destaques'">Destaques</li>
-        <li (click)="setFilter('mais-vistos')" [class.active]="filter === 'mais-vistos'">Mais vistos</li>
-      </ul>
+      <!-- Busca Avançada -->
+      <app-advanced-search 
+        [themeInput]="themeHome || 'dark'"
+        (searchPerformed)="onSearchPerformed($event)"
+      ></app-advanced-search>
+      
+      <!-- Filtros Rápidos -->
+      <div class="quick-filters">
+        <h3>Filtros Rápidos</h3>
+        <ul>
+          <li (click)="setFilter('destaques')" [class.active]="filter === 'destaques'">Destaques</li>
+          <li (click)="setFilter('mais-vistos')" [class.active]="filter === 'mais-vistos'">Mais vistos</li>
+        </ul>
+      </div>
     </aside>
     <main class="articles-main">
       <div class="articles-grid">
         @for(article of paginatedArticles(); track article) {
-          <div class="article-card" (click)="openModal(article)">
+          <div class="article-card" (click)="openArticle(article)">
             <img [src]="article.image || 'assets/img/placeholder.jpg'" alt="thumb" />
             <h4>{{article.title}}</h4>
             <p>{{article.description}}</p>
@@ -61,35 +44,5 @@
   </div>
   <app-newsletter></app-newsletter>
   <app-footer></app-footer>
-
-  <!-- Modal de artigo -->
-   @if(selectedArticle){
-    <div class="modal-article" (click)="closeModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="closeModal()">×</button>
-        <h2 class="modal-title">{{selectedArticle.title}}</h2>
-        <img [src]="selectedArticle.image" alt="imagem artigo" />
-        <div class="modal-body">
-          <p>{{selectedArticle.text}}</p>
-          @if(selectedArticle.route){
-            <a
-              [href]="selectedArticle.route"
-              target="_blank"
-              rel="noopener"
-              class="btn-acessar-noticia"
-            >
-              Acessar notícia completa
-            </a>
-          }
-          <div class="articles-page-data">
-            <h4>Dados:</h4>
-            <div><strong>Autor:</strong> {{selectedArticle.author || 'Desconhecido'}}</div>
-            <div><strong>Categoria:</strong> {{selectedArticle.category}}</div>
-            <div><strong>Tema:</strong> {{selectedArticle.theme}}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-   }
   
 </div>

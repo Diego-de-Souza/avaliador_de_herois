@@ -98,14 +98,34 @@ export class UserService {
   }
 
   logout(): Observable<any> {
+    const sessionToken = localStorage.getItem('session_token');
+    const headers: any = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (sessionToken) {
+      headers['X-Session-Token'] = sessionToken;
+    }
+
     return this.http.post(`${this.apiUrl}/auth/logout-session`, {}, { 
-      withCredentials: true 
+      withCredentials: true,
+      headers
     });
   }
 
   logoutAllSessions(): Observable<any> {
+    const sessionToken = localStorage.getItem('session_token');
+    const headers: any = {
+      'Content-Type': 'application/json'
+    };
+    
+    if (sessionToken) {
+      headers['X-Session-Token'] = sessionToken;
+    }
+
     return this.http.post(`${this.apiUrl}/auth/logout`, {}, { 
-      withCredentials: true 
+      withCredentials: true,
+      headers
     });
   }
 

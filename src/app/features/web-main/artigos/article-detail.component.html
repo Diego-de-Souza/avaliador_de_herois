@@ -1,0 +1,97 @@
+<div id="container-article-detail" [ngClass]="themeHome">
+  <app-header></app-header>
+
+  <div class="article-detail-container">
+    @if (loading) {
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <p>Carregando artigo...</p>
+      </div>
+    } @else if (error || !article) {
+      <div class="error-container">
+        <h2>Artigo não encontrado</h2>
+        <p>O artigo que você está procurando não existe ou foi removido.</p>
+        <button (click)="goBack()" class="btn-back">Voltar para Artigos</button>
+      </div>
+    } @else {
+      <article class="article-content">
+        <!-- Botão Voltar -->
+        <button (click)="goBack()" class="btn-back-top">
+          <i class="bi bi-arrow-left"></i> Voltar
+        </button>
+
+        <!-- Título -->
+        <h1 class="article-title">{{ article.title }}</h1>
+
+        <!-- Metadados -->
+        <div class="article-meta">
+          <div class="meta-item">
+            <strong>Autor:</strong> {{ article.author || 'Desconhecido' }}
+          </div>
+          <div class="meta-item">
+            <strong>Categoria:</strong> {{ article.category }}
+          </div>
+          @if (article.theme) {
+            <div class="meta-item">
+              <strong>Tema:</strong> {{ article.theme }}
+            </div>
+          }
+          @if (article.created_at) {
+            <div class="meta-item">
+              <strong>Publicado em:</strong> {{ formatDate(article.created_at) }}
+            </div>
+          }
+        </div>
+
+        <!-- Imagem do Artigo -->
+        @if (article.image || article.thumbnail) {
+          <div class="article-image-container">
+            <img 
+              [src]="article.image || article.thumbnail" 
+              [alt]="article.title"
+              class="article-image"
+            />
+          </div>
+        }
+
+        <!-- Descrição -->
+        @if (article.description) {
+          <p class="article-description">{{ article.description }}</p>
+        }
+
+        <!-- Conteúdo Markdown -->
+        <div class="article-body">
+          @if (markdownContent) {
+            <markdown [data]="markdownContent"></markdown>
+          } @else if (article.text) {
+            <div [innerHTML]="article.text"></div>
+          }
+        </div>
+
+        <!-- Link externo se houver -->
+        @if (article.route && article.route.startsWith('http')) {
+          <div class="article-external-link">
+            <a 
+              [href]="article.route" 
+              target="_blank" 
+              rel="noopener"
+              class="btn-external-link"
+            >
+              Acessar notícia completa
+            </a>
+          </div>
+        }
+      </article>
+
+      <!-- Seção de Comentários -->
+      <section class="comments-section">
+        <app-article-comments 
+          [articleId]="article.id"
+          [theme]="themeHome || 'dark'"
+        ></app-article-comments>
+      </section>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</div>

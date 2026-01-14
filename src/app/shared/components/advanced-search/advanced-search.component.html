@@ -1,0 +1,115 @@
+<div class="advanced-search" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <form [formGroup]="searchForm" (ngSubmit)="performSearch()" class="search-form">
+    <!-- Campo de busca principal -->
+    <div class="search-main">
+      <div class="search-input-wrapper">
+        <input
+          type="text"
+          formControlName="query"
+          placeholder="Buscar artigos, heróis, eventos..."
+          class="search-input"
+          (focus)="showSuggestions = true"
+          (blur)="hideSuggestions()"
+        />
+        <button type="submit" class="search-button">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        
+        <!-- Sugestões -->
+        @if (showSuggestions && (suggestions.length > 0 || searchHistory.length > 0)) {
+          <div class="suggestions-dropdown">
+            @if (suggestions.length > 0) {
+              <div class="suggestions-section">
+                <div class="suggestions-title">Sugestões</div>
+                @for (suggestion of suggestions; track suggestion) {
+                  <div class="suggestion-item" (mousedown)="selectSuggestion(suggestion)">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    {{ suggestion }}
+                  </div>
+                }
+              </div>
+            }
+            @if (searchHistory.length > 0) {
+              <div class="suggestions-section">
+                <div class="suggestions-title">
+                  Histórico
+                  <button type="button" class="clear-history-btn" (click)="clearHistory()">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+                @for (term of searchHistory; track term) {
+                  <div class="suggestion-item" (mousedown)="selectFromHistory(term)">
+                    <i class="fa-solid fa-clock"></i>
+                    {{ term }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+      
+      <button type="button" class="advanced-toggle" (click)="toggleAdvanced()">
+        <i class="fa-solid fa-sliders"></i>
+        {{ showAdvanced ? 'Ocultar' : 'Filtros' }}
+      </button>
+    </div>
+
+    <!-- Filtros avançados -->
+    @if (showAdvanced) {
+      <div class="advanced-filters">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="category">Categoria</label>
+            <select id="category" formControlName="category" class="filter-input">
+              <option value="">Todas</option>
+              @for (cat of categories; track cat) {
+                <option [value]="cat">{{ cat }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="author">Autor</label>
+            <input type="text" id="author" formControlName="author" placeholder="Nome do autor" class="filter-input" />
+          </div>
+
+          <div class="filter-group">
+            <label for="sortBy">Ordenar por</label>
+            <select id="sortBy" formControlName="sortBy" class="filter-input">
+              @for (option of sortOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="tags">Tags (separadas por vírgula)</label>
+            <input type="text" id="tags" formControlName="tags" placeholder="ex: Marvel, DC, Anime" class="filter-input" />
+          </div>
+
+          <div class="filter-group">
+            <label for="dateFrom">Data Inicial</label>
+            <input type="date" id="dateFrom" formControlName="dateFrom" class="filter-input" />
+          </div>
+
+          <div class="filter-group">
+            <label for="dateTo">Data Final</label>
+            <input type="date" id="dateTo" formControlName="dateTo" class="filter-input" />
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-magnifying-glass"></i> Buscar
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="clearSearch()">
+            <i class="fa-solid fa-xmark"></i> Limpar
+          </button>
+        </div>
+      </div>
+    }
+  </form>
+</div>
