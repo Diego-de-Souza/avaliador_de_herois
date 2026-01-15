@@ -1,7 +1,11 @@
 @if(!isMobile){
     <section class="header-container" id="theme_header" [ngClass]="_themeAll">
         <div class="header-nav-top">
-            <div class="header-space"></div>
+            <div class="header-space">
+                <a routerLink="/" class="header-logo-link">
+                    <img src="/img/header/logo_ht.png" alt="Heroes Platform Logo" class="header-logo-img">
+                </a>
+            </div>
             <div class="header-logo-container">
                 <div class="header-slogan">
                     <span>Seu Universo de Heróis:</span> 
@@ -75,6 +79,9 @@
     <section class="header-container" [class.dark]="_themeAll === 'dark'" [class.light]="_themeAll === 'light'" id="theme_header_mobile">
         <!-- Logo e Botão Hamburguer -->
         <div class="mobile-header-top">
+            <a routerLink="/" class="header-logo-link-mobile">
+                <img src="/img/header/logo_ht.png" alt="Heroes Platform Logo" class="header-logo-img-mobile">
+            </a>
             <div class="header-slogan">
                 <span>Seu Universo de Heróis:</span> 
                 <strong>Explore, Descubra e Conecte-se!</strong>
