@@ -5,7 +5,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { articlesProps } from '../../../core/interface/articles.interface';
 import { ArticleService } from '../../../core/service/articles/articles.service';
 import { ThemeService } from '../../../core/service/theme/theme.service';
-
+import { Images } from '../../../data/image-default';
+import { ImageDefaultInterface } from '../../../core/interface/image-default.interface';
 @Component({
   selector: 'app-artigos',
   standalone: true,
@@ -21,11 +22,14 @@ export class ArtigosComponent implements OnInit {
   private readonly articleService = inject(ArticleService);
   private readonly themeService = inject(ThemeService);
   private readonly renderer = inject(Renderer2);
+
   public themeArtigos: string = 'dark';
   public articles: articlesProps[] = [];
   public articlesPerPage = 3;
+  public imageDefault: ImageDefaultInterface = Images[0];
   mostViewed: articlesProps[] = [];
   getRecentArticles: articlesProps[] = [];
+
   artigosPreview = [
     {
       id: 1,
@@ -56,13 +60,31 @@ export class ArtigosComponent implements OnInit {
 
   ngOnInit() {
     this.articleService.getArticlesHomepage().subscribe((resp) => {
-      this.mostViewed = resp.data.featuredArticles;
-      this.getRecentArticles = resp.data.latestArticles;
-      this.articles = resp.data.categories;
+      this.mostViewed = this.processArticles(resp.data.featuredArticles);
+      this.getRecentArticles = this.processArticles(resp.data.latestArticles);
+      this.articles = this.processArticles(resp.data.categories);
     });
     this.themeService.theme$.subscribe(theme => {
       this.themeArtigos = theme;
       this.applyTheme(theme);
+    });
+  }
+
+  // Processa artigos e define imageDefault quando route for null
+  processArticles(articles: articlesProps[]): articlesProps[] {
+    if (!articles || !Array.isArray(articles)) {
+      return [];
+    }
+    
+    return articles.map(article => {
+      // Se route for null, usa imageDefault
+      if (article.image === null || article.image === undefined) {
+        return {
+          ...article,
+          image: article.image || this.imageDefault.image
+        };
+      }
+      return article;
     });
   }
 

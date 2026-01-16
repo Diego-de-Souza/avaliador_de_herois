@@ -67,6 +67,11 @@
                         <i class="fa-solid fa-gamepad m-2"></i> Games</li>
                     <li routerLink="/webmain/quiz" routerLinkActive="active">
                         <i class="fa-solid fa-gamepad m-2"></i> Quiz</li>
+                    @if(isLoggedIn){
+                        <li routerLink="/webmain/client-area" routerLinkActive="active">
+                            <i class="fa-solid fa-user-edit m-2"></i> Minha Área
+                        </li>
+                    }
                     <!-- <li routerLink="/ecommerce" routerLinkActive="active">
                         <i class="fa-solid fa-basket-shopping m-2"></i> Compras
                     </li> -->
@@ -120,6 +125,11 @@
                         <li routerLink="/webmain/quiz" (click)="closeMenu()">
                             <i class="fa-solid fa-gamepad"></i> Quiz
                         </li>
+                        @if(isLoggedIn) {
+                            <li routerLink="/webmain/client-area" (click)="closeMenu()">
+                                <i class="fa-solid fa-user-edit"></i> Minha Área
+                            </li>
+                        }
                         <li (click)="changeTheme(); closeMenu()">
                             @if(_themeAll === 'dark') {
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20" height="20">

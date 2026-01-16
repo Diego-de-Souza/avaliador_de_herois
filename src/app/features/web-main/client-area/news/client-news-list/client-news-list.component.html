@@ -1,0 +1,93 @@
+<section class="news-list-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="list-content">
+    <div class="list-header">
+      <div>
+        <h1>Minhas Notícias</h1>
+        <p>Gerencie suas notícias criadas</p>
+      </div>
+      <a routerLink="/webmain/client-area/news/create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Nova Notícia
+      </a>
+    </div>
+
+    @if (hasSelection) {
+      <div class="selection-bar">
+        <span>{{ selectedNews.size }} notícia(s) selecionada(s)</span>
+        <button class="btn btn-danger" (click)="deleteSelected()">
+          <i class="fa-solid fa-trash"></i> Excluir Selecionadas
+        </button>
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="loading">Carregando notícias...</div>
+    } @else if (news.length === 0) {
+      <div class="empty-state">
+        <i class="fa-solid fa-newspaper"></i>
+        <h2>Nenhuma notícia encontrada</h2>
+        <p>Comece criando sua primeira notícia!</p>
+        <a routerLink="/webmain/client-area/news/create" class="btn btn-primary">
+          Criar Notícia
+        </a>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table class="news-table">
+          <thead>
+            <tr>
+              <th class="checkbox-cell">
+                <input 
+                  type="checkbox" 
+                  [checked]="allSelected"
+                  (change)="toggleSelectAll()"
+                />
+              </th>
+              <th>Título</th>
+              <th>Tipo</th>
+              <th>Tema</th>
+              <th>Data de Criação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (newsItem of news; track newsItem.id) {
+              <tr>
+                <td class="checkbox-cell">
+                  <input 
+                    type="checkbox" 
+                    [checked]="selectedNews.has(newsItem.id)"
+                    (change)="toggleSelection(newsItem.id)"
+                  />
+                </td>
+                <td class="title-cell">{{ newsItem.title }}</td>
+                <td>{{ newsItem.type_news_letter }}</td>
+                <td>{{ newsItem.theme }}</td>
+                <td>{{ newsItem.created_at ? (newsItem.created_at | date:'dd/MM/yyyy') : '-' }}</td>
+                <td class="actions-cell">
+                  <button 
+                    class="btn-icon btn-edit"
+                    (click)="editNews(newsItem.id)"
+                    title="Editar"
+                  >
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                  <button 
+                    class="btn-icon btn-delete"
+                    (click)="deleteNews(newsItem.id)"
+                    title="Excluir"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</section>

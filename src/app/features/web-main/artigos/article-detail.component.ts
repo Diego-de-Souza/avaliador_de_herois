@@ -9,6 +9,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { ArticleCommentsComponent } from '../../../shared/components/article-comments/article-comments.component';
 import { HttpClient } from '@angular/common/http';
+import { ImageDefaultInterface } from '../../../core/interface/image-default.interface';
+import { Images } from '../../../data/image-default';
 
 @Component({
   selector: 'app-article-detail',
@@ -35,6 +37,7 @@ export class ArticleDetailComponent implements OnInit {
   public loading = true;
   public markdownContent = '';
   public error = false;
+  public imageDefault: ImageDefaultInterface = Images[0];
 
   ngOnInit(): void {
     this.themeService.theme$.subscribe(theme => {
@@ -57,8 +60,9 @@ export class ArticleDetailComponent implements OnInit {
       next: (response) => {
         const article = response.data.find((a: articlesProps) => a.id === id);
         if (article) {
-          this.article = article;
-          this.loadMarkdownContent(article);
+          // Processa o artigo para usar imageDefault quando route for null
+          this.article = this.processArticle(article);
+          this.loadMarkdownContent(this.article);
           this.articleService.incrementViews(id);
           this.loading = false;
         } else {
@@ -71,6 +75,18 @@ export class ArticleDetailComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  // Processa artigo e define imageDefault quando route for null
+  processArticle(article: articlesProps): articlesProps {
+    // Se route for null, usa imageDefault
+    if (article.route === null || article.route === undefined) {
+      return {
+        ...article,
+        image: article.image || this.imageDefault.image
+      };
+    }
+    return article;
   }
 
   loadMarkdownContent(article: articlesProps): void {

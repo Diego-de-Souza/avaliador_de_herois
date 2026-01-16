@@ -46,5 +46,9 @@ export const routesWebMain: Routes = [
         path: 'games',
         canActivate: [GameGuard],
         loadChildren: () => import('./games/games.routes').then(m => m.routesGames)
+    },
+    {
+        path: 'client-area',
+        loadChildren: () => import('./client-area/client-area.routes').then(m => m.clientAreaRoutes)
     }
 ]

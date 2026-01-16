@@ -1,0 +1,169 @@
+<section class="article-form-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="form-content">
+    <div class="form-header">
+      <h1>{{ isEditMode ? 'Editar Artigo' : 'Criar Novo Artigo' }}</h1>
+      <p>Preencha os campos abaixo para {{ isEditMode ? 'editar' : 'criar' }} seu artigo</p>
+    </div>
+
+    @if (isLoading && isEditMode) {
+      <div class="loading">Carregando...</div>
+    } @else {
+      <form [formGroup]="articleForm" (ngSubmit)="onSubmit()" class="article-form">
+        <div class="form-group">
+          <label for="category">Categoria *</label>
+          <input 
+            type="text" 
+            id="category" 
+            formControlName="category" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('category')"
+            placeholder="Ex: Marvel, DC Comics, etc."
+          />
+          @if (isFieldInvalid('category')) {
+            <span class="error-message">Categoria é obrigatória</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('title')"
+            placeholder="Digite o título do artigo"
+          />
+          @if (isFieldInvalid('title')) {
+            <span class="error-message">Título deve ter no mínimo 5 caracteres</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descrição *</label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('description')"
+            rows="3"
+            placeholder="Breve descrição do artigo"
+          ></textarea>
+          @if (isFieldInvalid('description')) {
+            <span class="error-message">Descrição é obrigatória</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="text">Texto Completo *</label>
+          <textarea 
+            id="text" 
+            formControlName="text" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('text')"
+            rows="10"
+            placeholder="Conteúdo completo do artigo"
+          ></textarea>
+          @if (isFieldInvalid('text')) {
+            <span class="error-message">Texto é obrigatório</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>Resumo</label>
+          <div formArrayName="summary" class="summary-list">
+            @for (item of summaryArray.controls; track $index) {
+              <div [formGroupName]="$index" class="summary-item">
+                <input 
+                  type="text" 
+                  formControlName="text" 
+                  placeholder="Texto do resumo"
+                  class="form-control"
+                />
+                <input 
+                  type="number" 
+                  formControlName="level" 
+                  placeholder="Nível (1-5)"
+                  min="1"
+                  max="5"
+                  class="form-control level-input"
+                />
+                <button 
+                  type="button" 
+                  class="btn-remove"
+                  (click)="removeSummaryItem($index)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            }
+          </div>
+          <button 
+            type="button" 
+            class="btn-add"
+            (click)="addSummaryItem()"
+          >
+            <i class="fa-solid fa-plus"></i> Adicionar Item ao Resumo
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="keyWords">Palavras-chave</label>
+          <input 
+            type="text" 
+            id="keyWords" 
+            formControlName="keyWords" 
+            class="form-control"
+            placeholder="Separe por vírgula: heroi, marvel, aventura"
+          />
+          <small>Separe múltiplas palavras-chave por vírgula</small>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="theme">Tema</label>
+            <input 
+              type="text" 
+              id="theme" 
+              formControlName="theme" 
+              class="form-control"
+              placeholder="Ex: Marvel, DC Comics"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="themeColor">Cor do Tema</label>
+            <input 
+              type="color" 
+              id="themeColor" 
+              formControlName="themeColor" 
+              class="form-control color-input"
+            />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="articleForm.invalid || isLoading"
+          >
+            {{ isLoading ? 'Salvando...' : (isEditMode ? 'Atualizar' : 'Criar') }}
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isLoading"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</section>

@@ -1,0 +1,139 @@
+.client-dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.client-dashboard-container.dark {
+  background: linear-gradient(to bottom, #101522, #1e2a38);
+  color: #ffffff;
+}
+
+.client-dashboard-container.light {
+  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+  color: #101522;
+}
+
+.dashboard-content {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.client-dashboard-container.dark .dashboard-header h1 {
+  color: #00d2ff;
+}
+
+.client-dashboard-container.light .dashboard-header h1 {
+  color: #3a7bd5;
+}
+
+.dashboard-header p {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.dashboard-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.option-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.client-dashboard-container.light .option-card {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.option-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 210, 255, 0.3);
+}
+
+.client-dashboard-container.light .option-card:hover {
+  box-shadow: 0 10px 30px rgba(58, 123, 213, 0.3);
+}
+
+.option-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  color: #00d2ff;
+}
+
+.client-dashboard-container.light .option-icon {
+  color: #3a7bd5;
+}
+
+.option-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.option-card p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 2rem 1rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 2rem;
+  }
+
+  .dashboard-options {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .option-card {
+    padding: 2rem;
+  }
+}

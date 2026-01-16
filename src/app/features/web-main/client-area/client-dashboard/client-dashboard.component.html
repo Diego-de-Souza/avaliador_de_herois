@@ -1,0 +1,32 @@
+<section class="client-dashboard-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="dashboard-content">
+    <div class="dashboard-header">
+      <h1>Área do Cliente</h1>
+      <p>Gerencie seus artigos e notícias</p>
+    </div>
+
+    <div class="dashboard-options">
+      <div class="option-card" (click)="navigateTo('article')">
+        <div class="option-icon">
+          <i class="fa-solid fa-book"></i>
+        </div>
+        <h2>Artigos</h2>
+        <p>Crie, edite e gerencie seus artigos</p>
+        <button class="btn-primary">Gerenciar Artigos</button>
+      </div>
+
+      <div class="option-card" (click)="navigateTo('news')">
+        <div class="option-icon">
+          <i class="fa-solid fa-newspaper"></i>
+        </div>
+        <h2>Notícias</h2>
+        <p>Crie, edite e gerencie suas notícias</p>
+        <button class="btn-primary">Gerenciar Notícias</button>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</section>

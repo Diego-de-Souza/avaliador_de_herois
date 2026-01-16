@@ -1,0 +1,113 @@
+<section class="news-form-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="form-content">
+    <div class="form-header">
+      <h1>{{ isEditMode ? 'Editar Notícia' : 'Criar Nova Notícia' }}</h1>
+      <p>Preencha os campos abaixo para {{ isEditMode ? 'editar' : 'criar' }} sua notícia</p>
+    </div>
+
+    @if (isLoading && isEditMode) {
+      <div class="loading">Carregando...</div>
+    } @else {
+      <form [formGroup]="newsForm" (ngSubmit)="onSubmit()" class="news-form">
+        <div class="form-group">
+          <label for="title">Título *</label>
+          <input 
+            type="text" 
+            id="title" 
+            formControlName="title" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('title')"
+            placeholder="Digite o título da notícia"
+          />
+          @if (isFieldInvalid('title')) {
+            <span class="error-message">Título deve ter no mínimo 5 caracteres</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descrição *</label>
+          <textarea 
+            id="description" 
+            formControlName="description" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('description')"
+            rows="3"
+            placeholder="Breve descrição da notícia"
+          ></textarea>
+          @if (isFieldInvalid('description')) {
+            <span class="error-message">Descrição é obrigatória</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="content">Conteúdo *</label>
+          <textarea 
+            id="content" 
+            formControlName="content" 
+            class="form-control"
+            [class.invalid]="isFieldInvalid('content')"
+            rows="10"
+            placeholder="Conteúdo completo da notícia"
+          ></textarea>
+          @if (isFieldInvalid('content')) {
+            <span class="error-message">Conteúdo é obrigatório</span>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="type_news_letter">Tipo de Newsletter *</label>
+            <input 
+              type="text" 
+              id="type_news_letter" 
+              formControlName="type_news_letter" 
+              class="form-control"
+              [class.invalid]="isFieldInvalid('type_news_letter')"
+              placeholder="Ex: Novidades, Eventos, etc."
+            />
+            @if (isFieldInvalid('type_news_letter')) {
+              <span class="error-message">Tipo de newsletter é obrigatório</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="theme">Tema *</label>
+            <input 
+              type="text" 
+              id="theme" 
+              formControlName="theme" 
+              class="form-control"
+              [class.invalid]="isFieldInvalid('theme')"
+              placeholder="Ex: Marvel, DC Comics"
+            />
+            @if (isFieldInvalid('theme')) {
+              <span class="error-message">Tema é obrigatório</span>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="newsForm.invalid || isLoading"
+          >
+            {{ isLoading ? 'Salvando...' : (isEditMode ? 'Atualizar' : 'Criar') }}
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isLoading"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</section>

@@ -1,0 +1,91 @@
+<section class="article-list-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="list-content">
+    <div class="list-header">
+      <div>
+        <h1>Meus Artigos</h1>
+        <p>Gerencie seus artigos criados</p>
+      </div>
+      <a routerLink="/webmain/client-area/articles/create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Novo Artigo
+      </a>
+    </div>
+
+    @if (hasSelection) {
+      <div class="selection-bar">
+        <span>{{ selectedArticles.size }} artigo(s) selecionado(s)</span>
+        <button class="btn btn-danger" (click)="deleteSelected()">
+          <i class="fa-solid fa-trash"></i> Excluir Selecionados
+        </button>
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="loading">Carregando artigos...</div>
+    } @else if (articles.length === 0) {
+      <div class="empty-state">
+        <i class="fa-solid fa-book"></i>
+        <h2>Nenhum artigo encontrado</h2>
+        <p>Comece criando seu primeiro artigo!</p>
+        <a routerLink="/webmain/client-area/articles/create" class="btn btn-primary">
+          Criar Artigo
+        </a>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table class="articles-table">
+          <thead>
+            <tr>
+              <th class="checkbox-cell">
+                <input 
+                  type="checkbox" 
+                  [checked]="allSelected"
+                  (change)="toggleSelectAll()"
+                />
+              </th>
+              <th>Título</th>
+              <th>Categoria</th>
+              <th>Data de Criação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (article of articles; track article.id) {
+              <tr>
+                <td class="checkbox-cell">
+                  <input 
+                    type="checkbox" 
+                    [checked]="selectedArticles.has(article.id)"
+                    (change)="toggleSelection(article.id)"
+                  />
+                </td>
+                <td class="title-cell">{{ article.title }}</td>
+                <td>{{ article.category }}</td>
+                <td>{{ article.created_at ? (article.created_at | date:'dd/MM/yyyy') : '-' }}</td>
+                <td class="actions-cell">
+                  <button 
+                    class="btn-icon btn-edit"
+                    (click)="editArticle(article.id)"
+                    title="Editar"
+                  >
+                    <i class="fa-solid fa-edit"></i>
+                  </button>
+                  <button 
+                    class="btn-icon btn-delete"
+                    (click)="deleteArticle(article.id)"
+                    title="Excluir"
+                  >
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <app-footer></app-footer>
+</section>
