@@ -32,7 +32,51 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+# **[1.1.7]- 2026-01-16**
 
+### **✨ Added**
+
+- Área do cliente completa para gerenciamento de conteúdo criado pelo usuário.
+- Dashboard do cliente (`client-dashboard`) com seleção entre gerenciar artigos ou notícias.
+- Componentes de gerenciamento de artigos: `client-article-list`, `client-article-form` para listagem, criação e edição.
+- Componentes de gerenciamento de notícias: `client-news-list`, `client-news-form` para listagem, criação e edição.
+- Interfaces dedicadas: `client-article.interface.ts` e `client-news.interface.ts` para tipagem de dados do cliente.
+- Serviços HTTP: `ClientArticleHttpService` e `ClientNewsHttpService` para comunicação com API de artigos e notícias do cliente.
+- Rotas da área do cliente: `/webmain/client-area` com sub-rotas para artigos e notícias (listagem, criação, edição).
+- Link "Minha Área" no header (desktop e mobile) visível apenas para usuários autenticados.
+- Funcionalidade de seleção múltipla para exclusão em lote de artigos e notícias.
+- Documentação completa das rotas da API (`ROTAS_API_CLIENT_AREA.md`) com especificação de payload, respostas e propósitos.
+- Processamento automático de artigos para definir `imageDefault` quando `route` for `null` nos componentes de listagem e detalhes.
+
+### **🛠️ Changed**
+
+- Header atualizado com novo item de navegação "Minha Área" (visível apenas para usuários logados).
+- Componente `artigos` atualizado para usar `imageDefault` quando `route` for `null`.
+- Componente `article-detail` atualizado para usar `imageDefault` quando `route` for `null`.
+- Componente `hero-section` atualizado: estatísticas numéricas substituídas por diferenciais descritivos (Conteúdo Exclusivo, Games Interativos, Quizzes Gamificados).
+
+### **🐛 Fixed**
+
+- Corrigido tratamento de resposta da API no formato `{ status, message, data: [...] }` para listagem de artigos e notícias.
+- Corrigido tratamento de resposta da API no formato `{ status, message, dataUnit: {...} }` para busca individual de artigos e notícias.
+- Corrigido caminhos de importação nos componentes da área do cliente.
+- Corrigido preenchimento de formulários de edição que não carregavam dados corretamente.
+- Corrigido problema onde artigos sem `route` não exibiam imagem padrão.
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+-
+
+### **🛑 Security**
+
+- Rotas da área do cliente protegidas com `plansGuard` para garantir que apenas usuários autenticados possam acessar.
+- Validação no backend deve garantir isolamento de dados (usuários só visualizam/modificam seus próprios conteúdos).
+
+---
 
 # **[1.1.6]- 2026-01-13**
 
