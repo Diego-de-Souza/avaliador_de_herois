@@ -32,6 +32,41 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+# **[1.1.8]- 2026-01-17**
+
+### **✨ Added**
+
+- Página completa do Manual do Redator HEROES (`/webmain/manual-redator`) com guia completo de ética e boas práticas jornalísticas.
+- Página completa do Código de Conduta da Comunidade (`/webmain/codigo-conduta`) estabelecendo diretrizes para ambiente seguro e inclusivo.
+- Seção "Diretrizes e Políticas" na página About com cards visuais para acesso rápido ao Manual do Redator e Código de Conduta.
+- Seção "Políticas e Diretrizes" no footer com links para documentos de compliance.
+- Conteúdo profissional e abrangente nos documentos de compliance, seguindo padrões de grandes empresas.
+- Integração de SEO (meta tags e structured data) nas novas páginas de políticas.
+
+### **🛠️ Changed**
+
+- Footer atualizado com nova seção dedicada a políticas e diretrizes da plataforma.
+- Página About expandida com seção informativa sobre diretrizes e políticas da plataforma.
+
+### **🐛 Fixed**
+
+- Corrigido erro de compilação relacionado à propriedade `url` obrigatória em `StructuredDataComponent.createArticleData` nos componentes de políticas.
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+-
+
+### **🛑 Security**
+
+- Documentos de compliance estabelecem políticas claras de combate à desinformação, não-apologia e respeito à diversidade.
+- Diretrizes editoriais promovem integridade informacional e responsabilidade no conteúdo publicado.
+
+---
+
 # **[1.1.7]- 2026-01-16**
 
 ### **✨ Added**
