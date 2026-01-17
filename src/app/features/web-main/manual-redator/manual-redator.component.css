@@ -1,0 +1,225 @@
+:host {
+    .manual_container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .manual_content {
+        display: flex;
+        flex-direction: column;
+        width: 85%;
+        max-width: 1200px;
+        margin: 2em auto;
+        padding: 2em;
+        line-height: 1.8;
+    }
+
+    h1 {
+        font-size: 3rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        font-family: AttackOfMonster, sans-serif;
+        color: #00d2ff;
+    }
+
+    h1::after {
+        content: '';
+        display: block;
+        width: 300px;
+        height: 4px;
+        background: #00d2ff;
+        margin: 15px auto 30px;
+        border-radius: 4px;
+    }
+
+    .manual_subtitle {
+        text-align: center;
+        font-size: 1.3rem;
+        font-style: italic;
+        color: #B0BEC5;
+        margin-bottom: 2em;
+    }
+
+    .manual_section {
+        margin-bottom: 3em;
+        padding: 2em;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-left: 4px solid #00d2ff;
+        transition: all 0.3s ease;
+    }
+
+    .manual_section:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+    }
+
+    .manual_section h2 {
+        font-size: 2rem;
+        margin-bottom: 1em;
+        color: #00d2ff;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+    }
+
+    .manual_section p {
+        text-align: justify;
+        margin-bottom: 1.2em;
+        font-size: 1.1rem;
+        color: #B0BEC5;
+    }
+
+    .manual_section ul {
+        margin: 1.5em 0;
+        padding-left: 2em;
+    }
+
+    .manual_section ul li {
+        margin-bottom: 1em;
+        text-align: justify;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #B0BEC5;
+    }
+
+    .manual_section ul li strong {
+        color: #00d2ff;
+        font-weight: 600;
+    }
+
+    .manual_commitment {
+        text-align: center;
+        font-size: 1.3rem;
+        font-style: italic;
+        margin-top: 2em;
+        padding: 1.5em;
+        border-radius: 10px;
+        background: rgba(0, 210, 255, 0.1);
+        border: 2px solid #00d2ff;
+    }
+
+    .manual_commitment strong {
+        color: #00d2ff;
+    }
+
+    /* Light Theme */
+    .light {
+        background: linear-gradient(
+            to bottom,
+            #F0F0F0 30%,
+            #ffffff 100%
+        );
+        color: #101522;
+    }
+
+    .light h1 {
+        color: #04BFAD;
+    }
+
+    .light h1::after {
+        background: #04BFAD;
+    }
+
+    .light .manual_subtitle {
+        color: #555;
+    }
+
+    .light .manual_section {
+        background: rgba(0, 0, 0, 0.03);
+        border-left-color: #04BFAD;
+    }
+
+    .light .manual_section:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    .light .manual_section h2 {
+        color: #04BFAD;
+    }
+
+    .light .manual_section p,
+    .light .manual_section ul li {
+        color: #333;
+    }
+
+    .light .manual_section ul li strong {
+        color: #04BFAD;
+    }
+
+    .light .manual_commitment {
+        background: rgba(4, 191, 173, 0.1);
+        border-color: #04BFAD;
+    }
+
+    .light .manual_commitment strong {
+        color: #04BFAD;
+    }
+
+    /* Dark Theme */
+    .dark {
+        background: linear-gradient(to bottom, #101522, #1e2a38);
+        color: #B0BEC5;
+    }
+
+    .dark h1 {
+        color: #00d2ff;
+    }
+
+    .dark .manual_subtitle {
+        color: #B0BEC5;
+    }
+
+    .dark .manual_section {
+        background: rgba(255, 255, 255, 0.02);
+        border-left-color: #00d2ff;
+    }
+
+    .dark .manual_section h2 {
+        color: #00d2ff;
+    }
+
+    .dark .manual_section p,
+    .dark .manual_section ul li {
+        color: #B0BEC5;
+    }
+
+    .dark .manual_section ul li strong {
+        color: #00d2ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .manual_content {
+            width: 95%;
+            padding: 1em;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        h1::after {
+            width: 200px;
+        }
+
+        .manual_subtitle {
+            font-size: 1.1rem;
+        }
+
+        .manual_section {
+            padding: 1.5em;
+        }
+
+        .manual_section h2 {
+            font-size: 1.5rem;
+        }
+
+        .manual_section p,
+        .manual_section ul li {
+            font-size: 1rem;
+        }
+    }
+}

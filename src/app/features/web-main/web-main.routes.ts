@@ -50,5 +50,15 @@ export const routesWebMain: Routes = [
     {
         path: 'client-area',
         loadChildren: () => import('./client-area/client-area.routes').then(m => m.clientAreaRoutes)
+    },
+    {
+        path: 'manual-redator',
+        title: 'Manual do Redator',
+        loadComponent: () => import('./manual-redator/manual-redator.component').then(m => m.ManualRedatorComponent)
+    },
+    {
+        path: 'codigo-conduta',
+        title: 'Código de Conduta',
+        loadComponent: () => import('./codigo-conduta/codigo-conduta.component').then(m => m.CodigoCondutaComponent)
     }
 ]

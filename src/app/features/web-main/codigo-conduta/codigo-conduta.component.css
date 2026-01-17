@@ -1,0 +1,326 @@
+:host {
+    .codigo_container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    .codigo_content {
+        display: flex;
+        flex-direction: column;
+        width: 85%;
+        max-width: 1200px;
+        margin: 2em auto;
+        padding: 2em;
+        line-height: 1.8;
+    }
+
+    h1 {
+        font-size: 3rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        font-family: AttackOfMonster, sans-serif;
+        color: #00d2ff;
+    }
+
+    h1::after {
+        content: '';
+        display: block;
+        width: 300px;
+        height: 4px;
+        background: #00d2ff;
+        margin: 15px auto 30px;
+        border-radius: 4px;
+    }
+
+    .codigo_subtitle {
+        text-align: center;
+        font-size: 1.3rem;
+        font-style: italic;
+        color: #B0BEC5;
+        margin-bottom: 2em;
+    }
+
+    .codigo_intro {
+        margin-bottom: 3em;
+        padding: 2.5em;
+        border-radius: 15px;
+        background: rgba(0, 210, 255, 0.1);
+        border: 2px solid #00d2ff;
+    }
+
+    .codigo_intro p {
+        text-align: justify;
+        margin-bottom: 1.2em;
+        font-size: 1.15rem;
+        color: #B0BEC5;
+        font-weight: 500;
+    }
+
+    .codigo_section {
+        margin-bottom: 3em;
+        padding: 2em;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.02);
+        border-left: 4px solid #00d2ff;
+        transition: all 0.3s ease;
+    }
+
+    .codigo_section:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+    }
+
+    .codigo_section h2 {
+        font-size: 2rem;
+        margin-bottom: 1em;
+        color: #00d2ff;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+    }
+
+    .codigo_section h3 {
+        font-size: 1.5rem;
+        margin-top: 1.5em;
+        margin-bottom: 0.8em;
+        color: #4fc3f7;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+    }
+
+    .codigo_section p {
+        text-align: justify;
+        margin-bottom: 1.2em;
+        font-size: 1.1rem;
+        color: #B0BEC5;
+    }
+
+    .codigo_section ul {
+        margin: 1.5em 0;
+        padding-left: 2em;
+    }
+
+    .codigo_section ul li {
+        margin-bottom: 1em;
+        text-align: justify;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #B0BEC5;
+    }
+
+    .codigo_section ul li strong {
+        color: #00d2ff;
+        font-weight: 600;
+    }
+
+    .codigo_conclusion {
+        margin-top: 3em;
+        padding: 2.5em;
+        border-radius: 15px;
+        background: rgba(0, 210, 255, 0.1);
+        border: 2px solid #00d2ff;
+        text-align: center;
+    }
+
+    .codigo_conclusion h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1em;
+        color: #00d2ff;
+    }
+
+    .codigo_conclusion p {
+        text-align: center;
+        font-size: 1.15rem;
+        margin-bottom: 1.2em;
+        color: #B0BEC5;
+    }
+
+    .codigo_commitment {
+        text-align: center;
+        font-size: 1.3rem;
+        font-style: italic;
+        margin-top: 2em;
+        padding: 1.5em;
+        border-radius: 10px;
+        background: rgba(0, 210, 255, 0.15);
+        border: 2px solid #00d2ff;
+    }
+
+    .codigo_commitment strong {
+        color: #00d2ff;
+    }
+
+    /* Light Theme */
+    .light {
+        background: linear-gradient(
+            to bottom,
+            #F0F0F0 30%,
+            #ffffff 100%
+        );
+        color: #101522;
+    }
+
+    .light h1 {
+        color: #04BFAD;
+    }
+
+    .light h1::after {
+        background: #04BFAD;
+    }
+
+    .light .codigo_subtitle {
+        color: #555;
+    }
+
+    .light .codigo_intro {
+        background: rgba(4, 191, 173, 0.1);
+        border-color: #04BFAD;
+    }
+
+    .light .codigo_intro p {
+        color: #333;
+    }
+
+    .light .codigo_section {
+        background: rgba(0, 0, 0, 0.03);
+        border-left-color: #04BFAD;
+    }
+
+    .light .codigo_section:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    .light .codigo_section h2 {
+        color: #04BFAD;
+    }
+
+    .light .codigo_section h3 {
+        color: #0288d1;
+    }
+
+    .light .codigo_section p,
+    .light .codigo_section ul li {
+        color: #333;
+    }
+
+    .light .codigo_section ul li strong {
+        color: #04BFAD;
+    }
+
+    .light .codigo_conclusion {
+        background: rgba(4, 191, 173, 0.1);
+        border-color: #04BFAD;
+    }
+
+    .light .codigo_conclusion h2 {
+        color: #04BFAD;
+    }
+
+    .light .codigo_conclusion p {
+        color: #333;
+    }
+
+    .light .codigo_commitment {
+        background: rgba(4, 191, 173, 0.15);
+        border-color: #04BFAD;
+    }
+
+    .light .codigo_commitment strong {
+        color: #04BFAD;
+    }
+
+    /* Dark Theme */
+    .dark {
+        background: linear-gradient(to bottom, #101522, #1e2a38);
+        color: #B0BEC5;
+    }
+
+    .dark h1 {
+        color: #00d2ff;
+    }
+
+    .dark .codigo_subtitle {
+        color: #B0BEC5;
+    }
+
+    .dark .codigo_intro {
+        background: rgba(0, 210, 255, 0.1);
+        border-color: #00d2ff;
+    }
+
+    .dark .codigo_section {
+        background: rgba(255, 255, 255, 0.02);
+        border-left-color: #00d2ff;
+    }
+
+    .dark .codigo_section h2 {
+        color: #00d2ff;
+    }
+
+    .dark .codigo_section h3 {
+        color: #4fc3f7;
+    }
+
+    .dark .codigo_section p,
+    .dark .codigo_section ul li {
+        color: #B0BEC5;
+    }
+
+    .dark .codigo_section ul li strong {
+        color: #00d2ff;
+    }
+
+    .dark .codigo_conclusion {
+        background: rgba(0, 210, 255, 0.1);
+        border-color: #00d2ff;
+    }
+
+    .dark .codigo_conclusion h2 {
+        color: #00d2ff;
+    }
+
+    .dark .codigo_conclusion p {
+        color: #B0BEC5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .codigo_content {
+            width: 95%;
+            padding: 1em;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        h1::after {
+            width: 200px;
+        }
+
+        .codigo_subtitle {
+            font-size: 1.1rem;
+        }
+
+        .codigo_intro,
+        .codigo_section,
+        .codigo_conclusion {
+            padding: 1.5em;
+        }
+
+        .codigo_section h2 {
+            font-size: 1.5rem;
+        }
+
+        .codigo_section h3 {
+            font-size: 1.2rem;
+        }
+
+        .codigo_section p,
+        .codigo_section ul li {
+            font-size: 1rem;
+        }
+    }
+}
