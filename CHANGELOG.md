@@ -32,6 +32,58 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+# **[1.1.9]- 2026-01-18**
+
+### **✨ Added**
+
+- Sistema completo de notificações em tempo real com ícone no header visível apenas para usuários logados.
+- Componente de ícone de notificações (`notification-icon`) no header entre o carrinho de compras e o botão de tema.
+- Dropdown de notificações no header com lista reduzida, scroll independente (máximo 50vh) e indicadores visuais de não lidas.
+- Modal de notificações renderizado no nível superior da aplicação (`app.component`) com layout de dois painéis (lista à esquerda, detalhes à direita).
+- Serviço de modal de notificações (`NotificationModalService`) para gerenciamento centralizado do estado do modal usando signals.
+- Componente de modal de notificações (`NotificationModalComponent`) com visualização completa de título, mensagem, imagem, autor e data.
+- Suporte para diferentes tipos de notificações: `info`, `success`, `warning`, `error`, `system` com cores específicas para cada tipo.
+- Funcionalidades de marcar como lida (manual e automática ao abrir) e excluir notificações (individual e em lote).
+- Integração com WebSocket (`NotificationWebSocketService`) para recebimento de notificações em tempo real.
+- Badge de contador de notificações não lidas no ícone do header (exibe até 99+).
+- Métodos auxiliares para mapeamento de datas (`getNotificationDate`) suportando formato camelCase (`createdAt`) e snake_case (`created_at`) da API.
+- Página de FAQ (`/webmain/client-area/faq`) na área do cliente com perguntas frequentes em formato de accordion.
+- Página de SAC (`/webmain/client-area/sac`) na área do cliente com formulário de contato (suporte, reclamação, elogio) e suporte a anexos.
+- Link para SAC no footer na seção "Políticas e Diretrizes".
+- Sistema de bloqueio de scroll do body quando o modal de notificações está aberto.
+
+### **🛠️ Changed**
+
+- Header atualizado com ícone de notificações posicionado entre o carrinho e o botão de tema.
+- Componente raiz da aplicação (`app.component`) atualizado para renderizar o modal de notificações no nível superior.
+- Mapeamento automático de dados da API convertendo `createdAt`/`updatedAt` (camelCase) para `created_at`/`updated_at` (snake_case) no carregamento de notificações.
+- Dashboard da área do cliente atualizado com botões para FAQ e SAC.
+- Footer atualizado com link para SAC na seção de políticas.
+
+### **🐛 Fixed**
+
+- Corrigido problema onde apenas a primeira notificação era exibida devido à incompatibilidade de formato de datas (`createdAt` vs `created_at`).
+- Corrigido erro de compilação relacionado ao uso de type casting (`as any`) diretamente nos templates do Angular.
+- Corrigido problema de posicionamento do modal que aparecia dentro do container de notificações ao invés do nível superior.
+- Corrigido problema de navegação onde botões de FAQ e SAC redirecionavam para lista de notícias ao invés das páginas corretas.
+- Corrigido fechamento automático do dropdown ao clicar fora do componente de notificações.
+
+### **⚠️ Deprecated**
+
+-
+
+### **❌ Removed**
+
+- Removido renderização do modal de notificações do componente `notification-icon`, agora renderizado no nível superior da aplicação.
+
+### **🛑 Security**
+
+- Sistema de notificações restrito apenas a usuários autenticados.
+- Validação e sanitização de dados recebidos da API de notificações.
+- WebSocket configurado com autenticação baseada em `usuario_id` para isolamento de notificações por usuário.
+
+---
+
 # **[1.1.8]- 2026-01-17**
 
 ### **✨ Added**
