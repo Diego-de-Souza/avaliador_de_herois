@@ -34,6 +34,12 @@ jobs:
         env:
           CI: true
           NODE_OPTIONS: --max-old-space-size=4096
+          # Variáveis de ambiente para o mock do environment nos testes
+          API_URL: ${{ secrets.API_URL || 'http://localhost:3020/api' }}
+          ID_CLIENTE_GOOGLE: ${{ secrets.ID_CLIENTE_GOOGLE || '' }}
+          SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE || '' }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY || '' }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY || '' }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

@@ -27,11 +27,12 @@ module.exports = {
     '^@core/(.*)$': '<rootDir>/src/app/core/$1',
     '^@shared/(.*)$': '<rootDir>/src/app/shared/$1',
     '^@features/(.*)$': '<rootDir>/src/app/features/$1',
-    // Map all paths to environments/environment to the actual file
-    '^src/environments/environment$': '<rootDir>/src/environments/environment.ts',
-    '^environments/environment$': '<rootDir>/src/environments/environment.ts',
+    // Map all paths to environments/environment to a mock that uses environment variables
+    // This mock uses process.env from GitHub Actions or default values for tests
+    '^src/environments/environment$': '<rootDir>/src/__mocks__/environments/environment.ts',
+    '^environments/environment$': '<rootDir>/src/__mocks__/environments/environment.ts',
     // Map relative paths ending with environments/environment
-    '(.*)/environments/environment$': '<rootDir>/src/environments/environment.ts',
+    '(.*)/environments/environment$': '<rootDir>/src/__mocks__/environments/environment.ts',
   },
   modulePaths: ['<rootDir>/src'],
   transformIgnorePatterns: [
