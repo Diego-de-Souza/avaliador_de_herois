@@ -349,16 +349,77 @@ jobs:
             exit 1
           fi
           
-          echo \"✅ Arquivos movidos com sucesso. Configurando permissões...\"
-          
-          # Configurar permissões
-          sudo chown -R nginx:nginx ${{ env.APP_DIR }}
-          sudo chmod -R 755 ${{ env.APP_DIR }}
-          
-          echo \"✅ Permissões configuradas. Recarregando nginx...\"
-          sudo systemctl reload nginx
-          
-          echo \"✅ Deploy concluído com sucesso!\"
+            echo \"✅ Arquivos movidos com sucesso. Configurando permissões...\"
+            
+            # Configurar permissões
+            sudo chown -R nginx:nginx ${{ env.APP_DIR }}
+            sudo chmod -R 755 ${{ env.APP_DIR }}
+            
+            echo \"✅ Permissões configuradas. Configurando Nginx...\"
+            
+            # Criar/atualizar configuração do Nginx para Angular SPA
+            # IMPORTANTE: Angular compila para browser/ dentro do outputPath
+            NGINX_CONFIG=\"/etc/nginx/conf.d/heroesplatform.conf\"
+            
+            sudo tee \$NGINX_CONFIG > /dev/null << 'NGINX_EOF'
+            server {
+                listen 80;
+                listen [::]:80;
+                server_name heroesplatform.com.br www.heroesplatform.com.br;
+                
+                # Diretório raiz - IMPORTANTE: Angular compila para browser/
+                root ${{ env.APP_DIR }}/browser;
+                index index.html;
+                
+                # Logs
+                access_log /var/log/nginx/heroesplatform-access.log;
+                error_log /var/log/nginx/heroesplatform-error.log;
+                
+                # Gzip compression
+                gzip on;
+                gzip_vary on;
+                gzip_min_length 1024;
+                gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
+                
+                # Security headers
+                add_header X-Frame-Options \"SAMEORIGIN\" always;
+                add_header X-Content-Type-Options \"nosniff\" always;
+                add_header X-XSS-Protection \"1; mode=block\" always;
+                
+                # Configuração para SPA Angular - try_files tenta encontrar o arquivo, se não encontrar, serve index.html
+                location / {
+                    try_files \$uri \$uri/ /index.html;
+                    
+                    # Cache para arquivos estáticos
+                    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+                        expires 1y;
+                        add_header Cache-Control \"public, immutable\";
+                    }
+                }
+                
+                # Bloquear acesso a arquivos ocultos
+                location ~ /\. {
+                    deny all;
+                    access_log off;
+                    log_not_found off;
+                }
+            }
+            NGINX_EOF
+            
+            echo \"✅ Configuração do Nginx criada. Testando configuração...\"
+            
+            # Testar configuração do Nginx
+            if sudo nginx -t; then
+              echo \"✅ Configuração do Nginx válida. Recarregando nginx...\"
+              sudo systemctl reload nginx
+              echo \"✅ Nginx recarregado com sucesso!\"
+            else
+              echo \"❌ ERRO: Configuração do Nginx inválida!\"
+              sudo nginx -t
+              exit 1
+            fi
+            
+            echo \"✅ Deploy concluído com sucesso!\"
           "
           
           # Executar script no servidor usando método que funcionou
