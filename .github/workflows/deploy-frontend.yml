@@ -139,7 +139,15 @@ jobs:
         run: |
           # Teste de conexão SSH antes de continuar
           echo "Testing SSH connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
-          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
+          
+          # Verificar se o config existe
+          SSH_CONFIG_PATH="$HOME/.ssh/config"
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
+          else
+            echo "⚠️  SSH config não encontrado, usando método alternativo..."
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo 'SSH connection successful'" || {
+          fi
           echo ""
           echo "❌ ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
           echo ""
@@ -179,8 +187,15 @@ jobs:
           }
           
           # Limpar diretório antigo (opcional - mantém backup)
-          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} \
-            "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
+          # Usar caminho absoluto ou método alternativo
+          SSH_CONFIG_PATH="$HOME/.ssh/config"
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} \
+              "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
+          else
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} \
+              "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
+          fi
           
           # Verificar se a pasta dist existe antes de fazer rsync
           if [ ! -d "./dist/avaliador_de_herois" ]; then
@@ -197,22 +212,52 @@ jobs:
           
           echo "✅ Pasta dist encontrada com arquivos. Iniciando cópia..."
           
+          # Verificar se o arquivo config existe
+          if [ ! -f ~/.ssh/config ]; then
+            echo "❌ ERROR: Arquivo ~/.ssh/config não encontrado!"
+            echo "Verificando se o step 'Configure SSH' foi executado..."
+            ls -la ~/.ssh/
+            exit 1
+          fi
+          
+          # Usar caminho absoluto para o config
+          SSH_CONFIG_PATH="$HOME/.ssh/config"
+          echo "Usando SSH config em: $SSH_CONFIG_PATH"
+          
           # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
-          rsync -avz -e "ssh -F ~/.ssh/config" \
+          # Usa o caminho absoluto do config
+          rsync -avz -e "ssh -F $SSH_CONFIG_PATH" \
             --delete \
             ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/
           
           # Verificar se o rsync foi bem-sucedido
-          if [ $? -ne 0 ]; then
-            echo "❌ ERROR: rsync falhou ao copiar arquivos!"
-            exit 1
+          RSYNC_EXIT_CODE=$?
+          if [ $RSYNC_EXIT_CODE -ne 0 ]; then
+            echo "❌ ERROR: rsync falhou ao copiar arquivos! (exit code: $RSYNC_EXIT_CODE)"
+            echo "Tentando alternativa sem arquivo config..."
+            
+            # Tentar alternativa: usar parâmetros SSH diretamente
+            rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }}" \
+              --delete \
+              ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app/
+            
+            if [ $? -ne 0 ]; then
+              echo "❌ ERROR: rsync falhou mesmo com método alternativo!"
+              exit 1
+            fi
           fi
           
           echo "✅ Arquivos copiados para /tmp/app no servidor"
 
       - name: Move files and set permissions
         run: |
-          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} << 'EOF'
+          # Usar caminho absoluto para o config ou método alternativo
+          SSH_CONFIG_PATH="$HOME/.ssh/config"
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} << 'EOF'
+          else
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} << 'EOF'
+          fi
             # Verificar se /tmp/app existe e tem arquivos
             if [ ! -d "/tmp/app" ] || [ -z "$(ls -A /tmp/app)" ]; then
               echo "❌ ERROR: /tmp/app não existe ou está vazio!"
