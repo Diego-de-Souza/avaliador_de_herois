@@ -30,6 +30,8 @@ module.exports = {
     // Map all paths to environments/environment to the actual file
     '^src/environments/environment$': '<rootDir>/src/environments/environment.ts',
     '^environments/environment$': '<rootDir>/src/environments/environment.ts',
+    // Map relative paths ending with environments/environment
+    '(.*)/environments/environment$': '<rootDir>/src/environments/environment.ts',
   },
   modulePaths: ['<rootDir>/src'],
   transformIgnorePatterns: [
