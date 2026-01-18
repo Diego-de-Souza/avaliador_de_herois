@@ -27,7 +27,11 @@ module.exports = {
     '^@core/(.*)$': '<rootDir>/src/app/core/$1',
     '^@shared/(.*)$': '<rootDir>/src/app/shared/$1',
     '^@features/(.*)$': '<rootDir>/src/app/features/$1',
+    // Map all paths to environments/environment to the actual file
+    '^src/environments/environment$': '<rootDir>/src/environments/environment.ts',
+    '^environments/environment$': '<rootDir>/src/environments/environment.ts',
   },
+  modulePaths: ['<rootDir>/src'],
   transformIgnorePatterns: [
     'node_modules/(?!.*\\.mjs$|@angular|@ngrx|@fortawesome|marked|ngx-markdown)',
   ],
