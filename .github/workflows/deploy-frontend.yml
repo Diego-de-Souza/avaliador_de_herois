@@ -182,19 +182,70 @@ jobs:
           ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} \
             "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
           
+          # Verificar se a pasta dist existe antes de fazer rsync
+          if [ ! -d "./dist/avaliador_de_herois" ]; then
+            echo "❌ ERROR: Pasta dist/avaliador_de_herois não encontrada!"
+            echo "O build pode ter falhado ou o outputPath está incorreto."
+            exit 1
+          fi
+          
+          # Verificar se há arquivos na pasta dist
+          if [ -z "$(ls -A ./dist/avaliador_de_herois)" ]; then
+            echo "❌ ERROR: Pasta dist/avaliador_de_herois está vazia!"
+            exit 1
+          fi
+          
+          echo "✅ Pasta dist encontrada com arquivos. Iniciando cópia..."
+          
           # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
           rsync -avz -e "ssh -F ~/.ssh/config" \
             --delete \
             ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/
+          
+          # Verificar se o rsync foi bem-sucedido
+          if [ $? -ne 0 ]; then
+            echo "❌ ERROR: rsync falhou ao copiar arquivos!"
+            exit 1
+          fi
+          
+          echo "✅ Arquivos copiados para /tmp/app no servidor"
 
       - name: Move files and set permissions
         run: |
           ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} << 'EOF'
+            # Verificar se /tmp/app existe e tem arquivos
+            if [ ! -d "/tmp/app" ] || [ -z "$(ls -A /tmp/app)" ]; then
+              echo "❌ ERROR: /tmp/app não existe ou está vazio!"
+              exit 1
+            fi
+            
+            echo "✅ /tmp/app encontrado. Movendo arquivos para ${{ env.APP_DIR }}..."
+            
+            # Criar diretório se não existir
+            sudo mkdir -p ${{ env.APP_DIR }}
+            
+            # Limpar diretório antigo
             sudo rm -rf ${{ env.APP_DIR }}/*
+            
+            # Mover arquivos
             sudo mv /tmp/app/* ${{ env.APP_DIR }}/
+            
+            # Verificar se a movimentação foi bem-sucedida
+            if [ -z "$(ls -A ${{ env.APP_DIR }})" ]; then
+              echo "❌ ERROR: Nenhum arquivo foi movido para ${{ env.APP_DIR }}!"
+              exit 1
+            fi
+            
+            echo "✅ Arquivos movidos com sucesso. Configurando permissões..."
+            
+            # Configurar permissões
             sudo chown -R nginx:nginx ${{ env.APP_DIR }}
             sudo chmod -R 755 ${{ env.APP_DIR }}
+            
+            echo "✅ Permissões configuradas. Recarregando nginx..."
             sudo systemctl reload nginx
+            
+            echo "✅ Deploy concluído com sucesso!"
           EOF
 
       - name: Health check
