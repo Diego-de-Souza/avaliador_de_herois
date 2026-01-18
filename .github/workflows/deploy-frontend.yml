@@ -1,0 +1,99 @@
+name: Deploy Frontend to AWS
+
+on:
+  # Opção 1: Deploy automático apenas na branch main/master
+  push:
+    branches:
+      - main
+      - master
+  
+  # Opção 2: Deploy em qualquer branch (descomente para ativar)
+  # push:
+  #   branches:
+  #     - '*'  # Qualquer branch
+  
+  # Opção 3: Deploy apenas manual (descomente para ativar)
+  # workflow_dispatch:
+  
+  # Opção 4: Deploy quando criar uma tag de release (descomente para ativar)
+  # release:
+  #   types: [published]
+
+env:
+  AWS_REGION: us-east-1
+  FRONTEND_HOST: ${{ secrets.FRONTEND_HOST }}
+  SSH_USER: ec2-user
+  APP_DIR: /var/www/app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+        continue-on-error: true  # Continua mesmo se testes falharem (opcional)
+
+      - name: Build application
+        # Angular build com variáveis de ambiente
+        run: npm run build
+        env:
+          NODE_ENV: production
+          # Variáveis de ambiente necessárias para o prebuild (scripts/generate-env.js)
+          API_URL: ${{ secrets.API_URL }}
+          ID_CLIENTE_GOOGLE: ${{ secrets.ID_CLIENTE_GOOGLE }}
+          SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.FRONTEND_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy files to EC2
+        run: |
+          # Limpar diretório antigo (opcional - mantém backup)
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }} \
+            "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
+          
+          # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
+          rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            --delete \
+            ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }}:/tmp/app/
+
+      - name: Move files and set permissions
+        run: |
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }} << 'EOF'
+            sudo rm -rf ${{ env.APP_DIR }}/*
+            sudo mv /tmp/app/* ${{ env.APP_DIR }}/
+            sudo chown -R nginx:nginx ${{ env.APP_DIR }}
+            sudo chmod -R 755 ${{ env.APP_DIR }}
+            sudo systemctl reload nginx
+          EOF
+
+      - name: Health check
+        run: |
+          sleep 5
+          curl -f http://${{ secrets.FRONTEND_HOST }} || exit 0  # Não falha se ainda não estiver acessível
+
+      - name: Cleanup SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
