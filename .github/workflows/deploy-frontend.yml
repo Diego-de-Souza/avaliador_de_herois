@@ -140,55 +140,61 @@ jobs:
           # Teste de conexão SSH antes de continuar
           echo "Testing SSH connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
           
-          # Verificar se o config existe
+          # Verificar se o config existe e testar conexão
           SSH_CONFIG_PATH="$HOME/.ssh/config"
+          SSH_CONNECTION_FAILED=false
+          
           if [ -f "$SSH_CONFIG_PATH" ]; then
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
+            echo "✅ SSH config encontrado. Testando conexão..."
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || SSH_CONNECTION_FAILED=true
           else
             echo "⚠️  SSH config não encontrado, usando método alternativo..."
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo 'SSH connection successful'" || {
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo 'SSH connection successful'" || SSH_CONNECTION_FAILED=true
           fi
-          echo ""
-          echo "❌ ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
-          echo ""
-          echo "The connection is timing out. This means the IP is reachable but port ${{ env.SSH_PORT }} is blocked or not responding."
-          echo ""
-          echo "🔍 Most likely causes:"
-          echo ""
-          echo "1. AWS Security Group blocking port 22"
-          echo "   → Go to EC2 Console → Security Groups → Select your instance's security group"
-          echo "   → Add Inbound Rule: Type=SSH, Port=22, Source=0.0.0.0/0 (or GitHub Actions IPs)"
-          echo ""
-          echo "2. Server firewall blocking port 22"
-          echo "   → SSH to the server (if you have another way) and run:"
-          echo "     sudo ufw allow 22/tcp"
-          echo "     sudo ufw reload"
-          echo "   → Or check iptables: sudo iptables -L -n"
-          echo ""
-          echo "3. SSH service not running"
-          echo "   → On the server, check: sudo systemctl status sshd"
-          echo "   → Start if needed: sudo systemctl start sshd"
-          echo ""
-          echo "4. Server in private subnet"
-          echo "   → If server is in a private subnet, you need a bastion host"
-          echo "   → Or assign a public IP to the instance"
-          echo ""
-          echo "5. Wrong SSH port"
-          echo "   → If SSH is on a different port, set SSH_PORT variable in GitHub"
-          echo ""
-          echo "Current configuration:"
-          echo "  SSH_HOST: ${{ env.SSH_HOST }}"
-          echo "  SSH_PORT: ${{ env.SSH_PORT }}"
-          echo "  SSH_USER: ${{ env.SSH_USER }}"
-          echo ""
-          echo "💡 Quick test from your local machine:"
-          echo "   ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }} -p ${{ env.SSH_PORT }}"
-          exit 1
-          }
+          
+          if [ "$SSH_CONNECTION_FAILED" = true ]; then
+            echo ""
+            echo "❌ ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
+            echo ""
+            echo "The connection is timing out. This means the IP is reachable but port ${{ env.SSH_PORT }} is blocked or not responding."
+            echo ""
+            echo "🔍 Most likely causes:"
+            echo ""
+            echo "1. AWS Security Group blocking port 22"
+            echo "   → Go to EC2 Console → Security Groups → Select your instance's security group"
+            echo "   → Add Inbound Rule: Type=SSH, Port=22, Source=0.0.0.0/0 (or GitHub Actions IPs)"
+            echo ""
+            echo "2. Server firewall blocking port 22"
+            echo "   → SSH to the server (if you have another way) and run:"
+            echo "     sudo ufw allow 22/tcp"
+            echo "     sudo ufw reload"
+            echo "   → Or check iptables: sudo iptables -L -n"
+            echo ""
+            echo "3. SSH service not running"
+            echo "   → On the server, check: sudo systemctl status sshd"
+            echo "   → Start if needed: sudo systemctl start sshd"
+            echo ""
+            echo "4. Server in private subnet"
+            echo "   → If server is in a private subnet, you need a bastion host"
+            echo "   → Or assign a public IP to the instance"
+            echo ""
+            echo "5. Wrong SSH port"
+            echo "   → If SSH is on a different port, set SSH_PORT variable in GitHub"
+            echo ""
+            echo "Current configuration:"
+            echo "  SSH_HOST: ${{ env.SSH_HOST }}"
+            echo "  SSH_PORT: ${{ env.SSH_PORT }}"
+            echo "  SSH_USER: ${{ env.SSH_USER }}"
+            echo ""
+            echo "💡 Quick test from your local machine:"
+            echo "   ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }} -p ${{ env.SSH_PORT }}"
+            exit 1
+          fi
+          
+          echo "✅ SSH connection successful!"
           
           # Limpar diretório antigo (opcional - mantém backup)
           # Usar caminho absoluto ou método alternativo
-          SSH_CONFIG_PATH="$HOME/.ssh/config"
           if [ -f "$SSH_CONFIG_PATH" ]; then
             ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} \
               "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
@@ -212,86 +218,84 @@ jobs:
           
           echo "✅ Pasta dist encontrada com arquivos. Iniciando cópia..."
           
-          # Verificar se o arquivo config existe
-          if [ ! -f ~/.ssh/config ]; then
-            echo "❌ ERROR: Arquivo ~/.ssh/config não encontrado!"
-            echo "Verificando se o step 'Configure SSH' foi executado..."
-            ls -la ~/.ssh/
-            exit 1
+          # Preparar comando rsync com método que funcionou na conexão
+          RSYNC_SUCCESS=false
+          
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            echo "Usando SSH config para rsync..."
+            if rsync -avz -e "ssh -F $SSH_CONFIG_PATH" \
+              --delete \
+              ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/ 2>&1; then
+              RSYNC_SUCCESS=true
+            fi
           fi
           
-          # Usar caminho absoluto para o config
-          SSH_CONFIG_PATH="$HOME/.ssh/config"
-          echo "Usando SSH config em: $SSH_CONFIG_PATH"
-          
-          # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
-          # Usa o caminho absoluto do config
-          rsync -avz -e "ssh -F $SSH_CONFIG_PATH" \
-            --delete \
-            ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/
+          # Se não conseguiu com config, usar método alternativo
+          if [ "$RSYNC_SUCCESS" = false ]; then
+            echo "Usando método alternativo para rsync..."
+            if rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }}" \
+              --delete \
+              ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app/ 2>&1; then
+              RSYNC_SUCCESS=true
+            fi
+          fi
           
           # Verificar se o rsync foi bem-sucedido
-          RSYNC_EXIT_CODE=$?
-          if [ $RSYNC_EXIT_CODE -ne 0 ]; then
-            echo "❌ ERROR: rsync falhou ao copiar arquivos! (exit code: $RSYNC_EXIT_CODE)"
-            echo "Tentando alternativa sem arquivo config..."
-            
-            # Tentar alternativa: usar parâmetros SSH diretamente
-            rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }}" \
-              --delete \
-              ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app/
-            
-            if [ $? -ne 0 ]; then
-              echo "❌ ERROR: rsync falhou mesmo com método alternativo!"
-              exit 1
-            fi
+          if [ "$RSYNC_SUCCESS" = false ]; then
+            echo "❌ ERROR: rsync falhou ao copiar arquivos!"
+            exit 1
           fi
           
           echo "✅ Arquivos copiados para /tmp/app no servidor"
 
       - name: Move files and set permissions
         run: |
-          # Usar caminho absoluto para o config ou método alternativo
+          # Determinar qual método SSH usar (o mesmo que funcionou no step anterior)
           SSH_CONFIG_PATH="$HOME/.ssh/config"
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} << 'EOF'
-          else
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} << 'EOF'
+          
+          # Script a ser executado no servidor
+          SERVER_SCRIPT="
+          # Verificar se /tmp/app existe e tem arquivos
+          if [ ! -d \"/tmp/app\" ] || [ -z \"\$(ls -A /tmp/app)\" ]; then
+            echo \"❌ ERROR: /tmp/app não existe ou está vazio!\"
+            exit 1
           fi
-            # Verificar se /tmp/app existe e tem arquivos
-            if [ ! -d "/tmp/app" ] || [ -z "$(ls -A /tmp/app)" ]; then
-              echo "❌ ERROR: /tmp/app não existe ou está vazio!"
-              exit 1
-            fi
-            
-            echo "✅ /tmp/app encontrado. Movendo arquivos para ${{ env.APP_DIR }}..."
-            
-            # Criar diretório se não existir
-            sudo mkdir -p ${{ env.APP_DIR }}
-            
-            # Limpar diretório antigo
-            sudo rm -rf ${{ env.APP_DIR }}/*
-            
-            # Mover arquivos
-            sudo mv /tmp/app/* ${{ env.APP_DIR }}/
-            
-            # Verificar se a movimentação foi bem-sucedida
-            if [ -z "$(ls -A ${{ env.APP_DIR }})" ]; then
-              echo "❌ ERROR: Nenhum arquivo foi movido para ${{ env.APP_DIR }}!"
-              exit 1
-            fi
-            
-            echo "✅ Arquivos movidos com sucesso. Configurando permissões..."
-            
-            # Configurar permissões
-            sudo chown -R nginx:nginx ${{ env.APP_DIR }}
-            sudo chmod -R 755 ${{ env.APP_DIR }}
-            
-            echo "✅ Permissões configuradas. Recarregando nginx..."
-            sudo systemctl reload nginx
-            
-            echo "✅ Deploy concluído com sucesso!"
-          EOF
+          
+          echo \"✅ /tmp/app encontrado. Movendo arquivos para ${{ env.APP_DIR }}...\"
+          
+          # Criar diretório se não existir
+          sudo mkdir -p ${{ env.APP_DIR }}
+          
+          # Limpar diretório antigo
+          sudo rm -rf ${{ env.APP_DIR }}/*
+          
+          # Mover arquivos
+          sudo mv /tmp/app/* ${{ env.APP_DIR }}/
+          
+          # Verificar se a movimentação foi bem-sucedida
+          if [ -z \"\$(ls -A ${{ env.APP_DIR }})\" ]; then
+            echo \"❌ ERROR: Nenhum arquivo foi movido para ${{ env.APP_DIR }}!\"
+            exit 1
+          fi
+          
+          echo \"✅ Arquivos movidos com sucesso. Configurando permissões...\"
+          
+          # Configurar permissões
+          sudo chown -R nginx:nginx ${{ env.APP_DIR }}
+          sudo chmod -R 755 ${{ env.APP_DIR }}
+          
+          echo \"✅ Permissões configuradas. Recarregando nginx...\"
+          sudo systemctl reload nginx
+          
+          echo \"✅ Deploy concluído com sucesso!\"
+          "
+          
+          # Executar script no servidor usando método que funcionou
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$SERVER_SCRIPT"
+          else
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$SERVER_SCRIPT"
+          fi
 
       - name: Health check
         run: |
