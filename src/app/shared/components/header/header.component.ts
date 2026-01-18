@@ -7,11 +7,12 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/service/auth/auth.service';
 import { CartIconComponent } from '../cart-icon/cart-icon.component';
+import { NotificationIconComponent } from '../notification-icon/notification-icon.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, FontAwesomeModule, MenuUserComponent, CommonModule, CartIconComponent],
+  imports: [RouterLink, RouterLinkActive, FontAwesomeModule, MenuUserComponent, CommonModule, CartIconComponent, NotificationIconComponent],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

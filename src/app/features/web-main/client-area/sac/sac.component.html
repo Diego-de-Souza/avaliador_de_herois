@@ -1,0 +1,137 @@
+<section class="sac-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="sac-content">
+    <div class="sac-header">
+      <h1>Serviço de Atendimento ao Cliente (SAC)</h1>
+      <p>Entre em contato conosco através do formulário abaixo</p>
+    </div>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+      <div class="form-group">
+        <label for="type">Tipo de Contato <span class="required">*</span></label>
+        <div class="contact-type-options">
+          @for(type of contactTypes; track type.value) {
+            <label class="type-option" [class.selected]="contactForm.get('type')?.value === type.value">
+              <input 
+                type="radio" 
+                formControlName="type" 
+                [value]="type.value"
+                [id]="'type-' + type.value">
+              <i [class]="type.icon"></i>
+              <span>{{ type.label }}</span>
+            </label>
+          }
+        </div>
+        @if(getFieldError('type')) {
+          <span class="error-message">{{ getFieldError('type') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Assunto <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="subject"
+          formControlName="subject"
+          placeholder="Descreva brevemente o motivo do contato"
+          class="form-control"
+          [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+        @if(getFieldError('subject')) {
+          <span class="error-message">{{ getFieldError('subject') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="message">Mensagem <span class="required">*</span></label>
+        <textarea 
+          id="message"
+          formControlName="message"
+          rows="8"
+          placeholder="Descreva detalhadamente sua solicitação, reclamação ou elogio..."
+          class="form-control"
+          [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+        </textarea>
+        <div class="char-counter">
+          {{ contactForm.get('message')?.value?.length || 0 }} / 5000 caracteres
+        </div>
+        @if(getFieldError('message')) {
+          <span class="error-message">{{ getFieldError('message') }}</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="priority">Prioridade</label>
+        <select 
+          id="priority"
+          formControlName="priority"
+          class="form-control">
+          <option value="low">Baixa</option>
+          <option value="normal" selected>Normal</option>
+          <option value="high">Alta</option>
+          <option value="urgent">Urgente</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="attachments">Anexos (Opcional)</label>
+        <div class="file-upload-area">
+          <input 
+            #fileInput
+            type="file" 
+            id="attachments"
+            multiple
+            (change)="onFileSelected($event)"
+            accept="image/*,.pdf,.doc,.docx,.txt"
+            class="file-input">
+          <button 
+            type="button" 
+            class="btn-file-select"
+            (click)="fileInput.click()">
+            <i class="fa-solid fa-paperclip"></i>
+            Selecionar Arquivos
+          </button>
+          <p class="file-hint">Máximo 10MB por arquivo. Tipos permitidos: Imagens, PDF, Word, TXT</p>
+        </div>
+
+        @if(selectedFiles.length > 0) {
+          <div class="file-list">
+            @for(file of selectedFiles; track $index) {
+              <div class="file-item">
+                <i [class]="getFileIcon(file.name)"></i>
+                <div class="file-info">
+                  <span class="file-name">{{ file.name }}</span>
+                  <span class="file-size">{{ formatFileSize(file.size) }}</span>
+                </div>
+                <button 
+                  type="button" 
+                  class="btn-remove-file"
+                  (click)="removeFile($index)"
+                  title="Remover arquivo">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn-submit"
+          [disabled]="isSubmitting || contactForm.invalid">
+          @if(isSubmitting) {
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Enviando...
+          } @else {
+            <i class="fa-solid fa-paper-plane"></i>
+            Enviar Mensagem
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <app-footer></app-footer>
+</section>

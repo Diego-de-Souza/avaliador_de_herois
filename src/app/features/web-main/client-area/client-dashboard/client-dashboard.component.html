@@ -25,6 +25,24 @@
         <p>Crie, edite e gerencie suas notícias</p>
         <button class="btn-primary">Gerenciar Notícias</button>
       </div>
+
+      <div class="option-card" (click)="navigateTo('faq')">
+        <div class="option-icon">
+          <i class="fa-solid fa-circle-question"></i>
+        </div>
+        <h2>FAQ</h2>
+        <p>Perguntas frequentes e respostas</p>
+        <button type="button" class="btn-primary">Ver FAQ</button>
+      </div>
+
+      <div class="option-card" (click)="navigateTo('sac')">
+        <div class="option-icon">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h2>SAC</h2>
+        <p>Suporte, reclamações e elogios</p>
+        <button type="button" class="btn-primary">Abrir SAC</button>
+      </div>
     </div>
   </div>
 

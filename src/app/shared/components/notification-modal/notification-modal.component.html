@@ -1,0 +1,106 @@
+<div class="notification-modal-overlay" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'" (click)="onOverlayClick($event)">
+  <div class="notification-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Notificações</h2>
+      <button class="close-btn" (click)="closeModal()" aria-label="Fechar">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-content">
+      @if(notifications.length === 0) {
+        <div class="empty-state">
+          <i class="fa-solid fa-bell-slash"></i>
+          <p>Nenhuma notificação disponível</p>
+        </div>
+      } @else {
+        <div class="notifications-container">
+          <!-- Lista de Notificações - Lado Esquerdo -->
+          <div class="notifications-list">
+            @for(notification of notifications; track notification.id) {
+              <div 
+                class="notification-item" 
+                [class.selected]="selectedNotification?.id === notification.id"
+                [class.unread]="!notification.read"
+                (click)="selectNotification(notification)"
+                [style.border-left-color]="getNotificationColor(notification.type)">
+                <div class="notification-item-header">
+                  <h3>{{ notification.title }}</h3>
+                  <button 
+                    class="action-btn delete-btn" 
+                    (click)="deleteNotification(notification.id, $event)"
+                    title="Excluir">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+                <p class="notification-preview">{{ notification.message.substring(0, 60) }}{{ notification.message.length > 60 ? '...' : '' }}</p>
+                <div class="notification-meta">
+                  <span class="notification-time">{{ getNotificationDate(notification) }}</span>
+                  @if(!notification.read) {
+                    <span class="unread-indicator"></span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Detalhes da Notificação - Lado Direito -->
+          <div class="notification-detail">
+            @if(selectedNotification) {
+              <div class="detail-header">
+                <div class="detail-title-section">
+                  <h2>{{ selectedNotification.title }}</h2>
+                  <span 
+                    class="type-badge" 
+                    [style.background-color]="getNotificationColor(selectedNotification.type)">
+                    {{ selectedNotification.type }}
+                  </span>
+                </div>
+                <button 
+                  class="action-btn delete-btn" 
+                  (click)="deleteNotification(selectedNotification.id, $event)"
+                  title="Excluir notificação">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+
+              @if(selectedNotification.image) {
+                <div class="detail-image">
+                  <img [src]="selectedNotification.image" [alt]="selectedNotification.title" />
+                </div>
+              }
+
+              <div class="detail-message">
+                <p>{{ selectedNotification.message }}</p>
+              </div>
+
+              <div class="detail-footer">
+                <div class="detail-author">
+                  <i class="fa-solid fa-user"></i>
+                  <span>{{ selectedNotification.author }}</span>
+                </div>
+                <div class="detail-date">
+                  <i class="fa-solid fa-clock"></i>
+                  <span>{{ getNotificationDate(selectedNotification) }}</span>
+                </div>
+                @if(!selectedNotification.read) {
+                  <button 
+                    class="mark-read-btn" 
+                    (click)="markAsRead(selectedNotification.id)">
+                    <i class="fa-solid fa-check"></i>
+                    Marcar como lida
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="no-selection">
+                <i class="fa-solid fa-hand-pointer"></i>
+                <p>Selecione uma notificação para ver os detalhes</p>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -43,5 +43,17 @@ export const clientAreaRoutes: Routes = [
     title: 'Editar Notícia',
     loadComponent: () => import('./news/client-news-form/client-news-form.component').then(m => m.ClientNewsFormComponent),
     canActivate: [plansGuard]
+  },
+  {
+    path: 'faq',
+    title: 'FAQ',
+    loadComponent: () => import('./faq/faq.component').then(m => m.FAQComponent),
+    canActivate: [plansGuard]
+  },
+  {
+    path: 'sac',
+    title: 'SAC',
+    loadComponent: () => import('./sac/sac.component').then(m => m.SACComponent),
+    canActivate: [plansGuard]
   }
 ];

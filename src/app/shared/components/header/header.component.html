@@ -14,6 +14,9 @@
             </div>
             <div class="header-actions">
                 <app-cart-icon class="header-theme"></app-cart-icon>
+                @if(isLoggedIn) {
+                    <app-notification-icon class="header-theme"></app-notification-icon>
+                }
                 @if(_themeAll === 'dark'){               
                     <div class="header-theme icones-menu-user" (click)="changeTheme()">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" width="20" height="20">

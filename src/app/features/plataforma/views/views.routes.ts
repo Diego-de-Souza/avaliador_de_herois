@@ -46,5 +46,10 @@ export const routesViews: Routes = [
         path: 'view-games',
         title: 'Lista de Games',
         loadComponent: () => import('./games/games').then(m => m.Games)
+    },
+    {
+        path: 'view-sac',
+        title: 'Gerenciamento SAC',
+        loadComponent: () => import('./view-sac/view-sac.component').then(m => m.ViewSacComponent)
     }
 ]

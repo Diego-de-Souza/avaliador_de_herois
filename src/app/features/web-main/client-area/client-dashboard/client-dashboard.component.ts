@@ -35,11 +35,20 @@ export class ClientDashboardComponent implements OnInit {
     });
   }
 
-  navigateTo(type: 'article' | 'news'): void {
-    if (type === 'article') {
-      this.router.navigate(['/webmain/client-area/articles']);
-    } else {
-      this.router.navigate(['/webmain/client-area/news']);
+  navigateTo(type: 'article' | 'news' | 'faq' | 'sac'): void {
+    switch(type) {
+      case 'article':
+        this.router.navigate(['/webmain/client-area/articles']);
+        break;
+      case 'news':
+        this.router.navigate(['/webmain/client-area/news']);
+        break;
+      case 'faq':
+        this.router.navigate(['/webmain/client-area/faq']);
+        break;
+      case 'sac':
+        this.router.navigate(['/webmain/client-area/sac']);
+        break;
     }
   }
 }

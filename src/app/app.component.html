@@ -11,3 +11,14 @@
 </div>
 <router-outlet></router-outlet>
 <router-outlet></router-outlet>
+@if(notificationModalService.isOpen()) {
+	<app-notification-modal 
+		[notifications]="notificationModalService.notifications()"
+		[selectedNotificationId]="notificationModalService.selectedNotificationId()"
+		[theme]="notificationModalService.theme()"
+		(closeModalEvent)="notificationModalService.close()"
+		(markAsReadEvent)="onNotificationMarkAsRead($event)"
+		(deleteNotificationEvent)="onNotificationDelete($event)"
+		(selectNotificationEvent)="notificationModalService.selectNotification($event.id)">
+	</app-notification-modal>
+}

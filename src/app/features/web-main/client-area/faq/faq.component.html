@@ -1,0 +1,44 @@
+<section class="faq-container" [class.dark]="theme === 'dark'" [class.light]="theme === 'light'">
+  <app-header></app-header>
+  
+  <div class="faq-content">
+    <div class="faq-header">
+      <h1>Perguntas Frequentes (FAQ)</h1>
+      <p>Encontre respostas para as dúvidas mais comuns sobre a plataforma</p>
+    </div>
+
+    <div class="faq-filters">
+      @for(category of categories; track category) {
+        <button 
+          class="filter-btn" 
+          [class.active]="selectedCategory === category"
+          (click)="filterByCategory(category)">
+          {{ getCategoryLabel(category) }}
+        </button>
+      }
+    </div>
+
+    <div class="faq-list">
+      @for(item of filteredItems; track $index) {
+        <div class="faq-item">
+          <div class="faq-question" (click)="toggleItem($index)">
+            <h3>{{ item.question }}</h3>
+            <i class="fa-solid" [class.fa-chevron-down]="!expandedItems.has($index)" [class.fa-chevron-up]="expandedItems.has($index)"></i>
+          </div>
+          @if(expandedItems.has($index)) {
+            <div class="faq-answer">
+              <p>{{ item.answer }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="faq-footer">
+      <p>Não encontrou a resposta que procurava?</p>
+      <p>Entre em contato conosco através do <a routerLink="/webmain/client-area/sac">SAC</a> ou consulte nosso <a routerLink="/webmain/manual-redator">Manual do Redator</a>.</p>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</section>

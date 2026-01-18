@@ -1,0 +1,327 @@
+<div class="sac-admin-container">
+  <app-header-platform></app-header-platform>
+  
+  <section class="sac-admin-content">
+    <div class="sac-admin-header">
+      <h2>Gerenciamento de Solicitações SAC</h2>
+      <button class="btn btn-primary" (click)="showFilters.set(!showFilters())">
+        <i class="fa-solid fa-filter"></i>
+        {{ showFilters() ? 'Ocultar' : 'Mostrar' }} Filtros
+      </button>
+    </div>
+
+    @if(showFilters()) {
+      <div class="filters-panel">
+        <form [formGroup]="filterForm" class="filters-form">
+          <div class="filter-row">
+            <div class="filter-group">
+              <label>Buscar</label>
+              <input type="text" formControlName="search" placeholder="Ticket, assunto, mensagem...">
+            </div>
+            <div class="filter-group">
+              <label>Tipo</label>
+              <select formControlName="type">
+                <option value="">Todos</option>
+                @for(type of typeOptions; track type.value) {
+                  <option [value]="type.value">{{ type.label }}</option>
+                }
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Status</label>
+              <select formControlName="status">
+                <option value="">Todos</option>
+                @for(status of statusOptions; track status.value) {
+                  <option [value]="status.value">{{ status.label }}</option>
+                }
+              </select>
+            </div>
+            <div class="filter-group">
+              <label>Prioridade</label>
+              <select formControlName="priority">
+                <option value="">Todas</option>
+                @for(priority of priorityOptions; track priority.value) {
+                  <option [value]="priority.value">{{ priority.label }}</option>
+                }
+              </select>
+            </div>
+          </div>
+          <div class="filter-row">
+            <div class="filter-group">
+              <label>Data Inicial</label>
+              <input type="date" formControlName="date_from">
+            </div>
+            <div class="filter-group">
+              <label>Data Final</label>
+              <input type="date" formControlName="date_to">
+            </div>
+            <div class="filter-actions">
+              <button type="button" class="btn btn-primary" (click)="applyFilters()">Aplicar Filtros</button>
+              <button type="button" class="btn btn-secondary" (click)="clearFilters()">Limpar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    }
+
+    <div class="sac-admin-main">
+      <div class="contacts-list">
+        @if(isLoading()) {
+          <div class="loading-state">
+            <p>Carregando solicitações...</p>
+          </div>
+        } @else if(contacts().length === 0) {
+          <div class="empty-state">
+            <i class="fa-solid fa-inbox"></i>
+            <p>Nenhuma solicitação encontrada</p>
+          </div>
+        } @else {
+          <div class="contacts-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ticket</th>
+                  <th>Tipo</th>
+                  <th>Assunto</th>
+                  <th>Usuário</th>
+                  <th>Status</th>
+                  <th>Prioridade</th>
+                  <th>Data</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(contact of contacts(); track contact.id) {
+                  <tr 
+                    [class.selected]="selectedContact?.id === contact.id"
+                    (click)="selectContact(contact)">
+                    <td>
+                      <strong>#{{ contact.ticket_number }}</strong>
+                    </td>
+                    <td>
+                      <span class="badge badge-type" [class]="'type-' + contact.type">
+                        <i class="fa-solid" [class]="getTypeIcon(contact.type)"></i>
+                        {{ getTypeLabel(contact.type) }}
+                      </span>
+                    </td>
+                    <td>{{ contact.subject }}</td>
+                    <td>ID: {{ contact.usuario_id }}</td>
+                    <td>
+                      <select 
+                        class="status-select"
+                        [value]="contact.status"
+                        (change)="updateStatus(contact.id, $any($event.target).value)"
+                        (click)="$event.stopPropagation()">
+                        @for(status of statusOptions; track status.value) {
+                          <option [value]="status.value" [selected]="status.value === contact.status">
+                            {{ status.label }}
+                          </option>
+                        }
+                      </select>
+                    </td>
+                    <td>
+                      <span class="badge badge-priority" [style.background-color]="getPriorityColor(contact.priority)">
+                        {{ getPriorityLabel(contact.priority) }}
+                      </span>
+                    </td>
+                    <td>{{ formatDate(contact.created_at) }}</td>
+                    <td class="actions-cell" (click)="$event.stopPropagation()">
+                      <button class="btn btn-sm btn-danger" (click)="deleteContact(contact.id)" title="Excluir">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          @if(pagination().totalPages > 1) {
+            <div class="pagination">
+              <button 
+                class="btn btn-sm" 
+                [disabled]="pagination().page === 1"
+                (click)="changePage(pagination().page - 1)">
+                Anterior
+              </button>
+              <span>Página {{ pagination().page }} de {{ pagination().totalPages }}</span>
+              <button 
+                class="btn btn-sm" 
+                [disabled]="pagination().page === pagination().totalPages"
+                (click)="changePage(pagination().page + 1)">
+                Próxima
+              </button>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="contact-detail">
+        @if(selectedContact) {
+          <div class="detail-header">
+            <div>
+              <h3>Ticket #{{ selectedContact.ticket_number }}</h3>
+              <span class="badge badge-type" [class]="'type-' + selectedContact.type">
+                {{ getTypeLabel(selectedContact.type) }}
+              </span>
+            </div>
+            <button class="btn btn-sm btn-secondary" (click)="selectedContact = null">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+
+          <div class="detail-info">
+            <div class="info-row">
+              <strong>Status:</strong>
+              <select 
+                class="status-select"
+                [value]="selectedContact.status"
+                (change)="updateStatus(selectedContact.id, $any($event.target).value)">
+                @for(status of statusOptions; track status.value) {
+                  <option [value]="status.value">{{ status.label }}</option>
+                }
+              </select>
+            </div>
+            <div class="info-row">
+              <strong>Prioridade:</strong>
+              <span class="badge badge-priority" [style.background-color]="getPriorityColor(selectedContact.priority)">
+                {{ getPriorityLabel(selectedContact.priority) }}
+              </span>
+            </div>
+            <div class="info-row">
+              <strong>Data de Criação:</strong>
+              <span>{{ formatDate(selectedContact.created_at) }}</span>
+            </div>
+            <div class="info-row">
+              <strong>Última Atualização:</strong>
+              <span>{{ formatDate(selectedContact.updated_at) }}</span>
+            </div>
+          </div>
+
+          <div class="detail-message">
+            <h4>Assunto:</h4>
+            <p>{{ selectedContact.subject }}</p>
+            <h4>Mensagem:</h4>
+            <p>{{ selectedContact.message }}</p>
+          </div>
+
+          @if(selectedContact.attachments && selectedContact.attachments.length > 0) {
+            <div class="detail-attachments">
+              <h4>Anexos:</h4>
+              <div class="attachments-list">
+                @for(attachment of selectedContact.attachments; track attachment.id) {
+                  <div class="attachment-item">
+                    <i class="fa-solid fa-paperclip"></i>
+                    <span>{{ attachment.file_name }}</span>
+                    <span class="file-size">({{ (attachment.file_size / 1024).toFixed(2) }} KB)</span>
+                    <button 
+                      class="btn btn-sm btn-link"
+                      (click)="downloadAttachment(selectedContact!.id, attachment.id, attachment.file_name)">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+          @if(selectedContact.responses && selectedContact.responses.length > 0) {
+            <div class="detail-responses">
+              <h4>Histórico de Respostas:</h4>
+              @for(response of selectedContact.responses; track response.id) {
+                <div class="response-item">
+                  <div class="response-header">
+                    <strong>{{ response.author }}</strong>
+                    <span>{{ formatDate(response.created_at) }}</span>
+                  </div>
+                  <p>{{ response.message }}</p>
+                  @if(response.attachments && response.attachments.length > 0) {
+                    <div class="response-attachments">
+                      @for(att of response.attachments; track att.id) {
+                        <div class="attachment-item">
+                          <i class="fa-solid fa-paperclip"></i>
+                          <span>{{ att.file_name }}</span>
+                          <button 
+                            class="btn btn-sm btn-link"
+                            (click)="downloadAttachment(selectedContact!.id, att.id, att.file_name)">
+                            <i class="fa-solid fa-download"></i>
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          <div class="detail-actions">
+            <button class="btn btn-primary" (click)="openResponseModal()">
+              <i class="fa-solid fa-reply"></i>
+              Responder
+            </button>
+          </div>
+        } @else {
+          <div class="no-selection">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <p>Selecione uma solicitação para ver os detalhes</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if(showResponseModal()) {
+    <div class="modal-overlay" (click)="closeResponseModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3>Responder Solicitação</h3>
+          <button class="btn-close-modal" (click)="closeResponseModal()">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <form [formGroup]="responseForm" (ngSubmit)="submitResponse()">
+          <div class="form-group">
+            <label>Mensagem <span class="required">*</span></label>
+            <textarea 
+              formControlName="message"
+              rows="6"
+              placeholder="Digite sua resposta..."
+              class="form-control">
+            </textarea>
+            @if(responseForm.get('message')?.invalid && responseForm.get('message')?.touched) {
+              <span class="error-message">Mensagem é obrigatória (mín. 10 caracteres)</span>
+            }
+          </div>
+          <div class="form-group">
+            <label>Anexos (Opcional)</label>
+            <input 
+              type="file" 
+              multiple
+              (change)="onResponseFileSelected($event)"
+              accept="image/*,.pdf,.doc,.docx,.txt"
+              class="form-control">
+            @if(responseFiles.length > 0) {
+              <div class="file-list">
+                @for(file of responseFiles; track $index) {
+                  <div class="file-item">
+                    <span>{{ file.name }}</span>
+                    <button type="button" class="btn-remove" (click)="removeResponseFile($index)">
+                      <i class="fa-solid fa-times"></i>
+                    </button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" (click)="closeResponseModal()">Cancelar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="responseForm.invalid">
+              Enviar Resposta
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
