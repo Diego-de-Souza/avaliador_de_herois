@@ -24,6 +24,8 @@ env:
   FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}
   SSH_USER: ec2-user
   APP_DIR: /var/www/app
+  SSH_PORT: ${{ vars.SSH_PORT || '22' }}
+  SSH_TIMEOUT: 30
 
 jobs:
   deploy:
@@ -86,10 +88,30 @@ jobs:
           chmod 700 ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          
+          # Configurar opções SSH padrão
+          cat > ~/.ssh/config << EOF
+          Host ${{ env.FRONTEND_HOST }}
+            HostName ${{ env.FRONTEND_HOST }}
+            Port ${{ env.SSH_PORT }}
+            User ${{ env.SSH_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+            ConnectTimeout ${{ env.SSH_TIMEOUT }}
+            ServerAliveInterval 60
+            ServerAliveCountMax 3
+          EOF
+          chmod 600 ~/.ssh/config
+          
+          # Teste de conectividade básico usando timeout (disponível no Ubuntu)
+          echo "Testing connection to ${{ env.FRONTEND_HOST }}:${{ env.SSH_PORT }}..."
+          timeout 5 bash -c "cat < /dev/null > /dev/tcp/${{ env.FRONTEND_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null && echo "Port ${{ env.SSH_PORT }} is open" || echo "Warning: Port ${{ env.SSH_PORT }} test failed, but continuing..."
+          
           # Adiciona o host ao known_hosts apenas se FRONTEND_HOST estiver definido
           # Como usamos StrictHostKeyChecking=no, isso é apenas uma otimização
           if [ -n "${{ vars.FRONTEND_HOST }}" ]; then
-            ssh-keyscan -H "${{ vars.FRONTEND_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
+            ssh-keyscan -p ${{ env.SSH_PORT }} -H "${{ vars.FRONTEND_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
             chmod 644 ~/.ssh/known_hosts
           else
             echo "FRONTEND_HOST not set, skipping ssh-keyscan (using StrictHostKeyChecking=no)"
@@ -97,20 +119,30 @@ jobs:
 
       - name: Copy files to EC2
         run: |
+          # Teste de conexão SSH antes de continuar
+          echo "Testing SSH connection..."
+          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
+            echo "ERROR: Cannot connect to ${{ env.FRONTEND_HOST }}:${{ env.SSH_PORT }}"
+            echo "Please verify:"
+            echo "  1. The server is accessible from the internet"
+            echo "  2. SSH port (${{ env.SSH_PORT }}) is open in the firewall"
+            echo "  3. The SSH_PRIVATE_KEY matches the public key on the server"
+            echo "  4. The server allows connections from GitHub Actions IPs"
+            exit 1
+          }
+          
           # Limpar diretório antigo (opcional - mantém backup)
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }} \
+          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} \
             "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
           
           # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
-          rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+          rsync -avz -e "ssh -F ~/.ssh/config" \
             --delete \
-            ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }}:/tmp/app/
+            ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/
 
       - name: Move files and set permissions
         run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }} << 'EOF'
+          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} << 'EOF'
             sudo rm -rf ${{ env.APP_DIR }}/*
             sudo mv /tmp/app/* ${{ env.APP_DIR }}/
             sudo chown -R nginx:nginx ${{ env.APP_DIR }}
