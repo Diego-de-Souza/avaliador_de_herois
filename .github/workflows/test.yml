@@ -83,6 +83,19 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+        
+      - name: Fix Rollup native dependencies
+        run: |
+          # Rollup precisa de binários nativos específicos da plataforma
+          # O npm ci --legacy-peer-deps às vezes não instala dependências opcionais corretamente
+          # Instala explicitamente o binário nativo para a arquitetura do GitHub Actions (Linux x64)
+          echo "Installing Rollup native binary for Linux x64..."
+          npm install --save-dev --legacy-peer-deps @rollup/rollup-linux-x64-gnu 2>&1 || {
+            echo "x64-gnu not available, trying arm64..."
+            npm install --save-dev --legacy-peer-deps @rollup/rollup-linux-arm64-gnu 2>&1 || {
+              echo "Native binary installation failed, Rollup will use fallback"
+            }
+          }
 
       - name: Build application
         run: npm run build
