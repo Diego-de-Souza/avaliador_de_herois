@@ -32,6 +32,56 @@ O formato segue as convenções de [Keep a Changelog](https://keepachangelog.co
 
 ---
 
+## **[Unreleased] - feature/criacao_testes**
+
+### **✨ Added**
+
+- Sistema completo de testes unitários usando Jest com 143 testes passando (100% de sucesso).
+- Configuração do Jest (`jest.config.js`) com suporte para Angular, TypeScript e cobertura de código.
+- Arquivo de setup do Jest (`src/setup-jest.ts`) com configurações globais e mocks.
+- Scripts npm para testes: `test`, `test:watch`, `test:ci`, `test:coverage`, `test:coverage:ci`.
+- Sistema completo de testes E2E usando Cypress com 6 suites de teste criadas.
+- Configuração do Cypress (`cypress.config.ts`) com baseUrl, viewports e timeouts customizados.
+- TypeScript configuration específica para Cypress (`tsconfig.cypress.json`).
+- Scripts npm para testes E2E: `e2e`, `e2e:open`, `e2e:ci`, `test:all` (unitários + E2E).
+- Testes unitários para todos os componentes principais (50+ arquivos `.spec.ts`).
+- Testes unitários para serviços (`AuthService`, `ToastService`, `UserService`, etc.).
+- Testes unitários para guards (`plansGuard`) e interceptors (`authInterceptor`).
+- Testes E2E para fluxos de autenticação (`cypress/e2e/auth/login.cy.ts`).
+- Testes E2E para página inicial (`cypress/e2e/home/home.cy.ts`).
+- Testes E2E para navegação e header (`cypress/e2e/navigation/header.cy.ts`).
+- Testes E2E para artigos (`cypress/e2e/articles/articles.cy.ts`).
+- Testes E2E para área do cliente (`cypress/e2e/client-area/dashboard.cy.ts`, `articles.cy.ts`).
+- Workflow de CI/CD para testes (`.github/workflows/test.yml`).
+- Arquivo `.cypressignore` para excluir arquivos desnecessários dos testes E2E.
+- Atualização do `.gitignore` para incluir arquivos de build, testes e dependências.
+
+### **🛠️ Changed**
+
+- Migração de testes unitários de Karma/Jasmine para Jest.
+- Atualização de todos os arquivos `.spec.ts` para usar as APIs do Jest.
+- Melhoria na configuração do TypeScript (`tsconfig.spec.json`) para suportar Jest e tipos de teste.
+- Atualização do workflow de deploy (`.github/workflows/deploy-frontend.yml`) para incluir testes.
+
+### **🐛 Fixed**
+
+- Corrigido problema de injeção de dependências em `authInterceptor` usando `runInInjectionContext`.
+- Corrigido problema de injeção de dependências em `plansGuard` usando `runInInjectionContext`.
+- Corrigido cálculo de `unreadCount` no componente `NotificationIconComponent`.
+- Corrigido acesso a propriedades indefinidas no componente `BannerVideos` (verificação de `medias.length`).
+- Corrigido acesso a `history.state.selectedCard` no componente `DescriptionHeroesComponent`.
+- Corrigido controle de formulário faltante (`subtema` e `image`) no `CadastroCuriosidadesComponent`.
+- Corrigido problema com `localStorage` em testes do `AuthService` garantindo isolamento entre testes.
+- Corrigido mock de `$localize` em testes de componentes que usam i18n.
+- Corrigido problemas de importação de módulos de teste (`HttpClientTestingModule`, `RouterTestingModule`).
+- Corrigido mocks de serviços em testes de componentes para retornar valores adequados.
+- Corrigido problemas com `MAT_DIALOG_DATA` e `MatDialogRef` em testes de componentes modais.
+- Corrigido problemas com `localStorage.getItem('role')` em testes de componentes da plataforma.
+
+---
+
+
+
 # **[1.1.9]- 2026-01-18**
 
 ### **✨ Added**
