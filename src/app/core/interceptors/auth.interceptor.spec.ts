@@ -5,11 +5,7 @@ import { of, throwError } from 'rxjs';
 import { authInterceptor } from './auth.interceptor';
 import { AuthService } from '../service/auth/auth.service';
 import { runInInjectionContext, Injector } from '@angular/core';
-
-// Mock environment
-const mockEnvironment = {
-  apiURL: 'http://localhost:3020/api'
-};
+import { environment } from '../../../environments/environment';
 
 describe('authInterceptor', () => {
   let authService: jest.Mocked<AuthService>;
@@ -43,54 +39,58 @@ describe('authInterceptor', () => {
     injector = TestBed.inject(Injector);
   });
 
-  it('should add X-Session-Token header when session token exists', () => {
+  it('should add X-Session-Token header when session token exists', (done) => {
     localStorage.setItem('session_token', 'test-token');
-    const request = new HttpRequest('GET', `${mockEnvironment.apiURL}/test`);
+    const request = new HttpRequest('GET', `${environment.apiURL}/test`);
     
     runInInjectionContext(injector, () => {
-      authInterceptor(request, next).subscribe();
-
-      expect(next).toHaveBeenCalled();
-      const handledRequest = (next as jest.Mock).mock.calls[0][0];
-      expect(handledRequest.headers.has('X-Session-Token')).toBe(true);
-      expect(handledRequest.headers.get('X-Session-Token')).toBe('test-token');
+      authInterceptor(request, next).subscribe(() => {
+        expect(next).toHaveBeenCalled();
+        const handledRequest = (next as jest.Mock).mock.calls[0][0];
+        expect(handledRequest.headers.has('X-Session-Token')).toBe(true);
+        expect(handledRequest.headers.get('X-Session-Token')).toBe('test-token');
+        done();
+      });
     });
   });
 
-  it('should not add X-Session-Token header when session token does not exist', () => {
+  it('should not add X-Session-Token header when session token does not exist', (done) => {
     localStorage.clear();
-    const request = new HttpRequest('GET', `${mockEnvironment.apiURL}/test`);
+    const request = new HttpRequest('GET', `${environment.apiURL}/test`);
     
     runInInjectionContext(injector, () => {
-      authInterceptor(request, next).subscribe();
-
-      expect(next).toHaveBeenCalled();
+      authInterceptor(request, next).subscribe(() => {
+        expect(next).toHaveBeenCalled();
+        done();
+      });
     });
   });
 
-  it('should skip auth for external URLs', () => {
+  it('should skip auth for external URLs', (done) => {
     const request = new HttpRequest('GET', 'https://viacep.com.br/api/test');
     
     runInInjectionContext(injector, () => {
-      authInterceptor(request, next).subscribe();
-
-      expect(next).toHaveBeenCalled();
+      authInterceptor(request, next).subscribe(() => {
+        expect(next).toHaveBeenCalled();
+        done();
+      });
     });
   });
 
-  it('should skip auth for Google APIs', () => {
+  it('should skip auth for Google APIs', (done) => {
     const request = new HttpRequest('GET', 'https://apis.google.com/test');
     
     runInInjectionContext(injector, () => {
-      authInterceptor(request, next).subscribe();
-
-      expect(next).toHaveBeenCalled();
+      authInterceptor(request, next).subscribe(() => {
+        expect(next).toHaveBeenCalled();
+        done();
+      });
     });
   });
 
-  it('should force logout on 401 error', () => {
+  it('should force logout on 401 error', (done) => {
     localStorage.setItem('session_token', 'test-token');
-    const request = new HttpRequest('GET', `${mockEnvironment.apiURL}/test`);
+    const request = new HttpRequest('GET', `${environment.apiURL}/test`);
     const errorResponse = { status: 401 } as any;
     
     (next as jest.Mock).mockReturnValue(
@@ -101,20 +101,22 @@ describe('authInterceptor', () => {
       authInterceptor(request, next).subscribe({
         error: () => {
           expect(authService.forceLogout).toHaveBeenCalled();
+          done();
         }
       });
     });
   });
 
-  it('should add withCredentials to requests', () => {
-    const request = new HttpRequest('GET', `${mockEnvironment.apiURL}/test`);
+  it('should add withCredentials to requests', (done) => {
+    const request = new HttpRequest('GET', `${environment.apiURL}/test`);
     
     runInInjectionContext(injector, () => {
-      authInterceptor(request, next).subscribe();
-
-      expect(next).toHaveBeenCalled();
-      const handledRequest = (next as jest.Mock).mock.calls[0][0];
-      expect(handledRequest.withCredentials).toBe(true);
+      authInterceptor(request, next).subscribe(() => {
+        expect(next).toHaveBeenCalled();
+        const handledRequest = (next as jest.Mock).mock.calls[0][0];
+        expect(handledRequest.withCredentials).toBe(true);
+        done();
+      });
     });
   });
 });
