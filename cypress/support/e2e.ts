@@ -40,6 +40,18 @@ declare global {
        * @example cy.waitForApi()
        */
       waitForApi(): Chainable<void>;
+      
+      /**
+       * Custom command to set authenticated user in localStorage
+       * @example cy.setAuthenticatedUser('user@example.com')
+       */
+      setAuthenticatedUser(email?: string): Chainable<void>;
+      
+      /**
+       * Custom command to visit protected routes with authentication
+       * @example cy.visitAuthenticated('/webmain/client-area')
+       */
+      visitAuthenticated(url: string): Chainable<void>;
     }
   }
 }
