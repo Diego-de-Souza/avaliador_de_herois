@@ -22,6 +22,7 @@ on:
 env:
   AWS_REGION: us-east-1
   FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}
+  SSH_HOST: ${{ vars.SSH_HOST || vars.FRONTEND_HOST }}
   SSH_USER: ec2-user
   APP_DIR: /var/www/app
   SSH_PORT: ${{ vars.SSH_PORT || '22' }}
@@ -47,6 +48,8 @@ jobs:
           fi
           echo "All required secrets and variables are set"
           echo "FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}"
+          echo "SSH_HOST: ${{ env.SSH_HOST }} (for SSH connection)"
+          echo "SSH_PORT: ${{ env.SSH_PORT }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -90,9 +93,11 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           
           # Configurar opções SSH padrão
+          # Usa SSH_HOST (pode ser IP ou subdomínio sem Cloudflare) para conexão SSH
+          # mas mantém o alias do FRONTEND_HOST para facilitar o uso
           cat > ~/.ssh/config << EOF
           Host ${{ env.FRONTEND_HOST }}
-            HostName ${{ env.FRONTEND_HOST }}
+            HostName ${{ env.SSH_HOST }}
             Port ${{ env.SSH_PORT }}
             User ${{ env.SSH_USER }}
             IdentityFile ~/.ssh/deploy_key
@@ -105,29 +110,35 @@ jobs:
           chmod 600 ~/.ssh/config
           
           # Teste de conectividade básico usando timeout (disponível no Ubuntu)
-          echo "Testing connection to ${{ env.FRONTEND_HOST }}:${{ env.SSH_PORT }}..."
-          timeout 5 bash -c "cat < /dev/null > /dev/tcp/${{ env.FRONTEND_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null && echo "Port ${{ env.SSH_PORT }} is open" || echo "Warning: Port ${{ env.SSH_PORT }} test failed, but continuing..."
+          echo "Testing connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
+          timeout 5 bash -c "cat < /dev/null > /dev/tcp/${{ env.SSH_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null && echo "Port ${{ env.SSH_PORT }} is open" || echo "Warning: Port ${{ env.SSH_PORT }} test failed, but continuing..."
           
-          # Adiciona o host ao known_hosts apenas se FRONTEND_HOST estiver definido
-          # Como usamos StrictHostKeyChecking=no, isso é apenas uma otimização
-          if [ -n "${{ vars.FRONTEND_HOST }}" ]; then
-            ssh-keyscan -p ${{ env.SSH_PORT }} -H "${{ vars.FRONTEND_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
+          # Adiciona o host ao known_hosts usando o SSH_HOST real
+          if [ -n "${{ env.SSH_HOST }}" ]; then
+            ssh-keyscan -p ${{ env.SSH_PORT }} -H "${{ env.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
             chmod 644 ~/.ssh/known_hosts
-          else
-            echo "FRONTEND_HOST not set, skipping ssh-keyscan (using StrictHostKeyChecking=no)"
           fi
 
       - name: Copy files to EC2
         run: |
           # Teste de conexão SSH antes de continuar
-          echo "Testing SSH connection..."
+          echo "Testing SSH connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
           ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
-            echo "ERROR: Cannot connect to ${{ env.FRONTEND_HOST }}:${{ env.SSH_PORT }}"
-            echo "Please verify:"
+            echo "ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
+            echo ""
+            echo "If you're using Cloudflare with proxy enabled (orange cloud):"
+            echo "  - SSH cannot work through Cloudflare proxy"
+            echo "  - Create a Repository Variable 'SSH_HOST' with one of these options:"
+            echo "    1. Direct IP address of your server (e.g., 54.123.45.67)"
+            echo "    2. A subdomain without Cloudflare proxy (e.g., ssh.heroesplatform.com.br)"
+            echo ""
+            echo "Other checks:"
             echo "  1. The server is accessible from the internet"
             echo "  2. SSH port (${{ env.SSH_PORT }}) is open in the firewall"
             echo "  3. The SSH_PRIVATE_KEY matches the public key on the server"
             echo "  4. The server allows connections from GitHub Actions IPs"
+            echo ""
+            echo "Current SSH_HOST: ${{ env.SSH_HOST }}"
             exit 1
           }
           
