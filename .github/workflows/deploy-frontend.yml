@@ -111,7 +111,23 @@ jobs:
           
           # Teste de conectividade básico usando timeout (disponível no Ubuntu)
           echo "Testing connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
-          timeout 5 bash -c "cat < /dev/null > /dev/tcp/${{ env.SSH_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null && echo "Port ${{ env.SSH_PORT }} is open" || echo "Warning: Port ${{ env.SSH_PORT }} test failed, but continuing..."
+          echo "Running connectivity test..."
+          if timeout 10 bash -c "cat < /dev/null > /dev/tcp/${{ env.SSH_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null; then
+            echo "✅ Port ${{ env.SSH_PORT }} is open and reachable"
+          else
+            echo "❌ Port ${{ env.SSH_PORT }} test failed"
+            echo "This usually means:"
+            echo "  - The port is blocked by AWS Security Group"
+            echo "  - The port is blocked by server firewall (ufw/iptables)"
+            echo "  - The server is in a private subnet without public IP"
+            echo "  - The SSH service is not running on the server"
+            echo ""
+            echo "Troubleshooting steps:"
+            echo "1. Check AWS Security Group - allow inbound SSH (port 22) from 0.0.0.0/0 or GitHub Actions IPs"
+            echo "2. Check server firewall: sudo ufw status (should allow port 22)"
+            echo "3. Verify SSH service: sudo systemctl status sshd"
+            echo "4. Check if server has public IP: curl ifconfig.me on the server"
+          fi
           
           # Adiciona o host ao known_hosts usando o SSH_HOST real
           if [ -n "${{ env.SSH_HOST }}" ]; then
@@ -124,22 +140,42 @@ jobs:
           # Teste de conexão SSH antes de continuar
           echo "Testing SSH connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
           ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || {
-            echo "ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
-            echo ""
-            echo "If you're using Cloudflare with proxy enabled (orange cloud):"
-            echo "  - SSH cannot work through Cloudflare proxy"
-            echo "  - Create a Repository Variable 'SSH_HOST' with one of these options:"
-            echo "    1. Direct IP address of your server (e.g., 54.123.45.67)"
-            echo "    2. A subdomain without Cloudflare proxy (e.g., ssh.heroesplatform.com.br)"
-            echo ""
-            echo "Other checks:"
-            echo "  1. The server is accessible from the internet"
-            echo "  2. SSH port (${{ env.SSH_PORT }}) is open in the firewall"
-            echo "  3. The SSH_PRIVATE_KEY matches the public key on the server"
-            echo "  4. The server allows connections from GitHub Actions IPs"
-            echo ""
-            echo "Current SSH_HOST: ${{ env.SSH_HOST }}"
-            exit 1
+          echo ""
+          echo "❌ ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
+          echo ""
+          echo "The connection is timing out. This means the IP is reachable but port ${{ env.SSH_PORT }} is blocked or not responding."
+          echo ""
+          echo "🔍 Most likely causes:"
+          echo ""
+          echo "1. AWS Security Group blocking port 22"
+          echo "   → Go to EC2 Console → Security Groups → Select your instance's security group"
+          echo "   → Add Inbound Rule: Type=SSH, Port=22, Source=0.0.0.0/0 (or GitHub Actions IPs)"
+          echo ""
+          echo "2. Server firewall blocking port 22"
+          echo "   → SSH to the server (if you have another way) and run:"
+          echo "     sudo ufw allow 22/tcp"
+          echo "     sudo ufw reload"
+          echo "   → Or check iptables: sudo iptables -L -n"
+          echo ""
+          echo "3. SSH service not running"
+          echo "   → On the server, check: sudo systemctl status sshd"
+          echo "   → Start if needed: sudo systemctl start sshd"
+          echo ""
+          echo "4. Server in private subnet"
+          echo "   → If server is in a private subnet, you need a bastion host"
+          echo "   → Or assign a public IP to the instance"
+          echo ""
+          echo "5. Wrong SSH port"
+          echo "   → If SSH is on a different port, set SSH_PORT variable in GitHub"
+          echo ""
+          echo "Current configuration:"
+          echo "  SSH_HOST: ${{ env.SSH_HOST }}"
+          echo "  SSH_PORT: ${{ env.SSH_PORT }}"
+          echo "  SSH_USER: ${{ env.SSH_USER }}"
+          echo ""
+          echo "💡 Quick test from your local machine:"
+          echo "   ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }} -p ${{ env.SSH_PORT }}"
+          exit 1
           }
           
           # Limpar diretório antigo (opcional - mantém backup)
