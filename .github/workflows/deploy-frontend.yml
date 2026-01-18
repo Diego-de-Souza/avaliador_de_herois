@@ -21,7 +21,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  FRONTEND_HOST: ${{ secrets.FRONTEND_HOST }}
+  FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}
   SSH_USER: ec2-user
   APP_DIR: /var/www/app
 
@@ -32,6 +32,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Validate required secrets and variables
+        run: |
+          if [ -z "${{ vars.FRONTEND_HOST }}" ]; then
+            echo "Error: FRONTEND_HOST variable is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "Error: SSH_PRIVATE_KEY secret is not set"
+            exit 1
+          fi
+          echo "All required secrets and variables are set"
+          echo "FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -70,26 +83,34 @@ jobs:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.FRONTEND_HOST }} >> ~/.ssh/known_hosts
+          # Adiciona o host ao known_hosts apenas se FRONTEND_HOST estiver definido
+          # Como usamos StrictHostKeyChecking=no, isso é apenas uma otimização
+          if [ -n "${{ vars.FRONTEND_HOST }}" ]; then
+            ssh-keyscan -H "${{ vars.FRONTEND_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
+            chmod 644 ~/.ssh/known_hosts
+          else
+            echo "FRONTEND_HOST not set, skipping ssh-keyscan (using StrictHostKeyChecking=no)"
+          fi
 
       - name: Copy files to EC2
         run: |
           # Limpar diretório antigo (opcional - mantém backup)
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }} \
+            ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }} \
             "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
           
           # Enviar novos arquivos (output path do Angular: dist/avaliador_de_herois)
           rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
             --delete \
-            ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }}:/tmp/app/
+            ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }}:/tmp/app/
 
       - name: Move files and set permissions
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ env.SSH_USER }}@${{ secrets.FRONTEND_HOST }} << 'EOF'
+            ${{ env.SSH_USER }}@${{ env.FRONTEND_HOST }} << 'EOF'
             sudo rm -rf ${{ env.APP_DIR }}/*
             sudo mv /tmp/app/* ${{ env.APP_DIR }}/
             sudo chown -R nginx:nginx ${{ env.APP_DIR }}
@@ -100,7 +121,7 @@ jobs:
       - name: Health check
         run: |
           sleep 5
-          curl -f http://${{ secrets.FRONTEND_HOST }} || exit 0  # Não falha se ainda não estiver acessível
+          curl -f http://${{ env.FRONTEND_HOST }} || exit 0  # Não falha se ainda não estiver acessível
 
       - name: Cleanup SSH key
         if: always()
