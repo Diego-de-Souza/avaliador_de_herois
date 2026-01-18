@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "isolatedModules": false,
+    "types": ["cypress", "node"],
+    "lib": ["ES2022", "dom"],
+    "module": "commonjs",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {}
+  },
+  "include": [
+    "cypress/**/*.ts",
+    "cypress/**/*.tsx"
+  ],
+  "exclude": []
+}

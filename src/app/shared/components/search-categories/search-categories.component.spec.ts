@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { SearchCategoriesComponent } from './search-categories.component';
 
@@ -8,7 +10,7 @@ describe('SearchCategoriesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchCategoriesComponent]
+      imports: [SearchCategoriesComponent, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
 

@@ -2,6 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CarouselComponent } from './carousel.component';
 
+// Mock $localize
+(global as any).$localize = (strings: TemplateStringsArray, ...values: any[]) => {
+  return strings.reduce((result, str, i) => result + str + (values[i] || ''), '');
+};
+
 describe('CarouselComponent', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;

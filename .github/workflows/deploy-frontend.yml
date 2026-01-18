@@ -43,9 +43,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Run tests
-        run: npm test
-        continue-on-error: true  # Continua mesmo se testes falharem (opcional)
+      - name: Run unit tests
+        run: npm run test:ci
+        continue-on-error: false  # Falha o deploy se testes falharem
+        env:
+          CI: true
 
       - name: Build application
         # Angular build com variáveis de ambiente

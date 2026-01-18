@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { HeaderPlatformComponent } from './header-platform.component';
 
@@ -8,7 +10,7 @@ describe('HeaderPlatformComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderPlatformComponent]
+      imports: [HeaderPlatformComponent, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();
 

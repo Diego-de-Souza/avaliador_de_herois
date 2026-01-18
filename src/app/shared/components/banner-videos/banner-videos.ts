@@ -63,7 +63,9 @@ export class BannerVideos implements  OnInit {
 
   startAutoTransition() {
     if (this.intervalId) clearInterval(this.intervalId);
+    if (!this.medias || this.medias.length === 0) return;
     const current = this.medias[this.activeIndex];
+    if (!current) return;
     if (current.type === 'video') {
       if (this.isYouTube(current.url)) {
         // Para YouTube, não há como saber o fim do vídeo, então não faz transição automática

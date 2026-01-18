@@ -14,6 +14,16 @@ describe('BannerVideos', () => {
 
     fixture = TestBed.createComponent(BannerVideos);
     component = fixture.componentInstance;
+    // Initialize with mock data to prevent template errors
+    component.dataEvents = [
+      {
+        id: 1,
+        title: 'Test Event',
+        type: 'image',
+        url: 'https://example.com/image.jpg',
+        description: 'Test description'
+      }
+    ];
     fixture.detectChanges();
   });
 

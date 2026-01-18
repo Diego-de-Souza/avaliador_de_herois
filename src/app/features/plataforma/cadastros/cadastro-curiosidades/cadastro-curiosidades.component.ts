@@ -28,6 +28,8 @@ export class CadastroCuriosidadesComponent {
       this.curiosidadeForm = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(5)]],
         category: ['', [Validators.required]],
+        subtema: ['', [Validators.required]],
+        image: [''],
         content: ['', [Validators.required]]
       });
     }
