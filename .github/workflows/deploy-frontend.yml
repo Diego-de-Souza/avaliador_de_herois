@@ -193,8 +193,32 @@ jobs:
           
           echo "✅ SSH connection successful!"
           
+          # Instalar rsync no servidor se não estiver instalado
+          echo "Verificando se rsync está instalado no servidor..."
+          INSTALL_RSYNC_SCRIPT="
+          if ! command -v rsync &> /dev/null; then
+            echo 'Instalando rsync...'
+            if command -v yum &> /dev/null; then
+              sudo yum install -y rsync
+            elif command -v apt-get &> /dev/null; then
+              sudo apt-get update && sudo apt-get install -y rsync
+            else
+              echo '❌ ERROR: Não foi possível determinar o gerenciador de pacotes (yum/apt-get)'
+              exit 1
+            fi
+          else
+            echo '✅ rsync já está instalado'
+          fi
+          "
+          
+          if [ -f "$SSH_CONFIG_PATH" ]; then
+            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$INSTALL_RSYNC_SCRIPT"
+          else
+            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$INSTALL_RSYNC_SCRIPT"
+          fi
+          
           # Limpar diretório antigo (opcional - mantém backup)
-          # Usar caminho absoluto ou método alternativo
+          echo "Criando backup do diretório antigo..."
           if [ -f "$SSH_CONFIG_PATH" ]; then
             ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} \
               "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
@@ -227,6 +251,9 @@ jobs:
               --delete \
               ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/ 2>&1; then
               RSYNC_SUCCESS=true
+            else
+              RSYNC_EXIT_CODE=$?
+              echo "⚠️  rsync com config falhou (exit code: $RSYNC_EXIT_CODE), tentando método alternativo..."
             fi
           fi
           
@@ -237,16 +264,60 @@ jobs:
               --delete \
               ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app/ 2>&1; then
               RSYNC_SUCCESS=true
+            else
+              RSYNC_EXIT_CODE=$?
+              echo "❌ rsync com método alternativo também falhou (exit code: $RSYNC_EXIT_CODE)"
             fi
           fi
           
           # Verificar se o rsync foi bem-sucedido
           if [ "$RSYNC_SUCCESS" = false ]; then
             echo "❌ ERROR: rsync falhou ao copiar arquivos!"
-            exit 1
+            echo "Tentando método alternativo com tar + scp..."
+            
+            # Método alternativo: criar tar e copiar via scp
+            echo "Criando arquivo tar..."
+            cd dist && tar czf avaliador_de_herois.tar.gz avaliador_de_herois/ && cd ..
+            
+            # Copiar via scp
+            if [ -f "$SSH_CONFIG_PATH" ]; then
+              scp -F "$SSH_CONFIG_PATH" ./dist/avaliador_de_herois.tar.gz ${{ env.FRONTEND_HOST }}:/tmp/app.tar.gz
+            else
+              scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ env.SSH_PORT }} ./dist/avaliador_de_herois.tar.gz ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app.tar.gz
+            fi
+            
+            if [ $? -eq 0 ]; then
+              echo "✅ Arquivo tar copiado com sucesso. Descompactando no servidor..."
+              
+              # Descompactar no servidor
+              EXTRACT_SCRIPT="
+              sudo mkdir -p /tmp/app
+              sudo rm -rf /tmp/app/*
+              cd /tmp && sudo tar xzf app.tar.gz -C /tmp/app --strip-components=1
+              sudo rm -f /tmp/app.tar.gz
+              echo '✅ Arquivos descompactados com sucesso'
+              "
+              
+              if [ -f "$SSH_CONFIG_PATH" ]; then
+                ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$EXTRACT_SCRIPT"
+              else
+                ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$EXTRACT_SCRIPT"
+              fi
+              
+              if [ $? -eq 0 ]; then
+                echo "✅ Arquivos copiados para /tmp/app no servidor (método alternativo)"
+                rm -f ./dist/avaliador_de_herois.tar.gz
+              else
+                echo "❌ ERROR: Falha ao descompactar arquivos no servidor!"
+                exit 1
+              fi
+            else
+              echo "❌ ERROR: Falha ao copiar arquivo tar via scp!"
+              exit 1
+            fi
+          else
+            echo "✅ Arquivos copiados para /tmp/app no servidor (via rsync)"
           fi
-          
-          echo "✅ Arquivos copiados para /tmp/app no servidor"
 
       - name: Move files and set permissions
         run: |
