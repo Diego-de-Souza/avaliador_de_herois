@@ -1,4 +1,4 @@
-name: Deploy Frontend to AWS
+name: Deploy Frontend to AWS with SSL
 
 on:
   push:
@@ -47,6 +47,7 @@ jobs:
 
       - name: Generate Angular Environment Files
         env:
+          # Garantir que API_URL sempre tenha https://
           API_URL: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}
           ID_CLIENTE_GOOGLE: ${{ vars.ID_CLIENTE_GOOGLE || '' }}
           SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE || '' }}
@@ -56,56 +57,48 @@ jobs:
           echo "🔧 Configurando environment do Angular..."
           echo "API_URL: $API_URL"
           
+          # Garantir que API_URL tem https://
+          if [[ ! "$API_URL" =~ ^https?:// ]]; then
+            echo "⚠️  API_URL não tem protocolo. Adicionando https://..."
+            API_URL="https://$API_URL"
+            echo "Novo API_URL: $API_URL"
+          fi
+          
           mkdir -p src/environments
           
-          if [ -f "scripts/generate-environment.js" ]; then
-            echo "📦 Usando script generate-environment.js..."
-            API_URL="$API_URL" \
-            ID_CLIENTE_GOOGLE="$ID_CLIENTE_GOOGLE" \
-            SECRET_KEY_GOOGLE="$SECRET_KEY_GOOGLE" \
-            STRIPE_PUBLIC_KEY="$STRIPE_PUBLIC_KEY" \
-            ENCRYPTION_KEY="$ENCRYPTION_KEY" \
-            node scripts/generate-environment.js
-          else
-            echo "📦 Gerando environment files diretamente..."
-            
-            cat > src/environments/environment.prod.ts << 'EOF'
-            export const environment = {
-              production: true,
-              apiURL: '$API_URL',
-              ID_CLIENTE_GOOGLE: '$ID_CLIENTE_GOOGLE',
-              SECRET_KEY_GOOGLE: '$SECRET_KEY_GOOGLE',
-              stripePublicKey: '$STRIPE_PUBLIC_KEY',
-              encryptionKey: '$ENCRYPTION_KEY'
-            };
-            EOF
-            
-            cat > src/environments/environment.ts << 'EOF'
-            export const environment = {
-              production: false,
-              apiURL: '$API_URL',
-              ID_CLIENTE_GOOGLE: '$ID_CLIENTE_GOOGLE',
-              SECRET_KEY_GOOGLE: '$SECRET_KEY_GOOGLE',
-              stripePublicKey: '$STRIPE_PUBLIC_KEY',
-              encryptionKey: '$ENCRYPTION_KEY'
-            };
-            EOF
-          fi
+          # Método SEGURO sem heredoc problemático
+          echo "📦 Gerando environment.prod.ts..."
+          
+          echo 'export const environment = {' > src/environments/environment.prod.ts
+          echo '  production: true,' >> src/environments/environment.prod.ts
+          echo "  apiURL: '$API_URL'," >> src/environments/environment.prod.ts
+          echo "  ID_CLIENTE_GOOGLE: '$ID_CLIENTE_GOOGLE'," >> src/environments/environment.prod.ts
+          echo "  SECRET_KEY_GOOGLE: '$SECRET_KEY_GOOGLE'," >> src/environments/environment.prod.ts
+          echo "  stripePublicKey: '$STRIPE_PUBLIC_KEY'," >> src/environments/environment.prod.ts
+          echo "  encryptionKey: '$ENCRYPTION_KEY'" >> src/environments/environment.prod.ts
+          echo '};' >> src/environments/environment.prod.ts
+          
+          echo "📦 Gerando environment.ts..."
+          
+          echo 'export const environment = {' > src/environments/environment.ts
+          echo '  production: false,' >> src/environments/environment.ts
+          echo "  apiURL: '$API_URL'," >> src/environments/environment.ts
+          echo "  ID_CLIENTE_GOOGLE: '$ID_CLIENTE_GOOGLE'," >> src/environments/environment.ts
+          echo "  SECRET_KEY_GOOGLE: '$SECRET_KEY_GOOGLE'," >> src/environments/environment.ts
+          echo "  stripePublicKey: '$STRIPE_PUBLIC_KEY'," >> src/environments/environment.ts
+          echo "  encryptionKey: '$ENCRYPTION_KEY'" >> src/environments/environment.ts
+          echo '};' >> src/environments/environment.ts
           
           echo "✅ Arquivos de environment criados"
           
-          # Verificar apiURL não está vazio
-          if grep -q "apiURL: ''" src/environments/environment.prod.ts || \
-             grep -q 'apiURL: ""' src/environments/environment.prod.ts; then
-            echo "❌ ERRO: apiURL está VAZIO! Corrigindo..."
-            sed -i "s|apiURL:.*|apiURL: 'https://api.heroesplatform.com.br',|" src/environments/environment.prod.ts
-            sed -i "s|apiURL:.*|apiURL: 'https://api.heroesplatform.com.br',|" src/environments/environment.ts
-            echo "✅ Valor corrigido"
-          fi
+          # Verificação
+          echo "=== VERIFICAÇÃO ==="
+          echo "environment.prod.ts:"
+          cat src/environments/environment.prod.ts
+          echo ""
+          echo "apiURL definido como: $(grep apiURL src/environments/environment.prod.ts)"
 
       - name: Build application
-        env:
-          API_URL: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}
         run: |
           echo "🏗️  Iniciando build Angular..."
           npm run build
@@ -116,6 +109,8 @@ jobs:
           fi
           
           echo "✅ Build concluído"
+          echo "Estrutura do dist:"
+          ls -la ./dist/
 
       - name: Configure SSH
         run: |
@@ -124,7 +119,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          cat > ~/.ssh/config << EOF
+          cat > ~/.ssh/config << CONFIG
           Host ${{ env.FRONTEND_HOST }}
             HostName ${{ env.SSH_HOST }}
             Port ${{ env.SSH_PORT }}
@@ -132,7 +127,7 @@ jobs:
             IdentityFile ~/.ssh/deploy_key
             StrictHostKeyChecking no
             UserKnownHostsFile /dev/null
-          EOF
+          CONFIG
 
       - name: Copy files to EC2
         run: |
@@ -154,14 +149,14 @@ jobs:
           
           echo "✅ Build encontrado em: $BUILD_SRC"
           
-          # Verificar e corrigir localhost antes de copiar
+          # Verificar localhost
           if grep -r "localhost:3020" "$BUILD_SRC" 2>/dev/null; then
             echo "⚠️  Corrigindo localhost no build..."
             find "$BUILD_SRC" -name "*.js" -type f -exec sed -i \
               "s|http://localhost:3020|https://api.heroesplatform.com.br|g" {} \;
           fi
           
-          # Criar e copiar tar
+          # Criar e copiar
           tar czf /tmp/app-build.tar.gz -C "$BUILD_SRC" .
           
           scp -i "$SSH_KEY" \
@@ -170,7 +165,7 @@ jobs:
             /tmp/app-build.tar.gz \
             ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/
           
-          # Extrair no servidor
+          # Extrair
           ssh -i "$SSH_KEY" \
             -o StrictHostKeyChecking=no \
             -p ${{ env.SSH_PORT }} \
@@ -179,7 +174,7 @@ jobs:
             sudo mkdir -p /tmp/app-build
             sudo tar xzf /tmp/app-build.tar.gz -C /tmp/app-build
             sudo rm -f /tmp/app-build.tar.gz
-            echo '✅ Arquivos extraídos'
+            echo '✅ Arquivos extraídos em /tmp/app-build'
           "
           
           rm -f /tmp/app-build.tar.gz
@@ -188,7 +183,7 @@ jobs:
         run: |
           SSH_KEY="$HOME/.ssh/deploy_key"
           
-          # Script de deploy COMPLETO com SSL
+          # Script de deploy
           ssh -i "$SSH_KEY" \
             -o StrictHostKeyChecking=no \
             -p ${{ env.SSH_PORT }} \
@@ -201,15 +196,13 @@ jobs:
           
           echo "✅ Arquivos recebidos"
           
-          # 2. Corrigir localhost se necessário
-          echo "🔍 Verificando localhost no build..."
+          # 2. Corrigir localhost
           if grep -r "localhost" /tmp/app-build/*.js 2>/dev/null; then
             echo "⚠️  Corrigindo localhost..."
             sudo find /tmp/app-build -name "*.js" -type f -exec sed -i \
               -e "s|http://localhost:3020|https://api.heroesplatform.com.br|g" \
               -e "s|localhost:3020|api.heroesplatform.com.br|g" \
               {} \;
-            echo "✅ localhost corrigido"
           fi
           
           # 3. Mover arquivos
@@ -221,13 +214,12 @@ jobs:
           sudo chown -R nginx:nginx /var/www/app
           sudo chmod -R 755 /var/www/app
           
-          echo "✅ Arquivos copiados e permissões configuradas"
+          echo "✅ Arquivos copiados"
           
-          # 5. CONFIGURAÇÃO NGINX COM SSL
-          echo "🔧 Configurando Nginx com SSL..."
+          # 5. Configurar Nginx
+          echo "🔧 Configurando Nginx..."
           
-          # Primeiro, configurar HTTP (será atualizado pelo Certbot)
-          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "EOF"
+          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "NGINX_CONFIG"
           server {
               listen 80;
               listen [::]:80;
@@ -274,89 +266,55 @@ jobs:
                   proxy_set_header X-Forwarded-Proto $scheme;
               }
               
-              # Para certificado SSL - será usado pelo Certbot
               location /.well-known/acme-challenge/ {
                   root /var/www/certbot;
               }
           }
-          EOF
+          NGINX_CONFIG
           
           # 6. Testar Nginx
           if sudo nginx -t; then
-            echo "✅ Configuração Nginx HTTP válida"
+            echo "✅ Configuração Nginx válida"
             sudo systemctl reload nginx
-            echo "✅ Nginx recarregado"
           else
             echo "❌ ERROR: Configuração Nginx inválida"
-            sudo nginx -t
             exit 1
           fi
           
-          # 7. INSTALAR SSL COM CERTBOT
-          echo "🔐 Instalando certificado SSL..."
+          # 7. Instalar SSL
+          echo "🔐 Instalando SSL..."
           
-          # Verificar se certbot está instalado
           if ! command -v certbot &> /dev/null; then
             echo "📦 Instalando Certbot..."
             sudo dnf install -y certbot python3-certbot-nginx
           fi
           
-          # Executar Certbot
-          echo "📝 Solicitando certificado SSL..."
+          echo "📝 Solicitando certificado..."
           if sudo certbot --nginx \
             -d heroesplatform.com.br \
             -d www.heroesplatform.com.br \
             --non-interactive \
             --agree-tos \
             --email '${{ env.SSL_EMAIL }}' \
-            --redirect; then
-            echo "✅ Certificado SSL instalado com sucesso!"
-            
-            # Verificar certificado
-            echo "📋 Verificando certificado:"
-            sudo certbot certificates | grep -A5 "heroesplatform"
+            --redirect 2>&1; then
+            echo "✅ SSL instalado!"
           else
-            echo "⚠️  Certbot falhou, continuando sem SSL..."
-            echo "💡 Execute manualmente depois:"
-            echo "   sudo certbot --nginx -d heroesplatform.com.br -d www.heroesplatform.com.br --non-interactive --agree-tos -m ${{ env.SSL_EMAIL }}"
+            echo "⚠️  SSL falhou, continuando sem HTTPS"
           fi
           
-          # 8. Verificar configuração SSL final
-          echo "🔍 Verificando configuração final..."
-          if sudo nginx -t; then
-            sudo systemctl reload nginx
-            echo "✅ Nginx com SSL recarregado"
-          else
-            echo "⚠️  Problema na configuração SSL, recarregando HTTP apenas..."
-            sudo systemctl reload nginx
-          fi
+          # 8. Recarregar Nginx
+          sudo nginx -t && sudo systemctl reload nginx
           
-          # 9. Testar site
+          # 9. Testar
           echo "🌐 Testando site..."
-          echo "Teste HTTP:"
+          echo "HTTP:"
           curl -s -H "Host: heroesplatform.com.br" -I http://localhost | head -1
-          echo "Teste HTTPS (pode falhar se Certbot falhou):"
-          curl -sk -H "Host: heroesplatform.com.br" -I https://localhost 2>/dev/null | head -1 || echo "HTTPS não disponível"
           
           # 10. Limpar
           sudo rm -rf /tmp/app-build
           
-          echo "🚀 DEPLOY CONCLUÍDO! Site acessível em:"
-          echo "   🌐 http://heroesplatform.com.br"
-          echo "   🔒 https://heroesplatform.com.br (se SSL instalado)"
+          echo "🚀 DEPLOY CONCLUÍDO!"
           '
-
-      - name: Verify deployment
-        run: |
-          sleep 5
-          echo "🔍 Verificação externa..."
-          echo "Testando HTTP:"
-          curl -s -I "http://${{ env.FRONTEND_HOST }}" || echo "HTTP ainda não respondendo"
-          echo ""
-          echo "Testando HTTPS:"
-          curl -sk -I "https://${{ env.FRONTEND_HOST }}" 2>/dev/null | head -1 || echo "HTTPS não disponível ainda"
-          echo ""
-          echo "✅ Processo de deploy completo"
 
       - name: Cleanup SSH key
         if: always()
