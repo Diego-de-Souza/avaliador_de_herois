@@ -1,8 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 
-// Função para gerar environment.ts
 function generateEnvironment(isProduction = false) {
+  const envDir = path.join(__dirname, '..', 'src', 'environments');
+
+  // ✅ GARANTIR que a pasta exista
+  fs.mkdirSync(envDir, { recursive: true });
+
   const envVars = {
     production: isProduction,
     apiURL: process.env.API_URL || (isProduction ? '' : 'http://localhost:3020'),
@@ -12,15 +16,17 @@ function generateEnvironment(isProduction = false) {
     encryptionKey: process.env.ENCRYPTION_KEY || ''
   };
 
-  const content = `export const environment = ${JSON.stringify(envVars, null, 2)};`;
-  
+  const content =
+`export const environment = ${JSON.stringify(envVars, null, 2)};`;
+
   const fileName = isProduction ? 'environment.prod.ts' : 'environment.ts';
-  const filePath = path.join(__dirname, '..', 'src', 'environments', fileName);
-  
-  fs.writeFileSync(filePath, content);
-  console.log(`✅ ${fileName} gerado com sucesso!`);
+  const filePath = path.join(envDir, fileName);
+
+  fs.writeFileSync(filePath, content, { encoding: 'utf8' });
+
+  console.log(`✅ ${fileName} gerado com sucesso em ${filePath}`);
 }
 
-// Gerar ambos os arquivos
-generateEnvironment(false); // environment.ts
-generateEnvironment(true);  // environment.prod.ts
+// Gerar ambos
+generateEnvironment(false);
+generateEnvironment(true);

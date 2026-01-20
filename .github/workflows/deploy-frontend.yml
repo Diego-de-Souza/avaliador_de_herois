@@ -16,6 +16,12 @@ env:
   SSH_TIMEOUT: 30
   SSL_EMAIL: plataformaheroes20250820@gmail.com
 
+  API_URL: ${{ vars.API_URL }}
+  ID_CLIENTE_GOOGLE: ${{ vars.ID_CLIENTE_GOOGLE }}
+  SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE }}
+  STRIPE_PUBLIC_KEY: ${{ vars.STRIPE_PUBLIC_KEY }}
+  ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
