@@ -33,6 +33,9 @@ jobs:
             echo "Error: SSH_PRIVATE_KEY secret is not set"
             exit 1
           fi
+          if [ -z "${{ vars.API_URL }}" ]; then
+            echo "Warning: API_URL variable not set, using default"
+          fi
           echo "All required secrets and variables are set"
 
       - name: Setup Node.js
@@ -44,8 +47,61 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Generate Angular Environment Files
+        run: |
+          echo "🔧 Configurando environment do Angular..."
+          
+          # Criar diretório se não existir
+          mkdir -p src/environments
+          
+          # Criar environment.prod.ts COM URL CORRETA DA API
+          cat > src/environments/environment.prod.ts << 'EOF'
+          export const environment = {
+            production: true,
+            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
+            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
+            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
+            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
+            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
+          };
+          EOF
+          
+          # Criar environment.ts COM URL CORRETA DA API  
+          cat > src/environments/environment.ts << 'EOF'
+          export const environment = {
+            production: false,
+            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
+            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
+            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
+            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
+            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
+          };
+          EOF
+          
+          echo "✅ Arquivos de environment criados"
+          echo "API_URL definido como: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
+          
+          # Verificar conteúdo
+          echo "=== environment.prod.ts ==="
+          cat src/environments/environment.prod.ts
+          echo ""
+          echo "=== environment.ts ==="
+          cat src/environments/environment.ts
+
       - name: Build application
-        run: npm run build
+        run: |
+          echo "🏗️  Iniciando build Angular..."
+          npm run build
+          
+          # Verificar se o build foi gerado corretamente
+          if [ ! -d "./dist" ]; then
+            echo "❌ ERROR: Pasta dist não foi criada!"
+            exit 1
+          fi
+          
+          echo "✅ Build concluído"
+          echo "Estrutura do dist:"
+          find ./dist -name "index.html" 2>/dev/null
 
       - name: Configure SSH
         run: |
@@ -66,27 +122,36 @@ jobs:
 
       - name: Copy files to EC2
         run: |
-          # Caminho absoluto para config SSH
-          SSH_CONFIG="$HOME/.ssh/config"
           SSH_KEY="$HOME/.ssh/deploy_key"
-          BUILD_SRC="./dist/avaliador_de_herois/browser"
           
-          # Verificar se build existe
-          if [ ! -f "$BUILD_SRC/index.html" ]; then
-            echo "❌ ERROR: index.html não encontrado em $BUILD_SRC/"
-            echo "Procurando index.html..."
-            find ./dist -name "index.html" 2>/dev/null
-            exit 1
+          # Encontrar o diretório do build automaticamente
+          BUILD_SRC=""
+          if [ -d "./dist/app/browser" ]; then
+            BUILD_SRC="./dist/app/browser"
+          elif [ -d "./dist/avaliador_de_herois/browser" ]; then
+            BUILD_SRC="./dist/avaliador_de_herois/browser"
+          elif [ -d "./dist/browser" ]; then
+            BUILD_SRC="./dist/browser"
+          else
+            # Procurar index.html
+            INDEX_PATH=$(find ./dist -name "index.html" | head -1)
+            if [ -n "$INDEX_PATH" ]; then
+              BUILD_SRC=$(dirname "$INDEX_PATH")
+            else
+              echo "❌ ERROR: Não encontrado index.html em dist/"
+              find ./dist -type f 2>/dev/null | head -10
+              exit 1
+            fi
           fi
           
-          echo "✅ Build verificado em: $BUILD_SRC"
+          echo "✅ Build encontrado em: $BUILD_SRC"
+          echo "Arquivos:"
+          ls "$BUILD_SRC" | head -5
           
-          # Criar tar para transferência confiável
-          echo "Empacotando arquivos..."
+          # Criar tar
           tar czf /tmp/app-build.tar.gz -C "$BUILD_SRC" .
           
           # Copiar para servidor
-          echo "Enviando para servidor..."
           scp -i "$SSH_KEY" \
             -o StrictHostKeyChecking=no \
             -P ${{ env.SSH_PORT }} \
@@ -94,7 +159,6 @@ jobs:
             ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/
           
           # Extrair no servidor
-          echo "Extraindo no servidor..."
           ssh -i "$SSH_KEY" \
             -o StrictHostKeyChecking=no \
             -p ${{ env.SSH_PORT }} \
@@ -103,8 +167,10 @@ jobs:
             sudo mkdir -p /tmp/app-build
             sudo tar xzf /tmp/app-build.tar.gz -C /tmp/app-build
             sudo rm -f /tmp/app-build.tar.gz
-            echo '✅ Arquivos extraídos:'
-            ls -la /tmp/app-build/ | head -5
+            echo '✅ Arquivos extraídos em /tmp/app-build'
+            ls -la /tmp/app-build/ | head -3
+            echo 'Verificando apiURL no build...'
+            grep -o 'apiURL[^}]*' /tmp/app-build/*.js 2>/dev/null | head -2 || echo 'apiURL não encontrado nos arquivos JS'
           "
           
           rm -f /tmp/app-build.tar.gz
@@ -124,31 +190,37 @@ jobs:
             exit 1
           fi
           
-          echo "✅ Arquivos recebidos. Estrutura:"
-          ls -la /tmp/app-build/ | head -10
+          echo "✅ Arquivos recebidos"
           
-          # 2. Criar diretório da aplicação
+          # 2. Verificar se apiURL está correto
+          echo "Verificando apiURL no build..."
+          if grep -q "localhost" /tmp/app-build/*.js 2>/dev/null; then
+            echo "⚠️  AVISO: Encontrado localhost nos arquivos JS. Corrigindo..."
+            sudo find /tmp/app-build -name "*.js" -type f -exec sed -i "s|http://localhost:3020|https://api.heroesplatform.com.br|g" {} \;
+            sudo find /tmp/app-build -name "*.js" -type f -exec sed -i "s|localhost:3020|api.heroesplatform.com.br|g" {} \;
+            echo "✅ localhost corrigido para api.heroesplatform.com.br"
+          fi
+          
+          # 3. Criar diretório da aplicação
           sudo mkdir -p /var/www/app/browser
           
-          # 3. Limpar e copiar arquivos
+          # 4. Limpar e copiar arquivos
           sudo rm -rf /var/www/app/browser/*
           sudo cp -r /tmp/app-build/* /var/www/app/browser/
           
-          # 4. Verificar se index.html existe
+          # 5. Verificar se index.html existe
           if [ ! -f "/var/www/app/browser/index.html" ]; then
             echo "❌ ERROR: index.html não encontrado em /var/www/app/browser/"
-            echo "Conteúdo do diretório:"
-            ls -la /var/www/app/browser/
             exit 1
           fi
           
-          # 5. Configurar permissões
+          # 6. Configurar permissões
           sudo chown -R nginx:nginx /var/www/app
           sudo chmod -R 755 /var/www/app
           
           echo "✅ Arquivos copiados e permissões configuradas"
           
-          # 6. Criar configuração Nginx CORRETA
+          # 7. Criar configuração Nginx
           sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "EOF"
           server {
               listen 80;
@@ -198,7 +270,7 @@ jobs:
           }
           EOF
           
-          # 7. Testar e recarregar Nginx
+          # 8. Testar e recarregar Nginx
           if sudo nginx -t; then
             echo "✅ Configuração Nginx válida"
             sudo systemctl reload nginx
@@ -209,15 +281,22 @@ jobs:
             exit 1
           fi
           
-          # 8. Testar localmente
+          # 9. Testar localmente
           echo "Testando aplicação localmente..."
           curl -s -H "Host: heroesplatform.com.br" http://localhost | grep -o "<title>[^<]*</title>" || echo "✅ Aplicação respondendo"
           
-          # 9. Limpar
+          # 10. Limpar
           sudo rm -rf /tmp/app-build
           
           echo "🚀 DEPLOY CONCLUÍDO COM SUCESSO!"
           '
+
+      - name: Verify deployment
+        run: |
+          sleep 3
+          echo "Verificação final..."
+          echo "Site deve estar acessível em: http://${{ env.FRONTEND_HOST }}"
+          echo "✅ Processo de deploy completo"
 
       - name: Cleanup SSH key
         if: always()
