@@ -48,7 +48,7 @@ jobs:
       - name: Generate Angular Environment Files
         env:
           # Garantir que API_URL sempre tenha https://
-          API_URL: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}
+          API_URL: ${{ vars.API_URL || 'https://api.heroesplatform.com.br/api' }}
           ID_CLIENTE_GOOGLE: ${{ vars.ID_CLIENTE_GOOGLE || '' }}
           SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE || '' }}
           STRIPE_PUBLIC_KEY: ${{ vars.STRIPE_PUBLIC_KEY || '' }}
@@ -153,7 +153,7 @@ jobs:
           if grep -r "localhost:3020" "$BUILD_SRC" 2>/dev/null; then
             echo "⚠️  Corrigindo localhost no build..."
             find "$BUILD_SRC" -name "*.js" -type f -exec sed -i \
-              "s|http://localhost:3020|https://api.heroesplatform.com.br|g" {} \;
+              "s|http://localhost:3020|https://api.heroesplatform.com.br/api|g" {} \;
           fi
           
           # Criar e copiar
@@ -200,8 +200,8 @@ jobs:
           if grep -r "localhost" /tmp/app-build/*.js 2>/dev/null; then
             echo "⚠️  Corrigindo localhost..."
             sudo find /tmp/app-build -name "*.js" -type f -exec sed -i \
-              -e "s|http://localhost:3020|https://api.heroesplatform.com.br|g" \
-              -e "s|localhost:3020|api.heroesplatform.com.br|g" \
+              -e "s|http://localhost:3020|https://api.heroesplatform.com.br/api|g" \
+              -e "s|localhost:3020|api.heroesplatform.com.br/api|g" \
               {} \;
           fi
           
