@@ -64,42 +64,32 @@ jobs:
             UserKnownHostsFile /dev/null
           EOF
 
-      - name: Copy files to EC2
+            - name: Copy files to EC2
         run: |
-          # Testar conexão SSH
-          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'"
+          # Caminhos absolutos
+          SSH_KEY="$HOME/.ssh/deploy_key"
+          BUILD_SRC="./dist/avaliador_de_herois/browser"
           
-          # Verificar estrutura do build
-          echo "Estrutura do build:"
-          find ./dist -type f -name "index.html" | head -5
-          echo ""
-          ls -la ./dist/
-          
-          # Encontrar onde está o build
-          if [ -d "./dist/app/browser" ]; then
-            BUILD_SRC="./dist/app/browser"
-          elif [ -d "./dist/avaliador_de_herois/browser" ]; then
-            BUILD_SRC="./dist/avaliador_de_herois/browser"
-          elif [ -d "./dist/browser" ]; then
-            BUILD_SRC="./dist/browser"
-          else
-            # Procurar index.html em qualquer lugar dentro de dist
-            INDEX_PATH=$(find ./dist -name "index.html" | head -1)
-            if [ -n "$INDEX_PATH" ]; then
-              BUILD_SRC=$(dirname "$INDEX_PATH")
-              echo "✅ Encontrado index.html em: $BUILD_SRC"
-            else
-              echo "❌ ERROR: Não encontrado index.html em dist/"
-              exit 1
-            fi
+          # Verificar se build existe
+          if [ ! -f "$BUILD_SRC/index.html" ]; then
+            echo "❌ ERROR: index.html não encontrado em $BUILD_SRC/"
+            echo "Conteúdo de dist/:"
+            ls -la ./dist/
+            exit 1
           fi
           
-          echo "✅ Build encontrado em: $BUILD_SRC"
+          echo "✅ Build verificado: $BUILD_SRC"
           
-          # Copiar via rsync
-          rsync -avz -e "ssh -F ~/.ssh/config" \
-            --delete \
-            "$BUILD_SRC/" ${{ env.FRONTEND_HOST }}:/tmp/app-build/
+          # Copiar usando scp/rsync simples
+          echo "Copiando arquivos para o servidor..."
+          scp -i "$SSH_KEY" \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -P ${{ env.SSH_PORT }} \
+            -r "$BUILD_SRC"/* \
+            ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app-build/
+          
+          echo "✅ Arquivos copiados com sucesso"
 
       - name: Deploy to server
         run: |
