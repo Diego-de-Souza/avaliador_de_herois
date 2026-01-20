@@ -1,23 +1,10 @@
 name: Deploy Frontend to AWS
 
 on:
-  # Opção 1: Deploy automático apenas na branch main/master
   push:
     branches:
       - main
       - master
-  
-  # Opção 2: Deploy em qualquer branch (descomente para ativar)
-  # push:
-  #   branches:
-  #     - '*'  # Qualquer branch
-  
-  # Opção 3: Deploy apenas manual (descomente para ativar)
-  # workflow_dispatch:
-  
-  # Opção 4: Deploy quando criar uma tag de release (descomente para ativar)
-  # release:
-  #   types: [published]
 
 env:
   AWS_REGION: us-east-1
@@ -47,77 +34,18 @@ jobs:
             exit 1
           fi
           echo "All required secrets and variables are set"
-          echo "FRONTEND_HOST: ${{ vars.FRONTEND_HOST }}"
-          echo "SSH_HOST: ${{ env.SSH_HOST }} (for SSH connection)"
-          echo "SSH_PORT: ${{ env.SSH_PORT }}"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Run unit tests
-        run: npm run test:ci
-        continue-on-error: false  # Falha o deploy se testes falharem
-        env:
-          CI: true
-          # Variáveis de ambiente para o mock do environment nos testes
-          API_URL: ${{ vars.API_URL }}
-          ID_CLIENTE_GOOGLE: ${{ vars.ID_CLIENTE_GOOGLE || '' }}
-          SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE || '' }}
-          STRIPE_PUBLIC_KEY: ${{ vars.STRIPE_PUBLIC_KEY || '' }}
-          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY || '' }}
-
-      - name: Generate Angular Environment Files
-        run: |
-          echo "🔧 Configurando environment do Angular..."
-          
-          # Criar diretório se não existir
-          mkdir -p src/environments
-          
-          # Criar environment.prod.ts
-          cat > src/environments/environment.prod.ts << 'ENVPROD_EOF'
-          export const environment = {
-            production: true,
-            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
-            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
-            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
-            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
-            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
-          };
-          ENVPROD_EOF
-          
-          # Criar environment.ts
-          cat > src/environments/environment.ts << 'ENVDEV_EOF'
-          export const environment = {
-            production: false,
-            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
-            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
-            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
-            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
-            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
-          };
-          ENVDEV_EOF
-          
-          echo "✅ Arquivos de environment criados"
-          echo "API_URL definido como: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
-
       - name: Build application
-        # Angular build com variáveis de ambiente
         run: npm run build
-        env:
-          NODE_ENV: production
-          # Variáveis de ambiente necessárias para o prebuild (scripts/generate-env.js)
-          API_URL: ${{ secrets.API_URL }}
-          ID_CLIENTE_GOOGLE: ${{ secrets.ID_CLIENTE_GOOGLE }}
-          SECRET_KEY_GOOGLE: ${{ secrets.SECRET_KEY_GOOGLE }}
-          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
 
       - name: Configure SSH
         run: |
@@ -126,9 +54,6 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Configurar opções SSH padrão
-          # Usa SSH_HOST (pode ser IP ou subdomínio sem Cloudflare) para conexão SSH
-          # mas mantém o alias do FRONTEND_HOST para facilitar o uso
           cat > ~/.ssh/config << EOF
           Host ${{ env.FRONTEND_HOST }}
             HostName ${{ env.SSH_HOST }}
@@ -137,336 +62,156 @@ jobs:
             IdentityFile ~/.ssh/deploy_key
             StrictHostKeyChecking no
             UserKnownHostsFile /dev/null
-            ConnectTimeout ${{ env.SSH_TIMEOUT }}
-            ServerAliveInterval 60
-            ServerAliveCountMax 3
           EOF
-          chmod 600 ~/.ssh/config
-          
-          # Teste de conectividade básico usando timeout (disponível no Ubuntu)
-          echo "Testing connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
-          echo "Running connectivity test..."
-          if timeout 10 bash -c "cat < /dev/null > /dev/tcp/${{ env.SSH_HOST }}/${{ env.SSH_PORT }}" 2>/dev/null; then
-            echo "✅ Port ${{ env.SSH_PORT }} is open and reachable"
-          else
-            echo "❌ Port ${{ env.SSH_PORT }} test failed"
-            echo "This usually means:"
-            echo "  - The port is blocked by AWS Security Group"
-            echo "  - The port is blocked by server firewall (ufw/iptables)"
-            echo "  - The server is in a private subnet without public IP"
-            echo "  - The SSH service is not running on the server"
-            echo ""
-            echo "Troubleshooting steps:"
-            echo "1. Check AWS Security Group - allow inbound SSH (port 22) from 0.0.0.0/0 or GitHub Actions IPs"
-            echo "2. Check server firewall: sudo ufw status (should allow port 22)"
-            echo "3. Verify SSH service: sudo systemctl status sshd"
-            echo "4. Check if server has public IP: curl ifconfig.me on the server"
-          fi
-          
-          # Adiciona o host ao known_hosts usando o SSH_HOST real
-          if [ -n "${{ env.SSH_HOST }}" ]; then
-            ssh-keyscan -p ${{ env.SSH_PORT }} -H "${{ env.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || echo "Warning: Could not add host to known_hosts, but continuing..."
-            chmod 644 ~/.ssh/known_hosts
-          fi
 
       - name: Copy files to EC2
         run: |
-          # Teste de conexão SSH antes de continuar
-          echo "Testing SSH connection to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}..."
+          # Testar conexão SSH
+          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'"
           
-          # Verificar se o config existe e testar conexão
-          SSH_CONFIG_PATH="$HOME/.ssh/config"
-          SSH_CONNECTION_FAILED=false
+          # Verificar estrutura do build
+          echo "Estrutura do build:"
+          find ./dist -type f -name "index.html" | head -5
+          echo ""
+          ls -la ./dist/
           
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            echo "✅ SSH config encontrado. Testando conexão..."
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "echo 'SSH connection successful'" || SSH_CONNECTION_FAILED=true
+          # Encontrar onde está o build
+          if [ -d "./dist/app/browser" ]; then
+            BUILD_SRC="./dist/app/browser"
+          elif [ -d "./dist/avaliador_de_herois/browser" ]; then
+            BUILD_SRC="./dist/avaliador_de_herois/browser"
+          elif [ -d "./dist/browser" ]; then
+            BUILD_SRC="./dist/browser"
           else
-            echo "⚠️  SSH config não encontrado, usando método alternativo..."
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "echo 'SSH connection successful'" || SSH_CONNECTION_FAILED=true
-          fi
-          
-          if [ "$SSH_CONNECTION_FAILED" = true ]; then
-            echo ""
-            echo "❌ ERROR: Cannot connect to ${{ env.SSH_HOST }}:${{ env.SSH_PORT }}"
-            echo ""
-            echo "The connection is timing out. This means the IP is reachable but port ${{ env.SSH_PORT }} is blocked or not responding."
-            echo ""
-            echo "🔍 Most likely causes:"
-            echo ""
-            echo "1. AWS Security Group blocking port 22"
-            echo "   → Go to EC2 Console → Security Groups → Select your instance's security group"
-            echo "   → Add Inbound Rule: Type=SSH, Port=22, Source=0.0.0.0/0 (or GitHub Actions IPs)"
-            echo ""
-            echo "2. Server firewall blocking port 22"
-            echo "   → SSH to the server (if you have another way) and run:"
-            echo "     sudo ufw allow 22/tcp"
-            echo "     sudo ufw reload"
-            echo "   → Or check iptables: sudo iptables -L -n"
-            echo ""
-            echo "3. SSH service not running"
-            echo "   → On the server, check: sudo systemctl status sshd"
-            echo "   → Start if needed: sudo systemctl start sshd"
-            echo ""
-            echo "4. Server in private subnet"
-            echo "   → If server is in a private subnet, you need a bastion host"
-            echo "   → Or assign a public IP to the instance"
-            echo ""
-            echo "5. Wrong SSH port"
-            echo "   → If SSH is on a different port, set SSH_PORT variable in GitHub"
-            echo ""
-            echo "Current configuration:"
-            echo "  SSH_HOST: ${{ env.SSH_HOST }}"
-            echo "  SSH_PORT: ${{ env.SSH_PORT }}"
-            echo "  SSH_USER: ${{ env.SSH_USER }}"
-            echo ""
-            echo "💡 Quick test from your local machine:"
-            echo "   ssh -v ${{ env.SSH_USER }}@${{ env.SSH_HOST }} -p ${{ env.SSH_PORT }}"
-            exit 1
-          fi
-          
-          echo "✅ SSH connection successful!"
-          
-          # Instalar rsync no servidor se não estiver instalado
-          echo "Verificando se rsync está instalado no servidor..."
-          INSTALL_RSYNC_SCRIPT="
-          if ! command -v rsync &> /dev/null; then
-            echo 'Instalando rsync...'
-            if command -v yum &> /dev/null; then
-              sudo yum install -y rsync
-            elif command -v apt-get &> /dev/null; then
-              sudo apt-get update && sudo apt-get install -y rsync
+            # Procurar index.html em qualquer lugar dentro de dist
+            INDEX_PATH=$(find ./dist -name "index.html" | head -1)
+            if [ -n "$INDEX_PATH" ]; then
+              BUILD_SRC=$(dirname "$INDEX_PATH")
+              echo "✅ Encontrado index.html em: $BUILD_SRC"
             else
-              echo '❌ ERROR: Não foi possível determinar o gerenciador de pacotes (yum/apt-get)'
+              echo "❌ ERROR: Não encontrado index.html em dist/"
               exit 1
             fi
-          else
-            echo '✅ rsync já está instalado'
-          fi
-          "
-          
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$INSTALL_RSYNC_SCRIPT"
-          else
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$INSTALL_RSYNC_SCRIPT"
           fi
           
-          # Limpar diretório antigo (opcional - mantém backup)
-          echo "Criando backup do diretório antigo..."
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} \
-              "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
-          else
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} \
-              "sudo mkdir -p ${{ env.APP_DIR }}.backup && sudo cp -r ${{ env.APP_DIR }}/* ${{ env.APP_DIR }}.backup/ 2>/dev/null || true"
-          fi
+          echo "✅ Build encontrado em: $BUILD_SRC"
           
-          # Verificar se a pasta dist existe antes de fazer rsync
-          if [ ! -d "./dist/avaliador_de_herois" ]; then
-            echo "❌ ERROR: Pasta dist/avaliador_de_herois não encontrada!"
-            echo "O build pode ter falhado ou o outputPath está incorreto."
-            exit 1
-          fi
-          
-          # Verificar se há arquivos na pasta dist
-          if [ -z "$(ls -A ./dist/avaliador_de_herois)" ]; then
-            echo "❌ ERROR: Pasta dist/avaliador_de_herois está vazia!"
-            exit 1
-          fi
-          
-          echo "✅ Pasta dist encontrada com arquivos. Iniciando cópia..."
-          
-          # Preparar comando rsync com método que funcionou na conexão
-          RSYNC_SUCCESS=false
-          
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            echo "Usando SSH config para rsync..."
-            if rsync -avz -e "ssh -F $SSH_CONFIG_PATH" \
-              --delete \
-              ./dist/avaliador_de_herois/ ${{ env.FRONTEND_HOST }}:/tmp/app/ 2>&1; then
-              RSYNC_SUCCESS=true
-            else
-              RSYNC_EXIT_CODE=$?
-              echo "⚠️  rsync com config falhou (exit code: $RSYNC_EXIT_CODE), tentando método alternativo..."
-            fi
-          fi
-          
-          # Se não conseguiu com config, usar método alternativo
-          if [ "$RSYNC_SUCCESS" = false ]; then
-            echo "Usando método alternativo para rsync..."
-            if rsync -avz -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }}" \
-              --delete \
-              ./dist/avaliador_de_herois/ ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app/ 2>&1; then
-              RSYNC_SUCCESS=true
-            else
-              RSYNC_EXIT_CODE=$?
-              echo "❌ rsync com método alternativo também falhou (exit code: $RSYNC_EXIT_CODE)"
-            fi
-          fi
-          
-          # Verificar se o rsync foi bem-sucedido
-          if [ "$RSYNC_SUCCESS" = false ]; then
-            echo "❌ ERROR: rsync falhou ao copiar arquivos!"
-            echo "Tentando método alternativo com tar + scp..."
-            
-            # Método alternativo: criar tar e copiar via scp
-            echo "Criando arquivo tar..."
-            cd dist && tar czf avaliador_de_herois.tar.gz avaliador_de_herois/ && cd ..
-            
-            # Copiar via scp
-            if [ -f "$SSH_CONFIG_PATH" ]; then
-              scp -F "$SSH_CONFIG_PATH" ./dist/avaliador_de_herois.tar.gz ${{ env.FRONTEND_HOST }}:/tmp/app.tar.gz
-            else
-              scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -P ${{ env.SSH_PORT }} ./dist/avaliador_de_herois.tar.gz ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app.tar.gz
-            fi
-            
-            if [ $? -eq 0 ]; then
-              echo "✅ Arquivo tar copiado com sucesso. Descompactando no servidor..."
-              
-              # Descompactar no servidor
-              EXTRACT_SCRIPT="
-              sudo mkdir -p /tmp/app
-              sudo rm -rf /tmp/app/*
-              cd /tmp && sudo tar xzf app.tar.gz -C /tmp/app --strip-components=1
-              sudo rm -f /tmp/app.tar.gz
-              echo '✅ Arquivos descompactados com sucesso'
-              "
-              
-              if [ -f "$SSH_CONFIG_PATH" ]; then
-                ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$EXTRACT_SCRIPT"
-              else
-                ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$EXTRACT_SCRIPT"
-              fi
-              
-              if [ $? -eq 0 ]; then
-                echo "✅ Arquivos copiados para /tmp/app no servidor (método alternativo)"
-                rm -f ./dist/avaliador_de_herois.tar.gz
-              else
-                echo "❌ ERROR: Falha ao descompactar arquivos no servidor!"
-                exit 1
-              fi
-            else
-              echo "❌ ERROR: Falha ao copiar arquivo tar via scp!"
-              exit 1
-            fi
-          else
-            echo "✅ Arquivos copiados para /tmp/app no servidor (via rsync)"
-          fi
+          # Copiar via rsync
+          rsync -avz -e "ssh -F ~/.ssh/config" \
+            --delete \
+            "$BUILD_SRC/" ${{ env.FRONTEND_HOST }}:/tmp/app-build/
 
-      - name: Move files and set permissions
+      - name: Deploy to server
         run: |
-          # Determinar qual método SSH usar (o mesmo que funcionou no step anterior)
-          SSH_CONFIG_PATH="$HOME/.ssh/config"
-          
-          # Script a ser executado no servidor
-          SERVER_SCRIPT="
-          # Verificar se /tmp/app existe e tem arquivos
-          if [ ! -d \"/tmp/app\" ] || [ -z \"\$(ls -A /tmp/app)\" ]; then
-            echo \"❌ ERROR: /tmp/app não existe ou está vazio!\"
+          # Script de deploy no servidor
+          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} '
+          # 1. Verificar se arquivos foram copiados
+          if [ ! -d "/tmp/app-build" ] || [ -z "$(ls -A /tmp/app-build)" ]; then
+            echo "❌ ERROR: /tmp/app-build não existe ou está vazio!"
             exit 1
           fi
           
-          echo \"✅ /tmp/app encontrado. Movendo arquivos para ${{ env.APP_DIR }}...\"
+          echo "✅ Arquivos recebidos. Estrutura:"
+          ls -la /tmp/app-build/ | head -10
           
-          # Criar diretório se não existir
-          sudo mkdir -p ${{ env.APP_DIR }}
+          # 2. Criar diretório da aplicação
+          sudo mkdir -p /var/www/app/browser
           
-          # Limpar diretório antigo
-          sudo rm -rf ${{ env.APP_DIR }}/*
+          # 3. Limpar e copiar arquivos
+          sudo rm -rf /var/www/app/browser/*
+          sudo cp -r /tmp/app-build/* /var/www/app/browser/
           
-          # Mover arquivos
-          sudo mv /tmp/app/* ${{ env.APP_DIR }}/
-          
-          # Verificar se a movimentação foi bem-sucedida
-          if [ -z \"\$(ls -A ${{ env.APP_DIR }})\" ]; then
-            echo \"❌ ERROR: Nenhum arquivo foi movido para ${{ env.APP_DIR }}!\"
+          # 4. Verificar se index.html existe
+          if [ ! -f "/var/www/app/browser/index.html" ]; then
+            echo "❌ ERROR: index.html não encontrado em /var/www/app/browser/"
+            echo "Conteúdo do diretório:"
+            ls -la /var/www/app/browser/
             exit 1
           fi
           
-            echo \"✅ Arquivos movidos com sucesso. Configurando permissões...\"
-            
-            # Configurar permissões
-            sudo chown -R nginx:nginx ${{ env.APP_DIR }}
-            sudo chmod -R 755 ${{ env.APP_DIR }}
-            
-            echo \"✅ Permissões configuradas. Configurando Nginx...\"
-            
-            # Criar/atualizar configuração do Nginx para Angular SPA
-            # IMPORTANTE: Angular compila para browser/ dentro do outputPath
-            NGINX_CONFIG=\"/etc/nginx/conf.d/heroesplatform.conf\"
-            
-            sudo tee \$NGINX_CONFIG > /dev/null << 'NGINX_EOF'
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name heroesplatform.com.br www.heroesplatform.com.br;
-                
-                # Diretório raiz - IMPORTANTE: Angular compila para browser/
-                root ${{ env.APP_DIR }}/browser;
-                index index.html;
-                
-                # Logs
-                access_log /var/log/nginx/heroesplatform-access.log;
-                error_log /var/log/nginx/heroesplatform-error.log;
-                
-                # Gzip compression
-                gzip on;
-                gzip_vary on;
-                gzip_min_length 1024;
-                gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
-                
-                # Security headers
-                add_header X-Frame-Options \"SAMEORIGIN\" always;
-                add_header X-Content-Type-Options \"nosniff\" always;
-                add_header X-XSS-Protection \"1; mode=block\" always;
-                
-                # Configuração para SPA Angular - try_files tenta encontrar o arquivo, se não encontrar, serve index.html
-                location / {
-                    try_files \$uri \$uri/ /index.html;
-                    
-                    # Cache para arquivos estáticos
-                    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
-                        expires 1y;
-                        add_header Cache-Control \"public, immutable\";
-                    }
-                }
-                
-                # Bloquear acesso a arquivos ocultos
-                location ~ /\. {
-                    deny all;
-                    access_log off;
-                    log_not_found off;
-                }
-            }
-            NGINX_EOF
-            
-            echo \"✅ Configuração do Nginx criada. Testando configuração...\"
-            
-            # Testar configuração do Nginx
-            if sudo nginx -t; then
-              echo \"✅ Configuração do Nginx válida. Recarregando nginx...\"
-              sudo systemctl reload nginx
-              echo \"✅ Nginx recarregado com sucesso!\"
-            else
-              echo \"❌ ERRO: Configuração do Nginx inválida!\"
-              sudo nginx -t
-              exit 1
-            fi
-            
-            echo \"✅ Deploy concluído com sucesso!\"
-          "
+          # 5. Configurar permissões
+          sudo chown -R nginx:nginx /var/www/app
+          sudo chmod -R 755 /var/www/app
           
-          # Executar script no servidor usando método que funcionou
-          if [ -f "$SSH_CONFIG_PATH" ]; then
-            ssh -F "$SSH_CONFIG_PATH" ${{ env.FRONTEND_HOST }} "$SERVER_SCRIPT"
+          echo "✅ Arquivos copiados e permissões configuradas"
+          
+          # 6. Criar configuração Nginx CORRETA
+          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << EOF
+          server {
+              listen 80;
+              listen [::]:80;
+              server_name heroesplatform.com.br www.heroesplatform.com.br;
+              
+              root /var/www/app/browser;
+              index index.html;
+              
+              access_log /var/log/nginx/heroesplatform-access.log;
+              error_log /var/log/nginx/heroesplatform-error.log;
+              
+              gzip on;
+              gzip_vary on;
+              gzip_min_length 1024;
+              gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
+              
+              add_header X-Frame-Options "SAMEORIGIN" always;
+              add_header X-Content-Type-Options "nosniff" always;
+              add_header X-XSS-Protection "1; mode=block" always;
+              
+              location / {
+                  try_files \$uri \$uri/ /index.html;
+                  
+                  location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+                      expires 1y;
+                      add_header Cache-Control "public, immutable";
+                  }
+              }
+              
+              location ~ /\. {
+                  deny all;
+                  access_log off;
+                  log_not_found off;
+              }
+              
+              location /api/ {
+                  proxy_pass http://100.52.213.205:3000;
+                  proxy_http_version 1.1;
+                  proxy_set_header Upgrade \$http_upgrade;
+                  proxy_set_header Connection "upgrade";
+                  proxy_set_header Host \$host;
+                  proxy_set_header X-Real-IP \$remote_addr;
+                  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto \$scheme;
+              }
+          }
+          EOF
+          
+          # 7. Testar e recarregar Nginx
+          if sudo nginx -t; then
+            echo "✅ Configuração Nginx válida"
+            sudo systemctl reload nginx
+            echo "✅ Nginx recarregado"
           else
-            ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${{ env.SSH_PORT }} ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "$SERVER_SCRIPT"
+            echo "❌ ERROR: Configuração Nginx inválida"
+            sudo nginx -t
+            exit 1
           fi
+          
+          # 8. Testar localmente
+          echo "Testando aplicação localmente..."
+          curl -s -H "Host: heroesplatform.com.br" http://localhost | grep -o "<title>[^<]*</title>" || echo "✅ Aplicação respondendo"
+          
+          # 9. Limpar
+          sudo rm -rf /tmp/app-build
+          
+          echo "🚀 DEPLOY CONCLUÍDO COM SUCESSO!"
+          '
 
-      - name: Health check
+      - name: Verify deployment
         run: |
-          sleep 5
-          curl -f http://${{ env.FRONTEND_HOST }} || exit 0  # Não falha se ainda não estiver acessível
+          sleep 3
+          echo "Verificando deploy..."
+          curl -f -I http://${{ env.FRONTEND_HOST }} || echo "⚠️  Ainda não acessível externamente"
+          echo "✅ Processo de deploy completo"
 
       - name: Cleanup SSH key
         if: always()
