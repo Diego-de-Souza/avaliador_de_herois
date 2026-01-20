@@ -7,17 +7,27 @@ function generateEnvironment(isProduction = false) {
   // ✅ GARANTIR que a pasta exista
   fs.mkdirSync(envDir, { recursive: true });
 
+  // Pegando API_URL do ambiente
+  let apiURL = process.env.API_URL || (isProduction ? '' : 'http://localhost:3020');
+
+  // ✅ Garantir protocolo absoluto
+  if (!/^https?:\/\//.test(apiURL) && apiURL !== '') {
+    apiURL = 'https://' + apiURL;
+  }
+
+  // ✅ Remover barra final
+  apiURL = apiURL.replace(/\/+$/, '');
+
   const envVars = {
     production: isProduction,
-    apiURL: process.env.API_URL || (isProduction ? '' : 'http://localhost:3020'),
+    apiURL,
     ID_CLIENTE_GOOGLE: process.env.ID_CLIENTE_GOOGLE || '',
     SECRET_KEY_GOOGLE: process.env.SECRET_KEY_GOOGLE || '',
     stripePublicKey: process.env.STRIPE_PUBLIC_KEY || '',
     encryptionKey: process.env.ENCRYPTION_KEY || ''
   };
 
-  const content =
-`export const environment = ${JSON.stringify(envVars, null, 2)};`;
+  const content = `export const environment = ${JSON.stringify(envVars, null, 2)};`;
 
   const fileName = isProduction ? 'environment.prod.ts' : 'environment.ts';
   const filePath = path.join(envDir, fileName);
@@ -27,6 +37,6 @@ function generateEnvironment(isProduction = false) {
   console.log(`✅ ${fileName} gerado com sucesso em ${filePath}`);
 }
 
-// Gerar ambos
+// Gerar ambos os environments
 generateEnvironment(false);
 generateEnvironment(true);
