@@ -64,73 +64,37 @@ jobs:
 
       - name: Generate Angular Environment Files
         run: |
-          echo "🔧 Gerando arquivos de environment para produção..."
-          echo "API_URL: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
+          echo "🔧 Configurando environment do Angular..."
           
-          # Verificar se o script existe
-          if [ ! -f "scripts/generate-env.js" ]; then
-            echo "❌ ERRO: Script scripts/generate-env.js não encontrado!"
-            echo "Criando script temporário..."
-            cat > scripts/generate-env.js << 'EOF'
-            const fs = require('fs');
-            const path = require('path');
-            
-            function generateEnvironment(isProduction = false) {
-              const envVars = {
-                production: isProduction,
-                apiURL: process.env.API_URL || (isProduction ? 'https://api.heroesplatform.com.br' : 'http://localhost:3020'),
-                ID_CLIENTE_GOOGLE: process.env.ID_CLIENTE_GOOGLE || '',
-                SECRET_KEY_GOOGLE: process.env.SECRET_KEY_GOOGLE || '',
-                stripePublicKey: process.env.STRIPE_PUBLIC_KEY || '',
-                encryptionKey: process.env.ENCRYPTION_KEY || ''
-              };
-            
-              const content = `export const environment = ${JSON.stringify(envVars, null, 2)};`;
-              
-              const fileName = isProduction ? 'environment.prod.ts' : 'environment.ts';
-              const filePath = path.join(__dirname, '..', 'src', 'environments', fileName);
-              
-              // Criar diretório se não existir
-              const dirPath = path.dirname(filePath);
-              if (!fs.existsSync(dirPath)) {
-                fs.mkdirSync(dirPath, { recursive: true });
-              }
-              
-              fs.writeFileSync(filePath, content);
-              console.log(\`✅ \${fileName} gerado com sucesso!\`);
-              console.log(\`🔧 API URL: \${envVars.apiURL}\`);
-            }
-            
-            // Gerar apenas production
-            generateEnvironment(true);
-            EOF
-          fi
+          # Criar diretório se não existir
+          mkdir -p src/environments
           
-          # Definir variáveis de ambiente para o script
-          export API_URL="${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
-          export ID_CLIENTE_GOOGLE="${{ vars.ID_CLIENTE_GOOGLE || '' }}"
-          export SECRET_KEY_GOOGLE="${{ secrets.SECRET_KEY_GOOGLE || '' }}"
-          export STRIPE_PUBLIC_KEY="${{ vars.STRIPE_PUBLIC_KEY || '' }}"
-          export ENCRYPTION_KEY="${{ secrets.ENCRYPTION_KEY || '' }}"
-          export NODE_ENV="production"
+          # Criar environment.prod.ts
+          cat > src/environments/environment.prod.ts << 'ENVPROD_EOF'
+          export const environment = {
+            production: true,
+            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
+            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
+            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
+            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
+            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
+          };
+          ENVPROD_EOF
           
-          # Executar script
-          node scripts/generate-env.js
+          # Criar environment.ts
+          cat > src/environments/environment.ts << 'ENVDEV_EOF'
+          export const environment = {
+            production: false,
+            apiURL: '${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}',
+            ID_CLIENTE_GOOGLE: '${{ vars.ID_CLIENTE_GOOGLE || '' }}',
+            SECRET_KEY_GOOGLE: '${{ secrets.SECRET_KEY_GOOGLE || '' }}',
+            stripePublicKey: '${{ vars.STRIPE_PUBLIC_KEY || '' }}',
+            encryptionKey: '${{ secrets.ENCRYPTION_KEY || '' }}'
+          };
+          ENVDEV_EOF
           
-          # Verificar se os arquivos foram criados
-          echo "📄 Verificando arquivos gerados..."
-          if [ -f "src/environments/environment.prod.ts" ]; then
-            echo "✅ environment.prod.ts criado:"
-            cat src/environments/environment.prod.ts | grep -A5 "apiURL"
-          else
-            echo "❌ environment.prod.ts não foi criado!"
-            exit 1
-          fi
-          
-          # Verificar também environment.ts (para garantir)
-          if [ -f "src/environments/environment.ts" ]; then
-            echo "✅ environment.ts existe"
-          fi
+          echo "✅ Arquivos de environment criados"
+          echo "API_URL definido como: ${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
 
       - name: Force Replace localhost References
         run: |
@@ -138,21 +102,21 @@ jobs:
           
           API_URL="${{ vars.API_URL || 'https://api.heroesplatform.com.br' }}"
           
-          # Substituir em todos os arquivos TypeScript/JavaScript/HTML
-          find src -type f \( -name "*.ts" -o -name "*.js" -o -name "*.tsx" -o -name "*.jsx" -o -name "*.html" \) \
-            -exec grep -l "localhost:3020" {} \; 2>/dev/null | while read file; do
+          # Substituir em arquivos TypeScript/JavaScript
+          find src -type f \( -name "*.ts" -o -name "*.js" -o -name "*.html" \) -exec grep -l "localhost:3020" {} \; 2>/dev/null | while read file; do
             echo "🔧 Corrigindo: $file"
             sed -i "s|http://localhost:3020|${API_URL}|g" "$file"
             sed -i "s|localhost:3020|${API_URL}|g" "$file"
-          done || true  # Ignora erro se não encontrar nada
+          done
           
           echo "✅ Substituição concluída"
           
-          # Verificação final
-          echo "📋 Verificando se ainda há referências a localhost:3020..."
-          if grep -r "localhost:3020" src/ --include="*.ts" --include="*.js" --include="*.html" 2>/dev/null; then
-            echo "⚠️  Ainda há referências a localhost:3020!"
-            grep -r "localhost:3020" src/ --include="*.ts" --include="*.js" --include="*.html" 2>/dev/null | head -5
+          # Verificação
+          echo "📋 Verificação final:"
+          REMAINING_REFS=$(grep -r "localhost:3020" src/ 2>/dev/null | wc -l)
+          if [ "$REMAINING_REFS" -gt 0 ]; then
+            echo "⚠️  Ainda há $REMAINING_REFS referências a localhost:3020"
+            grep -r "localhost:3020" src/ 2>/dev/null | head -5
           else
             echo "✅ Nenhuma referência a localhost:3020 encontrada"
           fi
@@ -169,13 +133,13 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           
-          # Corrigir formatação da chave (remover \n literais)
+          # Corrigir formatação da chave
           sed -i 's/\\n/\n/g' ~/.ssh/deploy_key
           sed -i 's/\r$//' ~/.ssh/deploy_key
           echo "" >> ~/.ssh/deploy_key
           
           # Configurar SSH
-          cat > ~/.ssh/config << EOF
+          cat > ~/.ssh/config << 'SSHCONFIG_EOF'
           Host ${{ env.FRONTEND_HOST }}
             HostName ${{ env.SSH_HOST }}
             Port ${{ env.SSH_PORT }}
@@ -186,7 +150,7 @@ jobs:
             ConnectTimeout ${{ env.SSH_TIMEOUT }}
             ServerAliveInterval 60
             ServerAliveCountMax 3
-          EOF
+          SSHCONFIG_EOF
           chmod 600 ~/.ssh/config
           
           # Teste de conectividade
@@ -341,7 +305,7 @@ jobs:
           echo "🔧 Configurando Nginx..."
           
           # Criar configuração Nginx
-          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "NGINX_EOF"
+          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "NGINXCONFIG_EOF"
           server {
               listen 80;
               listen [::]:80;
@@ -396,7 +360,7 @@ jobs:
                   proxy_set_header X-Forwarded-Proto $scheme;
               }
           }
-          NGINX_EOF
+          NGINXCONFIG_EOF
           
           echo "✅ Configuração do Nginx criada"
           
@@ -438,19 +402,21 @@ jobs:
           sleep 8  # Dar tempo para o Nginx recarregar
           
           # Tentar acessar a aplicação
-          for i in {1..5}; do
-            echo "Tentativa $i de 5..."
-            if curl -f -s -o /dev/null -w "HTTP %{http_code}" http://${{ env.FRONTEND_HOST }}; then
-              echo ""
-              echo "✅ Aplicação está respondendo!"
+          MAX_RETRIES=5
+          for i in $(seq 1 $MAX_RETRIES); do
+            echo "Tentativa $i de $MAX_RETRIES..."
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${{ env.FRONTEND_HOST }} || echo "000")
+            
+            if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ] || [ "$HTTP_CODE" = "304" ]; then
+              echo "✅ Aplicação está respondendo! HTTP $HTTP_CODE"
               exit 0
             else
-              echo " ⏳ Aguardando..."
+              echo "⚠️  HTTP $HTTP_CODE - Aguardando..."
               sleep 3
             fi
           done
           
-          echo "⚠️  Aplicação não respondeu após 5 tentativas"
+          echo "⚠️  Aplicação não respondeu após $MAX_RETRIES tentativas"
           echo "Verifique manualmente: http://${{ env.FRONTEND_HOST }}"
           exit 0  # Não falha o workflow, apenas avisa
 
