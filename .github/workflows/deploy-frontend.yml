@@ -101,7 +101,7 @@ jobs:
       - name: Build application
         run: |
           echo "🏗️  Iniciando build Angular..."
-          npm run build
+          npm run build -- --configuration production
           
           if [ ! -d "./dist" ]; then
             echo "❌ ERROR: Pasta dist não foi criada!"
