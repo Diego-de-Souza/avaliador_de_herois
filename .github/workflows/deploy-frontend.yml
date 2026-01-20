@@ -64,37 +64,60 @@ jobs:
             UserKnownHostsFile /dev/null
           EOF
 
-            - name: Copy files to EC2
+      - name: Copy files to EC2
         run: |
-          # Caminhos absolutos
+          # Caminho absoluto para config SSH
+          SSH_CONFIG="$HOME/.ssh/config"
           SSH_KEY="$HOME/.ssh/deploy_key"
           BUILD_SRC="./dist/avaliador_de_herois/browser"
           
           # Verificar se build existe
           if [ ! -f "$BUILD_SRC/index.html" ]; then
             echo "❌ ERROR: index.html não encontrado em $BUILD_SRC/"
-            echo "Conteúdo de dist/:"
-            ls -la ./dist/
+            echo "Procurando index.html..."
+            find ./dist -name "index.html" 2>/dev/null
             exit 1
           fi
           
-          echo "✅ Build verificado: $BUILD_SRC"
+          echo "✅ Build verificado em: $BUILD_SRC"
           
-          # Copiar usando scp/rsync simples
-          echo "Copiando arquivos para o servidor..."
+          # Criar tar para transferência confiável
+          echo "Empacotando arquivos..."
+          tar czf /tmp/app-build.tar.gz -C "$BUILD_SRC" .
+          
+          # Copiar para servidor
+          echo "Enviando para servidor..."
           scp -i "$SSH_KEY" \
             -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
             -P ${{ env.SSH_PORT }} \
-            -r "$BUILD_SRC"/* \
-            ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/app-build/
+            /tmp/app-build.tar.gz \
+            ${{ env.SSH_USER }}@${{ env.SSH_HOST }}:/tmp/
           
-          echo "✅ Arquivos copiados com sucesso"
+          # Extrair no servidor
+          echo "Extraindo no servidor..."
+          ssh -i "$SSH_KEY" \
+            -o StrictHostKeyChecking=no \
+            -p ${{ env.SSH_PORT }} \
+            ${{ env.SSH_USER }}@${{ env.SSH_HOST }} "
+            sudo rm -rf /tmp/app-build
+            sudo mkdir -p /tmp/app-build
+            sudo tar xzf /tmp/app-build.tar.gz -C /tmp/app-build
+            sudo rm -f /tmp/app-build.tar.gz
+            echo '✅ Arquivos extraídos:'
+            ls -la /tmp/app-build/ | head -5
+          "
+          
+          rm -f /tmp/app-build.tar.gz
 
       - name: Deploy to server
         run: |
+          SSH_KEY="$HOME/.ssh/deploy_key"
+          
           # Script de deploy no servidor
-          ssh -F ~/.ssh/config ${{ env.FRONTEND_HOST }} '
+          ssh -i "$SSH_KEY" \
+            -o StrictHostKeyChecking=no \
+            -p ${{ env.SSH_PORT }} \
+            ${{ env.SSH_USER }}@${{ env.SSH_HOST }} '
           # 1. Verificar se arquivos foram copiados
           if [ ! -d "/tmp/app-build" ] || [ -z "$(ls -A /tmp/app-build)" ]; then
             echo "❌ ERROR: /tmp/app-build não existe ou está vazio!"
@@ -126,7 +149,7 @@ jobs:
           echo "✅ Arquivos copiados e permissões configuradas"
           
           # 6. Criar configuração Nginx CORRETA
-          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << EOF
+          sudo tee /etc/nginx/conf.d/heroesplatform.conf > /dev/null << "EOF"
           server {
               listen 80;
               listen [::]:80;
@@ -148,7 +171,7 @@ jobs:
               add_header X-XSS-Protection "1; mode=block" always;
               
               location / {
-                  try_files \$uri \$uri/ /index.html;
+                  try_files $uri $uri/ /index.html;
                   
                   location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
                       expires 1y;
@@ -165,12 +188,12 @@ jobs:
               location /api/ {
                   proxy_pass http://100.52.213.205:3000;
                   proxy_http_version 1.1;
-                  proxy_set_header Upgrade \$http_upgrade;
+                  proxy_set_header Upgrade $http_upgrade;
                   proxy_set_header Connection "upgrade";
-                  proxy_set_header Host \$host;
-                  proxy_set_header X-Real-IP \$remote_addr;
-                  proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto \$scheme;
+                  proxy_set_header Host $host;
+                  proxy_set_header X-Real-IP $remote_addr;
+                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                  proxy_set_header X-Forwarded-Proto $scheme;
               }
           }
           EOF
@@ -195,13 +218,6 @@ jobs:
           
           echo "🚀 DEPLOY CONCLUÍDO COM SUCESSO!"
           '
-
-      - name: Verify deployment
-        run: |
-          sleep 3
-          echo "Verificando deploy..."
-          curl -f -I http://${{ env.FRONTEND_HOST }} || echo "⚠️  Ainda não acessível externamente"
-          echo "✅ Processo de deploy completo"
 
       - name: Cleanup SSH key
         if: always()
