@@ -11,8 +11,8 @@ function generateEnvironment(isProduction = false) {
   let apiURL = process.env.API_URL || (isProduction ? '' : 'http://localhost:3020');
 
   // ✅ Garantir protocolo absoluto
-  if (!/^https?:\/\//.test(apiURL) && apiURL !== '') {
-    apiURL = 'https://' + apiURL;
+  if (!/^http?:\/\//.test(apiURL) && apiURL !== '') {
+    apiURL = 'http://' + apiURL;
   }
 
   // ✅ Remover barra final

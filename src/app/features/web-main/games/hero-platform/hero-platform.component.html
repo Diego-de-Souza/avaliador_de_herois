@@ -1,0 +1,172 @@
+<app-header></app-header>
+
+<section class="hero-platform-container" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="game-wrapper">
+    <div id="gameContainer"></div>
+
+    <!-- CARREGANDO PROGRESSO -->
+    @if (loadingMessage()) {
+      <div class="loading-overlay">
+        <div class="loading-content">
+          <h2>⏳ {{ loadingMessage() }}</h2>
+        </div>
+      </div>
+    }
+
+    <!-- TELA DE ESCOLHA: CONTINUAR OU RECOMEÇAR -->
+    @if (showChooseGameMode() && !showMenu()) {
+      <div class="menu">
+        <h1>HERO PLATFORM</h1>
+        <p>
+          Você tem progresso salvo!<br>
+          Deseja continuar de onde parou ou começar um novo jogo?
+        </p>
+        <button class="menu-btn" (click)="continueGame()">➡️ CONTINUAR</button>
+        <button class="menu-btn" (click)="startNewGame()">🔄 RECOMEÇAR</button>
+      </div>
+    }
+
+    <!-- MENU PRINCIPAL -->
+    @if (showMenu() && !showChooseGameMode() && !showHowToPlay() && !showHighScores()) {
+      <div class="menu">
+        <h1>HERO PLATFORM</h1>
+        <p>
+          Você é um super-herói correndo contra o tempo!<br>
+          Colete orbes de energia para manter seu poder.<br>
+          Evite vilões que drenam sua energia.<br>
+          <strong>Salve a cidade!</strong>
+        </p>
+        <button class="menu-btn" (click)="startNewGame()">INICIAR MISSÃO</button>
+        <button class="menu-btn" (click)="showHowToPlayMenu()">COMO JOGAR</button>
+        <button class="menu-btn" (click)="showHighScoresMenu()">RANKING</button>
+      </div>
+    }
+
+    <!-- MENU COMO JOGAR -->
+    @if (showHowToPlay()) {
+      <div class="menu">
+        <h1>COMO JOGAR</h1>
+        <div class="how-to-play-content">
+          <p><strong>Objetivo:</strong> Complete todos os 5 níveis e salve a cidade!</p>
+          
+          <p><strong>Controles:</strong><br>
+          Setas ou WASD - Mover esquerda/direita<br>
+          Seta para Cima, W ou Espaço - Pular</p>
+          
+          <p><strong>Sua Energia:</strong><br>
+          A energia do herói diminui constantemente<br>
+          Fique de olho no medidor de energia!</p>
+          
+          <p><strong>Colete Power-Ups:</strong><br>
+          Orbes de Energia - Restaura 15% de energia<br>
+          Power Boosts - Restaura 25% de energia</p>
+          
+          <p><strong>Evite Vilões:</strong><br>
+          Vilões - Drenam energia (-20%)<br>
+          Energia Sombria - Enfraquece o herói (-15%)</p>
+          
+          <p><strong>Vidas:</strong><br>
+          Você tem 3 vidas<br>
+          Tente novamente o nível atual se falhar</p>
+          
+          <p><strong>Dicas:</strong><br>
+          • Continue se movendo para encontrar power-ups<br>
+          • Cada nível fica mais difícil<br>
+          • Não deixe a energia chegar a 0%!</p>
+        </div>
+        <button class="menu-btn" (click)="backToMainMenu()">VOLTAR</button>
+      </div>
+    }
+
+    <!-- MENU RANKING -->
+    @if (showHighScores()) {
+      <div class="menu">
+        <h1>RANKING</h1>
+        <div class="high-scores-content">
+          @if (getHighScores().length === 0) {
+            <p class="no-scores">Nenhuma pontuação ainda! Seja o primeiro herói!</p>
+          } @else {
+            @for (entry of getHighScores(); track entry.date + entry.score) {
+              <div class="score-entry">
+                <span class="rank">#{{ $index + 1 }}</span>
+                <span>{{ entry.score }} pts</span>
+                <span>Nível {{ entry.level }}</span>
+                <span>{{ entry.lives }} vidas</span>
+                <span class="date">{{ entry.date }}</span>
+              </div>
+            }
+          }
+        </div>
+        <button class="menu-btn" (click)="backToMainMenu()">VOLTAR</button>
+      </div>
+    }
+
+    <!-- UI DO JOGO -->
+    @if (showUI()) {
+      <div class="ui">
+        <div>Pontuação: <span>{{ score() }}</span></div>
+        <div>Nível: <span>{{ level() }}</span></div>
+        <div>Vidas: <span>{{ lives() }}</span></div>
+      </div>
+    }
+
+    <!-- MEDIDOR DE ENERGIA -->
+    @if (showEnergyMeter()) {
+      <div class="energy-meter">
+        <div class="label">Energia do Herói</div>
+        <div class="bar-container">
+          <div class="bar" [style.width.%]="energy()"></div>
+        </div>
+      </div>
+    }
+
+    <!-- INSTRUÇÕES -->
+    @if (showInstructions()) {
+      <div class="instructions">
+        Setas ou WASD para Mover • Cima ou Espaço para Pular • Colete Orbes de Energia para se Manter Poderoso!
+      </div>
+    }
+
+    <!-- TELA DE NÍVEL COMPLETO -->
+    @if (showLevelComplete()) {
+      <div class="level-complete-overlay">
+        <div class="level-complete-content">
+          <h2>NÍVEL COMPLETO!</h2>
+          <p [innerHTML]="formatMessage(levelCompleteMessage())"></p>
+        </div>
+      </div>
+    }
+
+    <!-- TELA DE GAME OVER -->
+    @if (showGameOver()) {
+      <div class="game-over-overlay">
+        <div class="game-over-content">
+          <h2>HERÓI DERROTADO!</h2>
+          <p [innerHTML]="formatMessage(gameOverMessage())"></p>
+          @if (lives() > 0) {
+            <button class="menu-btn" (click)="retryLevel()">TENTAR NÍVEL {{ level() }} NOVAMENTE</button>
+          } @else {
+            <button class="menu-btn" (click)="playAgain()">TENTAR NOVAMENTE</button>
+            <button class="menu-btn" (click)="showHighScoresMenu()">VER RANKING</button>
+          }
+          <button class="menu-btn btn-secondary" (click)="backToGameSelection()">← VOLTAR À SELEÇÃO</button>
+        </div>
+      </div>
+    }
+
+    <!-- TELA DE VITÓRIA -->
+    @if (showVictory()) {
+      <div class="victory-overlay">
+        <div class="victory-content">
+          <h2>VITÓRIA!</h2>
+          <p [innerHTML]="formatMessage(victoryMessage())"></p>
+          <button class="menu-btn" (click)="playAgain()">JOGAR NOVAMENTE</button>
+          <button class="menu-btn" (click)="showHighScoresMenu()">VER RANKING</button>
+          <button class="menu-btn btn-secondary" (click)="backToGameSelection()">← VOLTAR À SELEÇÃO</button>
+        </div>
+      </div>
+    }
+  </div>
+</section>
+
+<app-footer></app-footer>

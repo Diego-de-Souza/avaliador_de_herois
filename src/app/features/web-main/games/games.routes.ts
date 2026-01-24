@@ -18,5 +18,10 @@ export const routesGames: Routes = [
         title: 'Hero Battle',
         canActivate: [plansGuard],
         loadComponent: () => import('./hero-battle/hero-battle').then(m => m.HeroBattle)    
+    },
+    {
+        path: 'hero-platform',
+        title: 'Hero Platform',
+        loadComponent: () => import('./hero-platform/hero-platform.component').then(m => m.HeroPlatformComponent)
     }
 ]
