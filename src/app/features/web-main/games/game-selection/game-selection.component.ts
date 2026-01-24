@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../core/service/theme/theme.service';
 import { PaymentService } from '../../../../core/service/shopping/payment.service';
 import { GamesHttpService } from '../../../../core/service/http/game-http.service';
 import { AuthService } from '../../../../core/service/auth/auth.service';
+import { GameContextService } from '../game-context.service';
 
 @Component({
   selector: 'app-game-selection',
@@ -20,6 +21,7 @@ export class GameSelectionComponent implements OnInit {
   private readonly paymentService = inject(PaymentService);
   private readonly router = inject(Router);
   private readonly gamesHttpService = inject(GamesHttpService);
+  private readonly gameContextService = inject(GameContextService);
 
   public hasSignature: boolean | undefined = false;
   public showModal = false;
@@ -45,9 +47,16 @@ export class GameSelectionComponent implements OnInit {
     this.getGames();
   }
 
-  hasPermission(link: string): void {
+  hasPermission(game: any): void {
     if (this.hasSignature) {
-      this.router.navigate([link]);
+      // Salvar o jogo selecionado no serviço de contexto
+      this.gameContextService.setCurrentGame({
+        id: game.id,
+        name: game.name,
+        type: game.type,
+        link: game.link
+      });
+      this.router.navigate([game.link]);
       return;
     }
     this.showModal = true;

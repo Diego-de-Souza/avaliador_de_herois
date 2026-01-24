@@ -7,6 +7,7 @@ import { ThemeService } from '../../../../core/service/theme/theme.service';
 import { HeroPlatformService, HeroGame } from './hero-platform.service';
 import { AuthService } from '../../../../core/service/auth/auth.service';
 import { ProgressService } from '../../../../core/service/games/progress.service';
+import { GameContextService } from '../game-context.service';
 
 @Component({
   selector: 'app-hero-platform',
@@ -20,6 +21,7 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly progressService = inject(ProgressService);
   private readonly router = inject(Router);
+  private readonly gameContextService = inject(GameContextService);
 
   public theme = signal('dark');
   public showMenu = signal(true);
@@ -45,12 +47,22 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
 
   private gameInstance: HeroGame | null = null;
   private savedProgress: any = null;
-  private readonly GAME_ID = 6; 
+  private gameId: number | null = null; 
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {
       this.theme.set(theme);
     });
+
+    // Obter o ID do jogo do serviço de contexto
+    this.gameId = this.gameContextService.getCurrentGameId();
+    if (!this.gameId) {
+      console.error('❌ Nenhum jogo selecionado!');
+      this.router.navigate(['/webmain/games']);
+      return;
+    }
+
+    console.log(`📍 Jogo carregado com ID: ${this.gameId}`);
 
     // Buscar progresso salvo da API
     this.loadProgressFromAPI();
@@ -62,14 +74,14 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
 
   private loadProgressFromAPI(): void {
     const user = this.authService.getUser();
-    if (!user) {
+    if (!user || !this.gameId) {
       // Se não está logado, iniciar novo jogo
       this.initializeNewGame();
       return;
     }
 
     this.loadingMessage.set('Carregando progresso...');
-    this.progressService.getUserGameProgress(user.id, this.GAME_ID).subscribe({
+    this.progressService.getUserGameProgress(user.id, this.gameId).subscribe({
       next: (response) => {
         if (response && response.dataUnit) {
           this.savedProgress = response.dataUnit;
@@ -118,6 +130,9 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
     this.lives.set(3);
     this.energy.set(100);
     this.savedProgress = null;
+    
+    // Fechar o modal de opções
+    this.showChooseGameMode.set(false);
 
     setTimeout(() => {
       this.gameInstance = this.heroPlatformService.initGame('gameContainer');
@@ -270,7 +285,7 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
 
   private saveProgressToAPI(): void {
     const user = this.authService.getUser();
-    if (!user) return;
+    if (!user || !this.gameId) return;
 
     const metadata = {
       energy: this.energy(),
@@ -280,14 +295,14 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
 
     this.progressService.saveProgressHeroBattle(
       user.id,
-      this.GAME_ID,
+      this.gameId,
       this.level(),
       this.score(),
       0,
       metadata
     ).subscribe({
       next: (response) => {
-        console.log('✅ Progresso salvo com sucesso!', response);
+        console.log(`✅ Progresso salvo com sucesso! (Game ID: ${this.gameId})`, response);
       },
       error: (error) => {
         console.error('❌ Erro ao salvar progresso:', error);
