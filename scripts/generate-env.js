@@ -10,9 +10,14 @@ function generateEnvironment(isProduction = false) {
   // Pegando API_URL do ambiente
   let apiURL = process.env.API_URL || (isProduction ? '' : 'http://localhost:3020');
 
-  // ✅ Garantir protocolo absoluto
-  if (!/^http?:\/\//.test(apiURL) && apiURL !== '') {
-    apiURL = 'http://' + apiURL;
+  // ✅ CORREÇÃO FINAL - Se já tem protocolo, não altera
+  if (apiURL && !/^https?:\/\//.test(apiURL) && !/^http?:\/\//.test(apiURL)) {
+    // Só adiciona protocolo se não tiver nenhum
+    if (isProduction) {
+      apiURL = 'https://' + apiURL;
+    } else {
+      apiURL = 'http://' + apiURL;
+    }
   }
 
   // ✅ Remover barra final
