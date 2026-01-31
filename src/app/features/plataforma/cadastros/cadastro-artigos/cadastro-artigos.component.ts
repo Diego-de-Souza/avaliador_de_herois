@@ -44,7 +44,8 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
       views: [0],
       theme: [''],
       themeColor: ['#00D2FF'],
-      image: [''] // Aqui será salvo o base64 da imagem
+      image: [''], // Aqui será salvo o base64 da imagem
+      image_source: [''] // Fonte/atribuição da imagem principal
     });
   }
 

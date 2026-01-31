@@ -19,6 +19,8 @@ export interface ClientArticle extends ClientArticleRequest {
   views?: number;
   thumbnail?: string;
   image?: string;
+  /** Fonte ou atribuição da imagem */
+  image_source?: string;
   route?: string;
   author?: string;
 }

@@ -180,6 +180,18 @@
   display: block;
 }
 
+.article-image-caption {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  padding: 0.5rem 0 0;
+  font-style: italic;
+  margin: 0;
+}
+
+#container-article-detail.light .article-image-caption {
+  color: #555;
+}
+
 .article-description {
   font-size: 1.25rem;
   line-height: 1.6;
@@ -222,6 +234,22 @@
   height: auto;
   border-radius: 8px;
   margin: 1.5rem 0;
+}
+
+.article-body :deep(.article-body-figure) {
+  margin: 1.5rem 0;
+}
+
+.article-body :deep(.article-body-figure .article-image-caption) {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  padding: 0.5rem 0 0;
+  font-style: italic;
+  margin: 0;
+}
+
+#container-article-detail.light .article-body :deep(.article-body-figure .article-image-caption) {
+  color: #555;
 }
 
 .article-body :deep(blockquote) {

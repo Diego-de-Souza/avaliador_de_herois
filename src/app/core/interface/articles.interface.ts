@@ -18,7 +18,9 @@ export interface articlesProps {
     updated_at: string;
     views?: number;
     theme?: string;       
-    themeColor?: string; 
-    image?: string; 
+    themeColor?: string;
+    image?: string;
+    /** Fonte ou atribuição da imagem principal */
+    image_source?: string;
     author: string;
 }

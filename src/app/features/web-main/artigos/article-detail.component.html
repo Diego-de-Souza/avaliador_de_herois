@@ -45,13 +45,18 @@
 
         <!-- Imagem do Artigo -->
         @if (article.image || article.thumbnail) {
-          <div class="article-image-container">
+          <figure class="article-image-container">
             <img 
               [src]="article.image || article.thumbnail" 
               [alt]="article.title"
               class="article-image"
             />
-          </div>
+            @if (article.image_source) {
+              <figcaption class="article-image-caption">
+                Fonte: {{ article.image_source }}
+              </figcaption>
+            }
+          </figure>
         }
 
         <!-- Descrição -->
