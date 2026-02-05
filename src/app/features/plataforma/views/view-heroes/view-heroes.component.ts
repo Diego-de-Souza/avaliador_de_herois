@@ -42,6 +42,7 @@ export class ViewHeroesComponent implements OnInit{
   }
 
   editHeroes(id: number): void {
-    this.router.navigate([`/cadastro/heroi/${id}`]);
+    console.log(id);
+    this.router.navigate(['/plataforma/cadastro/heroi', id]);
   }
 }

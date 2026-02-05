@@ -6,9 +6,9 @@ import { HeaderComponent } from '../../../../../shared/components/header/header.
 import { FooterComponent } from '../../../../../shared/components/footer/footer.component';
 import { ThemeService } from '../../../../../core/service/theme/theme.service';
 import { AuthService } from '../../../../../core/service/auth/auth.service';
-import { ClientNewsHttpService } from '../../../../../core/service/http/client-news-http.service';
 import { ToastService } from '../../../../../core/service/toast/toast.service';
 import { ClientNews } from '../../../../../core/interface/client-news.interface';
+import { NewsService } from '../../../../../core/service/news/news.service';
 
 @Component({
   selector: 'app-client-news-list',
@@ -21,13 +21,13 @@ export class ClientNewsListComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly newsService = inject(ClientNewsHttpService);
+  private readonly newsService = inject(NewsService);
   private readonly toastService = inject(ToastService);
 
   theme = 'dark';
-  userId: number | null = null;
+  userId: string | null = null;
   news: ClientNews[] = [];
-  selectedNews = new Set<number>();
+  selectedNews = new Set<string>();
   isLoading = false;
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ClientNewsListComponent implements OnInit {
   loadNews(): void {
     if (!this.userId) return;
     this.isLoading = true;
-    this.newsService.getAll(this.userId).subscribe({
+    this.newsService.getAllClientNewsletters(this.userId).subscribe({
       next: (response: any) => {
         // A API retorna { status, message, data: [...] }
         if (response.data && Array.isArray(response.data)) {
@@ -68,7 +68,7 @@ export class ClientNewsListComponent implements OnInit {
     });
   }
 
-  toggleSelection(id: number): void {
+  toggleSelection(id: string): void {
     if (this.selectedNews.has(id)) {
       this.selectedNews.delete(id);
     } else {
@@ -84,13 +84,13 @@ export class ClientNewsListComponent implements OnInit {
     }
   }
 
-  editNews(id: number): void {
+  editNews(id: string): void {
     this.router.navigate(['/webmain/client-area/news/edit', id]);
   }
 
-  deleteNews(id: number): void {
+  deleteNews(id: string): void {
     if (confirm('Tem certeza que deseja excluir esta notícia?')) {
-      this.newsService.delete(id).subscribe({
+      this.newsService.deleteClientNewsletter(id).subscribe({
         next: () => {
           this.toastService.success('Notícia excluída com sucesso!', 'Sucesso');
           this.loadNews();
@@ -111,7 +111,7 @@ export class ClientNewsListComponent implements OnInit {
 
     if (confirm(`Tem certeza que deseja excluir ${this.selectedNews.size} notícia(s)?`)) {
       const ids = Array.from(this.selectedNews);
-      this.newsService.deleteMany(ids).subscribe({
+      this.newsService.deleteManyClientNewsletters(ids as string[]).subscribe({
         next: () => {
           this.toastService.success(`${ids.length} notícia(s) excluída(s) com sucesso!`, 'Sucesso');
           this.loadNews();

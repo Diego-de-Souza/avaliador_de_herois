@@ -7,9 +7,9 @@ import { HeaderComponent } from '../../../../../shared/components/header/header.
 import { FooterComponent } from '../../../../../shared/components/footer/footer.component';
 import { ThemeService } from '../../../../../core/service/theme/theme.service';
 import { AuthService } from '../../../../../core/service/auth/auth.service';
-import { ClientArticleHttpService } from '../../../../../core/service/http/client-article-http.service';
 import { ToastService } from '../../../../../core/service/toast/toast.service';
-import { ClientArticle } from '../../../../../core/interface/client-article.interface';
+import { ClientArticle, ClientArticleRequest } from '../../../../../core/interface/client-article.interface';
+import { ArticleService } from '../../../../../core/service/articles/articles.service';
 
 @Component({
   selector: 'app-client-article-form',
@@ -24,14 +24,14 @@ export class ClientArticleFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
-  private readonly articleService = inject(ClientArticleHttpService);
+  private readonly articleService = inject(ArticleService);
   private readonly toastService = inject(ToastService);
 
   theme = 'dark';
-  userId: number | null = null;
+  userId: string | null = null;
   articleForm!: FormGroup;
   isEditMode = false;
-  articleId: number | null = null;
+  articleId: string | null = null;
   isLoading = false;
 
   get summaryArray(): FormArray {
@@ -60,7 +60,7 @@ export class ClientArticleFormComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.isEditMode = true;
-        this.articleId = parseInt(id, 10);
+        this.articleId = id;
         this.loadArticle(this.articleId);
       }
     });
@@ -79,9 +79,9 @@ export class ClientArticleFormComponent implements OnInit {
     });
   }
 
-  loadArticle(id: number): void {
+  loadArticle(id: string): void {
     this.isLoading = true;
-    this.articleService.getById(id).subscribe({
+    this.articleService.getClientArticleById(id).subscribe({
       next: (response: any) => {
         // A API retorna { status, message, dataUnit: {...} }
         const article: ClientArticle = response.dataUnit || response;
@@ -147,8 +147,8 @@ export class ClientArticleFormComponent implements OnInit {
     };
 
     const operation = this.isEditMode && this.articleId
-      ? this.articleService.update(this.articleId, articleData)
-      : this.articleService.create(articleData);
+      ? this.articleService.updateClientArticle(this.articleId, articleData)
+      : this.articleService.createClientArticle(articleData as unknown as ClientArticleRequest);
 
     operation.subscribe({
       next: () => {

@@ -14,9 +14,14 @@ export const routesCadastros: Routes = [
         loadComponent: () => import('./cadastro-artigos/cadastro-artigos.component').then(m => m.CadastroArtigosComponent)
     },
     {
-        path: 'curiosidades',
-        title: 'Cadastro de Curiosidades',
-        loadComponent: () => import('./cadastro-curiosidades/cadastro-curiosidades.component').then(m => m.CadastroCuriosidadesComponent)
+        path: 'newsletter',
+        title: 'Cadastro de Newsletter',
+        loadComponent: () => import('./cadastro-newsletter/cadastro-newsletter.component').then(m => m.CadastroNewsletterComponent)
+    },
+    {
+        path: 'newsletter/:id',
+        title: 'Edição de Newsletter',
+        loadComponent: () => import('./cadastro-newsletter/cadastro-newsletter.component').then(m => m.CadastroNewsletterComponent)
     },
     {
         path: 'heroi',

@@ -8,9 +8,9 @@ export const routesViews: Routes = [
         loadComponent: () => import('./view-artigos/view-artigos.component').then(m => m.ViewArtigosComponent)
     },
     {
-        path: 'view-curiosidades',
-        title: 'Lista de Curiosidades',
-        loadComponent: () => import('./view-curiosidades/view-curiosidades.component').then(m => m.ViewCuriosidadesComponent)
+        path: 'view-newsletter',
+        title: 'Lista de Newsletter',
+        loadComponent: () => import('./view-newsletter/view-newsletter.component').then(m => m.ViewNewsletterComponent)
     },
     {
         path: 'view-heroes',

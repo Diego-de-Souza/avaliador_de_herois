@@ -36,14 +36,14 @@ export class ViewArtigosComponent implements OnInit {
     })
   }
 
-  editArtigos(article_id: number) {
+  editArtigos(article_id: string) {
     this.router.navigate([`/plataforma/cadastro/artigos/${article_id}`]);
   }
 
-  deleteArtigos(article_id: number) {
+  deleteArtigos(article_id: string) {
     this.articlesService.deleteArticle(article_id).subscribe({
       next: (response) => { 
-        this.articles.set(this.articles().filter(article => article.id !== article_id));
+        this.articles.set(this.articles().filter(article => String(article.id) !== article_id));
       },
       error: (error) => {
         console.error('Erro ao excluir o artigo:', error);

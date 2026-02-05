@@ -47,23 +47,23 @@ export class ArticleDetailComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const articleId = params.get('id');
       if (articleId) {
-        this.loadArticle(+articleId);
+        this.loadArticle(articleId);
       }
     });
   }
 
-  loadArticle(id: number): void {
+  loadArticle(id: string): void {
     this.loading = true;
     this.error = false;
 
     this.articleService.getArticlesList().subscribe({
       next: (response) => {
-        const article = response.data.find((a: articlesProps) => a.id === id);
+        const article = response.data.find((a: articlesProps) => String(a.id) === id);
         if (article) {
           // Processa o artigo para usar imageDefault quando route for null
           this.article = this.processArticle(article);
           this.loadMarkdownContent(this.article);
-          this.articleService.incrementViews(id);
+          this.articleService.incrementViews(String(article.id));
           this.loading = false;
         } else {
           this.error = true;

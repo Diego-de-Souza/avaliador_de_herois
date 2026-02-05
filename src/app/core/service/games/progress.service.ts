@@ -9,22 +9,22 @@ export class ProgressService {
   private readonly apiUrl = environment.apiURL;
 
   // Busca o progresso do usuário para um jogo específico
-  getUserGameProgress(userId: number, gameId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/games/user-game-progress?userId=${userId}&gameId=${gameId}`);
+  getUserGameProgress(user_id: string, game_id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/games/user-game-progress?user_id=${user_id}&game_id=${game_id}`);
   }
 
   // Salva ou atualiza o progresso do usuário
   saveProgress(
-    userId: number,
-    gameId: number,
+    user_id: string,
+    game_id: string,
     lvl_user: number,
     theme: string,
     score: number,
     attempts: number
   ): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/games/user-game-progress`, {
-      user_id: userId,
-      game_id: gameId,
+      user_id: user_id,
+      game_id: game_id,
       lvl_user,
       score,
       attempts,
@@ -33,16 +33,16 @@ export class ProgressService {
   }
 
   saveProgressHeroBattle(
-    userId: number,
-    gameId: number,
+    user_id: string,
+    game_id: string | null,
     lvl_user: number,
     score: number,
     attempts: number,
     metadata: any = {}
   ): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/games/user-game-progress`, {
-      user_id: userId,
-      game_id: gameId,
+      user_id: user_id,
+      game_id: game_id,
       lvl_user,
       score,
       attempts,

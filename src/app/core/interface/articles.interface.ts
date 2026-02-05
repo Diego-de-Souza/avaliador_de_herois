@@ -4,7 +4,7 @@ export interface ListItem {
 }
 
 export interface articlesProps {
-    id: number;
+    id: string;
     // category: string[];
     category: string;
     title: string;

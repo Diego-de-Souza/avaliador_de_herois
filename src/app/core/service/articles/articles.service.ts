@@ -4,12 +4,15 @@ import { articlesDataBase } from '../../../data/articles';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
+import { ArticleHttpService } from '../http/article-http.service';
+import { ClientArticle, ClientArticleListResponse, ClientArticleRequest } from '../../interface/client-article.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
   private readonly http = inject(HttpClient);
+  private readonly articleHttpService = inject(ArticleHttpService)
 
   // // Buscar todos artigos
   // getArticles(): Observable<Article[]> {
@@ -17,34 +20,24 @@ export class ArticleService {
   // }
 
   // Buscar artigo por ID
-  getArticleById(id: number): Observable<String[]> {
-    return this.http.get<String[]>(`${environment.apiURL}/articles/find-one-article/${id}`);
+  getArticleById(id: string): Observable<String[]> {
+    return this.articleHttpService.getArticleById(id);
   }
 
   // Criar artigo
   createArticle(article: articlesProps): Observable<articlesProps> {
-    return this.http.post<articlesProps>(`${environment.apiURL}/articles`, article);
+    return this.articleHttpService.createArticle(article);
   }
 
   // Atualizar artigo
-  updateArticle(id: number, article: articlesProps): Observable<articlesProps> {
-    return this.http.put<articlesProps>(`${environment.apiURL}/articles/update/${id}`, article);
+  updateArticle(id: string, article: articlesProps): Observable<articlesProps> {
+    return this.articleHttpService.updateArticle(id, article);
   }
 
   // Excluir artigo
-  deleteArticle(id: number): Observable<any> {
-    return this.http.delete(`${environment.apiURL}/articles/delete-one-article/${id}`);
+  deleteArticle(id: string): Observable<articlesProps> {
+    return this.articleHttpService.deleteArticle(id);
   }
-
-  // // Incrementar visualizações
-  // incrementViews(id: number): Observable<any> {
-  //   return this.http.put(`${environment.apiURL}/${id}/views`, {});
-  // }
-
-  // // Buscar os mais vistos
-  // getMostViewed(limit: number = 3): Observable<Article[]> {
-  //   return this.http.get<Article[]>(`http://localhost:3000/articles-most-viewed/${limit}`);
-  // }
 
   private articles: articlesProps[] = [...articlesDataBase];
 
@@ -52,12 +45,12 @@ export class ArticleService {
     return this.articles;
   }
 
-  getArticleByIndex(index: number): articlesProps | undefined {
+  getArticleByIndex(index: string): articlesProps | undefined {
     return this.articles.find(a => a.id === index);
   }
 
   getArticlesList(): Observable<any> {
-    return this.http.get(`${environment.apiURL}/articles/find-all-articles`);
+    return this.articleHttpService.getArticlesList();
   }
 
   getRecentArticles(limit: number): articlesProps[] {
@@ -90,7 +83,7 @@ export class ArticleService {
     }
   }
 
-  incrementArticleById(id: number): articlesProps | undefined {
+  incrementArticleById(id: string): articlesProps | undefined {
     const article = this.articles.find(a => a.id === id);
     if (article) {
       this.incrementViews(article.id);
@@ -98,7 +91,7 @@ export class ArticleService {
     return article;
   }
 
-  incrementViews(id: number): void {
+  incrementViews(id: string): void {
     const article = this.articles.find(a => a.id === id);
     if (article) {
       article.views = (article.views ?? 0) + 1;
@@ -112,6 +105,30 @@ export class ArticleService {
   }
 
   getArticlesHomepage(): Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/articles/articles-for-homepage`);
+    return this.articleHttpService.getArticlesHomepage();
+  }
+
+  createClientArticle(article: ClientArticleRequest): Observable<ClientArticle> {
+    return this.articleHttpService.createClientArticle(article);
+  }
+
+  getAllClientArticles(userId: string): Observable<ClientArticleListResponse> {
+    return this.articleHttpService.getAllClientArticles(userId);
+  }
+
+  getClientArticleById(id: string): Observable<ClientArticle> {
+    return this.articleHttpService.getClientArticleById(id);
+  }
+
+  updateClientArticle(id: string, article: Partial<ClientArticleRequest>): Observable<ClientArticle> {
+    return this.articleHttpService.updateClientArticle(id, article);
+  }
+
+  deleteClientArticle(id: string): Observable<any> {
+    return this.articleHttpService.deleteClientArticle(id);
+  }
+
+  deleteManyClientArticles(ids: string[]): Observable<any> {
+    return this.articleHttpService.deleteManyClientArticles(ids);
   }
 }

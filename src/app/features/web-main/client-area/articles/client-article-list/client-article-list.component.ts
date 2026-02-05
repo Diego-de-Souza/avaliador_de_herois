@@ -6,9 +6,9 @@ import { HeaderComponent } from '../../../../../shared/components/header/header.
 import { FooterComponent } from '../../../../../shared/components/footer/footer.component';
 import { ThemeService } from '../../../../../core/service/theme/theme.service';
 import { AuthService } from '../../../../../core/service/auth/auth.service';
-import { ClientArticleHttpService } from '../../../../../core/service/http/client-article-http.service';
 import { ToastService } from '../../../../../core/service/toast/toast.service';
-import { ClientArticle, ClientArticleApiResponse } from '../../../../../core/interface/client-article.interface';
+import { ClientArticle } from '../../../../../core/interface/client-article.interface';
+import { ArticleService } from '../../../../../core/service/articles/articles.service';
 
 @Component({
   selector: 'app-client-article-list',
@@ -21,13 +21,13 @@ export class ClientArticleListComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly articleService = inject(ClientArticleHttpService);
+  private readonly articleService = inject(ArticleService);
   private readonly toastService = inject(ToastService);
 
   theme = 'dark';
-  userId: number | null = null;
+  userId: string | null = null;
   articles: ClientArticle[] = [];
-  selectedArticles = new Set<number>();
+  selectedArticles = new Set<string>();
   isLoading = false;
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export class ClientArticleListComponent implements OnInit {
   loadArticles(): void {
     if (!this.userId) return;
     this.isLoading = true;
-    this.articleService.getAll(this.userId).subscribe({
+    this.articleService.getAllClientArticles(this.userId).subscribe({
       next: (response: any) => {
         // A API retorna { status, message, data: [...] }
         if (response.data && Array.isArray(response.data)) {
@@ -68,7 +68,7 @@ export class ClientArticleListComponent implements OnInit {
     });
   }
 
-  toggleSelection(id: number): void {
+  toggleSelection(id: string): void {
     if (this.selectedArticles.has(id)) {
       this.selectedArticles.delete(id);
     } else {
@@ -80,17 +80,17 @@ export class ClientArticleListComponent implements OnInit {
     if (this.selectedArticles.size === this.articles.length) {
       this.selectedArticles.clear();
     } else {
-      this.articles.forEach(article => this.selectedArticles.add(article.id));
+      this.articles.forEach(article => this.selectedArticles.add(String(article.id)));
     }
   }
 
-  editArticle(id: number): void {
+  editArticle(id: string): void {
     this.router.navigate(['/webmain/client-area/articles/edit', id]);
   }
 
-  deleteArticle(id: number): void {
+  deleteArticle(id: string): void {
     if (confirm('Tem certeza que deseja excluir este artigo?')) {
-      this.articleService.delete(id).subscribe({
+      this.articleService.deleteClientArticle(id).subscribe({
         next: () => {
           this.toastService.success('Artigo excluído com sucesso!', 'Sucesso');
           this.loadArticles();
@@ -111,7 +111,7 @@ export class ClientArticleListComponent implements OnInit {
 
     if (confirm(`Tem certeza que deseja excluir ${this.selectedArticles.size} artigo(s)?`)) {
       const ids = Array.from(this.selectedArticles);
-      this.articleService.deleteMany(ids).subscribe({
+      this.articleService.deleteManyClientArticles(ids).subscribe({
         next: () => {
           this.toastService.success(`${ids.length} artigo(s) excluído(s) com sucesso!`, 'Sucesso');
           this.loadArticles();

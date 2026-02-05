@@ -7,6 +7,9 @@ import { ArticleService } from '../../../core/service/articles/articles.service'
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { Images } from '../../../data/image-default';
 import { ImageDefaultInterface } from '../../../core/interface/image-default.interface';
+
+const DEFAULT_ARTICLE_IMAGE = '/img/home/destaques/features_articles.png';
+
 @Component({
   selector: 'app-artigos',
   standalone: true,
@@ -70,22 +73,27 @@ export class ArtigosComponent implements OnInit {
     });
   }
 
-  // Processa artigos e define imageDefault quando route for null
+  // Processa artigos e usa features_articles.png quando image/thumbnail estiver vazio
   processArticles(articles: articlesProps[]): articlesProps[] {
     if (!articles || !Array.isArray(articles)) {
       return [];
     }
     
     return articles.map(article => {
-      // Se route for null, usa imageDefault
-      if (article.image === null || article.image === undefined) {
-        return {
-          ...article,
-          image: article.image || this.imageDefault.image
-        };
-      }
-      return article;
+      const img = article.image ?? article.thumbnail ?? '';
+      const hasNoImage = !img || (typeof img === 'string' && img.trim() === '');
+      return {
+        ...article,
+        image: hasNoImage ? DEFAULT_ARTICLE_IMAGE : img
+      };
     });
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (!img.src.endsWith('features_articles.png')) {
+      img.src = DEFAULT_ARTICLE_IMAGE;
+    }
   }
 
   applyTheme(theme: string) {

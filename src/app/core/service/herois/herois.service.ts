@@ -25,15 +25,7 @@ export class HeroisService {
     })
   }
 
-  deleteOneTeam(id: number | null): Observable<any>{
-    return this.http.delete(`${this.apiUrl}/team/delete-one-team/${id}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-
-  getOneTeam(id: number | null): Observable<any>{
+  getOneTeam(id: string | null): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/herois/team/find-one-team/${id}`,{
       headers: {
         'Content-Type': 'application/json'
@@ -44,15 +36,6 @@ export class HeroisService {
   postRegisterTeam(teamData: any): Observable<any>{
     const data = {data: teamData};
     return this.http.post<ArrayBuffer>(`${this.apiUrl}/team`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-
-  putUpdateTeam(teamId: number | null, teamData: any): Observable<any>{
-    const data = {data: teamData};
-    return this.http.put<any>(`${this.apiUrl}/team/update/${teamId}`, data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -76,7 +59,7 @@ export class HeroisService {
     })
   }
 
-  getOneStudio(id:number | null): Observable<any>{
+  getOneStudio(id:string | null): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/studio/find-one-studio/${id}`,{
       headers:{
         'Content-Type': 'application/json',
@@ -94,7 +77,7 @@ export class HeroisService {
     });
   }
 
-  putUpdateStudio(id:Number|null, studioData: any): Observable<any>{
+  putUpdateStudio(id:string|null, studioData: any): Observable<any>{
     const data = { data:studioData};
     return this.http.put<ArrayBuffer>(`${this.apiUrl}/studio/update/${id}`, data, {
       headers: {
@@ -121,9 +104,9 @@ export class HeroisService {
     })
   }
 
-  putUpdateHero(id:number, heroData: any): Observable<any>{
+  putUpdateHero(id:string, heroData: any): Observable<any>{
     const data = {data: heroData};
-    return this.http.put<any>(`${this.apiUrl}/heroes/update/${id}`, data, {
+    return this.http.put<any>(`${this.apiUrl}/herois/update/${id}`, data, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -178,7 +161,7 @@ export class HeroisService {
     })
   }
 
-  getDataHero(id: number): Observable<any>{
+  getDataHero(id: string): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/herois/find-one-hero/${id}`, {
       headers: {
         'Content-Type': 'application/json'

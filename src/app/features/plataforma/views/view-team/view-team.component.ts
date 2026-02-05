@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
-import { HeroisService } from '../../../../core/service/herois/herois.service';
 import { Router } from '@angular/router';
+import { TeamService } from '../../../../core/service/team/team.service';
 
 @Component({
   selector: 'app-view-team',
@@ -11,16 +11,16 @@ import { Router } from '@angular/router';
   styleUrl: './view-team.component.css'
 })
 export class ViewTeamComponent implements OnInit{
+  private readonly teamService = inject(TeamService);
+  private readonly router = inject(Router);
   public teams: any[] = [];
-
-  constructor(private teamsService: HeroisService, private router: Router){}
 
   ngOnInit(): void {
       this.loadTeams();
   }
 
   loadTeams(): void {
-    this.teamsService.getAllTeam().subscribe({
+    this.teamService.getAllTeams().subscribe({
       next: (data)=>{
         this.teams = data.data;
       },error: (error)=>{
@@ -31,7 +31,7 @@ export class ViewTeamComponent implements OnInit{
 
   deleteTeam(id:number): void{
     if(confirm('Tem certeza que deseja excluir esta Equipe?')){
-      this.teamsService.deleteOneTeam(id).subscribe({
+      this.teamService.deleteOneTeam(id).subscribe({
         next: ()=>{
           this.loadTeams();
         }, error: (error)=>{
@@ -42,6 +42,6 @@ export class ViewTeamComponent implements OnInit{
   }
 
   editTeam(id: number): void {
-    this.router.navigate([`/cadastro/team/${id}`]);
+    this.router.navigate([`/plataforma/cadastro/team/${id}`]);
   }
 }

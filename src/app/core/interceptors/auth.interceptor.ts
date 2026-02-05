@@ -32,7 +32,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
+  // Insere /api após o domínio quando ainda não estiver na URL
+  let url = req.url;
+  const pathContainsApi = req.url.includes('/api/') || req.url.endsWith('/api');
+  if (!pathContainsApi) {
+    if (environment.apiURL && req.url.startsWith(environment.apiURL)) {
+      url = req.url.replace(environment.apiURL, `${environment.apiURL}/api`);
+    } else if (req.url.startsWith('/') && !req.url.startsWith('/api')) {
+      url = `/api${req.url}`;
+    }
+  }
+
   let authReq = req.clone({
+    url,
     withCredentials: true
   });
 

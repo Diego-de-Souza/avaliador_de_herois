@@ -47,7 +47,7 @@ export class HeroPlatformComponent implements OnInit, OnDestroy {
 
   private gameInstance: HeroGame | null = null;
   private savedProgress: any = null;
-  private gameId: number | null = null; 
+  private gameId: string | null = null; 
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {

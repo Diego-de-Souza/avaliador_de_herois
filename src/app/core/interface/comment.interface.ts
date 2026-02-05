@@ -1,7 +1,7 @@
 export interface Comment {
-  id: number;
-  articleId: number;
-  userId: number;
+  id: string;
+  articleId: string;
+  userId: string;
   userName: string;
   userAvatar?: string;
   content: string;
@@ -12,15 +12,15 @@ export interface Comment {
   replies?: Comment[];
   isEdited: boolean;
   isDeleted?: boolean;
-  parentId?: number; // Para respostas aninhadas
+  parentId?: string; // Para respostas aninhadas
   userLiked?: boolean; // Se o usuário atual deu like
   userDisliked?: boolean; // Se o usuário atual deu dislike
 }
 
 export interface CommentCreate {
-  articleId: number;
+  articleId: string;
   content: string;
-  parentId?: number;
+  parentId?: string;
 }
 
 export interface CommentUpdate {
@@ -28,8 +28,8 @@ export interface CommentUpdate {
 }
 
 export interface CommentFilters {
-  articleId?: number;
-  userId?: number;
+  articleId?: string;
+  userId?: string;
   sortBy?: 'newest' | 'oldest' | 'mostLiked';
   limit?: number;
   offset?: number;

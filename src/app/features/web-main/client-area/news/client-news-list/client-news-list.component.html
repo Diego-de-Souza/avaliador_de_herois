@@ -45,9 +45,9 @@
                 />
               </th>
               <th>Título</th>
-              <th>Tipo</th>
-              <th>Tema</th>
-              <th>Data de Criação</th>
+              <th>Categoria</th>
+              <th>Autor</th>
+              <th>Data</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -62,9 +62,9 @@
                   />
                 </td>
                 <td class="title-cell">{{ newsItem.title }}</td>
-                <td>{{ newsItem.type_news_letter }}</td>
-                <td>{{ newsItem.theme }}</td>
-                <td>{{ newsItem.created_at ? (newsItem.created_at | date:'dd/MM/yyyy') : '-' }}</td>
+                <td>{{ newsItem.category}}</td>
+                <td>{{ newsItem.author }}</td>
+                <td>{{ newsItem.date || (newsItem.created_at ? (newsItem.created_at | date:'dd/MM/yyyy') : '-') }}</td>
                 <td class="actions-cell">
                   <button 
                     class="btn-icon btn-edit"

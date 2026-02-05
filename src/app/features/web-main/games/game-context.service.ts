@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 export interface GameContext {
-  id: number;
+  id: string;
   name: string;
   type: string;
   link: string;
@@ -22,7 +22,7 @@ export class GameContextService {
     return this.currentGame();
   }
 
-  getCurrentGameId(): number | null {
+  getCurrentGameId(): string | null {
     return this.currentGame()?.id || null;
   }
 

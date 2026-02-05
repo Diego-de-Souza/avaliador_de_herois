@@ -29,7 +29,7 @@
       <div class="articles-grid">
         @for(article of paginatedArticles(); track article) {
           <div class="article-card" (click)="openArticle(article)">
-            <img [src]="article.image || 'assets/img/placeholder.jpg'" alt="thumb" />
+            <img [src]="getArticleImage(article)" [alt]="article.title" (error)="onImageError($event)" />
             <h4>{{article.title}}</h4>
             <p>{{article.description}}</p>
           </div>

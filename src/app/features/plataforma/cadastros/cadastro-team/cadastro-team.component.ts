@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderPlatformComponent } from '../../../../shared/components/header-platform/header-platform.component';
 import { ModalSucessoCadastroComponent } from '../../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeroisService } from '../../../../core/service/herois/herois.service';
+import { TeamService } from '../../../../core/service/team/team.service';
 
 
 @Component({
@@ -15,6 +16,10 @@ import { HeroisService } from '../../../../core/service/herois/herois.service';
   styleUrl: './cadastro-team.component.css'
 })
 export class CadastroTeamComponent implements OnInit{
+  private readonly teamService = inject(TeamService);
+  private readonly router = inject(Router);
+
+
   showModal = false;
   modalTitle: string = '';
   modalMessage: string = '';
@@ -24,13 +29,11 @@ export class CadastroTeamComponent implements OnInit{
 
   public dadosTeam: FormGroup;
   public isEditMode: boolean = false;
-  public teamId: number | null = null;
+  public teamId: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private heroisService: HeroisService,
-    private readonly router: Router
   ){
     this.dadosTeam = this.fb.group({
       name: ['', Validators.required],
@@ -43,12 +46,12 @@ export class CadastroTeamComponent implements OnInit{
         const idParams = params.get('id');
 
         if(idParams){
-          this.teamId = Number(idParams);
+          this.teamId = idParams;
           this.isEditMode = true;
-          this.heroisService.getOneTeam(this.teamId).subscribe((response)=>{
+          this.teamService.getOneTeam(this.teamId).subscribe((response)=>{
             const teamFromDB = {
-              name: response.data.name,
-              creator: response.data.creator
+              name: response.dataUnit.name,
+              creator: response.dataUnit.creator
             }
 
             this.dadosTeam.patchValue(teamFromDB);
@@ -67,14 +70,23 @@ export class CadastroTeamComponent implements OnInit{
       const teamData = this.dadosTeam.value;
 
       if(this.isEditMode){
-        this.heroisService.putUpdateTeam(this.teamId,teamData).subscribe((response)=>{
-          console.log('TEam cadastrado:', response);
-        },
-        (error)=>{
+        this.teamService.putUpdateTeam(this.teamId,teamData).subscribe((response)=>{
+          if(response.status === 404){
+            this.modalTitle = 'Atualização de Equipe';
+            this.modalMessage = response.message;
+            this.showModal = true;
+          }
+
+          if(response.status === 200){
+            this.modalTitle = 'Atualização de Equipe';
+            this.modalMessage = 'Equipe atualizada com sucesso!';
+            this.showModal = true;
+          }
+        },(error)=>{
           console.log('Erro na atualização dos dados', error);
         })
       }else{
-        this.heroisService.postRegisterTeam(teamData).subscribe((response)=>{
+        this.teamService.postRegisterTeam(teamData).subscribe((response)=>{
           if(response.status === 409){
             this.modalTitle = 'Cadastro de Equipe';
             this.modalMessage = response.message;

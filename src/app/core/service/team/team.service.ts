@@ -1,21 +1,33 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { TeamHttpService } from '../http/team-http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeamService {
 
-  private readonly http = inject(HttpClient);
-  private readonly apiUrl = environment.apiURL;
+  private readonly teamHttpService = inject(TeamHttpService);
 
   getAllTeams(): Observable<any>{
-      return this.http.get<any>(`${this.apiUrl}/team/find-all-team`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+    return this.teamHttpService.getAllTeams();
   }
+
+  getOneTeam(id: string | null): Observable<any>{
+    return this.teamHttpService.getOneTeam(id);
+  }
+
+  deleteOneTeam(id: number | null): Observable<any>{
+    return this.teamHttpService.deleteOneTeam(id);
+  }
+
+  putUpdateTeam(teamId: string | null, teamData: any): Observable<any>{
+    return this.teamHttpService.putUpdateTeam(teamId, teamData);
+  }
+
+  postRegisterTeam(teamData: any): Observable<any>{
+    return this.teamHttpService.postRegisterTeam(teamData);
+  }
+
+  
 }

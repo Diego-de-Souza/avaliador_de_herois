@@ -57,7 +57,7 @@ export class CadastroArtigosComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
-        const article = Number(idParam);
+        const article = idParam;
         this.isEditMode = true;
         this.articleService.getArticleById(article).subscribe((response: any) => {
           if (response?.dataUnit) {

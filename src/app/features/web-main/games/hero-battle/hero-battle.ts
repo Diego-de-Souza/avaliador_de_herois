@@ -36,6 +36,7 @@ export class HeroBattle implements OnInit {
     attempts: 1,
     startTime: Date.now()
   };
+  private gameId: string | null = null; 
 
   ngOnInit() {
     this.themeService.theme$.subscribe(theme => {
@@ -132,7 +133,7 @@ export class HeroBattle implements OnInit {
 
     this.gameProgress.saveProgressHeroBattle(
       user.id,
-      2,
+      this.gameId,
       this.gameState.nivel,
       this.gameStats.score,
       this.gameStats.attempts,

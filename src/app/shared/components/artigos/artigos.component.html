@@ -10,7 +10,7 @@
   <div class="artigos-grid">
     @for (artigo of mostViewed; track artigo.id) {
       <div class="artigo-card destaque" [ngStyle]="{'border-color': artigo.themeColor}">
-        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" />
+        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" (error)="onImageError($event)" />
         <div class="artigo-content">
           <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
           <h3 class="artigo-title">{{ artigo.title }}</h3>
@@ -30,7 +30,7 @@
   <div class="artigos-grid">
     @for (artigo of getRecentArticles; track artigo.id) {
       <div class="artigo-card recente" [ngStyle]="{'border-color': artigo.themeColor}">
-        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" />
+        <img [src]="artigo.image" [alt]="artigo.title" class="artigo-img" (error)="onImageError($event)" />
         <div class="artigo-content">
           <span class="artigo-theme" [style.background]="artigo.themeColor">{{ artigo.theme }}</span>
           <h3 class="artigo-title">{{ artigo.title }}</h3>
@@ -53,7 +53,7 @@
         <h4 class="categoria-title">{{ article.category }}</h4>
         <div class="categoria-artigos">
           <div class="artigo-card categoria" [ngStyle]="{'border-color': article.themeColor}">
-              <img [src]="article.image" [alt]="article.title" class="artigo-img" />
+              <img [src]="article.image" [alt]="article.title" class="artigo-img" (error)="onImageError($event)" />
               <div class="artigo-content">
                 <span class="artigo-theme" [style.background]="article.themeColor">{{ article.theme }}</span>
                 <h3 class="artigo-title">{{ article.title }}</h3>

@@ -1,3 +1,4 @@
+import { expect, jest } from '@jest/globals';
 import { TestBed } from '@angular/core/testing';
 import { HttpRequest, HttpEvent } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -46,7 +47,7 @@ describe('authInterceptor', () => {
     runInInjectionContext(injector, () => {
       authInterceptor(request, next).subscribe(() => {
         expect(next).toHaveBeenCalled();
-        const handledRequest = (next as jest.Mock).mock.calls[0][0];
+        const handledRequest = (next as jest.Mock).mock.calls[0][0] as HttpRequest<unknown>;
         expect(handledRequest.headers.has('X-Session-Token')).toBe(true);
         expect(handledRequest.headers.get('X-Session-Token')).toBe('test-token');
         done();
@@ -113,8 +114,22 @@ describe('authInterceptor', () => {
     runInInjectionContext(injector, () => {
       authInterceptor(request, next).subscribe(() => {
         expect(next).toHaveBeenCalled();
-        const handledRequest = (next as jest.Mock).mock.calls[0][0];
+        const handledRequest = (next as jest.Mock).mock.calls[0][0] as HttpRequest<unknown>;
         expect(handledRequest.withCredentials).toBe(true);
+        done();
+      });
+    });
+  });
+
+  it('should insert /api after domain when not present', (done) => {
+    const baseUrl = environment.apiURL || 'http://localhost:3020';
+    const request = new HttpRequest('GET', `${baseUrl}/auth/signin`);
+    
+    runInInjectionContext(injector, () => {
+      authInterceptor(request, next).subscribe(() => {
+        const handledRequest = (next as jest.Mock).mock.calls[0][0] as HttpRequest<unknown>;
+        const expectedUrl = baseUrl.includes('/api') ? `${baseUrl}/auth/signin` : `${baseUrl}/api/auth/signin`;
+        expect(handledRequest.url).toBe(expectedUrl);
         done();
       });
     });

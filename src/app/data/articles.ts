@@ -2,7 +2,7 @@ import { articlesProps } from "../core/interface/articles.interface";
 
 export const articlesDataBase: articlesProps[] = [
   {
-    id: 1,
+    id: "1",
     category: "Marvel",
     title: "Loki: de Vilão a Anti-Herói — A Transformação do Deus da Trapaça no MCU",
     description: "A jornada de Loki no Universo Cinematográfico da Marvel vai muito além do título de “vilão”. Do antagonista de “Thor” ao protagonista da própria série, o Deus da Trapaça conquistou fãs com carisma, ironia e evolução narrativa surpreendente.",
@@ -25,7 +25,7 @@ export const articlesDataBase: articlesProps[] = [
     author: "Equipe Plataforma de Heróis"
   },
   {
-    id: 2,
+    id: "2",
     category: "Marvel",
     title: "Spider-Man: Across the Spider-Verse - O Filme que Redefiniu a Animação de Super-Heróis",
     description: "Spider-Man: Across the Spider-Verse não é apenas uma sequência, é uma obra-prima que expandiu os limites da animação e do multiverso do Homem-Aranha, entregando um espetáculo visual e emocional único.",
@@ -48,7 +48,7 @@ export const articlesDataBase: articlesProps[] = [
     author: "Equipe Plataforma de Heróis"
   },
   {
-    id: 3,
+    id: "3",
     category: "Animes",
     title: "Naruto: A Lenda do Ninja que Nunca Desistiu",
     description: "Naruto não é apenas um dos animes mais famosos da história. Sua trajetória de rejeitado a herói mundial é um dos maiores exemplos de superação e amizade na cultura pop japonesa.",
@@ -71,7 +71,7 @@ export const articlesDataBase: articlesProps[] = [
     author: "Equipe Plataforma de Heróis"
   },
   {
-    id: 4,
+    id: "4",
     category: "Games",
     title: "The Legend of Zelda: Tears of the Kingdom — O Futuro dos Games de Mundo Aberto",
     description: "Tears of the Kingdom levou a franquia Zelda a outro nível, expandindo o conceito de mundo aberto introduzido em Breath of the Wild e redefinindo a criatividade no design de jogos.",
@@ -93,7 +93,7 @@ export const articlesDataBase: articlesProps[] = [
     author: "Equipe Plataforma de Heróis"
   },
   {
-    id: 5,
+    id: "5",
     category: "Séries",
     title: "Star Wars: Ahsoka — A Jedi que Desafia as Regras da Galáxia",
     description: "Ahsoka Tano deixou de ser “a aprendiz de Anakin” para se tornar uma das personagens mais importantes e amadas do universo Star Wars, com sua própria série no Disney+.",
@@ -115,7 +115,7 @@ export const articlesDataBase: articlesProps[] = [
     author: "Equipe Plataforma de Heróis"
   },
   {
-    id: 6,
+    id: "6",
     category: "Jogos",
     title: "Cyberpunk 2077: Como Phantom Liberty Resgatou um Jogo Quase Esquecido",
     description: "Após um lançamento conturbado em 2020, Cyberpunk 2077 conseguiu renascer com atualizações constantes e a expansão Phantom Liberty, que finalmente entregou a experiência prometida.",

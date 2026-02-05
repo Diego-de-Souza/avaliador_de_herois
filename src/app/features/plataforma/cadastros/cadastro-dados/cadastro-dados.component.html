@@ -1,7 +1,7 @@
 <section id="container-cadastroDados">
     <app-header-platform></app-header-platform>
     <div class="main_cadastroDados">
-        <h1>Cadastro de dados</h1>
+        <h1>{{ isEditMode ? 'Edição de Herói' : 'Cadastro de dados' }}</h1>
         <form [formGroup]="cadastroDados" (ngSubmit)="onSubmit()">
             <div class="cadastroDados__form-row">
                 <div class="cadastroDados__form-column">
@@ -200,7 +200,11 @@
 
             <div class="container__btnSubmit">
                 <button type="submit" [disabled]="cadastroDados.invalid || isSubmitting" class="btn_submit">
-                    {{ isSubmitting ? 'Cadastrando...' : 'Cadastrar' }}
+                    @if (isSubmitting) {
+                        {{ isEditMode ? 'Atualizando...' : 'Cadastrando...' }}
+                    } @else {
+                        {{ isEditMode ? 'Atualizar' : 'Cadastrar' }}
+                    }
                 </button>
             </div>
 

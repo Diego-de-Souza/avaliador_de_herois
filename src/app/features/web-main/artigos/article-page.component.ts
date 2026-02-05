@@ -174,6 +174,21 @@ export class ArticlePageComponent implements OnInit {
     }
   }
 
+  readonly defaultArticleImage = '/img/home/destaques/features_articles.png';
+
+  getArticleImage(article: articlesProps): string {
+    const img = article.image ?? article.thumbnail ?? '';
+    const hasNoImage = !img || (typeof img === 'string' && img.trim() === '');
+    return hasNoImage ? this.defaultArticleImage : img;
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (!img.src.endsWith('features_articles.png')) {
+      img.src = this.defaultArticleImage;
+    }
+  }
+
   openArticle(article: articlesProps) {
     // Redirecionar para página de detalhes
     this.router.navigate(['/webmain/artigos', article.id]);

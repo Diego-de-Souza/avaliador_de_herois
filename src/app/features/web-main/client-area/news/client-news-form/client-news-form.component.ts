@@ -1,14 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderComponent } from '../../../../../shared/components/header/header.component';
 import { FooterComponent } from '../../../../../shared/components/footer/footer.component';
 import { ThemeService } from '../../../../../core/service/theme/theme.service';
 import { AuthService } from '../../../../../core/service/auth/auth.service';
-import { ClientNewsHttpService } from '../../../../../core/service/http/client-news-http.service';
 import { ToastService } from '../../../../../core/service/toast/toast.service';
-import { ClientNews } from '../../../../../core/interface/client-news.interface';
+import { ClientNews, ClientNewsRequest } from '../../../../../core/interface/client-news.interface';
+import { NewsletterCategory } from '../../../../../core/interface/newsletter.interface';
+import { NewsService } from '../../../../../core/service/news/news.service';
 
 @Component({
   selector: 'app-client-news-form',
@@ -23,16 +24,22 @@ export class ClientNewsFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
-  private readonly newsService = inject(ClientNewsHttpService);
+  private readonly newsService = inject(NewsService);
   private readonly toastService = inject(ToastService);
 
   theme = 'dark';
-  userId: number | null = null;
+  userId: string | null = null;
   newsForm!: FormGroup;
   isEditMode = false;
-  newsId: number | null = null;
+  newsId: string | null = null;
   isLoading = false;
+  imagePreview: string | null = null;
+  categories = NewsletterCategory;
 
+  get categoryControl(): FormControl {
+    return this.newsForm.get('category') as FormControl;
+  }
+  
   ngOnInit(): void {
     this.themeService.theme$.subscribe((t: string) => {
       this.theme = t;
@@ -50,8 +57,8 @@ export class ClientNewsFormComponent implements OnInit {
       const id = params.get('id');
       if (id) {
         this.isEditMode = true;
-        this.newsId = parseInt(id, 10);
-        this.loadNews(this.newsId);
+        this.newsId = id;
+        this.loadNews(id);
       }
     });
   }
@@ -60,34 +67,75 @@ export class ClientNewsFormComponent implements OnInit {
     this.newsForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
       description: ['', [Validators.required]],
-      content: ['', [Validators.required]],
-      type_news_letter: ['', [Validators.required]],
-      theme: ['', [Validators.required]]
+      image: [''],
+      link: [''],
+      category: [],
+      date: ['', [Validators.required]],
+      read_time: ['', [Validators.required]],
+      author: ['']
     });
   }
 
-  loadNews(id: number): void {
+  loadNews(id: string): void {
     this.isLoading = true;
-    this.newsService.getById(id).subscribe({
-      next: (response: any) => {
-        // A API retorna { status, message, dataUnit: {...} }
-        const news: ClientNews = response.dataUnit || response;
-        
+    this.newsService.getClientNewsletterById(id).subscribe({
+      next: (response: unknown) => {
+        const res = response as { dataUnit?: ClientNews; data?: ClientNews; [k: string]: unknown };
+        const news: ClientNews = res.dataUnit ?? res.data ?? (response as ClientNews);
         this.newsForm.patchValue({
           title: news.title || '',
           description: news.description || '',
-          content: news.content || '',
-          type_news_letter: news.type_news_letter || '',
-          theme: news.theme || ''
+          image: news.image || '',
+          link: news.link ?? '',
+          category: (news as { category?: string }).category ?? '',
+          date: (news as { date?: string }).date ?? '',
+          read_time: (news as { read_time?: string }).read_time ?? '',
+          author: news.author ?? ''
         });
+        if (news.image) {
+          this.imagePreview = news.image;
+        }
         this.isLoading = false;
       },
-      error: (error: any) => {
-        console.error('Erro ao carregar notícia:', error);
+      error: () => {
         this.toastService.error('Erro ao carregar notícia', 'Erro');
         this.isLoading = false;
       }
     });
+  }
+
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement)?.files?.[0];
+    if (!file) return;
+
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      this.toastService.error('Apenas imagens JPG, PNG ou WebP são permitidas.', 'Erro');
+      return;
+    }
+
+    const maxSizeMB = 2;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      this.toastService.error(`A imagem deve ter no máximo ${maxSizeMB}MB.`, 'Erro');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      const result = e.target?.result as string;
+      if (result) {
+        this.imagePreview = result;
+        this.newsForm.patchValue({ image: result });
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearImage(): void {
+    this.imagePreview = null;
+    this.newsForm.patchValue({ image: '' });
+    const fileInput = document.getElementById('image') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 
   onSubmit(): void {
@@ -96,15 +144,20 @@ export class ClientNewsFormComponent implements OnInit {
       return;
     }
 
+    const user = this.authService.getUser();
+    this.newsForm.patchValue({
+      author: user?.nickname
+    });
+
     this.isLoading = true;
-    const newsData = {
+    const newsData: ClientNewsRequest = {
       ...this.newsForm.value,
-      usuario_id: this.userId
+      usuario_id: this.userId!
     };
 
     const operation = this.isEditMode && this.newsId
-      ? this.newsService.update(this.newsId, newsData)
-      : this.newsService.create(newsData);
+      ? this.newsService.updateClientNewsletter(this.newsId, newsData)
+      : this.newsService.createClientNewsletter(newsData);
 
     operation.subscribe({
       next: () => {
@@ -129,4 +182,5 @@ export class ClientNewsFormComponent implements OnInit {
     const field = this.newsForm.get(fieldName);
     return !!(field && field.invalid && (field.dirty || field.touched));
   }
+
 }

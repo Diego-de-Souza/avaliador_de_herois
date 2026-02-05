@@ -80,7 +80,7 @@ export class AuthService{
     return this.userSubject.value;
   }
 
-  getUserId(): number | null {
+  getUserId(): string | null {
     const user = this.getUser();
     return user ? user.id : null;
   }

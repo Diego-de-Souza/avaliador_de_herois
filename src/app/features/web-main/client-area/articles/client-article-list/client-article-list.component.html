@@ -56,8 +56,8 @@
                 <td class="checkbox-cell">
                   <input 
                     type="checkbox" 
-                    [checked]="selectedArticles.has(article.id)"
-                    (change)="toggleSelection(article.id)"
+                    [checked]="selectedArticles.has(article.id + '')"
+                    (change)="toggleSelection(article.id + '')"
                   />
                 </td>
                 <td class="title-cell">{{ article.title }}</td>
@@ -66,14 +66,14 @@
                 <td class="actions-cell">
                   <button 
                     class="btn-icon btn-edit"
-                    (click)="editArticle(article.id)"
+                    (click)="editArticle(article.id + '')"
                     title="Editar"
                   >
                     <i class="fa-solid fa-edit"></i>
                   </button>
                   <button 
                     class="btn-icon btn-delete"
-                    (click)="deleteArticle(article.id)"
+                    (click)="deleteArticle(article.id + '')"
                     title="Excluir"
                   >
                     <i class="fa-solid fa-trash"></i>

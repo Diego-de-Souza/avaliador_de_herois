@@ -17,8 +17,8 @@
                             <td>{{ article.title }}</td>
                             <td>{{ article.category }}</td>
                             <td class="td-acoes-artigo">
-                                <button class="btn btn-primary" (click)="editArtigos(article.id)">Editar</button>
-                                <button class="btn btn-danger" (click)="deleteArtigos(article.id)">Deletar</button>
+                                <button class="btn btn-primary" (click)="editArtigos(article.id + '')">Editar</button>
+                                <button class="btn btn-danger" (click)="deleteArtigos(article.id + '')">Deletar</button>
                             </td>
                         </tr>
                     }

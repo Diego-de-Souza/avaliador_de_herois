@@ -39,8 +39,8 @@ export class MemoryGameComponent implements OnInit {
   private gameCompleted = false;
 
   userProgress: any = null;
-  userId: number | null = null;
-  gameId: number = 1; 
+  userId: string | null = null;
+  gameId: string = '1'; 
 
   message: string | null = null;
 
@@ -58,7 +58,7 @@ export class MemoryGameComponent implements OnInit {
 
   loadProgressAndStart() {
     if (this.authService.isLoggedIn()) {
-      this.userId = this.authService.getUserId();
+      this.userId = this.authService.getUserId() ?? '';
       if (this.userId !== null) {
         this.progressService.getUserGameProgress(this.userId, this.gameId).subscribe(progress => {
 

@@ -9,11 +9,11 @@ export interface ClientArticleRequest {
   keyWords: string[];
   theme?: string;
   themeColor?: string;
-  usuario_id: number;
+  usuario_id: string;
 }
 
 export interface ClientArticle extends ClientArticleRequest {
-  id: number;
+  id: string;
   created_at?: string;
   updated_at?: string;
   views?: number;

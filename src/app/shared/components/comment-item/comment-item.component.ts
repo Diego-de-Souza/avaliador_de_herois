@@ -14,11 +14,11 @@ export class CommentItemComponent {
   theme = input<string>('dark');
   isLoggedIn = input<boolean>(false);
 
-  reply = output<number>();
-  like = output<number>();
-  dislike = output<number>();
-  edit = output<number>();
-  delete = output<number>();
+  reply = output<string>();
+  like = output<string>();
+  dislike = output<string>();
+  edit = output<string>();
+  delete = output<string>();
 
   formatDate(date: Date | string): string {
     const d = typeof date === 'string' ? new Date(date) : date;

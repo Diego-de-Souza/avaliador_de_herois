@@ -1,0 +1,42 @@
+<div class="newsletter-view-container">
+  <app-header-platform></app-header-platform>
+  <section class="table-container">
+    <div class="table-header">
+      <h2>Lista de Newsletter</h2>
+      <button class="btn btn-primary" (click)="addNew()">Novo Item</button>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoria</th>
+          <th>Autor</th>
+          <th>Data</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (isList && newsletters().length > 0) {
+          @for (item of newsletters(); track item.id ?? item.title) {
+            <tr>
+              <td>{{ item.title }}</td>
+              <td>{{ item.category ?? '-' }}</td>
+              <td>{{ item.author ?? '-' }}</td>
+              <td>{{ item.date ?? '-' }}</td>
+              <td class="td-acoes">
+                @if (item.id) {
+                  <button class="btn btn-primary" (click)="editItem(item.id)">Editar</button>
+                  <button class="btn btn-danger" (click)="deleteItem(item.id)">Deletar</button>
+                }
+              </td>
+            </tr>
+          }
+        } @else {
+          <tr>
+            <td colspan="5">Nenhum item encontrado.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

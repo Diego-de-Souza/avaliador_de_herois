@@ -25,7 +25,7 @@ export class ArticleCommentsComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly fb = inject(FormBuilder);
 
-  articleId = input.required<number>();
+  articleId = input.required<string>();
   theme = input<string>('dark');
 
   commentForm!: FormGroup;
@@ -33,8 +33,8 @@ export class ArticleCommentsComponent implements OnInit {
   loading = signal<boolean>(false);
   submitting = signal<boolean>(false);
   isLoggedIn = signal<boolean>(false);
-  editingCommentId = signal<number | null>(null);
-  replyingToCommentId = signal<number | null>(null);
+  editingCommentId = signal<string | null>(null);
+  replyingToCommentId = signal<string | null>(null);
 
   ngOnInit() {
     this.isLoggedIn.set(this.authService.isLoggedIn());
@@ -66,7 +66,7 @@ export class ArticleCommentsComponent implements OnInit {
   }
 
   buildCommentTree(comments: Comment[]): Comment[] {
-    const commentMap = new Map<number, Comment>();
+    const commentMap = new Map<string, Comment>();
     const rootComments: Comment[] = [];
 
     // Primeiro, mapear todos os comentários
@@ -122,7 +122,7 @@ export class ArticleCommentsComponent implements OnInit {
     });
   }
 
-  startReply(parentId: number) {
+  startReply(parentId: string) {
     if (!this.isLoggedIn()) {
       this.toastService.warning('Faça login para comentar', 'Atenção');
       return;
@@ -136,7 +136,7 @@ export class ArticleCommentsComponent implements OnInit {
     this.commentForm.patchValue({ parentId: null });
   }
 
-  likeComment(commentId: number) {
+  likeComment(commentId: string) {
     if (!this.isLoggedIn()) {
       this.toastService.warning('Faça login para curtir comentários', 'Atenção');
       return;
@@ -153,7 +153,7 @@ export class ArticleCommentsComponent implements OnInit {
     });
   }
 
-  dislikeComment(commentId: number) {
+  dislikeComment(commentId: string) {
     if (!this.isLoggedIn()) {
       this.toastService.warning('Faça login para descurtir comentários', 'Atenção');
       return;
@@ -170,7 +170,7 @@ export class ArticleCommentsComponent implements OnInit {
     });
   }
 
-  editComment(commentId: number) {
+  editComment(commentId: string) {
     if (!this.isLoggedIn()) {
       this.toastService.warning('Faça login para editar comentários', 'Atenção');
       return;
@@ -179,7 +179,7 @@ export class ArticleCommentsComponent implements OnInit {
     this.editingCommentId.set(commentId);
   }
 
-  deleteComment(commentId: number) {
+  deleteComment(commentId: string) {
     if (!this.isLoggedIn()) {
       this.toastService.warning('Faça login para deletar comentários', 'Atenção');
       return;

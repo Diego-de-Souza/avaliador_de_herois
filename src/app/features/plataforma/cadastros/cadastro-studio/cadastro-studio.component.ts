@@ -16,7 +16,7 @@ import { ModalSucessoCadastroComponent } from '../../../../shared/components/mod
 export class CadastroStudioComponent implements OnInit {
   public studioForm: FormGroup;
   public isEditMode: boolean = false;
-  public studioId: number | null = null;
+  public studioId: string | null = null;
   public showModal = false;
   public modalTitle: string = '';
   public modalMessage: string = '';
@@ -38,7 +38,7 @@ export class CadastroStudioComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
-        this.studioId = Number(idParam);
+        this.studioId = idParam;
         this.isEditMode = true;
         this.heroisService.getOneStudio(this.studioId).subscribe((response: any) => {
           if (response?.dataUnit) {

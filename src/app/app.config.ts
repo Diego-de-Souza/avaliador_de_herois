@@ -10,6 +10,8 @@ import { Tokens } from 'marked';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { environment } from '../environments/environment';
+import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 /** Renderer customizado para exibir fonte/atribuição em imagens do markdown */
 function markedOptionsFactory(): MarkedOptions {
@@ -58,7 +60,8 @@ export const appConfig: ApplicationConfig = {
           }
         ]
       } as SocialAuthServiceConfig,
-    }
+    },
+    provideAnimations()
   ],
 
 };

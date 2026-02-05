@@ -1,37 +1,274 @@
-<section [ngClass]="_themeService">
+<section class="news-page" [class.dark]="theme() === 'dark'" [class.light]="theme() === 'light'">
+  <div class="newsletter-header-wrap">
     <app-header></app-header>
-    <div class="newsletter-container">
-      <h2 class="newsletter-title">Notícias Geek em Destaque</h2>
-      <div class="news-list">
-        @for (news of newsList; track news.title) {
-          <div class="news-card">
-            @if (news.image) {
-              <img [src]="news.image" [alt]="news.title" class="news-image" />
-            }
-            <div class="news-content">
-              <h3 class="news-title">{{ news.title }}</h3>
-              <p class="news-description">{{ news.description }}</p>
-              @if (news.link) {
-                <a [href]="news.link" target="_blank" class="news-link">Leia mais</a>
-              }
-            </div>
-          </div>
-        }
-      </div>
-      <div class="newsletter-signup">
-        <h3 class="signup-title">Receba novidades por e-mail</h3>
-        @if (!subscribed) {
-          <form (ngSubmit)="subscribe()" class="newsletter-form">
-            <input type="email" [(ngModel)]="email" name="email" required placeholder="Seu e-mail geek" class="newsletter-input" />
-            <button type="submit" class="newsletter-btn">Assinar</button>
-          </form>
-        }
-        @if (subscribed) {
-          <div class="newsletter-success">
-            <span>Obrigado por se inscrever! 🦸‍♂️</span>
-          </div>
-        }
+  </div>
+
+  <!-- HERO SECTION COM PARALLAX -->
+  <section class="hero-parallax" [@fadeUp]>
+    <div class="parallax-bg"></div>
+    <div class="hero-content">
+      <span class="cyber-badge">GEEKSPOT EXCLUSIVO</span>
+      <h1 class="glitch-text" data-text="Últimas do Universo Nerd">
+        Últimas do Universo Nerd
+      </h1>
+      <p class="hero-subtitle">
+        Notícias, análises e tudo sobre filmes, séries, games e HQs
+      </p>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
       </div>
     </div>
-    <app-footer></app-footer>
+  </section>
+
+  <!-- FEATURED COM HOVER 3D -->
+   @if(featuresNews()) {
+    <section class="featured-section" [@fadeUp]>
+      <div class="container">
+        <div class="section-header">
+          <h2><span class="highlight">Destaque</span> da Semana</h2>
+          <p class="section-subtitle">
+            O que está bombando no mundo geek
+          </p>
+        </div>
+        
+        <div
+          class="featured-card"
+          [@cardHover]="hoverState()"
+          (mouseenter)="onCardMouseEnter()"
+          (mouseleave)="onCardMouseLeave()"
+        >
+          <div class="featured-image">
+            <img 
+              [src]="featuresNews().image" 
+              alt="Destaque" 
+              class="featured-img"
+            />
+            <div class="glitch-overlay"></div>
+            <div class="gradient-overlay"></div>
+          </div>
+          
+          <div class="featured-content">
+            <div class="category-tags">
+              <span class="tag tag-marvel">MARVEL</span>
+              <span class="tag tag-cinema">{{ featuresNews().category }}</span>
+              <span class="tag tag-exclusive">EXCLUSIVO</span>
+            </div>
+            
+            <h1 class="featured-title">{{ featuresNews().title }}</h1>
+            
+            <p class="featured-description">{{ featuresNews().description }}</p>
+            
+            <div class="featured-meta">
+              <div class="meta-item">
+                <i class="icon-calendar"></i>
+                <span>{{ featuresNews().date }}</span>
+              </div>
+              <div class="meta-item">
+                <i class="icon-clock"></i>
+                <span>{{ featuresNews().read_time }} de leitura</span>
+              </div>
+            </div>
+            
+            <div class="featured-actions">
+              <button class="btn-primary btn-glow" (click)="readArticle(featuresNews())">
+                <span class="btn-text">Ler Matéria Completa</span>
+                <i class="icon-arrow"></i>
+              </button>
+              <button class="btn-secondary">
+                <i class="icon-bookmark"></i>
+                Salvar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   }
+
+  <!-- NEWS GRID COM INFINITE SCROLL -->
+  <section class="news-section" [@fadeUp]>
+    <div class="container">
+      <div class="section-header">
+        <h2>Últimas <span class="highlight">Notícias</span></h2>
+        <div class="filter-tabs">
+          @for (tab of tabs(); track tab) {
+            <button 
+              class="filter-btn" 
+              [class.active]="selectedTab().value === tab.value"
+              (click)="filterNews(tab.value)">
+              {{ tab.label }}
+            </button>
+          }
+        </div>
+      </div>
+      
+      <div class="news-grid">
+        @for (news of filteredNewsList(); track news.title) {
+          <article
+            class="news-card"
+            [@staggerItem]="true"
+            [attr.data-category]="news.category || 'all'"
+          >
+            <div class="card-header">
+              <div class="card-image">
+                <img 
+                  [src]="news.image" 
+                  [alt]="news.title" 
+                  loading="lazy"
+                  class="news-img"
+                />
+                <div class="image-overlay">
+                  <span class="card-tag">{{ news.category || 'Notícia' }}</span>
+                  <div class="read-time">{{ news.read_time || '3 min' }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="meta-date">{{ news.date || 'Hoje' }}</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-author">{{ news.author || 'GeekSpot' }}</span>
+              </div>
+              
+              <h3 class="card-title">{{ news.title }}</h3>
+              
+              <p class="card-description">
+                {{ news.description }}
+              </p>
+            </div>
+            
+            <div class="card-footer">
+              <a 
+                [href]="news.link" 
+                target="_blank" 
+                class="card-link"
+              >
+                Continuar lendo
+                <i class="icon-arrow-right"></i>
+              </a>
+              
+              <div class="card-actions">
+                <button class="action-btn" (click)="shareNews(news)">
+                  <i class="icon-share"></i>
+                </button>
+                <button class="action-btn" (click)="bookmarkNews(news)">
+                  <i class="icon-bookmark"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+      
+      <div class="load-more">
+        <button class="btn-load" (click)="loadMore()">
+          <span>Carregar Mais Notícias</span>
+          @if (loading()) {
+            <div class="loading-spinner"></div>
+          }
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER COM ANIMAÇÃO PARTICULAS -->
+  <section class="newsletter-section" [@fadeUp]>
+    <div class="particles-container" #particles></div>
+    
+    <div class="newsletter-content">
+      <div class="newsletter-header">
+        <h2 class="newsletter-title">
+          Fique por <span class="text-glow">Dentro</span>
+        </h2>
+        <p class="newsletter-subtitle">
+          Receba as melhores notícias geeks direto na sua caixa de entrada
+        </p>
+      </div>
+      
+      @if (!subscribed()) {
+        <form class="newsletter-form" (ngSubmit)="subscribe()" #newsletterForm="ngForm">
+          <div class="input-group">
+            <input
+              type="email"
+              [ngModel]="email()"
+              (ngModelChange)="setEmail($event)"
+              name="email"
+              placeholder="seuemail@exemplo.com"
+              required
+              class="newsletter-input"
+              [class.invalid]="newsletterForm.submitted && !email()"
+            />
+            <div class="input-decoration">
+              <div class="input-line"></div>
+              <div class="input-glow"></div>
+            </div>
+            <button type="submit" class="btn-submit" [disabled]="submitting()">
+              @if (!submitting()) {
+                <span>Inscrever-se</span>
+              } @else {
+                <div class="submit-spinner"></div>
+              }
+            </button>
+          </div>
+          <p class="newsletter-note">
+            📬 Sem spam, apenas conteúdo geek de qualidade
+          </p>
+        </form>
+      }
+
+      @if (subscribed()) {
+        <div class="success-message" [@bounceIn]>
+          <div class="success-icon">
+            <i class="icon-check"></i>
+          </div>
+          <h3>Inscrição Confirmada! 🎉</h3>
+          <p>Você agora faz parte da comunidade GeekSpot</p>
+          <button class="btn-ghost" type="button" (click)="editPreferences()">
+            Editar preferências
+          </button>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- TRENDING SECTION -->
+  <section class="trending-section" [@fadeUp]>
+    <div class="container">
+      <div class="section-header">
+        <h2>Em <span class="highlight">Alta</span></h2>
+        <p class="section-subtitle">O que a comunidade está comentando</p>
+      </div>
+      
+      <div class="trending-grid">
+        <div class="trending-card trending-hot">
+          <div class="trending-rank">🔥 #1</div>
+          <h4>Deadpool 3 Breaking Records</h4>
+          <div class="trending-stats">
+            <span>+2.4K discussões</span>
+          </div>
+        </div>
+        
+        <div class="trending-card trending-new">
+          <div class="trending-rank">🚀 #2</div>
+          <h4>Novo Console da Sony Vaza</h4>
+          <div class="trending-stats">
+            <span>+1.8K visualizações</span>
+          </div>
+        </div>
+        
+        <div class="trending-card trending-popular">
+          <div class="trending-rank">⭐ #3</div>
+          <h4>Anime do Ano: Jujutsu Kaisen</h4>
+          <div class="trending-stats">
+            <span>98% aprovação</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
 </section>
