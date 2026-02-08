@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/service/auth/auth.service';
 })
 export class ForgotPassaword {
   private authService: AuthService = inject(AuthService);
+  
   step = 1;
   email = '';
   cpf = '';
@@ -25,6 +26,7 @@ export class ForgotPassaword {
   canalSelecionado = 0;
   emailRec = '';
   telefoneRec = '';
+  private id = '';
 
   constructor(private router: Router) {}
 
@@ -32,16 +34,19 @@ export class ForgotPassaword {
   async onSubmitDados() {
     this.loading = true;
     this.message = '';
-    // Simule validação dos dados
-    setTimeout(() => {
-      if (this.email && this.cpf && this.dob) {
-        this.step = 4; // Vai direto para redefinir senha
-        this.message = '';
-      } else {
-        this.message = 'Dados inválidos. Verifique e tente novamente.';
-      }
+
+    const response = await this.authService.forgotPassword(this.email, this.cpf, this.dob);
+    console.log('classe: ',response);
+    if (response.status === 200) {
+      this.id = response.dataUnit?.id ?? '';
+      console.log('id: ',this.id);
+      this.step = 4;
+      this.message = 'Código enviado com sucesso!';
       this.loading = false;
-    }, 1200);
+    } else {
+      this.message = response.message;
+      this.loading = false;
+    }
   }
 
   // Ao clicar em um canal, mostra o campo correspondente
@@ -107,15 +112,22 @@ export class ForgotPassaword {
   async onSubmitNovaSenha() {
     this.loading = true;
     this.message = '';
-    setTimeout(() => {
-      if (this.newPassword && this.newPassword === this.confirmPassword) {
-        this.step = 5;
-        this.message = '';
-      } else {
-        this.message = 'As senhas não coincidem.';
+    if (this.newPassword && this.newPassword === this.confirmPassword) {
+      try {
+        const response = await this.authService.changePasswordClient(this.id, this.newPassword);
+        if (response?.status === 200) {
+          this.step = 5;
+          this.message = 'Senha alterada com sucesso!';
+        } else {
+          this.message = response?.message ?? 'Erro ao alterar a senha.';
+        }
+      } catch {
+        this.message = 'Erro ao alterar a senha. Tente novamente.';
       }
-      this.loading = false;
-    }, 1200);
+    } else {
+      this.message = 'As senhas não coincidem.';
+    }
+    this.loading = false;
   }
 
   async validateData(data: string, canal: number) {

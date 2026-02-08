@@ -18,5 +18,17 @@ export class AuthHttpService {
             }
         });
     }
+
+    forgotPassword(email: string, cpf: string, dob: string): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}/auth/forgot-password`, { email, cpf, dob });
+    }
+
+    changePasswordClient(id: string, newPassword: string): Observable<any> {
+        console.log('http: ',id, newPassword);
+        return this.http.post<any>(`${this.apiUrl}/auth/change-password-client`, {
+            newPassword: newPassword,
+            id: id
+        });
+    }
 }
     

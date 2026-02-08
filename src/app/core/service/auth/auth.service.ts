@@ -131,8 +131,7 @@ export class AuthService{
 
   async changePassword(newPassword: string): Promise<any> {
     try {
-      const encryptedPassword = EncryptionUtil.encrypt(newPassword);
-      const response = await lastValueFrom(this.userService.changePassword(encryptedPassword));
+      const response = await lastValueFrom(this.userService.changePassword(newPassword));
       return response;
     } catch (error) {
       console.error('Erro ao alterar a senha:', error);
@@ -250,6 +249,27 @@ export class AuthService{
     } catch (error: any) {
       console.error('Erro ao registrar acesso do usuário:', error);
       throw new Error('Erro ao registrar acesso do usuário. Tente novamente.');
+    }
+  }
+
+  async forgotPassword(email: string, cpf: string, dob: string): Promise<any> {
+    try {
+      const response: any = await lastValueFrom(this.authHttpService.forgotPassword(email, cpf, dob));
+      console.log('service: ',response);
+      return response;
+    } catch (error) {
+      console.error('Erro ao redefinir a senha:', error);
+      throw new Error('Erro ao redefinir a senha. Tente novamente.');
+    }
+  }
+
+  async changePasswordClient(id: string, newPassword: string): Promise<any> {
+    try {
+      const response: any = await lastValueFrom(this.authHttpService.changePasswordClient(id, newPassword));
+      return response;
+    } catch (error) {
+      console.error('Erro ao alterar a senha:', error);
+      throw new Error('Erro ao alterar a senha. Tente novamente.');
     }
   }
 }

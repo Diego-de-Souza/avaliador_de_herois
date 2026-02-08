@@ -170,5 +170,13 @@
         <a routerLink="/login" class="btn-login-link">Ir para o login</a>
       </div>
     }
+
+    <!-- @if(step === 5){
+      <app-change-password-modal 
+        [isOpen]="true" 
+        (closed)="step = 1" 
+        (success)="step = 5">
+      </app-change-password-modal>
+    } -->
   </div>
 </section>

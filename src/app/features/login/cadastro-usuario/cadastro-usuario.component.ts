@@ -9,11 +9,12 @@ import { faCalendarDays, faCircleCheck, faCity, faEnvelope, faMap, faMapLocation
 import { EncryptionUtil } from '../../../shared/utils/encryption.utils';
 import { CepService } from '../../../core/service/cep/cep.service';
 import { ModalSucessoCadastroComponent } from '../../../shared/components/modal-sucesso-cadastro/modal-sucesso-cadastro.component';
+import { CpfMaskDirective } from '../../../core/directive/cpf-mask.directive';
 
 @Component({
   selector: 'app-cadastro-usuario',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule, ReactiveFormsModule, HeaderPlatformComponent, RouterLink, RouterLinkActive,],
+  imports: [FontAwesomeModule, CommonModule, ReactiveFormsModule, HeaderPlatformComponent, RouterLink, RouterLinkActive, CpfMaskDirective],
   templateUrl: './cadastro-usuario.component.html',
   styleUrls: ['./cadastro-usuario.component.css']
 })
@@ -52,6 +53,7 @@ export class CadastroUsuarioComponent{
           nickname: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
           birthdate: ['', Validators.required],
           firstemail: ['', [Validators.required, Validators.email]],
+          cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
           secondemail: ['', [Validators.email]],
           uf: ['', [Validators.required, Validators.maxLength(3)]],
           address: ['', Validators.required],

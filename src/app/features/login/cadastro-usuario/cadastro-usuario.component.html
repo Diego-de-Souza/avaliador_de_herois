@@ -36,6 +36,23 @@
                                             <div class="fieldInvalid">O campo de data de nascimento é obbrigatório</div>
                                         }
                 </div>
+                <div class="secao-cadastro__container-form__row__space">
+                    <label for="cpf">CPF</label>
+                    <div class="secao-cadastro__container-form__row-line">
+                        <fa-icon [icon]="faUser"></fa-icon>
+                        <input 
+                            type="text" 
+                            name="cpf" 
+                            formControlName="cpf" 
+                            id="cpf" 
+                            placeholder="Digite seu CPF" 
+                            appCpfMask
+                        >
+                    </div>
+                </div>
+                @if(isFieldInvalid('cpf')){
+                    <div class="fieldInvalid">O CPF é obrigatório e deve conter o formato válido</div>
+                }
             </div>
             <div class="secao-cadastro__container-form__row">
                 <div class="secao-cadastro__container-form__row__space">
