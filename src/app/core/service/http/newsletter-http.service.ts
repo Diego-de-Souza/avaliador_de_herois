@@ -67,7 +67,6 @@ export class NewsletterHttpService {
 
   getListNewsletters(): Observable<ApiResponse<NewsletterNewsItem>> {
     const response = this.http.get<ApiResponse<NewsletterNewsItem>>(`${this.apiUrl}/newsletter-list`);
-    console.log('response no http',response);
     return response;
   }
 }

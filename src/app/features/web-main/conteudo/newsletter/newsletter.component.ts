@@ -207,7 +207,6 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
     this.newsletterService.getListNewsletters().subscribe({
       next: (response: ApiResponse<NewsletterNewsItem>) => {
         this.newsList.set(response.data ?? []);
-        console.log('response no component',response);
       },
       error: (error) => {
         console.error('Erro ao buscar notícias:', error);

@@ -70,7 +70,6 @@ export class NewsService {
 
   getListNewsletters(): Observable<ApiResponse<NewsletterNewsItem>> {
     const response = this.newsletterHttpService.getListNewsletters();
-    console.log('response no service',response);
     return response;
   }
 }
