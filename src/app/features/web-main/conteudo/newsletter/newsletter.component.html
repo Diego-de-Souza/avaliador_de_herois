@@ -44,6 +44,7 @@
               [src]="featuresNews().image" 
               alt="Destaque" 
               class="featured-img"
+              (error)="onImageError($event)"
             />
             <div class="glitch-overlay"></div>
             <div class="gradient-overlay"></div>
@@ -118,6 +119,7 @@
                   [alt]="news.title" 
                   loading="lazy"
                   class="news-img"
+                  (error)="onImageError($event)"
                 />
                 <div class="image-overlay">
                   <span class="card-tag">{{ news.category || 'Notícia' }}</span>

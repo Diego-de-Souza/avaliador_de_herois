@@ -203,10 +203,24 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
     this.loadFeaturesNews();
   }
   
+  private readonly defaultNewsImage = '/img/diversos/newsletter_300x300.jpeg';
+
+  private processNewsItem(news: NewsletterNewsItem): NewsletterNewsItem {
+    const img = (news as { image?: string; thumbnail?: string }).image ?? (news as { image?: string; thumbnail?: string }).thumbnail ?? '';
+    const hasNoImage = !img || (typeof img === 'string' && img.trim() === '');
+    return { ...news, image: hasNoImage ? this.defaultNewsImage : img };
+  }
+
   private loadFeaturesNews(): void {
     this.newsletterService.getListNewsletters().subscribe({
       next: (response: ApiResponse<NewsletterNewsItem>) => {
-        this.newsList.set(response.data ?? []);
+        const raw = response.data ?? [];
+        const processed = raw.map(news => this.processNewsItem(news));
+        this.newsList.set(processed);
+        const first = processed[0];
+        if (first) {
+          this.featuresNews.set(first);
+        }
       },
       error: (error) => {
         console.error('Erro ao buscar notícias:', error);
@@ -335,6 +349,13 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
 
   onCardMouseLeave(): void {
     this.hoverState.set('normal');
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (!img.src.endsWith('features_articles.png')) {
+      img.src = this.defaultNewsImage;
+    }
   }
 
   onScroll(): void {
