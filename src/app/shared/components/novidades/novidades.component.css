@@ -30,7 +30,7 @@
   margin-bottom: 24px;
   padding: 20px 18px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .novidade-card h3 {
@@ -50,7 +50,7 @@
   font-size: 1rem;
   margin-bottom: 8px;
   padding-left: 0;
-  color: #fff;
+  color: var(--text-primary);
   border-bottom: 1px solid #2223;
   padding-bottom: 4px;
   display: flex;
@@ -80,7 +80,7 @@
 /* Dark/Light Theme */
 .dark .novidade-card {
   background: rgba(20, 20, 20, 0.7);
-  color: #fff;
+  color: var(--text-primary);
 }
 .dark .novidade-card h3 {
   color: #00d2ff;
