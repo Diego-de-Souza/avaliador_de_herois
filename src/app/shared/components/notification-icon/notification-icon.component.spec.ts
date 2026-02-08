@@ -4,7 +4,6 @@ import { ThemeService } from '../../../core/service/theme/theme.service';
 import { AuthService } from '../../../core/service/auth/auth.service';
 import { NotificationHttpService } from '../../../core/service/http/notification-http.service';
 import { NotificationModalService } from '../../../core/service/modal/notification-modal.service';
-import { NotificationWebSocketService } from '../../../core/service/websocket/notification-websocket.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
@@ -16,7 +15,6 @@ describe('NotificationIconComponent', () => {
   let authService: jest.Mocked<AuthService>;
   let notificationService: jest.Mocked<NotificationHttpService>;
   let modalService: jest.Mocked<NotificationModalService>;
-  let wsService: jest.Mocked<NotificationWebSocketService>;
 
   const mockNotifications = [
     { id: 1, title: 'Test', message: 'Test message', read: false, created_at: '2026-01-18T00:00:00Z' },
@@ -47,20 +45,13 @@ describe('NotificationIconComponent', () => {
       selectedNotificationId: jest.fn().mockReturnValue(null)
     };
 
-    const wsServiceMock = {
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      getNotifications: jest.fn().mockReturnValue(of(mockNotifications))
-    };
-
     await TestBed.configureTestingModule({
       imports: [NotificationIconComponent, HttpClientTestingModule, RouterTestingModule],
       providers: [
         { provide: ThemeService, useValue: themeServiceMock },
         { provide: AuthService, useValue: authServiceMock },
         { provide: NotificationHttpService, useValue: notificationServiceMock },
-        { provide: NotificationModalService, useValue: modalServiceMock },
-        { provide: NotificationWebSocketService, useValue: wsServiceMock }
+        { provide: NotificationModalService, useValue: modalServiceMock }
       ]
     }).compileComponents();
 
@@ -70,7 +61,6 @@ describe('NotificationIconComponent', () => {
     authService = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
     notificationService = TestBed.inject(NotificationHttpService) as jest.Mocked<NotificationHttpService>;
     modalService = TestBed.inject(NotificationModalService) as jest.Mocked<NotificationModalService>;
-    wsService = TestBed.inject(NotificationWebSocketService) as jest.Mocked<NotificationWebSocketService>;
   });
 
   it('should create', () => {

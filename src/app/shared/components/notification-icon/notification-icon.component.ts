@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../core/service/theme/theme.service';
 import { AuthService } from '../../../core/service/auth/auth.service';
 import { NotificationHttpService } from '../../../core/service/http/notification-http.service';
-import { NotificationWebSocketService } from '../../../core/service/websocket/notification-websocket.service';
 import { NotificationModalService } from '../../../core/service/modal/notification-modal.service';
-import { Subject, takeUntil, merge } from 'rxjs';
+import { Subject, takeUntil, interval, switchMap } from 'rxjs';
+
+const POLL_INTERVAL_MS = 60000; // 1 minuto
 
 @Component({
   selector: 'app-notification-icon',
@@ -18,7 +19,6 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
   private readonly themeService = inject(ThemeService);
   private readonly authService = inject(AuthService);
   private readonly notificationService = inject(NotificationHttpService);
-  private readonly wsService = inject(NotificationWebSocketService);
   private readonly modalService = inject(NotificationModalService);
   private readonly destroy$ = new Subject<void>();
 
@@ -39,22 +39,33 @@ export class NotificationIconComponent implements OnInit, OnDestroy {
       if (this.isLoggedIn && user?.id) {
         this.currentUserId = user.id;
         this.loadNotifications(user.id);
-        // Conecta WebSocket para notificações em tempo real
-        this.wsService.connect(user.id);
-        // Escuta notificações do WebSocket
-        this.wsService.getNotifications().pipe(takeUntil(this.destroy$)).subscribe(notifications => {
-          this.unreadCount = notifications.filter(n => !n.read).length;
-        });
+        // Polling via REST - busca notificações a cada minuto
+        interval(POLL_INTERVAL_MS)
+          .pipe(
+            takeUntil(this.destroy$),
+            switchMap(() => this.notificationService.getAll(user.id))
+          )
+          .subscribe({
+            next: (response) => {
+              this.notifications = (response.data || []).map(notification => ({
+                ...notification,
+                created_at: (notification as any).createdAt || (notification as any).created_at || notification.created_at,
+                updated_at: (notification as any).updatedAt || (notification as any).updated_at
+              }));
+              this.unreadCount = this.notifications.filter(n => !n.read).length;
+              if (this.modalService.isOpen()) {
+                this.modalService.updateNotifications(this.notifications);
+              }
+            }
+          });
       } else {
         this.currentUserId = null;
         this.unreadCount = 0;
-        this.wsService.disconnect();
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.wsService.disconnect();
     this.destroy$.next();
     this.destroy$.complete();
   }
