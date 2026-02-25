@@ -1,142 +1,409 @@
-.secao-cadastro{
+.secao-cadastro {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     background: linear-gradient(to bottom, #101522, #1e2a38);
-
     color: #00d2ff;
 }
 
-.secao-cadastro__container{
+.secao-cadastro__container {
     display: flex;
     flex-direction: column;
-    width: 70%;
-    margin: auto;
+    width: 80%;
+    max-width: 1200px;
+    margin: 2em auto;
     align-items: center;
-    padding-bottom: 2em;
+    padding: 2em;
+    background: rgba(16, 21, 34, 0.8);
+    border-radius: 1em;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
 }
 
 .secao-cadastro__container > h2 {
     display: flex;
     width: 100%;
-    padding: 1.2em 0;
+    padding: 1em 0;
     justify-content: center;
+    font-size: 2em;
+    color: #00d2ff;
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    border-bottom: 2px solid #00d2ff33;
+    margin-bottom: 1em;
 }
 
-.secao-cadastro__container-form__row{
+/* Legenda de campos obrigatórios */
+.secao-cadastro__legend {
     display: flex;
-    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1.5em;
+    padding: 0.5em 1em;
+    color: #ccc;
+    font-size: 0.9em;
+    background: rgba(0, 210, 255, 0.1);
+    border-radius: 0.5em;
+    border-left: 4px solid #ff4444;
 }
 
-.secao-cadastro__container-form__row-line{
-    display: flex;
-    flex-direction: row;
+.required-legend {
+    color: #ff4444;
+    font-size: 1.2em;
+    margin-right: 0.3em;
+    font-weight: bold;
 }
 
-fa-icon{
-    display: flex;
-    padding: 0.5em 0.5em;
-    border: 2px solid #00d2ff;
-    border-radius: 0.5em 0 0 0.5em ;
+/* Asterisco vermelho nos labels */
+.required-asterisk {
+    color: #ff4444;
+    margin-left: 0.2em;
+    font-size: 1.2em;
+    font-weight: bold;
 }
 
-input, select {
-    display: flex;
-    background-color: transparent;
-    border: 2px solid #00d2ff;
-    border-radius: 0 0.5em 0.5em 0;
-    text-indent: 1em;
-    color: gray;
-}
-  
-select:focus,
-select option:checked {
-    color: #00d2ff; 
-    background-color: rgb(120, 120, 121);
+/* Estilo dos labels */
+.secao-cadastro label {
+    display: inline-flex;
+    align-items: center;
+    color: #00d2ff;
+    margin-bottom: 0.5em;
+    font-weight: 500;
+    font-size: 0.95em;
 }
 
-input::placeholder, select::placeholder, .custom-option{
-    color: rgb(158, 159, 159);
-}
-
-form{
+/* Formulário */
+form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 0.5em;
 }
 
-.secao-cadastro__container-form__row__space{
+/* Campo fullwidth (como Nome completo) */
+.campo-fullwidth {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding: 1em 0;
+    width: 100%;
+    min-height: 120px;
+    padding: 0.5em 0;
 }
 
-#fullname{
+/* Container das linhas de campos */
+.secao-cadastro__container-form__row {
     display: flex;
-    width: 70%;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
 }
 
-#firstemail, #secondemail, #uf,#complement, #address {
+/* Container de cada campo dentro da row */
+.secao-cadastro__container-form__row__space {
+    flex: 1;
     display: flex;
-    width: 80%;
+    flex-direction: column;
+    min-height: 120px;
+    padding: 0.5em 0;
 }
 
-#nickname, #birthdate, #cep, #state, #city{
+/* Linha do input com ícone */
+.secao-cadastro__container-form__row-line {
     display: flex;
-    width: 60%;
+    flex-direction: row;
+    width: 100%;
+    height: 45px;
 }
 
-.fieldInvalid{
-    color: #f0486a;
-}
-
-.btn_submit{
+/* Estilo do ícone */
+fa-icon {
     display: flex;
-    border: none;
-    border-radius: 1em;
     align-items: center;
     justify-content: center;
-    height: 3em;
-    background-color: #00d2ff;
-    width: 50%;
-    margin: auto;
-    font-weight: bold;
-    color: gray;
+    padding: 0 1em;
+    border: 2px solid #00d2ff;
+    border-radius: 0.5em 0 0 0.5em;
+    min-width: 45px;
+    background: rgba(0, 210, 255, 0.1);
+    color: #00d2ff;
+    font-size: 1.1em;
 }
 
-.btn_submit:hover {
-    background-color: #00d2ff;
-    box-shadow: 0px 0px 8px #00d0ffb7;
+/* ESTILO PADRÃO PARA TODOS OS INPUTS */
+input, 
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="date"],
+input[appCepMask],
+input[appCpfMask] {
+    flex: 1;
+    background-color: transparent !important;
+    border: 2px solid #00d2ff;
+    border-left: none;
+    border-radius: 0 0.5em 0.5em 0;
+    padding: 0 1em;
+    color: #fff !important;
+    font-size: 0.95em;
+    height: 100%;
+    transition: all 0.3s ease;
+    box-shadow: none;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Estilo específico para o campo CEP com máscara */
+input[appCepMask] {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+/* Estilo específico para o campo CPF com máscara */
+input[appCpfMask] {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+/* Quando o input estiver com foco */
+input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[appCepMask]:focus,
+input[appCpfMask]:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+    background-color: rgba(0, 210, 255, 0.05) !important;
+}
+
+/* Placeholder */
+input::placeholder,
+input[appCepMask]::placeholder,
+input[appCpfMask]::placeholder {
+    color: #888;
+    font-size: 0.9em;
+    opacity: 1;
+}
+
+/* Remover qualquer estilo automático do navegador (autofill) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input[appCepMask]:-webkit-autofill,
+input[appCpfMask]:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #1e2a38 inset !important;
+    -webkit-text-fill-color: #fff !important;
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: #fff;
+}
+
+/* Input date específico */
+input[type="date"] {
+    color-scheme: dark;
     color: #fff;
 }
 
-.btn-home{
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+}
+
+/* Mensagens de erro */
+.fieldInvalid {
+    color: #ff6b6b;
+    font-size: 0.8em;
+    margin-top: 6px;
+    padding-left: calc(45px + 2em);
+    min-height: 20px;
+    line-height: 1.4;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Placeholder invisível para manter altura quando não há erro */
+.fieldInvalid-placeholder {
+    height: 20px;
+    margin-top: 6px;
+    visibility: hidden;
+}
+
+/* Ajuste para mensagens de erro em campos fullwidth */
+.campo-fullwidth .fieldInvalid {
+    padding-left: calc(45px + 2em);
+}
+
+/* Ajuste para mensagens de erro em campos dentro de row */
+.secao-cadastro__container-form__row__space .fieldInvalid {
+    padding-left: calc(45px + 1em);
+}
+
+/* Botão de submit */
+.btn_submit {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: 2em;
-    justify-content: center;
+    border: none;
+    border-radius: 2em;
     align-items: center;
+    justify-content: center;
+    height: 3.5em;
+    background: linear-gradient(45deg, #00d2ff, #0099cc);
+    width: 60%;
+    max-width: 300px;
+    margin: 2em auto 1em;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #101522;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn_submit:hover:not(:disabled) {
+    background: transparent;
+    border-color: #00d2ff;
+    color: #00d2ff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 210, 255, 0.3);
+}
+
+.btn_submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #444;
+    color: #888;
+}
+
+/* Botão de retorno */
+.btn-home {
+    display: flex;
+    width: 100%;
+    margin-top: 1em;
+    justify-content: center;
 }
 
 .btn-return {
     display: flex;
-    width: 100%;
-    height: 40px;
+    width: 200px;
+    height: 45px;
     background-color: transparent;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 2em;
     text-decoration: none;
-    text-shadow: none;
     border: 2px solid #00d2ff;
-    color: gray;
+    color: #00d2ff;
     font-weight: bolder;
+    transition: all 0.3s ease;
+}
 
-    &:hover {
-        color: #1e2a38;
-        background-color: #00d2ff;
+.btn-return:hover {
+    background-color: #00d2ff;
+    color: #101522;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 210, 255, 0.3);
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade - Tablet */
+@media (max-width: 1024px) {
+    .secao-cadastro__container {
+        width: 90%;
+        padding: 1.5em;
+    }
+}
+
+/* Responsividade - Mobile */
+@media (max-width: 768px) {
+    .secao-cadastro__container {
+        width: 95%;
+        padding: 1em;
+        margin: 1em auto;
+    }
+    
+    .secao-cadastro__container-form__row {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .secao-cadastro__container-form__row__space {
+        width: 100%;
+        min-height: 110px;
+    }
+    
+    .fieldInvalid {
+        padding-left: calc(45px + 1em);
+    }
+    
+    .btn_submit {
+        width: 80%;
+    }
+}
+
+/* Responsividade - Mobile pequeno */
+@media (max-width: 480px) {
+    .secao-cadastro__container > h2 {
+        font-size: 1.5em;
+    }
+    
+    .secao-cadastro__container-form__row-line {
+        height: 40px;
+    }
+    
+    fa-icon {
+        min-width: 40px;
+        padding: 0 0.8em;
+    }
+    
+    .fieldInvalid {
+        padding-left: calc(40px + 0.8em);
+        font-size: 0.75em;
+    }
+    
+    .btn_submit {
+        height: 3em;
+        font-size: 1em;
+        width: 90%;
+    }
+    
+    .btn-return {
+        width: 160px;
+        height: 40px;
+    }
+}
+
+/* Garantia extra para inputs com máscara */
+[appCepMask], [appCpfMask] {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+
+/* Forçar que inputs nunca tenham fundo branco */
+input {
+    background-color: transparent !important;
+}
+
+/* Quando o campo está inválido mas não tocado ainda */
+input.ng-invalid.ng-touched {
+    border-color: #ff6b6b;
+}
+
+input.ng-invalid.ng-touched + fa-icon {
+    border-color: #ff6b6b;
+}
+
+/* Estilo para quando o campo é válido */
+input.ng-valid.ng-touched {
+    border-color: #00d2ff;
 }

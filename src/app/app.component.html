@@ -10,7 +10,6 @@
 	></app-toast-notification>
 </div>
 <router-outlet></router-outlet>
-<router-outlet></router-outlet>
 @if(notificationModalService.isOpen()) {
 	<app-notification-modal 
 		[notifications]="notificationModalService.notifications()"

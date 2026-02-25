@@ -34,12 +34,14 @@
 .btn-register:active {
     transform: translateY(0);
 }
+
 .login-social-row {
     display: flex;
     justify-content: center;
     width: 100%;
     margin-top: 2em;
 }
+
 .login-actions-row {
     display: flex;
     flex-direction: row;
@@ -48,10 +50,12 @@
     justify-content: center;
     margin-top: 2em;
 }
+
 .login-actions-row .btn-acessar {
     flex: 1;
     margin-top: 0;
 }
+
 .login-actions-row .login-for-register {
     flex: 1;
     margin-top: 0;
@@ -59,6 +63,7 @@
     align-items: center;
     justify-content: center;
 }
+
 #login-plataforma {
     display: flex;
     width: 100vw;
@@ -112,29 +117,47 @@ form {
     background-color: #2a2a2a;
     overflow: hidden;
     margin-top: 0.5em;
+    transition: all 0.3s ease;
+}
+
+/* Efeito hover na cápsula */
+.capsula-login:hover {
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
+    border-color: #00d2ff;
+}
+
+/* Efeito focus na cápsula */
+.capsula-login:focus-within {
+    box-shadow: 0 0 12px rgba(0, 210, 255, 0.7);
+    border-color: #00d2ff;
+    background-color: #333;
 }
 
 .icon-login {
     display: flex;
-    padding: 0 1em;
-    height: 2.75em;
+    padding: 0 1.2em; /* Aumentado para dar mais espaço */
+    height: 3em; /* Aumentado para melhor proporção */
     align-items: center;
     justify-content: center;
     color: #00d2ff;
     font-size: 1.1em;
     background-color: transparent;
     flex-shrink: 0;
+    border-right: 1px solid rgba(0, 210, 255, 0.3); /* Linha sutil de separação */
 }
 
 .input-login {
     border: none !important;
     background-color: transparent !important;
     color: #fff;
-    padding: 0.75em 0.75em 0.75em 0;
+    padding: 0.75em 1.2em !important; /* Padding aumentado para texto não encostar na borda */
     flex: 1;
     font-size: 1em;
     outline: none;
     min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    letter-spacing: 0.3px; /* Pequeno espaçamento entre letras */
 }
 
 .input-login:focus {
@@ -142,13 +165,23 @@ form {
     background-color: transparent !important;
 }
 
+/* Estilo do placeholder */
 .input-login::placeholder {
     color: #888;
     opacity: 0.7;
+    font-size: 0.95em;
+    letter-spacing: normal;
 }
 
+/* Removendo estilo anterior que conflitava */
 input::placeholder {
-    color: #00d2ff;
+    color: #888; /* Padronizado */
+}
+
+/* Quando o input está preenchido */
+.input-login:not(:placeholder-shown) {
+    color: #fff;
+    font-weight: 400;
 }
 
 .btn-google {
@@ -173,6 +206,7 @@ input::placeholder {
 .btn-google:hover {
     background: rgba(42, 42, 42, 0.95);
     border-color: #00d2ff;
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
 }
 
 .btn-google i {
@@ -183,6 +217,7 @@ input::placeholder {
     color: #fff;
 }
 
+/* Estilo para campos com erro */
 .error-message .icon-login {
     background-color: rgb(246, 91, 122);
     box-shadow: rgb(246, 91, 122);
@@ -200,6 +235,7 @@ input::placeholder {
     margin-bottom: 0.5em;
     font-weight: 400;
     font-size: 0.95em;
+    padding-left: 0.2em; /* Pequeno espaçamento */
 }
 
 .form-text {
@@ -207,6 +243,7 @@ input::placeholder {
     font-size: 0.85em;
     margin-top: 0.5em;
     opacity: 0.8;
+    padding-left: 0.2em; /* Alinhamento com o label */
 }
 
 .login-for-register {
@@ -236,13 +273,15 @@ input::placeholder {
     margin-top: 1.5em;
     padding: 0.5em;
     font-size: 0.9em;
-    transition: color 0.2s;
+    transition: all 0.2s ease;
     text-decoration: none;
     display: block;
+    border-radius: 4px;
 }
 
 .forgot-password:hover {
     color: #00d2ff;
+    background: rgba(0, 210, 255, 0.1);
 }
 
 /* Responsividade */
@@ -252,8 +291,9 @@ input::placeholder {
         max-width: 95vw;
         height: auto;
         min-height: 350px;
-        padding: 1em 0.5em;
+        padding: 1.5em 1em;
     }
+    
     .btn-register,
     .btn-google {
         font-size: 1em;
@@ -261,13 +301,27 @@ input::placeholder {
         min-width: 120px;
         max-width: 100%;
     }
+    
     .login-actions-row {
         flex-direction: column;
         gap: 0.7em;
         margin-top: 1.2em;
     }
+    
     .login-social-row {
         margin-top: 1.2em;
+    }
+    
+    .capsula-login {
+        margin-top: 0.3em;
+    }
+    
+    .icon-login {
+        padding: 0 1em;
+    }
+    
+    .input-login {
+        padding: 0.75em 1em !important;
     }
 }
 
@@ -277,32 +331,119 @@ input::placeholder {
         height: auto;
         min-height: 100vh;
     }
+    
     #container_login {
-        width: 98vw;
-        max-width: 100vw;
+        width: 95vw;
+        max-width: 98vw;
         min-width: 0;
         height: auto;
         min-height: 300px;
-        padding: 1em 0.2em;
-        border-radius: 0.5em;
+        padding: 1.2em 0.8em;
+        border-radius: 8px;
     }
+    
     .capsula-login {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row; /* Mantém em linha mesmo no mobile */
+        align-items: center;
     }
+    
     .icon-login {
-        border-radius: 0.5em 0.5em 0 0;
-        margin-bottom: 0.5em;
-        padding: 0.5em;
-        height: 2em;
+        border-radius: 0;
+        margin-bottom: 0;
+        padding: 0 1em;
+        height: 2.75em;
         justify-content: center;
     }
-    .btn-acessar,
+    
+    .input-login {
+        padding: 0.75em 1em !important;
+    }
+    
+    .btn-register,
     .btn-google {
         font-size: 1em;
         padding: 0.6em 0;
     }
+    
+    h2 {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+    }
+    
+    .form-label {
+        font-size: 0.9em;
+    }
+    
+    .form-text {
+        font-size: 0.8em;
+    }
+}
+
+/* Para telas muito pequenas */
+@media (max-width: 380px) {
+    #container_login {
+        width: 98vw;
+        padding: 1em 0.5em;
+    }
+    
+    .icon-login {
+        padding: 0 0.8em;
+    }
+    
+    .input-login {
+        padding: 0.7em 0.8em !important;
+    }
+    
+    .btn-register,
+    .btn-google {
+        font-size: 0.9em;
+        padding: 0.5em 0;
+    }
+    
     h2 {
         font-size: 1.3em;
     }
+}
+
+/* Animações suaves */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#container_login {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Estilo para quando o input está inválido */
+.input-login.ng-invalid.ng-touched {
+    border-left: 2px solid #ff6b6b;
+}
+
+.input-login.ng-invalid.ng-touched + .icon-login {
+    color: #ff6b6b;
+}
+
+/* Estilo para quando o input está válido */
+.input-login.ng-valid.ng-touched {
+    border-left: 2px solid #00d2ff;
+}
+
+/* Melhorias de acessibilidade */
+.input-login:focus-visible {
+    outline: 2px solid #00d2ff;
+    outline-offset: 2px;
+}
+
+.btn-register:focus-visible,
+.btn-google:focus-visible,
+.forgot-password:focus-visible {
+    outline: 2px solid #00d2ff;
+    outline-offset: 2px;
 }
