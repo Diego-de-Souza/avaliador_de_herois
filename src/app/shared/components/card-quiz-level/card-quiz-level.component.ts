@@ -34,7 +34,8 @@ export class CardQuizLevelComponent implements OnInit {
 
     this.paymentService.getPremiumStatus().subscribe({
       next: (response) => {
-        this.hasPermission = response.hasPremium;
+        // this.hasPermission = response.hasPremium;
+        this.hasPermission = true;
       },
       error: (error) => {
         console.error('Erro ao verificar status de assinatura:', error);

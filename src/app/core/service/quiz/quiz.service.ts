@@ -79,20 +79,19 @@ export class QuizService {
             this.title = 'Fim do Quiz';
             this.message = 'Parabéns! Você completou o quiz.';
             // Exiba o modal de sucesso via variável de controle no componente pai
-            this._currentQuestionIndex = 0;
             this._nextLevel = true;
         }
     }
 
     sendAnswer(data: any): Observable<any> {
-        const accessToken = sessionStorage.getItem('access_token');
-        if (!accessToken) {
+        const sessionToken = localStorage.getItem('session_token');
+        if (!sessionToken) {
             this.router.navigate(['/login']);
             return of(null);
         }
 
         const _dataUser = this.authService.getUser()
-        data.user_id = _dataUser.sub;
+        data.user_id = _dataUser?.id;
 
         return this.http.post<any>(`${this.apiUrl}/quiz/answer-quiz`, data, {
             headers: {

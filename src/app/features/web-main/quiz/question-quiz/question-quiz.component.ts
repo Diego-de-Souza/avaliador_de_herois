@@ -81,11 +81,6 @@ export class QuestionQuizComponent implements OnInit, OnDestroy {
     });
 
     this.quizService.reprocessQuestion().then((response) => {
-      this._question = response.question;
-      this._index = response.index;
-      this.isSubmitting = false;
-      this.startTimer();
-
       if (response.nextLevel == true) {
         const data = {
           quiz_level_id: this._questions[0].quiz_level_id,
@@ -98,10 +93,16 @@ export class QuestionQuizComponent implements OnInit, OnDestroy {
             });
           },
           (error) => {
+            this.isSubmitting = false;
+            this.startTimer();
             console.error('Erro ao enviar resposta:', error);
           }
         );
-        
+      } else {
+        this._question = response.question;
+        this._index = response.index;
+        this.isSubmitting = false;
+        this.startTimer();
       }
     });
 
