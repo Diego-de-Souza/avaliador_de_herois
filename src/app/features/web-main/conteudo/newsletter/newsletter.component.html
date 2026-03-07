@@ -23,7 +23,7 @@
   </section>
 
   <!-- FEATURED COM HOVER 3D -->
-   @if(featuresNews()) {
+  @if (featuresNews()) {
     <section class="featured-section" [@fadeUp]>
       <div class="container">
         <div class="section-header">
@@ -41,7 +41,7 @@
         >
           <div class="featured-image">
             <img 
-              [src]="featuresNews().image" 
+              [src]="featuresNews()?.image" 
               alt="Destaque" 
               class="featured-img"
               (error)="onImageError($event)"
@@ -53,27 +53,27 @@
           <div class="featured-content">
             <div class="category-tags">
               <span class="tag tag-marvel">MARVEL</span>
-              <span class="tag tag-cinema">{{ featuresNews().category }}</span>
+              <span class="tag tag-cinema">{{ featuresNews()?.category }}</span>
               <span class="tag tag-exclusive">EXCLUSIVO</span>
             </div>
             
-            <h1 class="featured-title">{{ featuresNews().title }}</h1>
+            <h1 class="featured-title">{{ featuresNews()?.title }}</h1>
             
-            <p class="featured-description">{{ featuresNews().description }}</p>
+            <p class="featured-description">{{ featuresNews()?.description }}</p>
             
             <div class="featured-meta">
               <div class="meta-item">
                 <i class="icon-calendar"></i>
-                <span>{{ featuresNews().date }}</span>
+                <span>{{ featuresNews()?.date }}</span>
               </div>
               <div class="meta-item">
                 <i class="icon-clock"></i>
-                <span>{{ featuresNews().read_time }} de leitura</span>
+                <span>{{ featuresNews()?.read_time }} de leitura</span>
               </div>
             </div>
             
             <div class="featured-actions">
-              <button class="btn-primary btn-glow" (click)="readArticle(featuresNews())">
+              <button class="btn-primary btn-glow" (click)="readArticle(featuresNews()!)">
                 <span class="btn-text">Ler Matéria Completa</span>
                 <i class="icon-arrow"></i>
               </button>
@@ -86,7 +86,7 @@
         </div>
       </div>
     </section>
-   }
+  }
 
   <!-- NEWS GRID COM INFINITE SCROLL -->
   <section class="news-section" [@fadeUp]>
@@ -166,12 +166,16 @@
       </div>
       
       <div class="load-more">
-        <button class="btn-load" (click)="loadMore()">
-          <span>Carregar Mais Notícias</span>
-          @if (loading()) {
-            <div class="loading-spinner"></div>
-          }
-        </button>
+        @if (hasMoreNews()) {
+          <button class="btn-load" (click)="loadMore()" [disabled]="loading()">
+            <span>Carregar Mais Notícias</span>
+            @if (loading()) {
+              <div class="loading-spinner"></div>
+            }
+          </button>
+        } @else {
+          <p class="no-more-news">🎉 Você já viu todas as notícias!</p>
+        }
       </div>
     </div>
   </section>

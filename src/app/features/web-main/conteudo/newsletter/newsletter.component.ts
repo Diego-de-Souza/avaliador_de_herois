@@ -29,75 +29,6 @@ import { Category , NewsletterCategory} from '../../../../core/interface/newslet
 import { NewsService } from '../../../../core/service/news/news.service';
 import { ApiResponse } from '../../../../core/interface/api-response.interface';
 
-const INITIAL_NEWS: NewsletterNewsItem[] = [
-  {
-    title: 'Novo filme dos Vingadores anunciado para 2026',
-    description:
-      'Marvel confirma novo arco cinematográfico "Avengers: Doomsday" com estreia prevista para 2026 e retorno de personagens icônicos.',
-    image: '/img/teste/avengersageofultron_lob_crd_03.jpg',
-    link: 'https://www.marvel.com/movies/avengers-doomsday',
-    category: 'Filmes',
-    date: '25 Jan 2026',
-    read_time: '5 min',
-    author: 'Marvel Studios'
-  },
-  {
-    title: 'Deadpool 3 bate recordes de bilheteria mundial',
-    description:
-      'HQ do anti-herói bate recordes históricos e reforça força do personagem fora do cinema com nova série anunciada.',
-    image: '/img/teste/avengersdoomsday_lob_crd_02.jpg',
-    link: 'https://www.marvel.com/comics/deadpool',
-    category: 'HQs',
-    date: '24 Jan 2026',
-    read_time: '4 min',
-    author: 'Comic Geek'
-  },
-  {
-    title: 'Capitã Marvel ganha nova série exclusiva',
-    description:
-      'Produção chega ao Disney+ com foco em narrativa cósmica e conexões profundas com o Universo Cinematográfico Marvel.',
-    image: '/img/teste/avengersendgame_card_0.jpg',
-    link: 'https://www.marvel.com/tv-shows',
-    category: 'Séries',
-    date: '23 Jan 2026',
-    read_time: '6 min',
-    author: 'Streaming News'
-  },
-  {
-    title: 'Novo jogo do Homem-Aranha promete revolução',
-    description:
-      'Insomniac Games anuncia sequência com mecânicas inéditas e história que conecta múltiplos universos do herói.',
-    image: '/img/teste/features_articles.png',
-    link: '#',
-    category: 'Games',
-    date: '22 Jan 2026',
-    read_time: '7 min',
-    author: 'Game Master'
-  },
-  {
-    title: 'DC anuncia reboot completo do universo',
-    description:
-      'Novos filmes e séries prometem trazer personagens clássicos com abordagens modernas e interconectadas.',
-    image: '/img/teste/avengersageofultron_lob_crd_03.jpg',
-    link: '#',
-    category: 'Filmes',
-    date: '21 Jan 2026',
-    read_time: '8 min',
-    author: 'DC Insider'
-  },
-  {
-    title: 'Anime de Attack on Titan ganha final estendido',
-    description:
-      'Estúdio MAPPA confirma episódios extras para conclusão definitiva da aclamada série de Hajime Isayama.',
-    image: '/img/teste/avengersdoomsday_lob_crd_02.jpg',
-    link: '#',
-    category: 'Anime',
-    date: '20 Jan 2026',
-    read_time: '5 min',
-    author: 'Anime World'
-  }
-];
-
 @Component({
   selector: 'app-newsletter',
   standalone: true,
@@ -183,17 +114,37 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
   readonly submitting = signal(false);
   readonly loading = signal(false);
   readonly hoverState = signal<'normal' | 'hovered'>('normal');
-  readonly newsList = signal<NewsletterNewsItem[]>([]);
-  readonly featuresNews = signal<NewsletterNewsItem>(INITIAL_NEWS[0]);
+  
+  // CORRIGIDO: featuresNews deve ser um objeto, não array
+  readonly featuresNews = signal<NewsletterNewsItem | null>(null);
+  
   readonly tabs = signal<Category[]>(NewsletterCategory);
   readonly selectedTab = signal<Category>(NewsletterCategory[0]);
+  
+  // Signals para paginação
+  readonly pageSize = signal(6); // Quantos itens por página
+  readonly currentPage = signal(1); // Página atual
+  readonly allNews = signal<NewsletterNewsItem[]>([]); // Todos os itens carregados
+  readonly hasMoreNews = signal(true); // Indica se existem mais itens
 
+  // Computed para pegar apenas os itens da página atual
+  readonly paginatedNews = computed(() => {
+    const all = this.allNews();
+    const page = this.currentPage();
+    const size = this.pageSize();
+    
+    return all.slice(0, page * size);
+  });
+
+  // Filtered news list usando paginatedNews
   readonly filteredNewsList = computed(() => {
-    const list = this.newsList();
+    const list = this.paginatedNews();
     const tab = this.selectedTab();
     if (!tab || tab.value === 'ALL') return list;
+    
     const normalize = (s: string) => s.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const tabNorm = normalize(tab.value);
+    
     return list.filter(
       news => news.category && normalize(news.category) === tabNorm
     );
@@ -216,15 +167,23 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
       next: (response: ApiResponse<NewsletterNewsItem>) => {
         const raw = response.data ?? [];
         const processed = raw.map(news => this.processNewsItem(news));
-        this.newsList.set(processed);
-        const first = processed[0];
-        if (first) {
-          this.featuresNews.set(first);
+        
+        // Armazena TODAS as notícias
+        this.allNews.set(processed);
+        
+        // Define se existem mais notícias (se total > pageSize)
+        this.hasMoreNews.set(processed.length > this.pageSize());
+        
+        // CORRIGIDO: Define a primeira notícia como destaque (objeto, não array)
+        if (processed.length > 0) {
+          this.featuresNews.set(processed[0]);
         }
       },
       error: (error) => {
         console.error('Erro ao buscar notícias:', error);
-        this.newsList.set([]); // Define array vazio em caso de erro
+        this.allNews.set([]);
+        this.hasMoreNews.set(false);
+        this.featuresNews.set(null);
       }
     });
   }
@@ -273,17 +232,38 @@ export class NewsletterComponent implements AfterViewInit, OnInit {
     const tab = NewsletterCategory.find(tab => tab.value === value);
     if (tab) {
       this.selectedTab.set(tab);
+      // Reseta para a primeira página ao filtrar
+      this.currentPage.set(1);
+      this.hasMoreNews.set(this.allNews().length > this.pageSize());
     }
   }
 
   loadMore(): void {
+    // Verifica se já está carregando ou se não existem mais notícias
+    if (this.loading() || !this.hasMoreNews()) {
+      return;
+    }
+
     this.loading.set(true);
 
+    // Simula um carregamento assíncrono (remova o setTimeout se estiver usando um serviço real)
     setTimeout(() => {
-      const current = this.newsList();
-      this.newsList.set([...current, ...current]);
+      const nextPage = this.currentPage() + 1;
+      const totalItems = this.allNews().length;
+      const itemsToShow = nextPage * this.pageSize();
+      
+      // Verifica se ainda existem itens para mostrar
+      if (itemsToShow < totalItems) {
+        this.currentPage.set(nextPage);
+        this.hasMoreNews.set(true);
+      } else if (itemsToShow >= totalItems) {
+        // Se já mostrou todos os itens, define hasMoreNews como false
+        this.currentPage.set(nextPage);
+        this.hasMoreNews.set(false);
+      }
+      
       this.loading.set(false);
-    }, 1000);
+    }, 1000); // Simula latência de rede
   }
 
   shareNews(news: NewsletterNewsItem): void {
